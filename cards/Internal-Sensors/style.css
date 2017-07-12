@@ -1,0 +1,42 @@
+#shipView{
+	overflow:hidden;
+	position: relative;
+	top:15%;
+	width: 95%;
+	left: 2.5%;
+}
+#scanAnswerView{
+	display: none;
+	position: absolute;
+	bottom: 5%;
+	height: 35%;
+	width: 100%;
+}
+#shipScanner{
+	display: none;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	height: 100%;
+	width: 1%;
+	background-color: rgba(102, 244, 133,.6);
+}
+#progressBarFill{
+	height: 20px;
+	width: 0%;
+	background-color: rgba(102, 244, 133,.6);
+}
+#progressBar{
+	display: none;
+	overflow:hidden;
+	width: 100%;
+	border: solid white 1px;
+	height: 20px;
+}
+#scanParametersView{
+	position: absolute;
+	overflow: hidden;
+	top:45%;
+	height: 13%;
+	width: 100%;
+}

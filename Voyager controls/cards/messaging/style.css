@@ -1,0 +1,25 @@
+body{
+	background-color:black;
+	color:white;
+	overflow: hidden;
+}
+
+h3{
+	font-size: 48px;
+	text-shadow:
+   -1px -1px 0 #898989,  
+    1px -1px 0 #898989,
+    -1px 1px 0 #898989,
+     1px 1px 0 #898989;
+}
+
+#loginLogo{
+	width: 100%;
+}
+
+#contentArea{
+	position: absolute;
+	top:10%;
+	left:30%;
+	width: 50%;
+}

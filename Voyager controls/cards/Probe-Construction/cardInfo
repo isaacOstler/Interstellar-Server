@@ -1,0 +1,8 @@
+{
+	"cardName":"Probe-Construction",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows crew members to construct their own probes, and afterwords launch them."
+}

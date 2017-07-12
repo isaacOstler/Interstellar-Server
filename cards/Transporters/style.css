@@ -1,0 +1,117 @@
+body{
+	
+}
+#scanningLabel{
+	position: absolute;
+	z-index: -2;
+	width: 98%;
+	border-radius: 4px;
+	height: 98%;
+	top:1%;
+	left:1%;
+	text-align: center;
+	font-size: 72px;
+	background-color:#4a8ea8;
+    animation-name: fadeInfadeOut;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes targeted {
+    0%   {background-color:rgba(255,0,0,0)}
+    50%   {background-color:rgba(255,0,0,1)}
+    100% {background-color:rgba(255,0,0,0)}
+}
+@keyframes fadeInfadeOut {
+    0%   {opacity: 0}
+    50%   {opacity: 1}
+    100% {opacity: 0}
+}
+#energizeBox{
+    border-image-source: url('/container4');
+   	border-image-slice: fill 49 49 49 49;
+    border-image-width: 2em;
+}
+
+.lockOnBar{
+	position: absolute;
+	background-color: rgba(255,255,255,0.95);
+	height: 3px;
+}
+
+#systemStatusHeader{
+	display: none;
+	font-size: 54px;
+	color:red;
+}
+
+.target{
+	position: absolute;
+	top:20%;
+	left:20%;
+	height: 10px;
+	width: 10px;
+	border-radius: 50%;
+	border-color: white;
+	border-width: 1px;
+	border-style: solid;
+}
+
+#targetLock{
+	overflow: hidden;
+    border-image-source: url('/container4');
+   	border-image-slice: fill 49 49 49 49;
+    border-image-width: 2em;
+	position: absolute;
+	left: 0%;
+	width: 55%;
+	height: 46%;
+	bottom:10%;
+}
+
+#targetBox{
+    border-image-source: url('/container4');
+   	border-image-slice: fill 49 49 49 49;
+    border-image-width: 2em;
+	position: absolute;
+	top:10%;
+	left: 0%;
+	width: 55%;
+	height: 34%;
+	overflow: hidden;
+}
+
+#energizeBox{
+	position: absolute;
+	bottom:3.5%;
+	right: 0%;
+	width: 45%;
+	height: 93%;
+	overflow: hidden;
+}
+
+#powerLevels{
+	position: absolute;
+	bottom: 0%;
+	left: 0%;
+	height: 0%;
+	width: 100%;
+}
+
+#sensor{
+	position: absolute;
+	bottom:0px;
+	left:0px;
+	width: 100%;
+	height: 1%;
+	z-index: 20;
+}
+.powerBar{
+	position: absolute;
+	bottom: 0px;
+	left: 1%;
+	width: 30%;
+	height: 100%;
+	border-radius:5px;
+	background-color: yellow;
+}

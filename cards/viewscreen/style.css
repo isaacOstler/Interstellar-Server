@@ -1,0 +1,189 @@
+body{
+	background-color:black;
+	color:white;
+	overflow: hidden;
+	font-family: 'Arial'
+}
+@keyframes glowWave {
+    0%   {opacity: 1}
+    30%  {opacity: 0.4}
+    100% {opacity: 1}
+}
+#shipView{
+	position: absolute;
+	top:1%;
+	width: 18%;
+	left: 2%;
+	height: 35%;
+	border-image-source: url('/resource?path=public/inverse_c_container.png');
+/* border-image-slice: top right bottom left */
+	border-image-slice: fill 36 65 36 34;
+	border-image-width: 2em;
+	border-radius: 5px;
+	}
+#binary{
+	color:lime;
+	overflow: hidden;
+	font-size: 15px;
+	height: 80%;
+	top:20px;
+	left:31px;
+	width: 94.7%;
+	position: absolute;
+}
+#auxMedia{
+	overflow-wrap: break-word;
+	position: absolute;
+    bottom: 1%;
+    height: 20.5%;
+    left: 21.5%;
+    width: 78%;
+	border-style: solid;
+	border-image-source: url('/resource?path=public/o_container.png');
+/* border-image-slice: top right bottom left */
+	border-image-slice: 68 64 72 67;
+	border-image-width: 4em;
+}
+#auxHeader{
+	font-size: 64px;
+}
+#shipTopDown{
+	position: absolute;
+	top:25%;
+	width: 55%;
+	height: 50%;
+	left:12.5%;
+	background-image: url('/resource?path=public/ship.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;      
+}
+#shieldCanvas{
+	position: absolute;
+	top:0px;
+	left:0px;
+}
+#contentArea{
+	position: absolute;
+	z-index: 2;
+	top:2px;
+	left:24%;
+	width: 76%;
+	height: 68.75%;
+}
+.shieldCircle{
+	border-radius: 3px;
+	background-color: blue;
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	top:10%;
+	left:50%;
+}
+#shipPortLabel{
+	transform: rotate(90deg);
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	left: 0px;
+	top: 5%;
+	transform-origin: left top 0;
+}
+#shipForwardLabel{
+	position: absolute;
+	top:30px;
+	width: 80%;
+	text-align: center;
+	left:0px;
+}
+#shipStarboardLabel{
+	transform: rotate(-90deg);
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	right: 50px;
+	top: 5%;
+	transform-origin: right top 0;
+}
+#shipAftLabel{
+	position: absolute;
+	bottom:30px;
+	width: 80%;
+	text-align: center;
+	left:0px;
+}
+#systemStatus{
+	position: absolute;
+	left:2%;
+	top:38%;
+	height: 56%;
+	width:18%;
+	border-image-source: url('/resource?path=public/inverse_c_container.png');
+/* border-image-slice: top right bottom left */
+	border-image-slice: fill 36 65 36 34;
+	border-image-width: 2em;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+#viewScreenAreaBorder{
+	z-index: 5;
+	position: absolute;
+	top:3px;
+	right:0px;
+	width:100%;
+	height: 100.5%;
+	border-style: solid;
+	border-image-source: url('/resource?path=public/c_container.png');
+/* border-image-slice: top right bottom left */
+	border-image-slice: 59 29 64 43;
+	border-image-width: 3em;
+}
+.spacer{
+	height: 5px;
+	width: 100%;
+}
+.systemTab{
+	width: 90%;
+	overflow: none;
+	height: 5%;
+}
+.systemName{
+    font-size: 1vw;
+	position: absolute;
+	width: 71%;
+	height: 22px;
+	color:black;
+	padding-left: 5px;
+	padding-top: 3px;
+	background-color:rgb(255, 209, 58);
+	left: 50px;
+}
+.systemEffeciency{
+    font-size: 1vw;
+	padding-top: 3px;
+	position: absolute;
+	width: 10%;
+	height: 20px;
+	left:0px;
+	width: 48px;
+	background-color:rgb(255, 209, 58);
+	border-radius: 10px 0px 0px 10px;
+	color:black;
+	text-align: center;
+}
+#viewscreenArea{
+	position: absolute;
+	top:4px;
+	right:5px;
+	width:78%;
+	height: 75%;
+}
+.picture{
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}

@@ -1,0 +1,89 @@
+<div id="Snake-Core-Widget" class="Core_Theme-CoreWidget" style="width:400px;height:400px;top:425px;left:0px;">
+	<div id="Snake_Core_Widget_highScore" style="position: absolute;">HIGHSCORE: 0</div>
+	<canvas id="gc" width="400" height="400"></canvas>
+	<script>
+		//james.  Stop touching the code.  you don't know what you're doing.
+		//if you break it... I won't fix it!
+		//-Isaac
+		canv=document.getElementById("gc");
+		ctx=canv.getContext("2d");
+		document.addEventListener("keydown",keyPush);
+		var score = 0;
+		var highScore = 0;
+		var gameSpeed = 15;
+
+		var gameinterval = setInterval(game,1000/gameSpeed);
+
+		px=py=15;
+		gs=tc=20;
+		ax=ay=5;
+		xv=yv=0;
+		trail=[];
+		tail = 2;
+		function game() {
+			px+=xv;
+			py+=yv;
+			if(px<0) {
+				px= tc-1;
+			}
+			if(px>tc-1) {
+				px= 0;
+			}
+			if(py<0) {
+				py= tc-1;
+			}
+			if(py>tc-1) {
+				py= 0;
+			}
+			ctx.fillStyle="black";
+			ctx.fillRect(0,0,canv.width,canv.height);
+
+			ctx.fillStyle="lime";
+			for(var i=0;i<trail.length;i++) {
+				ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
+				if(trail[i].x==px && trail[i].y==py) {
+					tail = 5;
+					$("#Snake_Core_Widget_highScore").css("color","white");
+					score = 0;
+				}
+			}
+			trail.push({x:px,y:py});
+			while(trail.length>tail) {
+				trail.shift();
+			}
+
+			if(ax==px && ay==py) {
+				tail++;
+				score++;
+				if(score > highScore){
+					highScore = score;
+					$("#Snake_Core_Widget_highScore").css("color","red");
+					$("#Snake_Core_Widget_highScore").html("HIGHSCORE: " + highScore);
+				}
+				ax=Math.floor(Math.random()*tc);
+				ay=Math.floor(Math.random()*tc);
+				clearInterval(gameinterval);
+				gameinterval = setInterval(game,1000/gameSpeed);
+			}
+			ctx.fillStyle="red";
+			ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
+		}
+		function keyPush(evt) {
+			console.log(evt.key);
+			switch(evt.key) {
+				case "a":
+				xv=-1;yv=0;
+				break;
+				case "w":
+				xv=0;yv=-1;
+				break;
+				case "d":
+				xv=1;yv=0;
+				break;
+				case "s":
+				xv=0;yv=1;
+				break;
+			}
+		}
+	</script>﻿
+</div>

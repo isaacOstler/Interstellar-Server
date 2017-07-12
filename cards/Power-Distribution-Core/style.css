@@ -1,0 +1,129 @@
+body{
+	background-color:black;
+	color:white;
+}
+.Power-Distribution-CurrentSystemPower{
+	overflow: none;
+	background-color:#ffe972;
+	color:black;
+	text-align: center;
+	position: absolute;
+	top:10%;
+	right:11%;
+	width: 10%;
+	height: 80%;
+	cursor: pointer;
+	border-width: 1px;
+}
+.Power-Distribution-RequiredSystemPower{
+	overflow: none;
+	background-color:#00FFFF;
+	color:black;
+	text-align: center;
+	position: absolute;
+	top:10%;
+	right:0%;
+	cursor: default;
+	width: 10%;
+	height: 80%;
+}
+#Power-Distribution-ReactorSettings{
+	position: absolute;
+	top:81%;
+	left:0%;
+	width: 100%;
+	height: 18.5%;
+}
+#Power-Distribution-PowerInUseLabel{
+	font-size: 12px;
+	position: absolute;
+	top:5%;
+	text-align: right;
+	right: 15.5%;
+	width: 80%;
+	height: 18%;
+}
+#Power-Distribution-ReactorOutputLabel{
+	font-size: 12px;
+	position: absolute;
+	text-align: right;
+	top:27%;
+	right: 15.5%;
+	width: 80%;
+	height: 18%;
+}
+#Power-Distribution-PowerDrawLabel{
+	font-size: 12px;
+	position: absolute;
+	text-align: right;
+	top:50%;
+	right: 15.5%;
+	width: 80%;
+	height: 18%;
+}
+#Power-Distribution-PowerInUse{
+	cursor: default;
+	position: absolute;
+	top:5%;
+	right: 1.5%;
+	width: 12%;
+	height: 18%;
+	background-color:#00FFFF;
+	color:black;
+	text-align: center;
+	border-style: solid;
+	border-color: white;
+	border-width: 1px;
+	font-size: 14px;
+}
+#Power-Distribution-PowerDraw{
+	cursor: default;
+	position: absolute;
+	top:50%;
+	right: 1.5%;
+	width: 12%;
+	height: 18%;
+	background-color:#00FFFF;
+	color:black;
+	text-align: center;
+	border-style: solid;
+	border-color: white;
+	border-width: 1px;
+	font-size: 14px;
+}
+#Power-Distribution-FluxPower{
+	cursor: pointer;
+	position: absolute;
+	top:72%;
+	right: 0.75%;
+	width: 15%;
+	height: 20%;
+	background-color:red;
+	color:black;
+	border-style: outset;
+	border-color: #606060;
+	border-width: 1px;
+	text-align: center;
+	border-width: 1px;
+	font-size: 12px;
+}
+#Power-Distribution-FluxPower:active{
+	filter:brightness(0.75);
+	border-style: inset;
+}
+#Power-Distribution-Reactor-Output{
+	padding: 0px;
+	font-size: 14px;
+	cursor: pointer;
+	position: absolute;
+	top:27%;
+	right: 1.5%;
+	width: 12%;
+	height: 18%;
+	background-color:#ffe972;
+	color:black;
+	text-align: center;
+	border-style: solid;
+	border-color: white;
+	border-width: 1px;
+}

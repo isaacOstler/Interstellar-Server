@@ -1,0 +1,46 @@
+body{
+	background-color:black;
+	color:white;
+	overflow: hidden;
+}
+
+h3{
+	font-size: 28px;
+	text-shadow:
+   -1px -1px 0 #898989,  
+    1px -1px 0 #898989,
+   -1px 1px 0 #898989,
+    1px 1px 0 #898989;
+}
+
+.textOutline{
+	text-shadow:
+   -1px -1px 0 #898989,  
+    1px -1px 0 #898989,
+   -1px 1px 0 #898989,
+    1px 1px 0 #898989;
+
+}
+
+#loginLogo{
+	width: 371px;
+}
+
+#contentArea{
+	position: absolute;
+	top:10%;
+	left:30%;
+	width: 50%;
+}
+
+#shipView{
+	position: absolute;
+	top:10%;
+	left:5%;
+	width: 60%;
+	height: 80%;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	cursor: default;
+	background-image: url("/resource?path=public/shipTopDown.png");
+}

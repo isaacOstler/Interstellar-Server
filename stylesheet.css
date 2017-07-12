@@ -1,0 +1,113 @@
+body{
+	font-family: 'Arial';
+	background-color:#6f869b;
+}
+#sideBar{
+	background-color:#3e607f;
+	color:white;
+	width: 30%;
+	position: absolute;
+	top:0px;
+	left:0px;
+	height: 100%;
+}
+h1{
+	font-size: 55px;
+}
+#stationsList{
+	color:black;
+	position: absolute;
+	top:120px;
+	height: 70%;
+	background-color: white;
+	width: 95%;
+	left: 2.5%;
+}
+#bottomBar{
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	height: 15px;
+	width: 100%;
+	background-color: #eaecef;
+	color:darkgrey;
+	font-size: 12px;
+	padding-left: 15px;
+}
+
+#allWidgetsList{
+	position: absolute;
+	overflow: auto;
+	top:30px;
+	left:31%;
+	width: 68%;
+	height: 40%;
+	background-color:white;
+	border-style: inset;
+	border-width: 1px;
+}
+
+#addedWidgetsView{
+	position: absolute;
+	overflow: auto;
+	top:51%;
+	left:31%;
+	width: 68%;
+	height: 45%;
+	background-color:white;
+	border-style: inset;
+	border-width: 1px;
+}
+
+.tableRow{
+	font-size: 16px;
+}
+
+.lightStripe{
+	opacity: .8;
+}
+.darkStripe{
+	opacity: .9;
+}
+.coreWidgetRow{
+	background-color:green;
+}
+.cardRow{
+	background-color:blue;
+}
+
+.stationOption{
+	
+}
+
+.tableView {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+	cursor: pointer;
+}
+.tableView td, .tableView th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.tableView tr {
+
+}
+.tableView tr:hover {
+	opacity: 1
+}
+.tableView allWidgetsTable th {
+	cursor: default;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #ejejej;
+    color: black;
+}
+#iconViewField{
+	cursor:pointer;
+}
+#tableViewField{
+	text-decoration: underline;
+	cursor:default;
+}

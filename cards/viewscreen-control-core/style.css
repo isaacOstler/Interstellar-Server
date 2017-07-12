@@ -1,0 +1,24 @@
+#Viewscreen-Control-Core_CardsList{
+	position: absolute;
+    bottom: 0.75%;
+    background-color: grey;
+    left: 1%;
+    height: 89%;
+    width: 98%;
+    overflow: auto;
+}
+.Viewscreen-Control-Core_CardsListCard{
+    font-size:12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+	height: 16px;
+	color:black;
+	background-color: rgb(255,233,114);
+}
+.Viewscreen-Control-Core_CardsListCard:hover{
+    filter: brightness(1.25);
+}
+.Viewscreen-Control-Core_CardsListCard:active{
+    filter: brightness(0.65);
+}

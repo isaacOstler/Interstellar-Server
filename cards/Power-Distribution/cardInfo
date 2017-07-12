@@ -1,0 +1,9 @@
+{
+	"cardName":"Power-Distribution",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.1",
+	"changeLog":"1.0.1: fixed memory leak with event listeners, card now runs much faster and no longer slows down over time.",
+	"description":"Crew members can monitor the efficiency of shipwide systems, and run diagnostics on systems that are running poorly."
+}

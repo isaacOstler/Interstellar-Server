@@ -1,0 +1,42 @@
+{
+  "name": "interstellar_server",
+  "version": "1.0.0",
+  "description": "The server for the interstellar simulator control framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-packager . --version=1.4.12"
+  },
+  "keywords": [
+    "Interstellar",
+    "IF",
+    "spaceCamp",
+    "spaceCenter",
+    "server",
+    "simulator",
+    "controls",
+    "space",
+    "spaceShip"
+  ],
+  "author": "Isaac Ostler, Connor Widtfeldt",
+  "license": "ISC",
+  "dependencies": {
+    "adm-zip": "^0.4.7",
+    "archiver": "^1.3.0",
+    "colors": "^1.1.2",
+    "ejs": "^2.5.5",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "jquery": "^3.1.1",
+    "jsonfile": "^2.4.0",
+    "jsdom": "^9.9.1",
+    "jszip": "^3.1.3",
+    "mkdirp": "^0.5.1",
+    "mongoose": "^4.7.5",
+    "node-zip": "^1.1.1",
+    "socket.io": "^1.7.2"
+  },
+  "devDependencies": {
+    "electron-packager": "^8.4.0"
+  }
+}

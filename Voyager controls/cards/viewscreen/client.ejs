@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MAIN VIEWSCREEN</title>
+	<link rel="stylesheet" type="text/css" href="/resource?path=style.css">
+	 onload="window.$ = window.jQuery = module.exports;"></script>
+</head>
+<body>
+	<style type="text/css">
+		body{
+			font-size: 26px;
+			cursor: none;
+		}
+
+	</style>
+	<div id="contentArea">
+		<div id="movingIcons">
+		</div>
+		<div id="picture">
+		</div>
+		<video width="100%" id="video" preload="none">
+		</video>
+	</div>
+	<div id="auxMedia">
+		<div id="auxHeader">
+		</div>
+	</div>
+		<div id="viewscreenArea" class="c_container">
+			<div id="viewScreenAreaBorder" class="c_container"></div>
+		</div>
+	<div id="GUI">
+		<div id="shipView" class="inverse_c_container">
+		<div id="shipForwardLabel">FORWARD</div>
+		<div id="shipAftLabel">AFT</div>
+		<div id="shipStarboardLabel">STARBOARD</div>
+		<div id="shipPortLabel">PORT</div>
+			<div id="shipTopDown">
+				
+			</div>
+			<canvas id="shieldCanvas" width="230px" height="300px">
+		</div>
+		<div id="systemStatus" class="inverse_c_container">
+			<span style="color:red">SHIPWIDE SYSTEM STATUS OFFLINE</span>
+		</div>
+	</div>
+	<script src="/InterstellarLibraries"></script>
+	<script src="/resource?path=script.js"></script>
+</body>
+</html>

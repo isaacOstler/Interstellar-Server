@@ -1,0 +1,16 @@
+.alertStatusButton{
+	height: 20px;
+	cursor: pointer;
+	text-align: center;
+	color:black;
+	width: 15%;
+	border: white 1px solid;
+	position: absolute;
+	bottom:1px;
+}
+.alertStatusButton:hover{
+	filter: brightness(1.25);
+}
+.alertStatusButton:active{
+	filter: brightness(0.65);
+}

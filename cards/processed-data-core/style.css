@@ -1,0 +1,19 @@
+#processedData-Core-Widget-processedDataTextfield{
+    position: absolute;
+    top: 2px;
+    width: calc(100% - 11px);
+    height: 60%;
+    left: 2px;
+    resize: none;
+    background-color: #fff0a8;
+    color: black;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+#processedData-Core-Widget-processedDataControls{
+	position: absolute;
+	top:calc(60% + 5px);
+    width: calc(100% - 11px);
+    left: 2px;
+}

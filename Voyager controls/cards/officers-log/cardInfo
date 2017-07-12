@@ -1,0 +1,8 @@
+{
+	"cardName":"officers-log",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Similar to a journal, this card allows officers to log what has happened in the mission, or record notes and ideas."
+}

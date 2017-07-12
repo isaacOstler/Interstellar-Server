@@ -1,0 +1,8 @@
+{
+	"cardName":"login",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Login screen.  The entry point to any station"
+}

@@ -1,0 +1,8 @@
+{
+	"cardName":"Internal-Sensors",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Used to locate things inside the ship, through the use of internal sensors."
+}

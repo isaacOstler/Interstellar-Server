@@ -1,0 +1,969 @@
+{
+	"jobs" : [
+		{
+			"name" : "assistant transporter officer",
+			"location" : "transporter room alpha, deck 2",
+			"officer" : ""
+		},
+		{
+			"name" : "chief transport officer",
+			"location" : "transporter room alpha, deck 2",
+			"officer" : ""
+		},
+		{
+			"name" : "assistant transporter officer",
+			"location" : "transporter room bravo, deck 5",
+			"officer" : ""
+		},
+		{
+			"name" : "chief transport officer",
+			"location" : "transporter room bravo, deck 5",
+			"officer" : ""
+		},
+		{
+			"name" : "assistant transporter officer",
+			"location" : "transporter room Charlie, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "chief transport officer",
+			"location" : "transporter room Charlie, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "assistant transporter officer",
+			"location" : "transporter room delta, deck 13",
+			"officer" : ""
+		},
+		{
+			"name" : "chief transport officer",
+			"location" : "transporter room delta, deck 13",
+			"officer" : ""
+		},
+		{
+			"name" : "head cook",
+			"location" : "kitchen, deck 7",
+			"officer" : ""
+		},
+		{
+			"name" : "cook",
+			"location" : "kitchen, deck 7",
+			"officer" : ""
+		},
+		{
+			"name" : "cook",
+			"location" : "kitchen, deck 7",
+			"officer" : ""
+		},
+		{
+			"name" : "cook",
+			"location" : "kitchen, deck 7",
+			"officer" : ""
+		},
+		{
+			"name" : "cook",
+			"location" : "kitchen, deck 7",
+			"officer" : ""
+		},
+		{
+			"name" : "cook",
+			"location" : "kitchen, deck 7",
+			"officer" : ""
+		},
+		{
+			"name" : "cook",
+			"location" : "kitchen, deck 7",
+			"officer" : ""
+		},
+		{
+			"name" : "cook",
+			"location" : "kitchen, deck 7",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 1",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 2",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 3",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 5",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 6",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 7",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 9",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 10",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 13",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 14",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 15",
+			"officer" : ""
+		},
+		{
+			"name" : "janitor",
+			"location" : "deck 16",
+			"officer" : ""
+		},
+		{
+			"name" : "doctor",
+			"location" : "sickbay alpha, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "head nurse",
+			"location" : "sickbay alpha, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "nurse",
+			"location" : "sickbay alpha, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "nurse",
+			"location" : "sickbay alpha, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "nurse",
+			"location" : "sickbay alpha, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "doctor",
+			"location" : "sickbay bravo, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "head nurse",
+			"location" : "sickbay bravo, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "nurse",
+			"location" : "sickbay bravo, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "nurse",
+			"location" : "sickbay bravo, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "nurse",
+			"location" : "sickbay bravo, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "quartermaster",
+			"location" : "upper cargobay",
+			"officer" : ""
+		},
+		{
+			"name" : "assistant quartermaster",
+			"location" : "upper cargobay",
+			"officer" : ""
+		},
+		{
+			"name" : "cargo officer",
+			"location" : "upper cargobay",
+			"officer" : ""
+		},
+		{
+			"name" : "cargo officer",
+			"location" : "upper cargobay",
+			"officer" : ""
+		},
+		{
+			"name" : "cargo officer",
+			"location" : "upper cargobay",
+			"officer" : ""
+		},
+		{
+			"name" : "quartermaster",
+			"location" : "lower cargobay",
+			"officer" : ""
+		},
+		{
+			"name" : "assistant quartermaster",
+			"location" : "lower cargobay",
+			"officer" : ""
+		},
+		{
+			"name" : "cargo officer",
+			"location" : "lower cargobay",
+			"officer" : ""
+		},
+		{
+			"name" : "cargo officer",
+			"location" : "lower cargobay",
+			"officer" : ""
+		},
+		{
+			"name" : "cargo officer",
+			"location" : "upper cargobay",
+			"officer" : ""
+		},
+		{
+			"name" : "shuttle alpha pilot",
+			"location" : "shuttlebay",
+			"officer" : ""
+		},
+		{
+			"name" : "shuttle alpha copilot",
+			"location" : "shuttlebay",
+			"officer" : ""
+		},
+		{
+			"name" : "shuttle beta pilot",
+			"location" : "shuttlebay",
+			"officer" : ""
+		},
+		{
+			"name" : "shuttle beta copilot",
+			"location" : "shuttlebay",
+			"officer" : ""
+		},
+		{
+			"name" : "shuttlecraft engineer",
+			"location" : "shuttlebay",
+			"officer" : ""
+		},
+		{
+			"name" : "shuttle master",
+			"location" : "shuttlebay",
+			"officer" : ""
+		},
+		{
+			"name" : "shuttlebay flight traffic controller",
+			"location" : "shuttlebay",
+			"officer" : ""
+		},
+		{
+			"name" : "shuttlebay quartermaster",
+			"location" : "shuttlebay",
+			"officer" : ""
+		},
+		{
+			"name" : "dentist",
+			"location" : "sickbay alpha, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "dental hygienist",
+			"location" : "sickbay alpha, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire control specialist",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "fire chief",
+			"location" : "fire suppression, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "emergency medical responder",
+			"location" : "sickbay alpha, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "emergency medical responder",
+			"location" : "sickbay alpha, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "emergency medical technician",
+			"location" : "sickbay alpha, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "emergency medical responder",
+			"location" : "sickbay bravo, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "emergency medical responder",
+			"location" : "sickbay bravo, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "emergency medical technician",
+			"location" : "sickbay bravo, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "coolant tank engineer",
+			"location" : "coolant storage, deck 14",
+			"officer" : ""
+		},
+		{
+			"name" : "coolant piping engineer",
+			"location" : "coolant storage, deck 14",
+			"officer" : ""
+		},
+		{
+			"name" : "chief reactor specialist",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "deputy reactor specialist",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "Reactor antimatter specialist",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "Reactor matter specialist",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "starboard nacelle engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "port nacelle engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "chief electrician",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "deputy electrician",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "LCARS specialist",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "EPS power grid specialist",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "Axillary power grid specialist",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "structural integrity engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "structural integrity engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "Hull breach repairmen",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "Hull breach repairmen",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "Hull breach repairmen",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "Hull breach repairmen",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "Hull breach repairmen",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "subspace technician",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "gravitational engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "jefferies tube engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "jefferies tube engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "database technician",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "computer specialist",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "magnetic alignment watchmen",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "upper warp core technician",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "lower warp core technician",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "subspace interference regulator",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "dilithium technician",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "dilithium technician",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "dilithium technician",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "pressure specialist",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "nuclear engineer",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "plumber",
+			"location" : "water control, deck 15",
+			"officer" : ""
+		},
+		{
+			"name" : "plumber",
+			"location" : "water control, deck 15",
+			"officer" : ""
+		},
+		{
+			"name" : "water pressure specialist",
+			"location" : "water control, deck 15",
+			"officer" : ""
+		},
+		{
+			"name" : "water filtration specialist",
+			"location" : "water control, deck 15",
+			"officer" : ""
+		},
+		{
+			"name" : "water recycling specialist",
+			"location" : "water control, deck 15",
+			"officer" : ""
+		},
+		{
+			"name" : "toxic waste specialist",
+			"location" : "toxic waste storage, deck 9",
+			"officer" : ""
+		},
+		{
+			"name" : "toxic waste janitor",
+			"location" : "toxic waste storage, deck 9",
+			"officer" : ""
+		},
+		{
+			"name" : "toxic waste janitor",
+			"location" : "toxic waste storage, deck 9",
+			"officer" : ""
+		},
+		{
+			"name" : "carpenter",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "psychologist",
+			"location" : "Sickbay Bravo, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "Human Resources",
+			"location" : "Officer resources, deck 5",
+			"officer" : ""
+		},
+		{
+			"name" : "Teacher",
+			"location" : "classroom 1-4, deck 6",
+			"officer" : "Victor Williamson"
+		},
+		{
+			"name" : "Teacher",
+			"location" : "classroom 1-4, deck 6",
+			"officer" : "James Porter"
+		},
+		{
+			"name" : "Teacher",
+			"location" : "classroom 1-4, deck 6",
+			"officer" : "Sonda Smith"
+		},
+		{
+			"name" : "Librarian",
+			"location" : "Library, deck 2",
+			"officer" : ""
+		},
+		{
+			"name" : "GUI specialist",
+			"location" : "main computer control, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "programmer",
+			"location" : "main computer control, deck 11",
+			"officer" : "Isaac Ostler"
+		},
+		{
+			"name" : "programmer",
+			"location" : "main computer control, deck 11",
+			"officer" : "Connor widtfeldt"
+		},
+		{
+			"name" : "networking specialist",
+			"location" : "main computer control, deck 11",
+			"officer" : "Alex Anderson"
+		},
+		{
+			"name" : "networking specialist",
+			"location" : "main computer control, deck 11",
+			"officer" : "Brent Anderson"
+		},
+		{
+			"name" : "computer performance technician",
+			"location" : "main computer control, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "torpedo loading officer",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "torpedo loading officer",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "torpedo loading officer",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "torpedo loading officer",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "torpedo technician",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "explosives expert",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "electrician",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "physicist",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "phaser coil engineer",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "nuclear engineer",
+			"location" : "External weapons armory",
+			"officer" : ""
+		},
+		{
+			"name" : "physicist",
+			"location" : "main navigations center, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "astronomy specialist",
+			"location" : "main navigations center, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "thruster specialist",
+			"location" : "main navigations center, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "warp theory specialist",
+			"location" : "main navigations center, deck 4",
+			"officer" : ""
+		},
+		{
+			"name" : "radiology expert",
+			"location" : "main engineering, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "sensors technician",
+			"location" : "sensors array, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "sensors array, deck 11",
+			"officer" : ""
+		},
+		{
+			"name" : "cryptologist",
+			"location" : "communications center, deck 3",
+			"officer" : ""
+		},
+		{
+			"name" : "cryptologist",
+			"location" : "communications center, deck 3",
+			"officer" : ""
+		},
+		{
+			"name" : "cryptologist",
+			"location" : "communications center, deck 3",
+			"officer" : ""
+		},
+		{
+			"name" : "shipwide comm operator",
+			"location" : "communications center, deck 3",
+			"officer" : ""
+		},
+		{
+			"name" : "communications security monitor",
+			"location" : "communications center, deck 3",
+			"officer" : ""
+		},
+		{
+			"name" : "long range communications technician",
+			"location" : "communications center, deck 3",
+			"officer" : ""
+		},
+		{
+			"name" : "short range communications technician",
+			"location" : "communications center, deck 3",
+			"officer" : ""
+		},
+		{
+			"name" : "docking technician",
+			"location" : "fore port docking port, deck 5",
+			"officer" : ""
+		},
+		{
+			"name" : "docking technician",
+			"location" : "aft port docking port, deck 5",
+			"officer" : ""
+		},
+		{
+			"name" : "docking technician",
+			"location" : "fore starboard docking port, deck 5",
+			"officer" : ""
+		},
+		{
+			"name" : "docking technician",
+			"location" : "aft starboard docking port, deck 5",
+			"officer" : ""
+		},
+		{
+			"name" : "tailor",
+			"location" : "laundry, deck 14",
+			"officer" : ""
+		},
+		{
+			"name" : "laundry technician",
+			"location" : "laundry, deck 14",
+			"officer" : ""
+		},
+		{
+			"name" : "laundry technician",
+			"location" : "laundry, deck 14",
+			"officer" : ""
+		},
+		{
+			"name" : "HAZMAT technician",
+			"location" : "toxic waste storage, deck 9",
+			"officer" : ""
+		},
+		{
+			"name" : "HAZMAT technician",
+			"location" : "toxic waste storage, deck 9",
+			"officer" : ""
+		},
+		{
+			"name" : "HAZMAT technician",
+			"location" : "toxic waste storage, deck 9",
+			"officer" : ""
+		},
+		{
+			"name" : "HAZMAT technician",
+			"location" : "toxic waste storage, deck 9",
+			"officer" : ""
+		},
+		{
+			"name" : "HAZMAT captain",
+			"location" : "toxic waste storage, deck 9",
+			"officer" : ""
+		},
+		{
+			"name" : "translation specialist",
+			"location" : "communications center, deck 3",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "escape pods 1-16, deck 3",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "escape pods 16-32, deck 6",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "escape pods 32-48, deck 9",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "escape pods 48-64, deck 12",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "escape pods 64-80, deck 15",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "turbolift control, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "turbolift control, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "general engineer",
+			"location" : "turbolift control, deck 8",
+			"officer" : ""
+		},
+		{
+			"name" : "counselor",
+			"location" : "Officer resources, deck 5",
+			"officer" : ""
+		},
+		{
+			"name" : "counselor",
+			"location" : "Officer resources, deck 5",
+			"officer" : ""
+		}
+	]
+}

@@ -1,0 +1,8 @@
+{
+	"cardName":"Long-Range-Comm",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows for long range communication between senders via text.  Similar to email or a text message"
+}

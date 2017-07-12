@@ -1,0 +1,9 @@
+{
+	"cardName":"Fluid-Control-Panel",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.1",
+	"changeLog":"",
+	"description":"Allows the user to adjust the fluids in the reactor.  And stuff.  It's an arduino project"
+}

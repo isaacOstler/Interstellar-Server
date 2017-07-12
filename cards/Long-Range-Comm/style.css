@@ -1,0 +1,36 @@
+#receivedMessages{
+	overflow: auto;
+	position: absolute;
+	top:11%;
+	left:3%;
+	height: 82%;
+	width: 30%;
+}
+#messageBox{
+	font-size: 24px;
+	overflow: auto;
+	position: absolute;
+	top:50%;
+	width: 61%;
+	left: 36%;
+	height: 43%;
+}
+#cypherBox{
+	position: absolute;
+	top:11%;
+	width: 61%;
+	height: 45%;
+	left: 36%;
+}
+.recievedMessage{
+	width: 98%;
+	font-size: 2vw;
+	cursor: pointer;
+}
+.recievedMessage:hover{
+	filter: brightness(0.65);
+}
+.cypherButton{
+	width: 30%;
+	height: 15.5%;
+}

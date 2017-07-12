@@ -1,0 +1,33 @@
+{
+	"stations" : [
+		{
+			"stationInfo" : {
+				"name" : "SENSORS",
+				"cards" : ["Sensors"]
+			},
+			"stationType" : "station"
+		},
+		{
+			"stationInfo": {
+				"name" : "CORE",
+				"cards" : ["Power-Distribution-Core","Coolant-Core","sensor-scans-core","Transporters-Core","alert-status-core","viewscreen-control-core","processed-data-core","sensors-core"]
+			},
+			"stationType" : "core"
+		},
+		{
+			"stationInfo": {
+				"name" : "AUX-CORE",
+				"cards" : ["Power-Distribution-Core","Coolant-Core","sensor-scans-core","Transporters-Core","alert-status-core","viewscreen-control-core"]
+			},
+			"stationType" : "core"
+		},
+		{
+			"stationInfo" : {
+				"name" : "TACTICAL",
+				"cards" : ["Internal-Sensors","Transporters","Alert-Status","Coolant-Control","Long-Range-Comm","Sensors"]
+			},
+			"stationType" : "station"
+		}
+	],
+	"port" : 3000
+}

@@ -1,0 +1,58 @@
+<link rel="stylesheet" type="text/css" href="/stationThemes">
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css">
+<div id="contentArea" class="noselect">
+	<div id="sensorsArray">
+		<canvas id="sensorsArrayCanvas" class="noselect"></canvas>
+		<svg width="100%" height="100%" id="mask">
+			<defs>
+				<clipPath id="myClip">
+				<circle cx="50%" cy="50%" r="40%" />
+				</clipPath>
+			</defs>
+		</svg>
+	</div>
+	<div id="sensorScans" class="container4">
+		<div id="processedDataHeader">SENSOR SCANS</div>
+		<div id="scanQuerry">
+			<input id="scanTextbox" type="text">
+			<div id="scanButton" class="Button2 noselect beepOnClick">
+				SCAN
+			</div>
+			<select id="directionDropdown">
+				<option>ALL DIRECTIONS</option>
+				<option>1 O'CLOCK</option>
+				<option>2 O'CLOCK</option>
+				<option>3 O'CLOCK</option>
+				<option>4 O'CLOCK</option>
+				<option>5 O'CLOCK</option>
+				<option>6 O'CLOCK</option>
+				<option>7 O'CLOCK</option>
+				<option>8 O'CLOCK</option>
+				<option>9 O'CLOCK</option>
+				<option>10 O'CLOCK</option>
+				<option>11 O'CLOCK</option>
+				<option>12 O'CLOCK</option>
+			</select>
+		</div>
+		<div id="scanAnswer">
+			<div id="scanAnswerTextArea">
+			</div>
+		</div>
+	</div>
+	<div id="sensorsArrayViewTypeContainer" class="container4">
+		<div id="visibleButton" class="Button2 noselect beepOnClick viewTypeButton verticalAlign selectedButton" style="left:5%;">VISIBLE LIGHT</div>
+		<div id="infraredButton" class="Button2 noselect beepOnClick viewTypeButton verticalAlign">INFRARED</div>
+	</div>
+	<div id="processedData" class="container4">
+		<div id="processedDataHeader">PROCESSED DATA</div>
+		<div id="increaseFontSize" class="fontSizeAdjustButton">+</div>
+		<div id="decreaseFontSize" class="fontSizeAdjustButton" style="right:15%">-</div>
+		<div id="processedDataContainer">
+		<b style="color:red">WARNING!</b>  THE PROCESSED DATA CANNOT BE COMPILED AT THIS TIME.  PLEASE RELOAD THIS SCREEN.
+		</div>
+	</div>
+</div>
+
+<script src="/threeJS"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+<script src="/resource?path=script.js" type="text/javascript"></script>

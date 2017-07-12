@@ -1,0 +1,105 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+<style type="text/css">
+	body{
+		font-size: 26px;
+		background: black;
+    	background-size: 100%;
+    	background-repeat: no-repeat;
+    	background-attachment: fixed;
+    	margin: 0;
+	}
+	
+	a{
+		color:white;
+		text-decoration: none;
+	}
+	.noselect {
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: -moz-none;
+		-o-user-select: none;
+		user-select: none;
+	}
+	#menu{
+	    position: absolute;
+	    padding-top: 20px;
+    	top: 14%;
+    	width: 22%;
+    	height: 81%;
+    	border-image-source: url('/container4');
+    	border-image-slice: fill 49 49 49 49;
+    	z-index: 20;
+    	border-image-width: 2em;
+    	right:2%;
+	}
+	.menuItem{
+    	width: 80%;
+    	padding-top: 10px;
+    	padding-bottom: 10px;
+    	text-align: center;
+    	border-image-source: url('/container1');
+    	border-image-slice: fill 49 49 49 49;
+    	border-image-width: 2em;
+	}
+	#bodyFrame{
+		position: absolute;
+		top:0px;
+		left:0px;
+		width: 100%;
+		height: 100%;
+    	border-image-source: url('/resource?path=public/alertStatus5.png&screen=menu');
+    	border-image-slice: fill 298 298 1 298;
+    	border-image-width: 10em;
+    	z-index: -100;
+	}
+	#hexagonBackground{
+		filter:brightness(.5);
+		position: absolute;
+		background-image: url("/background1");
+		background-size: 3.5%;
+		width: 100%;
+		height: 100%;
+		top:0px;	
+		left:0px;
+		background-repeat: repeat;
+		z-index: -101;
+	}
+	#icon{    
+	position: absolute;
+    top: 7px;
+    left: 14px;
+    width: 164px;
+    height: 164px;
+    z-index: -99;
+    background-image: url(/resource?path=public/logo.png&screen=menu);
+    background-size: 100%;
+    background-repeat: no-repeat;
+	}
+	#stationName{
+		position: absolute;
+		top:4%;
+		left:181px;
+		font-size: 48px;
+	}
+</style>
+<div id="menu"><center>
+		<% for(var i=0; i<screens.length; i++) {%>
+		<a href="/card?card=<%= screens[i] %>"><div class="menuItem beepOnClick"><%= screens[i].toUpperCase() %></div></a>
+		<% } %></center>
+</div>
+<div id="stationName">USS VOYAGER</div>
+<div id="hexagonBackground"></div>
+<div id="bodyFrame"></div>
+<div id="icon"></div>
+<script type="text/javascript">
+	document.getElementById("stationName").innerHTML = getStation().toUpperCase();
+	onDatabaseValueChange("ship.alertStatus",function(newData){
+		if(newData == null){
+			setDatabaseValue("ship.alertStatus",5);
+			return;
+		}
+		var alertStatusURL = "/resource?path=public/alertStatus" + newData + ".png&screen=menu";
+
+		$("#bodyFrame").css("border-image-source","url(" + alertStatusURL + ")");
+	});
+</script>

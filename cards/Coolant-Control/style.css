@@ -1,0 +1,63 @@
+.coolantProgressBar{
+	overflow: hidden;
+	position: absolute;
+	top:24.5%;
+	height: 49.5%;
+	width: 80%;
+	border-style: solid;
+	border-width: 1px;
+	border-color:white;
+}
+
+.systemView{
+	position: absolute;
+	width: 60%;
+	height: 10%;
+}
+
+.progressBarFill{
+	position: absolute;
+	background-color: rgba(66, 191, 244,0.8);
+	top:0px;
+	left:0px;
+	width: 100%;
+	height: 100%;
+}
+
+#systemsView{
+	position: absolute;
+	top: 5%;
+	height: 80%;
+	left: 0%;
+	width: 55%;
+}
+.systemView{
+	position: absolute;
+	width: 100%;
+	height: 10%;
+}
+
+.fillButton{
+	position: absolute;
+	top:24.5%;
+	height: 25%;
+	right: 0%;
+	width: 19.5%;
+	background-color: #f5f93e;
+	color: black;
+	border-radius: 0px 10px 0px 0px;
+	text-align: center;
+	font-size: 22px;
+}
+.drainButton{
+	position: absolute;
+	bottom:24.5%;
+	right: 0%;
+	height: 25%;
+	width: 19.5%;
+	background-color: #f93e3e;
+	color: black;
+	border-radius: 0px 0px 10px 0px;
+	text-align: center;
+	font-size: 22px;
+}

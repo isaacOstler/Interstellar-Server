@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Reactor Control</title>
+	<link rel="stylesheet" type="text/css" href="/coreThemes">
+	<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=Transporters-Core">
+</head>
+<body>
+	<div id="Transporters-Core-Widget" class="Core_Theme-CoreWidget" style="width:200px;height:145px;top:0px;left:255px;">
+		<div id="Transporters-Core-TransportTarget" class="verticalAlign noselect" style="width:97%;left:1%;top:1%;position:absolute;">NO TRANSPORT TARGET</div>
+		<div id="Transporters-Core-TransportDestination" class="verticalAlign noselect" style="width:97%;left:1%;top:21%;position:absolute;">NO DESTINATION</div>
+		<div id="Transporters-Core-numberOfTargetsLabel">NUMBER OF TARGETS</div>
+		<input type='input' onClick='this.select();' value="0" id="Transporters-Core-numberOfTargets">
+		<div id="Transporters-Core-TransporterProgress" class="verticalAlign">
+			<span id="Transporters-Core-TransporterProgressLabel">TRANSPORT PROGRESS (0%)</span>
+			<div id="Transporters-Core-TransporterProgressFill" class="Sensor-Scans-Core_scanProgressFill"></div>
+		</div>
+		<div id="Transporters-Core-RemoveAllTargets" class="disabled" >REMOVE ALL TARGETS</div>
+		<div id="Transporters-Core-AcceptButton" class="disabled" style="width:48.5%;left:1%;bottom:1%;position:absolute;height:20px;">ACCEPT</div>
+		<div id="Transporters-Core-DenyButton" class="disabled" style="width:48.5%;right:1%;bottom:1%;position:absolute;height:20px;">REJECT</div>
+	<script src="/resource?path=script.js&screen=Transporters-Core" type="text/javascript"></script>
+	</div>
+</body>
+</html>

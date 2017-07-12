@@ -1,0 +1,62 @@
+body{
+	background-color:black;
+	color:white;
+}
+#title{
+	position: absolute;
+	top:0%;
+	left:20%;
+	font-size: 72px;
+}
+video#bgvid { 
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    width: 40%;
+    height: 99%;
+    z-index: -100;
+    background-color:red;
+    background: url("/resource?path=/public/reactor.mov") no-repeat;
+}
+#reactorVideo{
+    position: absolute;
+    top:5%;
+    right:20%;
+    height: 90%;
+    width: 60%;
+}
+#stress{
+    font-size: 72px;
+    position: absolute;
+    top:20%;
+    height: 60%;
+    left:30%;
+    width: 20%;
+}
+#stressBar{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius:5px;
+    border-style: solid;
+    border-color:white;
+    z-index: 3;
+}
+#stressBarMask{
+    position: absolute;
+    top:0px;
+    left:0px;
+    height: 10%;
+    width:100%;
+    background-color:black;
+    z-index: 2;
+}
+#stressBarFill{
+    position: absolute;
+    z-index: 1;
+    bottom:0px;
+    width:100%;
+    left:0px;
+    height: 100%;
+    background:linear-gradient(red, yellow);
+}
