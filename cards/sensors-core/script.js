@@ -9,7 +9,7 @@
 //sometimes, your not quite sure what your doing, and
 //forget to write down psudeo code as you experiment
 //
-//I tried my best to go back and comment what I could
+//I will try to go back and document this code as soon as possible
 //
 //-Isaac Ostler
 
@@ -2381,6 +2381,8 @@ function Sensors_core_updateDatabaseValuesRelatedToUserPrefs(){
         setDatabaseValue("sensors.processedData.flashFullScreen",true);
     }
     setDatabaseValue("sensors.processedData.typeOn",Sensors_Core_Presets.typeProcessedData);
+
+    setDatabaseValue("sensors.processedData.allowFontSizeAdjustments",Sensors_Core_Presets.allowFontSizeAdjustments);
 
     setDatabaseValue("sensors.graphical.drawGradient",Sensors_Core_Presets.drawGradient);
     setDatabaseValue("sensors.graphical.colorType",Sensors_Core_Presets.sensorsArrayColorType);

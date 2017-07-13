@@ -1,8 +1,8 @@
 #processedData-Core-Widget-processedDataTextfield{
-    position: absolute;
+   	position: absolute;
     top: 2px;
     width: calc(100% - 11px);
-    height: 60%;
+    height: 68%;
     left: 2px;
     resize: none;
     background-color: #fff0a8;
@@ -13,7 +13,73 @@
 }
 #processedData-Core-Widget-processedDataControls{
 	position: absolute;
-	top:calc(60% + 5px);
-    width: calc(100% - 11px);
+    top: calc(70% + 5px);
+    width: calc(100% - 4px);
     left: 2px;
+    height: 26%;
+}
+#processedData-Core-Widget-processedDataControls-sendButton{
+	position: absolute;
+    top: 47%;
+    right: 0px;
+    height: 53%;
+    width: 15%;
+}
+#processedData-Core-Widget-processedDataControls-missionDropdown{
+    position: absolute;
+    top: 0px;
+    left: 1px;
+    width: 35%;
+}
+#processedData-Core-Widget-processedDataControls-presetDropdown{
+    position: absolute;
+    left: calc(35% + 1px);
+    top: 0px;
+    width: calc(65% - 2px); /* 59% when showing alt edit presets button */
+    z-index: 2;
+}
+#processedData-Core-Widget-processedDataControls-flashAndSendButton{
+	position: absolute;
+    top: 47%;
+    right: calc(15% + 1px);
+    height: 53%;
+    width: 15%;
+}
+#processedData-Core-Widget-processedDataControls-nextButton{
+	position: absolute;
+    top: 47%;
+    right: calc(30% + 2px);
+    height: 53%;
+    width: 20%;
+}
+#processedData-Core-Widget-processedDataControls-backButton{
+	position: absolute;
+    top: 47%;
+    right: calc(50% + 3px);
+    height: 53%;
+    width: 20%;
+}
+#processedData-Core-Widget-processedDataControls-allowFontSizeAdjust{
+	position: absolute;
+	top:50%;
+	left: 0px;
+	width: 30%;
+	overflow: hidden;
+	font-size: 11px;
+	display: none;
+}
+#processedData-Core-Widget-processedDataControls-editPresetsButton{
+	position: absolute;
+	top:47%;
+	width: calc(30% - 4px);
+    height: 53%;
+    right: calc(70% + 4px);
+}
+#processedData-Core-Widget-processedDataControls-altEditPresetsButton{
+	display: none;
+	position: absolute;
+	top:1.5%;
+	right: 0.5%;
+	height: 45%;
+	width: 5%;
 }

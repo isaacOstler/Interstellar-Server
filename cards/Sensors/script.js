@@ -58,6 +58,14 @@ onDatabaseValueChange("sensors.processedData.flashFullScreen",function(newData){
     flashFullScreen = newData;
 });
 
+onDatabaseValueChange("sensors.processedData.noFlashAndSend",function(newData){
+    if(newData == null){
+        setDatabaseValue("sensors.processedData.noFlashAndSend","");
+        return;
+    }
+    $("#processedDataContainer").html(newData);
+});
+
 onDatabaseValueChange("sensors.processedData",function(newData){
     if(newData == null){
         setDatabaseValue("sensors.processedData","");
