@@ -142,8 +142,8 @@ onPresetValueChange("sensors.sensorContacts",function(newData){
         setPresetValue("sensors.sensorContacts",genericContacts);
         return;
     }
-    console.log(newData);
     Sensors_Core_SensorPresets = newData;
+    return;
     var i;
     var html = "";
     for(i = 0;i < Sensors_Core_SensorPresets.contacts.length;i++){

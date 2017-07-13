@@ -17,7 +17,7 @@
 		{
 			"stationInfo": {
 				"name" : "AUX-CORE",
-				"cards" : ["Power-Distribution-Core","Coolant-Core","sensor-scans-core","Transporters-Core","alert-status-core","viewscreen-control-core"]
+				"cards" : ["Power-Distribution-Core","sensor-scans-core","processed-data-core"]
 			},
 			"stationType" : "core"
 		},

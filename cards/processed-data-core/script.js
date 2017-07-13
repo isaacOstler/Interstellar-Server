@@ -7,8 +7,8 @@ var _processedDataCoreWidgetHasInit = false;
 
 //init script (to mimic private variables)
 //also grab any presets relevant to this widget
-onPresetValueChange("processedData.presets",function(newData){
-	if(newData == null){
+onPresetValueChange("processedData.presets",function(fetchedPresets){
+	if(fetchedPresets == null){
 		//these are default preset values
 		var processedDataDefaults = 
 		[
@@ -33,12 +33,12 @@ onPresetValueChange("processedData.presets",function(newData){
 		]
 		//since we haven't defined the default presets, we will
 		//set them to the value defined above
-		setDatabaseValue("processedData.presets",processedDataDefaults);
+		setPresetValue("processedData.presets",processedDataDefaults);
 		//end the execution of this function
 		return;
 	}
 	//set the value of the presets variable to the new data
-	var presets = processedDataDefaults;
+	var presets = fetchedPresets;
 	//have we already initialized this widget?
 	if(_processedDataCoreWidgetHasInit){
 		//we have, end the execution of this function
@@ -50,8 +50,7 @@ onPresetValueChange("processedData.presets",function(newData){
 
 	//variables
 	var drawFontSizeAdjustmentGUI = false,
-		currentProcessedDataPreset = [],
-		currentProcessedDataPresetIndex = 0,
+		currentProcessedDataPreset = {},
 
 	//DOM references (for speed and convenience)
 		processedDataTextarea = $("#processedData-Core-Widget-processedDataTextfield"),
@@ -68,6 +67,7 @@ onPresetValueChange("processedData.presets",function(newData){
 
 	//init calls
 	drawGUI();
+	initPresetValues();
 
 	//functions
 
@@ -100,6 +100,53 @@ onPresetValueChange("processedData.presets",function(newData){
 		}
 	}
 
+	/*
+		NAME: initPresetValues()
+		TAKES: none
+		RETURNS: none
+		PURPOSE: draws the available presets, and selects one if one hasn't already been selected
+	*/
+	function initPresetValues(){
+		//if somehow there are no presets
+		if(presets.length < 0){
+			//end the execution of this function
+			return;
+		}
+		//init the required variables
+		var html = "",
+			i;
+		//cycle through each mission
+		for(i = 0;i < presets.length;i++){
+			//add the mission name to the HTML
+			html += "<option>" + presets[i].mission + "</option>";
+		}
+		//set available missions under the mission dropdown menu
+		presetDropdownMissionSelect.html(html);
+		//if a preset hasn't already been loaded
+		if(currentProcessedDataPreset.mission == undefined){
+			//set it to the first mission
+			currentProcessedDataPreset = presets[0];
+		}
+		//set the value of the missions dropdown to whatever the
+		//selected mission is
+		presetDropdownMissionSelect.val(currentProcessedDataPreset.mission);
+		//reset the html variable
+		html = "";
+		//cycle through each preset for the mission
+		for(i = 0;i < currentProcessedDataPreset.presets.length;i++){
+			//add the preset name to the HTML
+			html += "<option>" + currentProcessedDataPreset.presets[i].name + "</option>";
+		}
+		//set the preset dropdown HTML
+		presetDropdownPresetSelect.html(html);
+	}
+
+	/*
+		NAME: handleNewProcessedData()
+		TAKES: newData passed from database value callback
+		RETURNS: none
+		PURPOSE: draws the updated information to the processed data textarea
+	*/
 	function handleNewProcessedData(newData){
 		//if there is no value for "sensors.processedData"
     	if(newData == null){
@@ -129,7 +176,7 @@ onPresetValueChange("processedData.presets",function(newData){
 
 	onDatabaseValueChange("sensors.processedData.allowFontSizeAdjustments",function(newData){
 		if(newData == null){
-    		//we are NOT responsible for update this value!
+    		//we are NOT responsible for updating this value!
     		//this value is defined by the Sensors widget
     		//just standby for now
 
@@ -195,5 +242,60 @@ onPresetValueChange("processedData.presets",function(newData){
 	sendButton.click(function(event){
 		//send the value of the processedData textarea to the database value
     	setDatabaseValue("sensors.processedData.noFlashAndSend",processedDataTextarea.val());
+	});
+
+	presetDropdownPresetSelect.on("input",function(event){
+		//get the index of the selected preset
+		var selectedPresetTitle = presetDropdownPresetSelect[0].selectedIndex;
+		//get the preset value
+		var presetValue = currentProcessedDataPreset.presets[selectedPresetTitle].message;
+		//the value of the processed data textbox
+		processedDataTextarea.val(presetValue)
+	});
+
+	nextButton.click(function(event){
+		//get the index of the selected preset
+		var selectedPresetTitle = presetDropdownPresetSelect[0].selectedIndex;
+		//get the preset value
+		var presetValue = currentProcessedDataPreset.presets[selectedPresetTitle + 1].message;
+		//the value of the processed data textbox
+		processedDataTextarea.val(presetValue);
+		//update the preset dropdown too
+		presetDropdownPresetSelect.val(currentProcessedDataPreset.presets[selectedPresetTitle + 1].name);
+		//are we on the last preset?
+		//I'm honestly not 100% sure why we have to add 2
+		//here... but it's super late and I'm on so much 
+		//caffine I can't even think.  I'll figure it out
+		//tomorrow
+		if(selectedPresetTitle + 2 == currentProcessedDataPreset.presets.length){
+			//disable the next button
+			nextButton.prop("disabled",true);
+		}else{
+			//enable the next button
+			nextButton.prop("disabled",false);
+		}
+		//we can also assume that if we ever go
+		//"next preset", then we can go back
+		//a preset, so enable the back button
+		backButton.prop("disabled",false);
+	});
+
+	backButton.click(function(event){
+		//get the index of the selected preset
+		var selectedPresetTitle = presetDropdownPresetSelect[0].selectedIndex;
+		//get the preset value
+		var presetValue = currentProcessedDataPreset.presets[selectedPresetTitle - 1].message;
+		//the value of the processed data textbox
+		processedDataTextarea.val(presetValue);
+		//update the preset dropdown too
+		presetDropdownPresetSelect.val(currentProcessedDataPreset.presets[selectedPresetTitle - 1].name);
+		//are we on the first preset?
+		if(selectedPresetTitle - 1 < 0){
+			//disable the back button
+			backButton.prop("disabled",true);
+		}else{
+			//enable the back button
+			backButton.prop("disabled",false);
+		}
 	});
 });
