@@ -14,6 +14,7 @@
     //-Isaac Ostler
 
 Interstellar.addCoreWidget("Sensors",function(){
+    var thisWidget = this;
 
     var Sensors_Core_PresetDefaults = {
         "processedDataFlash" : 1, //0, no flash, 1, just processed data box, 2, flash the entire screen
@@ -123,6 +124,14 @@ Interstellar.addCoreWidget("Sensors",function(){
         drawSensorsGui();
     })
 
+    thisWidget.onResize = function(){
+        drawSensorsGui();
+    }
+
+    thisWidget.afterResize = function(){
+        init();
+    }
+    
     Interstellar.onPresetValueChange("sensors.sensorContacts",function(newData){
         if(newData == null){
             var genericContacts = 

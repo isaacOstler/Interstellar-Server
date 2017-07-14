@@ -1,4 +1,5 @@
 Interstellar.addCoreWidget("Power Distribution",function(){	
+	var thisWidget = this;
 	var PowerDistributionshipSystems = [];
 	var PowerDistributionPowerInUse = 0;
 	var PowerDistributionReactorOutput = 140;
@@ -15,6 +16,10 @@ Interstellar.addCoreWidget("Power Distribution",function(){
 		drawGUI();
 	});
 
+	thisWidget.onResize = function(){
+		drawGUI();
+	}
+	
 	Interstellar.onDatabaseValueChange("reactor.output",function(newData){
 		if(newData == null){
 			Interstellar.setDatabaseValue("reactor.output",140);

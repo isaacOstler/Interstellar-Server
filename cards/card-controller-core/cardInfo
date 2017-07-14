@@ -1,0 +1,1 @@
+{"cardName":"card-controller-core","cardType":"coreWidget","author":"Isaac Ostler","copyright":"Isaac Ostler","version":"1.0.0","description":"Allows the FD control over stations and station effects, such as reseting the database, flashing a station, or displaying something like 'Station Offline'"}

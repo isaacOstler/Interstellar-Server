@@ -2,6 +2,8 @@
 
 Interstellar.addCoreWidget("Processed Data",function(){
 
+	var thisWidget = this;
+
 	//the purpose of this variable is to ensure
 	//this widget's scripts are not initialized
 	//more than once
@@ -79,6 +81,9 @@ Interstellar.addCoreWidget("Processed Data",function(){
 			RETURNS: none
 			PURPOSE: draws the GUI for the widget, dependent on preset values
 		*/
+		thisWidget.onResize = function(event){
+			
+		}
 		function drawGUI(){
 			//if we need to draw the font size adjustment option
 			if(drawFontSizeAdjustmentGUI){
