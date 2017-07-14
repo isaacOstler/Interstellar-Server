@@ -93,9 +93,9 @@
 <div id="icon"></div>
 <script type="text/javascript">
 	document.getElementById("stationName").innerHTML = getStation().toUpperCase();
-	onDatabaseValueChange("ship.alertStatus",function(newData){
+	Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
 		if(newData == null){
-			setDatabaseValue("ship.alertStatus",5);
+			Interstellar.setDatabaseValue("ship.alertStatus",5);
 			return;
 		}
 		var alertStatusURL = "/resource?path=public/alertStatus" + newData + ".png&screen=menu";

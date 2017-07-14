@@ -1,10 +1,10 @@
-onDatabaseValueChange("ship.alertStatus",function(newData){
+Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
 	if(newData == null){
-		setDatabaseValue("ship.alertStatus",5);
+		Interstellar.setDatabaseValue("ship.alertStatus",5);
 		return;
 	}
 	$("#Alert_Status_Core_Alert_Label").html(newData);
-	interstellarSay("Alert Status " + newData);
+	Interstellar.say("Alert Status " + newData);
 	if(newData == 1){
 		$("#Alert_Status_Core_Alert_Label").css("color","red");
 	}
@@ -25,5 +25,5 @@ onDatabaseValueChange("ship.alertStatus",function(newData){
 });
 
 $(".alertStatusButton").on("click",function(event){
-	setDatabaseValue("ship.alertStatus",event.target.innerHTML);
+	Interstellar.setDatabaseValue("ship.alertStatus",event.target.innerHTML);
 })

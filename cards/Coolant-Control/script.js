@@ -77,8 +77,8 @@ $(".fillButton").on("mousedown",function(event){
 					return;
 				}
 				systemsThatTakeCoolant[indexOfSystemBeingFilled].coolantAmount += .005;
-				setDatabaseValue("coolant.systemCoolantLevels",systemsThatTakeCoolant);
-				setDatabaseValue("coolant.coolantInMainTank",amountOfCoolant - .0003);
+				Interstellar.setDatabaseValue("coolant.systemCoolantLevels",systemsThatTakeCoolant);
+				Interstellar.setDatabaseValue("coolant.coolantInMainTank",amountOfCoolant - .0003);
 			},0032);
 			$(document).mouseup(function(event){
 				if(coolantTransferInterval != undefined){
@@ -113,8 +113,8 @@ $(".drainButton").on("mousedown",function(event){
 					return;
 				}
 				systemsThatTakeCoolant[indexOfSystemBeingFilled].coolantAmount -= .005;
-				setDatabaseValue("coolant.systemCoolantLevels",systemsThatTakeCoolant);
-				setDatabaseValue("coolant.coolantInMainTank",amountOfCoolant + .0003);
+				Interstellar.setDatabaseValue("coolant.systemCoolantLevels",systemsThatTakeCoolant);
+				Interstellar.setDatabaseValue("coolant.coolantInMainTank",amountOfCoolant + .0003);
 			},0032);
 			$(document).mouseup(function(event){
 				if(coolantTransferInterval != undefined){
@@ -128,9 +128,9 @@ $(".drainButton").on("mousedown",function(event){
 	}
 });
 
-onDatabaseValueChange("coolant.systemCoolantLevels",function(newData){
+Interstellar.onDatabaseValueChange("coolant.systemCoolantLevels",function(newData){
 	if(newData == null){
-		setDatabaseValue("coolant.systemCoolantLevels",systemsThatTakeCoolant);
+		Interstellar.setDatabaseValue("coolant.systemCoolantLevels",systemsThatTakeCoolant);
 		return;
 	}
 	systemsThatTakeCoolant = newData;
@@ -168,9 +168,9 @@ var bubbleMaker = setInterval(function(){
 
 },0080);
 
-onDatabaseValueChange("coolant.coolantInMainTank",function(newData){
+Interstellar.onDatabaseValueChange("coolant.coolantInMainTank",function(newData){
 	if(newData == null){
-		setDatabaseValue("coolant.coolantInMainTank",1);
+		Interstellar.setDatabaseValue("coolant.coolantInMainTank",1);
 		return;
 	}
 	amountOfCoolant = newData;

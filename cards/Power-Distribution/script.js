@@ -5,10 +5,10 @@ var sizeOfCellsScaler = 70;
 var widthOfCell = 20;
 var totalPowerInUse = 0;
 var totalPowerAvaliable = 140;
-onDatabaseValueChange("ship.systems",function(newData){
+Interstellar.onDatabaseValueChange("ship.systems",function(newData){
 	if(newData == null){
 		$.getJSON('/resource?path=public/systemStatus.json', function(systemStatusJSONFile) {
-			setDatabaseValue("ship.systems",systemStatusJSONFile);
+			Interstellar.setDatabaseValue("ship.systems",systemStatusJSONFile);
 			return;
 		});
 		return;
@@ -17,9 +17,9 @@ onDatabaseValueChange("ship.systems",function(newData){
 	drawSystemPower();
 });
 
-onDatabaseValueChange("reactor.output",function(newData){
+Interstellar.onDatabaseValueChange("reactor.output",function(newData){
 	if(newData == null){
-		setDatabaseValue("reactor.output",140);
+		Interstellar.setDatabaseValue("reactor.output",140);
 		return;
 	}
 	totalPowerAvaliable = newData;
@@ -112,7 +112,7 @@ function drawSystemPower(){
 				var systemID = systemName.replace(/\s+/g, '-').toLowerCase();
 				if(systemID == systemClickedOn){
 						shipSystems[i].systemPower = parseInt(eventInfo[2]);
-						setDatabaseValue("ship.systems",shipSystems);
+						Interstellar.setDatabaseValue("ship.systems",shipSystems);
 						drawSystemPower();
 						playRandomBeep();
 						return;
@@ -129,7 +129,7 @@ function drawSystemPower(){
 						if(powerCell == -1){
 							if(shipSystems[i].systemPower != 0){
 								shipSystems[i].systemPower = 0;
-								setDatabaseValue("ship.systems",shipSystems);
+								Interstellar.setDatabaseValue("ship.systems",shipSystems);
 								drawSystemPower();
 								return;
 							}
@@ -161,7 +161,7 @@ function drawSystemPower(){
 							$("#systemArea").off();
 							for(var k = 0;k < shipSystems.length;k++){
 								if(shipSystems[k].systemName == systemName){
-									setDatabaseValue("ship.systems",shipSystems);
+									Interstellar.setDatabaseValue("ship.systems",shipSystems);
 									return;
 								}
 							}

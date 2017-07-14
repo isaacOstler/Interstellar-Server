@@ -2,10 +2,10 @@ var PowerDistributionshipSystems = [];
 var PowerDistributionPowerInUse = 0;
 var PowerDistributionReactorOutput = 140;
 
-onDatabaseValueChange("ship.systems",function(newData){
+Interstellar.onDatabaseValueChange("ship.systems",function(newData){
 	if(newData == null){
 		$.getJSON('/resource?path=public/systemStatus.json&screen=Power-Distribution-Core', function(systemStatusJSONFile) {
-			setDatabaseValue("ship.systems",systemStatusJSONFile);
+			Interstellar.setDatabaseValue("ship.systems",systemStatusJSONFile);
 			return;
 		});
 		return;
@@ -14,9 +14,9 @@ onDatabaseValueChange("ship.systems",function(newData){
 	drawGUI();
 });
 
-onDatabaseValueChange("reactor.output",function(newData){
+Interstellar.onDatabaseValueChange("reactor.output",function(newData){
 	if(newData == null){
-		setDatabaseValue("reactor.output",140);
+		Interstellar.setDatabaseValue("reactor.output",140);
 		return;
 	}
 	$("#Power-Distribution-Reactor-Output").val(newData);
@@ -43,16 +43,16 @@ $("#Power-Distribution-Reactor-Output").on("change",function(event){
 	}
 	if(newValue < 0){
 		event.target.value = 0;
-		setDatabaseValue("reactor.output",0);
+		Interstellar.setDatabaseValue("reactor.output",0);
 		return;
 	}
-	setDatabaseValue("reactor.output",newValue);
+	Interstellar.setDatabaseValue("reactor.output",newValue);
 });
 
 $("#Power-Distribution-FluxPower").on("click",function(event){
 	var randomAmount = Math.floor(Math.random() * (4 - -4 + 1)) + -4;
 	PowerDistributionReactorOutput += randomAmount;
-	setDatabaseValue("reactor.output",PowerDistributionReactorOutput);
+	Interstellar.setDatabaseValue("reactor.output",PowerDistributionReactorOutput);
 });
 
 function drawGUI(){
@@ -107,11 +107,11 @@ function drawGUI(){
 		if(newValue < 0){
 			event.target.value = 0;
 			PowerDistributionshipSystems[event.target.id.split("|")[1]].systemPower = 0;
-			setDatabaseValue("ship.systems",PowerDistributionshipSystems);
+			Interstellar.setDatabaseValue("ship.systems",PowerDistributionshipSystems);
 			return;
 		}
 		PowerDistributionshipSystems[event.target.id.split("|")[1]].systemPower = newValue;
-		setDatabaseValue("ship.systems",PowerDistributionshipSystems);
+		Interstellar.setDatabaseValue("ship.systems",PowerDistributionshipSystems);
 	});
 	$(".Power-Distribution-systemName").off();
 	$(".Power-Distribution-systemName").on("click",function(event){
@@ -119,7 +119,7 @@ function drawGUI(){
 		for(var i = 0;i < shipSystems.length;i++){
 			if(html == shipSystems[i].systemName){
 				shipSystems[i].isDamaged = !shipSystems[i].isDamaged;
-				setDatabaseValue("ship.systems",shipSystems);
+				Interstellar.setDatabaseValue("ship.systems",shipSystems);
 				return;
 			}
 		}

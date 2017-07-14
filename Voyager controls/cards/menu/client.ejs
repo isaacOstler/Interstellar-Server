@@ -163,7 +163,7 @@
 	var normalTopCurveBackgroundColor = "rgb(151,154,251)";
 	var redAlertTopCurveBackgroundColor = "rgb(251,13,32)";
 	document.getElementById("stationName").innerHTML = getStation().toUpperCase();
-	onDatabaseValueChange("ship.alertStatus",function(newData){
+	Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
 		document.getElementById("alertStatus").innerHTML = "ALERT STATUS: " + newData;
 		if(newData == 1){
 			$("#bottomMenu").css("background-color",menuBottomColorRedAlert);

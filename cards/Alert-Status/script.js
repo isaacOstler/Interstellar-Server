@@ -4,7 +4,7 @@ var source = document.createElement('source');
 var trainingModeActive = true;
 
 
-onDatabaseValueChange("ship.trainingMode",function(newData){
+Interstellar.onDatabaseValueChange("ship.trainingMode",function(newData){
     trainingModeActive = newData;
     if(newData){
         $("#training").css("display","block");
@@ -16,42 +16,42 @@ onDatabaseValueChange("ship.trainingMode",function(newData){
 })
 
 $("#alertStatus5Button").on("click",function(){
-    setDatabaseValue("ship.alertStatus",5);
+    Interstellar.setDatabaseValue("ship.alertStatus",5);
     if(trainingModeActive && tutorialStep == 6){
         tutorialStep++;
         loadCurrentTutorialText(3);
     }
 })
 $("#alertStatus4Button").on("click",function(){
-    setDatabaseValue("ship.alertStatus",4);
+    Interstellar.setDatabaseValue("ship.alertStatus",4);
     if(trainingModeActive && tutorialStep == 2){
         tutorialStep++;
         loadCurrentTutorialText(3);
     }
 })
 $("#alertStatus3Button").on("click",function(){
-    setDatabaseValue("ship.alertStatus",3);
+    Interstellar.setDatabaseValue("ship.alertStatus",3);
     if(trainingModeActive && tutorialStep == 3){
         tutorialStep++;
         loadCurrentTutorialText(3);
     }
 })
 $("#alertStatus2Button").on("click",function(){
-    setDatabaseValue("ship.alertStatus",2);
+    Interstellar.setDatabaseValue("ship.alertStatus",2);
     if(trainingModeActive && tutorialStep == 4){
         tutorialStep++;
         loadCurrentTutorialText(3);
     }
 })
 $("#alertStatus1Button").on("click",function(){
-    setDatabaseValue("ship.alertStatus",1);
+    Interstellar.setDatabaseValue("ship.alertStatus",1);
     if(trainingModeActive && tutorialStep == 5){
         tutorialStep++;
         loadCurrentTutorialText(3);
     }
 })
 
-onDatabaseValueChange("ship.alertStatus",function(newData){
+Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
     //loadCorrectVideo(newData);
     $("#alertStatus" + 1).css("background","");
     $("#alertStatus" + 2).css("background","");
@@ -107,7 +107,7 @@ function checkTutorialStepEvents(track){
         case 3:
             if(tutorialStep == 0){
                 $("#contentArea").css("opacity",".5");
-                setDatabaseValue("ship.alertStatus",5);
+                Interstellar.setDatabaseValue("ship.alertStatus",5);
             }
             if(tutorialStep == 2){
                 $("#contentArea").css("opacity","1");

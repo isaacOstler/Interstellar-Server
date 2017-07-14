@@ -1,5 +1,5 @@
 /*var Login_LoginNamesArray = [];
-onDatabaseValueChange("login.names",function(newValue){
+Interstellar.onDatabaseValueChange("login.names",function(newValue){
 	if(Array.isArray(newValue) == false){
 		console.log("setting default value of login.names to [none]")
 		setDatabaseValue("login.names",["none"]);

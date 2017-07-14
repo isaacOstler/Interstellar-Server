@@ -1,5 +1,5 @@
 
-onDatabaseValueChange("systems.efficency",function(newData){
+Interstellar.onDatabaseValueChange("systems.efficency",function(newData){
 	if(newData == null){
 		//we are not responsible for populating this field.  See the System-Status card
 		return;

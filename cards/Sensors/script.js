@@ -24,7 +24,7 @@ drawSensorsGui();
 init();
 animate();
 
-onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
+Interstellar.onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
     scanningObject = newData;
     if(newData == null || newData == undefined){
         //no scan
@@ -36,39 +36,39 @@ onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
     drawSensorsGui();
 });
 
-onDatabaseValueChange("sensors.externalScans.scanTime",function(newData){
+Interstellar.onDatabaseValueChange("sensors.externalScans.scanTime",function(newData){
     if(newData == null){
         return;
     }
     requiredScanTime = newData;
 });
 
-onDatabaseValueChange("sensors.processedData.doFlash",function(newData){
+Interstellar.onDatabaseValueChange("sensors.processedData.doFlash",function(newData){
     if(newData == null){
-        setDatabaseValue("sensors.processedData.doFlash",true);
+        Interstellar.setDatabaseValue("sensors.processedData.doFlash",true);
         return;
     }
     shouldFlashWhenThereIsProcessedData = newData;
 });
-onDatabaseValueChange("sensors.processedData.flashFullScreen",function(newData){
+Interstellar.onDatabaseValueChange("sensors.processedData.flashFullScreen",function(newData){
     if(newData == null){
-        setDatabaseValue("sensors.processedData.flashFullScreen",false);
+        Interstellar.setDatabaseValue("sensors.processedData.flashFullScreen",false);
         return;
     }
     flashFullScreen = newData;
 });
 
-onDatabaseValueChange("sensors.processedData.noFlashAndSend",function(newData){
+Interstellar.onDatabaseValueChange("sensors.processedData.noFlashAndSend",function(newData){
     if(newData == null){
-        setDatabaseValue("sensors.processedData.noFlashAndSend","");
+        Interstellar.setDatabaseValue("sensors.processedData.noFlashAndSend","");
         return;
     }
     $("#processedDataContainer").html(newData);
 });
 
-onDatabaseValueChange("sensors.processedData",function(newData){
+Interstellar.onDatabaseValueChange("sensors.processedData",function(newData){
     if(newData == null){
-        setDatabaseValue("sensors.processedData","");
+        Interstellar.setDatabaseValue("sensors.processedData","");
         return;
     }
     $("#processedDataContainer").html(newData);
@@ -103,9 +103,9 @@ onDatabaseValueChange("sensors.processedData",function(newData){
     },0100);
 })
 
-onDatabaseValueChange("ship.alertStatus",function(newData){
+Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
     if(newData == null){
-        setDatabaseValue("ship.alertStatus",5);
+        Interstellar.setDatabaseValue("ship.alertStatus",5);
         return;
     }
     alertStatus = newData;
@@ -113,10 +113,10 @@ onDatabaseValueChange("ship.alertStatus",function(newData){
 });
 //used to detect a change to the contacts on the database,
 //when we do detect a change we fire Sensors_Array_Core_drawSensorsArray()
-onDatabaseValueChange("sensors.contactAttributes",function(newData){
+Interstellar.onDatabaseValueChange("sensors.contactAttributes",function(newData){
     if(newData == null){
         //set the database value "sensors.contacts" to an empty array []
-        setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : [],"contactLastEdited" : "","lastChangedValue" : ""});
+        Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : [],"contactLastEdited" : "","lastChangedValue" : ""});
         //terminate the execution of this function, so we don't get errors
         return;
     }
@@ -125,11 +125,11 @@ onDatabaseValueChange("sensors.contactAttributes",function(newData){
     Sensors_Core_Sensors_ContactAttributesLastChangedValue = newData.lastChangedValue;
     Sensors_Array_Core_drawSensorsArray();
 });
-onDatabaseValueChange("sensors.contacts",function(newData){
+Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
     //if the database doesn't have the value "sensors.contacts" yet
     if(newData == null){
         //set the database value "sensors.contacts" to an empty array []
-        setDatabaseValue("sensors.contacts",[]);
+        Interstellar.setDatabaseValue("sensors.contacts",[]);
         //terminate the execution of this function, so we don't get errors
         return;
     }
@@ -628,10 +628,10 @@ $("#scanButton").click(function(event){
                 "timeRequired" : timeRequired
             }
         }
-        setDatabaseValue("sensors.externalScans.scanObject",scanningObject);
+        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",scanningObject);
     }else{
         //cancel a scan
-        setDatabaseValue("sensors.externalScans.scanObject",undefined);
+        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",undefined);
     }
 });
 /*
@@ -640,7 +640,7 @@ setInterval(function(){
         scanningObject.time.timePassed += .05;
         drawSensorsGui();
         if(scanningObject.time.timePassed >= scanningObject.time.timeRequired){
-            setDatabaseValue("sensors.externalScans.scanObject",undefined);
+            Interstellar.setDatabaseValue("sensors.externalScans.scanObject",undefined);
         }
     }
 },0010);*/

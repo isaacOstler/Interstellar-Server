@@ -25,7 +25,7 @@ function CoolantCoreCreateCoolantFlowInterval(speed){
 				return;
 
 			CoolantCoreTotalCoolant += CoolantCoreCoolantFlowRate;
-			setDatabaseValue("coolant.coolantInMainTank",CoolantCoreTotalCoolant);
+			Interstellar.setDatabaseValue("coolant.coolantInMainTank",CoolantCoreTotalCoolant);
 		},speed);
 	}
 }
@@ -88,16 +88,16 @@ $("#Coolant-Core-TotalCoolantBox").on("change",function(event){
 	}else if(castValue < 0){
 		castValue = 0;
 	}
-	setDatabaseValue("coolant.coolantInMainTank",castValue);
+	Interstellar.setDatabaseValue("coolant.coolantInMainTank",castValue);
 });
 
 $("#Coolant-Core-TotalCoolantSlider").on("click",function(event){
-	setDatabaseValue("coolant.coolantInMainTank",parseFloat(event.target.value));
+	Interstellar.setDatabaseValue("coolant.coolantInMainTank",parseFloat(event.target.value));
 });
 
-onDatabaseValueChange("coolant.coolantInMainTank",function(newData){
+Interstellar.onDatabaseValueChange("coolant.coolantInMainTank",function(newData){
 	if(newData == null){
-		setDatabaseValue("coolant.coolantInMainTank",1);
+		Interstellar.setDatabaseValue("coolant.coolantInMainTank",1);
 		return;
 	}
 	CoolantCoreTotalCoolant = newData;

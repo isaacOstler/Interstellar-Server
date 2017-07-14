@@ -3,7 +3,7 @@ var interval;
 var diagnosticObject = {};
 var runningDiagnostic = false;
 
-onDatabaseValueChange("systems.runningDiagnostic",function(newData){
+Interstellar.onDatabaseValueChange("systems.runningDiagnostic",function(newData){
 	console.log("Running callback for systems.runningDiagnostic (" + newData + ")");
 	if(newData == null){
 		return;
@@ -18,7 +18,7 @@ onDatabaseValueChange("systems.runningDiagnostic",function(newData){
 	}
 });
 
-onDatabaseValueChange("systems.currentDiagnostic",function(newData){
+Interstellar.onDatabaseValueChange("systems.currentDiagnostic",function(newData){
 	console.log("Running callback for systems.currentDiagnostic (" + newData + ")");
 	if(newData == null){
 		return;

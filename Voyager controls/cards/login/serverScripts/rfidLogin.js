@@ -10,7 +10,7 @@ var port = new SerialPort("/dev/cu.usbmodem1421", {
 	parser: SerialPort.parsers.readline('\n')
 });
 
-onDatabaseValueChange("arduinoTestVar",function(newData){
+Interstellar.onDatabaseValueChange("arduinoTestVar",function(newData){
 	if(newData == null){
 		setDatabaseValue("arduinoTestVar",0);
 		return;

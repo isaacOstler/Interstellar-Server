@@ -41,9 +41,9 @@ var Sensors_Core_PresetDefaults = {
 }
 var Sensors_Core_HasInit = false;
 
-onPresetValueChange("sensors.sensorsPrefrences",function(newData){
+Interstellar.onPresetValueChange("sensors.sensorsPrefrences",function(newData){
     if(newData == null){
-        setPresetValue("sensors.sensorsPrefrences",Sensors_Core_PresetDefaults);
+        Interstellar.setPresetValue("sensors.sensorsPrefrences",Sensors_Core_PresetDefaults);
         return;
     }
 
@@ -55,9 +55,9 @@ onPresetValueChange("sensors.sensorsPrefrences",function(newData){
 
     Sensors_core_updateDatabaseValuesRelatedToUserPrefs();
 
-    onDatabaseValueChange("sensors.graphical.colorType",function(newData){
+    Interstellar.onDatabaseValueChange("sensors.graphical.colorType",function(newData){
         if(newData == null){
-            setDatabaseValue("sensors.graphical.colorType",Sensors_Core_Presets.sensorsArrayColorType);
+            Interstellar.setDatabaseValue("sensors.graphical.colorType",Sensors_Core_Presets.sensorsArrayColorType);
             return;
         }
         Sensors_Core_Presets.sensorsArrayColorType = newData;
@@ -71,9 +71,9 @@ onPresetValueChange("sensors.sensorsPrefrences",function(newData){
             elementsToUpdate[i].addClass("Sensors_Core_colorType" + newData);
         }
     });
-    onDatabaseValueChange("sensors.graphical.drawGradient",function(newData){
+    Interstellar.onDatabaseValueChange("sensors.graphical.drawGradient",function(newData){
         if(newData == null){
-            setDatabaseValue("sensors.graphical.drawGradient",Sensors_Core_Presets.drawGradient);
+            Interstellar.setDatabaseValue("sensors.graphical.drawGradient",Sensors_Core_Presets.drawGradient);
             return;
         }
         Sensors_Core_Presets.drawGradient = newData;
@@ -121,7 +121,7 @@ $(document).ready(function(){
     drawSensorsGui();
 })
 
-onPresetValueChange("sensors.sensorContacts",function(newData){
+Interstellar.onPresetValueChange("sensors.sensorContacts",function(newData){
     if(newData == null){
         var genericContacts = 
         [
@@ -139,7 +139,7 @@ onPresetValueChange("sensors.sensorContacts",function(newData){
             ]
         }
         ]
-        setPresetValue("sensors.sensorContacts",genericContacts);
+        Interstellar.setPresetValue("sensors.sensorContacts",genericContacts);
         return;
     }
     Sensors_Core_SensorPresets = newData;
@@ -153,7 +153,7 @@ onPresetValueChange("sensors.sensorContacts",function(newData){
 
 //watch the ship.alertStatus on the database,
 //when it fires run this function
-onDatabaseValueChange("ship.alertStatus",function(newData){
+Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
     //if ship.alertStatus is null on the database 
     if(newData == null){
         //stop execution of this function, we will wait for it to be updated by somebody later
@@ -443,7 +443,7 @@ function Sensors_Array_Update_Animations_Interval(){
                             if(Sensors_Core_Sensors_ContactAttributes[k].contactID == contactAttributes.contactID){
                                 Sensors_Core_Sensors_ContactAttributes[k].contactIsActive = false;
                                 Sensors_Array_Core_drawContactsList();
-                                setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactAttributes.contactID});
+                                Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactAttributes.contactID});
                             }
                         }
                     }else{
@@ -555,7 +555,7 @@ function Sensors_Array_Update_Animations_Interval(){
                     newContactAttributes.splice(newContactAttributes.length,0,Sensors_Core_Sensors_ContactAttributes[i]);
                 }
             }
-            setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : newContactAttributes, "contactLastEdited" : "multiple"});
+            Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : newContactAttributes, "contactLastEdited" : "multiple"});
         }
         if(Sensors_Core_Sensors_Contacts.length > Sensors_Core_Sensors_ContactAttributes.length){
             console.log("There are more contacts than contacts attributes... deleting excess...");
@@ -568,7 +568,7 @@ function Sensors_Array_Update_Animations_Interval(){
             }
             Sensors_Core_Sensors_Contacts = newContactAttributes;
         }
-        setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
+        Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
         if(doneAnimating){
             clearInterval(Sensors_Core_AnimationInterval);
             Sensors_Core_AnimationInterval = undefined;
@@ -641,16 +641,16 @@ function Sensors_Array_Core_addNewContactToDatabase(name,xPos,yPos,icon,image,wi
     Sensors_Core_Sensors_ContactAttributes.splice(Sensors_Core_Sensors_ContactAttributes.length,0,newContactAttributes);
     Sensors_Core_ContactEditorCurrentContact = newContactAttributes;
     //update the database
-    setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
-    setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactID});
+    Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
+    Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactID});
 }
 
 //used to detect a change to the contacts on the database,
 //when we do detect a change we fire Sensors_Array_Core_drawSensorsArray()
-onDatabaseValueChange("sensors.contactAttributes",function(newData){
+Interstellar.onDatabaseValueChange("sensors.contactAttributes",function(newData){
     if(newData == null){
         //set the database value "sensors.contacts" to an empty array []
-        setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : [],"contactLastEdited" : "","lastChangedValue" : ""});
+        Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : [],"contactLastEdited" : "","lastChangedValue" : ""});
         //terminate the execution of this function, so we don't get errors
         return;
     }
@@ -664,11 +664,11 @@ onDatabaseValueChange("sensors.contactAttributes",function(newData){
     }
     Sensors_Array_Core_drawContactsList();
 });
-onDatabaseValueChange("sensors.contacts",function(newData){
+Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
     //if the database doesn't have the value "sensors.contacts" yet
     if(newData == null){
         //set the database value "sensors.contacts" to an empty array []
-        setDatabaseValue("sensors.contacts",[]);
+        Interstellar.setDatabaseValue("sensors.contacts",[]);
         //terminate the execution of this function, so we don't get errors
         return;
     }
@@ -786,7 +786,7 @@ function Sensors_Array_Core_drawContactsList(){
     $(".isVisibleAttributeToggle").off()
     $(".isVisibleAttributeToggle").click(function(event){
         Sensors_Core_Sensors_ContactAttributes[event.target.id].attributes.isVisible = !Sensors_Core_Sensors_ContactAttributes[event.target.id].attributes.isVisible;
-        setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_Sensors_ContactAttributes[event.target.id].contactID}); 
+        Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_Sensors_ContactAttributes[event.target.id].contactID}); 
     });
     $(".sensors-core-senorsContactsListItem").off();
     $(".sensors-core-senorsContactsListItem").click(function(event){
@@ -809,8 +809,8 @@ function Sensors_Array_Core_drawContactsList(){
                     Sensors_Array_RemoveContact(contactIDChanged);
                 }
             }
-            setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
-            setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactIDChanged});
+            Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
+            Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactIDChanged});
         }
         if(Sensors_Core_copyContactMode){
             var contactIDChanged = "";
@@ -878,7 +878,7 @@ function Sensors_Array_Core_Update_Contact_Editor(){
             if(Sensors_Core_ContactEditorCurrentContact.contactID == Sensors_Core_Sensors_ContactAttributes[i].contactID){
                 Sensors_Core_Sensors_ContactAttributes[i].name = event.target.value.toString().toUpperCase();
                 Sensors_Core_ContactEditorCurrentContact.name = event.target.value.toString().toUpperCase();
-                setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_Sensors_ContactAttributes[i].contactID, "lastChangedValue" : "name"});
+                Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_Sensors_ContactAttributes[i].contactID, "lastChangedValue" : "name"});
             }
         }
     });
@@ -891,7 +891,7 @@ function Sensors_Array_Core_Update_Contact_Editor(){
             if(Sensors_Core_ContactEditorCurrentContact.contactID == Sensors_Core_Sensors_ContactAttributes[i].contactID){
                 Sensors_Core_Sensors_ContactAttributes[i].height = newSize * .2;
                 Sensors_Core_Sensors_ContactAttributes[i].width = newSize * .2;
-                setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_Sensors_ContactAttributes[i].contactID});
+                Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_Sensors_ContactAttributes[i].contactID});
             }
         }
         $("#sensors-core-ContactEditor-SizeRangeMouseCatcher").mousemove(function(event){
@@ -903,7 +903,7 @@ function Sensors_Array_Core_Update_Contact_Editor(){
                 if(Sensors_Core_ContactEditorCurrentContact.contactID == Sensors_Core_Sensors_ContactAttributes[i].contactID){
                     Sensors_Core_Sensors_ContactAttributes[i].height = newSize * .2;
                     Sensors_Core_Sensors_ContactAttributes[i].width = newSize * .2;
-                    setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_Sensors_ContactAttributes[i].contactID});
+                    Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_Sensors_ContactAttributes[i].contactID});
                 }
             }
         });
@@ -1139,8 +1139,8 @@ $("#sensors-core-sensorsArray").mouseleave(function(event){
             }
         }
         Sensors_Core_MouseDragSelectionSelectedContacts = [];
-        setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
-        setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactLastEdited});
+        Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
+        Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactLastEdited});
         Sensors_Core_CurrentDragTarget = undefined;
         Sensors_Core_CurrentDragTargetIsDragging = false;
     }
@@ -1282,8 +1282,8 @@ $("#sensors-core-sensorsArray").mouseup(function(event){
         contactInformation.yPos = newY;
         contactInformation.wantedXPos = newX;
         contactInformation.wantedYPos = newY;
-        setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
-        setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_CurrentDragTarget.replace("_LIST_VIEW",""), "lastChangedValue" : "contactIsActive"});
+        Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
+        Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_CurrentDragTarget.replace("_LIST_VIEW",""), "lastChangedValue" : "contactIsActive"});
         Sensors_Core_CurrentDragTarget = undefined;
     }else{
         var speedToMoveContact = Sensors_Core_ContactMoveSpeed
@@ -1346,8 +1346,8 @@ function sensors_array_core_moveDraggedTarget(speedToMoveContact){
     Sensors_Core_CurrentDragTargetIsDragging = false;
     Sensors_Core_CurrentDragTarget = undefined;
     Sensors_Core_MouseDragSelectionSelectedContacts = [];
-    setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
-    setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : "multiple"});
+    Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
+    Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : "multiple"});
 }
 
 function init() {
@@ -1634,8 +1634,8 @@ function Sensors_Array_createBorder(width,name){
     Sensors_Core_Sensors_Contacts.splice(Sensors_Core_Sensors_Contacts.length,0,newContact);
     Sensors_Core_Sensors_ContactAttributes.splice(Sensors_Core_Sensors_ContactAttributes.length,0,newContactAttributes);
     //update the database
-    setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
-    setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactID});
+    Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
+    Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactID});
 }
 
 $("#Sensors-Core-ProgramsTabButton").click(function(){
@@ -1770,8 +1770,8 @@ function Sensors_Array_generateAsteroidField(densityFactor,asteroidsToSpawnAtATi
                 asteroidContacts.splice(Sensors_Core_Sensors_Contacts.length,0,newContact);
                 asteroidContactAttributes.splice(Sensors_Core_Sensors_ContactAttributes.length,0,newContactAttributes);
             }
-            setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts.concat(asteroidContacts));
-            setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes.concat(asteroidContactAttributes), "contactLastEdited" : "multiple"});
+            Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts.concat(asteroidContacts));
+            Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes.concat(asteroidContactAttributes), "contactLastEdited" : "multiple"});
         },densityFactor)
     }
     Sensors_Core_SensorPrograms.splice(Sensors_Core_SensorPrograms.length,0,programIntervalInformation);
@@ -1957,7 +1957,7 @@ $("#sensors-core-ContactEditorChangeIconButton").click(function(event){
                 if(Sensors_Core_Sensors_ContactAttributes[i].contactID == Sensors_Core_ContactEditorCurrentContact.contactID){
                     Sensors_Core_Sensors_ContactAttributes[i].icon = icons[iconIndex];
                     $("#sensors-core-ContactEditor-EditIconImage").attr("src","/resource?path=public/Contacts/" + icons[iconIndex] + "&screen=sensors-core");
-                    setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_Sensors_ContactAttributes[i].contactID, "lastChangedValue" : "icon"}); 
+                    Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : Sensors_Core_Sensors_ContactAttributes[i].contactID, "lastChangedValue" : "icon"}); 
                     return;
                 }
             }
@@ -2000,8 +2000,8 @@ function Sensors_Core_createPlanet(size,name,icon,image){
     }
     Sensors_Core_Sensors_ContactAttributes.splice(Sensors_Core_Sensors_ContactAttributes.length,0,newContactAttributes);
     Sensors_Core_Sensors_Contacts.splice(Sensors_Core_Sensors_Contacts.length,0,newContact);
-    setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
-    setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactID});
+    Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
+    Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactID});
 }
 function Sensors_Core_InstantiateNewNebula(spawnAmount,firstSpawn){
     var nebulaContacts = [];
@@ -2047,8 +2047,8 @@ function Sensors_Core_InstantiateNewNebula(spawnAmount,firstSpawn){
         nebulaContacts.splice(nebulaContacts.length,0,newContact);
         nebulaContactAttributes.splice(nebulaContactAttributes.length,0,newContactAttributes);
     }
-    setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts.concat(nebulaContacts));
-    setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes.concat(nebulaContactAttributes), "contactLastEdited" : "multiple"});
+    Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts.concat(nebulaContacts));
+    Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes.concat(nebulaContactAttributes), "contactLastEdited" : "multiple"});
 }
 function Sensors_Core_createNebula(densityFactor,nebulaElementsToSpawnAtATime){
     Sensors_Core_InstantiateNewNebula(nebulaElementsToSpawnAtATime,true);
@@ -2278,7 +2278,7 @@ $("#Sensor-Core-processedDataSettings-cancelbutton").click(function(event){
 $("#Sensor-Core-processedDataSettings-defaultbutton").click(function(event){
     Sensors_Core_Presets = Sensors_Core_PresetDefaults;
     Sensors_core_updateDatabaseValuesRelatedToUserPrefs();
-    setPresetValue("sensors.sensorsPrefrences",Sensors_Core_PresetDefaults);
+    Interstellar.setPresetValue("sensors.sensorsPrefrences",Sensors_Core_PresetDefaults);
     closeCoreWindow("Sensor-core-UserPrefsWindow",event);
 });
 $("#Sensor-Core-processedDataSettings-savebutton").click(function(event){
@@ -2362,7 +2362,7 @@ $("#Sensor-Core-processedDataSettings-savebutton").click(function(event){
     Sensors_Core_Presets.updateInterval = Number($("#Sensors-Core-functionalitySettings-UpdateInterval").val().replace(/\D/g,''));
 
     Sensors_core_updateDatabaseValuesRelatedToUserPrefs();
-    setPresetValue("sensors.sensorsPrefrences",Sensors_Core_Presets);
+    Interstellar.setPresetValue("sensors.sensorsPrefrences",Sensors_Core_Presets);
     closeCoreWindow("Sensor-core-UserPrefsWindow",event)
 });
 $("#Sensors-Core-functionalitySettings-AdvancedUpdateButton").click(function(event){
@@ -2372,19 +2372,19 @@ $("#Sensors-Core-functionalitySettings-AdvancedUpdateButton").click(function(eve
 });
 function Sensors_core_updateDatabaseValuesRelatedToUserPrefs(){
     if(Sensors_Core_Presets.processedDataFlash == 0){
-        setDatabaseValue("sensors.processedData.doFlash",false);
+        Interstellar.setDatabaseValue("sensors.processedData.doFlash",false);
     }else if(Sensors_Core_Presets.processedDataFlash == 1){
-        setDatabaseValue("sensors.processedData.doFlash",true);
-        setDatabaseValue("sensors.processedData.flashFullScreen",false);
+        Interstellar.setDatabaseValue("sensors.processedData.doFlash",true);
+        Interstellar.setDatabaseValue("sensors.processedData.flashFullScreen",false);
     }else{
-        setDatabaseValue("sensors.processedData.doFlash",true);
-        setDatabaseValue("sensors.processedData.flashFullScreen",true);
+        Interstellar.setDatabaseValue("sensors.processedData.doFlash",true);
+        Interstellar.setDatabaseValue("sensors.processedData.flashFullScreen",true);
     }
-    setDatabaseValue("sensors.processedData.typeOn",Sensors_Core_Presets.typeProcessedData);
+    Interstellar.setDatabaseValue("sensors.processedData.typeOn",Sensors_Core_Presets.typeProcessedData);
 
-    setDatabaseValue("sensors.processedData.allowFontSizeAdjustments",Sensors_Core_Presets.allowFontSizeAdjustments);
+    Interstellar.setDatabaseValue("sensors.processedData.allowFontSizeAdjustments",Sensors_Core_Presets.allowFontSizeAdjustments);
 
-    setDatabaseValue("sensors.graphical.drawGradient",Sensors_Core_Presets.drawGradient);
-    setDatabaseValue("sensors.graphical.colorType",Sensors_Core_Presets.sensorsArrayColorType);
+    Interstellar.setDatabaseValue("sensors.graphical.drawGradient",Sensors_Core_Presets.drawGradient);
+    Interstellar.setDatabaseValue("sensors.graphical.colorType",Sensors_Core_Presets.sensorsArrayColorType);
 }
 });

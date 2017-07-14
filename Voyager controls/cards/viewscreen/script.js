@@ -190,7 +190,7 @@ $(document).ready(function(event){
         }
 
         //document.getElementById("stationName").innerHTML = getStation().toUpperCase();
-        onDatabaseValueChange("shields.shieldStatus",function(newData){
+        Interstellar.onDatabaseValueChange("shields.shieldStatus",function(newData){
 
             var c = document.getElementById("shieldCanvas");
             var ctx = c.getContext("2d");
@@ -208,7 +208,7 @@ $(document).ready(function(event){
 
 
         })
-        onDatabaseValueChange("systems.efficency",function(newData){
+        Interstellar.onDatabaseValueChange("systems.efficency",function(newData){
             if(newData == null){
                 return; //the viewscreen does not handle setting up the database.
             }
@@ -232,7 +232,7 @@ $(document).ready(function(event){
             }
             $("#systemStatus").html(html);
         })
-        onDatabaseValueChange("ship.alertStatus",function(newData){
+        Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
             var redAlertInverseCContainer = "url('/resource?path=/public/inverse_c_container_red.png')";
             var yellowAlertinverseCContainer = "url('/resource?path=/public/inverse_c_container_yellow.png')";
             var inverseCContainer = "url('/resource?path=/public/inverse_c_container.png')";

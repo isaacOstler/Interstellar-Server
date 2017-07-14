@@ -1,9 +1,9 @@
 var transporterTargets = [];
 var isScanning = false;
 
-onDatabaseValueChange("transporters.isTransporting",function(newData){
+Interstellar.onDatabaseValueChange("transporters.isTransporting",function(newData){
 	if(newData == null){
-		setDatabaseValue("transporters.isTransporting",false);
+		Interstellar.setDatabaseValue("transporters.isTransporting",false);
 		return;
 	}
 	if(newData){
@@ -11,16 +11,16 @@ onDatabaseValueChange("transporters.isTransporting",function(newData){
 		$("#Transporters-Core-TransportDestination").css("background-color","red");
 		document.getElementById("Transporters-Core-AcceptButton").className = "disabled";
 		document.getElementById("Transporters-Core-DenyButton").className = "disabled";
-		interstellarSay("TRANSPORTING");
+		Interstellar.say("TRANSPORTING");
 	}else{
 		$("#Transporters-Core-TransportTarget").css("background-color","#00FFFF");
 		$("#Transporters-Core-TransportDestination").css("background-color","#00FFFF");
 	}
 })
 
-onDatabaseValueChange("transporters.target",function(newData){
+Interstellar.onDatabaseValueChange("transporters.target",function(newData){
 	if(newData == null){
-		setDatabaseValue("transporters.target","");
+		Interstellar.setDatabaseValue("transporters.target","");
 		return;
 	}
 	if(newData != ""){
@@ -30,9 +30,9 @@ onDatabaseValueChange("transporters.target",function(newData){
 	}
 })
 
-onDatabaseValueChange("transporters.destination",function(newData){
+Interstellar.onDatabaseValueChange("transporters.destination",function(newData){
 	if(newData == null){
-		setDatabaseValue("transporters.destination","");
+		Interstellar.setDatabaseValue("transporters.destination","");
 		return;
 	}
 	if(newData != ""){
@@ -43,12 +43,12 @@ onDatabaseValueChange("transporters.destination",function(newData){
 })
 
 $("#Transporters-Core-RemoveAllTargets").on("click",function(event){
-	setDatabaseValue("transporters.transportTargets",[]);
+	Interstellar.setDatabaseValue("transporters.transportTargets",[]);
 })
 
-onDatabaseValueChange("transporters.transportProgress",function(newData){
+Interstellar.onDatabaseValueChange("transporters.transportProgress",function(newData){
 	if(newData == null){
-		setDatabaseValue("transporters.transportProgress",0);
+		Interstellar.setDatabaseValue("transporters.transportProgress",0);
 		return;
 	}
 	$("#Transporters-Core-TransporterProgressLabel").html("TRANSPORT PROGRESS (" + Math.floor((newData * 100)) + "%)");
@@ -69,21 +69,21 @@ $("#Transporters-Core-AcceptButton").on("click",function(event){
 			}
 			newTransportObjects.splice(newTransportObjects.length,0,newTransportObject);
 		}
-		setDatabaseValue("transporters.transportTargets",newTransportObjects);
-		setDatabaseValue("transporters.isScanning",false);
+		Interstellar.setDatabaseValue("transporters.transportTargets",newTransportObjects);
+		Interstellar.setDatabaseValue("transporters.isScanning",false);
 	}
 });
 $("#Transporters-Core-DenyButton").on("click",function(event){
 	if(isScanning == true){
-		setDatabaseValue("transporters.transportTargets",[]);
-		setDatabaseValue("transporters.isScanning",false);
-		setDatabaseValue("transporters.noTargetsFound",true);
+		Interstellar.setDatabaseValue("transporters.transportTargets",[]);
+		Interstellar.setDatabaseValue("transporters.isScanning",false);
+		Interstellar.setDatabaseValue("transporters.noTargetsFound",true);
 	}
 });
 
-onDatabaseValueChange("transporters.isScanning",function(newData){
+Interstellar.onDatabaseValueChange("transporters.isScanning",function(newData){
 	if(newData == null){
-		setDatabaseValue("transporters.isScanning",false);
+		Interstellar.setDatabaseValue("transporters.isScanning",false);
 		return;
 	}
 	isScanning = newData;
@@ -92,7 +92,7 @@ onDatabaseValueChange("transporters.isScanning",function(newData){
 		$("#Transporters-Core-TransportDestination").css("background-color","red");
 		document.getElementById("Transporters-Core-AcceptButton").className = "enabledButton";
 		document.getElementById("Transporters-Core-DenyButton").className = "enabledButton";
-		interstellarSay("TRANSPORT SCAN");
+		Interstellar.say("TRANSPORT SCAN");
 	}else{
 		$("#Transporters-Core-TransportTarget").css("background-color","#00FFFF");
 		$("#Transporters-Core-TransportDestination").css("background-color","#00FFFF");
@@ -115,10 +115,10 @@ $("#Transporters-Core-numberOfTargets").on("change",function(event){
 		}
 		newTransportObjects.splice(newTransportObjects.length,0,newTransportObject);
 	}
-	setDatabaseValue("transporters.transportTargets",newTransportObjects);
+	Interstellar.setDatabaseValue("transporters.transportTargets",newTransportObjects);
 });
 
-onDatabaseValueChange("transporters.transportTargets",function(newData){
+Interstellar.onDatabaseValueChange("transporters.transportTargets",function(newData){
 	if(newData == null){
 		var newTransportObjects = [/*{
 			"name" : "Isaac",
@@ -137,7 +137,7 @@ onDatabaseValueChange("transporters.transportTargets",function(newData){
 			"xPos" : .12,
 			"yPos" : .35
 		}*/];
-		setDatabaseValue("transporters.transportTargets",newTransportObjects);
+		Interstellar.setDatabaseValue("transporters.transportTargets",newTransportObjects);
 		return;
 	}
 	transporterTargets = newData;

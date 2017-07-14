@@ -8,7 +8,7 @@ source.setAttribute('src', '/resource?path=public/AlertStatus1.mov');
 video.appendChild(source);
 video.play();
 
-onDatabaseValueChange("ship.trainingMode",function(newData){
+Interstellar.onDatabaseValueChange("ship.trainingMode",function(newData){
     trainingModeActive = newData;
     if(newData){
         $("#training").css("display","block");
@@ -55,7 +55,7 @@ $("#alertStatus1Button").on("click",function(){
     }
 })
 
-onDatabaseValueChange("ship.alertStatus",function(newData){
+Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
     loadCorrectVideo(newData);
     $("#alertStatus" + 1).css("background","");
     $("#alertStatus" + 2).css("background","");

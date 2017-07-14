@@ -138,10 +138,10 @@ var Sensor_Scans_Core_HasInit = false;
 
 //preset observers
 
-onPresetValueChange("sensor-scans-core.generalPrefrences",function(newData){
+Interstellar.onPresetValueChange("sensor-scans-core.generalPrefrences",function(newData){
 	if(newData == null){
 		console.log("general pref: " + JSON.stringify(Sensor_Scans_Core_PresetDefaults));
-		setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_PresetDefaults);
+		Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_PresetDefaults);
 		return;
 	}
 
@@ -224,7 +224,7 @@ sensor_scans_core_UpdateUserPrefs();
 
 //database observers
 
-onPresetValueChange("sensor-scans-core.autoResponseItemsPresets",function(presets){
+Interstellar.onPresetValueChange("sensor-scans-core.autoResponseItemsPresets",function(presets){
 	if(presets == null){
 		console.log(presets);
 		presets = 
@@ -243,20 +243,20 @@ onPresetValueChange("sensor-scans-core.autoResponseItemsPresets",function(preset
 			],
 			"external" : []
 		}
-		setDatabaseValue("sensor-scans-core.internalAutoResponseItems",presets);
-		setPresetValue("sensor-scans-core.autoResponseItemsPresets",presets);
+		Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",presets);
+		Interstellar.setPresetValue("sensor-scans-core.autoResponseItemsPresets",presets);
 		sensorScansCore_internalAutoResponsePresets = presets;
 	}else{
 		sensorScansCore_internalAutoResponsePresets = presets;
 		if(presets.internal[0].presets.length > 0){
-			setDatabaseValue("sensor-scans-core.internalAutoResponseItems",presets.internal[0].presets);
+			Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",presets.internal[0].presets);
 		}else{
-			setDatabaseValue("sensor-scans-core.internalAutoResponseItems",[]);
+			Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",[]);
 		}
 	}
 });
 
-onDatabaseValueChange("sensor-scans-core.internalAutoResponseItems",function(newData){
+Interstellar.onDatabaseValueChange("sensor-scans-core.internalAutoResponseItems",function(newData){
 	if(newData == null){
 		getPresetValue("sensor-scans-core.autoResponseItemsPresets",function(presets){
 			if(presets == null){
@@ -277,15 +277,15 @@ onDatabaseValueChange("sensor-scans-core.internalAutoResponseItems",function(new
 					],
 					"external" : []
 				}
-				setDatabaseValue("sensor-scans-core.internalAutoResponseItems",presets);
-				setPresetValue("sensor-scans-core.autoResponseItemsPresets",presets);
+				Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",presets);
+				Interstellar.setPresetValue("sensor-scans-core.autoResponseItemsPresets",presets);
 				sensorScansCore_internalAutoResponsePresets = presets;
 			}else{
 				sensorScansCore_internalAutoResponsePresets = presets;
 				if(presets.internal[0].presets.length > 0){
-					setDatabaseValue("sensor-scans-core.internalAutoResponseItems",presets.internal[0].presets);
+					Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",presets.internal[0].presets);
 				}else{
-					setDatabaseValue("sensor-scans-core.internalAutoResponseItems",[]);
+					Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",[]);
 				}
 			}
 		});
@@ -296,7 +296,7 @@ onDatabaseValueChange("sensor-scans-core.internalAutoResponseItems",function(new
 	}
 });
 
-onDatabaseValueChange("ship.rooms",function(newData){
+Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
 	if(newData == null){
 		return; //important, do not update rooms list here, this should
 		//ONLY be done by the ship control core widget!
@@ -305,9 +305,9 @@ onDatabaseValueChange("ship.rooms",function(newData){
 	sensor_scans_core_UpdateAutoResponseList();
 });
 
-onDatabaseValueChange("externalSensors.scanAnswer",function(newData){
+Interstellar.onDatabaseValueChange("externalSensors.scanAnswer",function(newData){
 	if(newData == null){
-		setDatabaseValue("externalSensors.scanAnswer", "");
+		Interstellar.setDatabaseValue("externalSensors.scanAnswer", "");
 		return;
 	}
 	sensorScansCore_externalScanAnswer = newData;
@@ -317,9 +317,9 @@ onDatabaseValueChange("externalSensors.scanAnswer",function(newData){
 	sensor_Scans_Core_UpdateBasedOnScanType();
 });
 
-onDatabaseValueChange("internalSensors.scanAnswer",function(newData){
+Interstellar.onDatabaseValueChange("internalSensors.scanAnswer",function(newData){
 	if(newData == null){
-		setDatabaseValue("internalSensors.scanAnswer", "");
+		Interstellar.setDatabaseValue("internalSensors.scanAnswer", "");
 		return;
 	}
 	sensorScansCore_internalScanAnswer = newData;
@@ -329,23 +329,23 @@ onDatabaseValueChange("internalSensors.scanAnswer",function(newData){
 	sensor_Scans_Core_UpdateBasedOnScanType();
 })
 
-onDatabaseValueChange("internalSensors.scanSpeedBoost",function(newData){
+Interstellar.onDatabaseValueChange("internalSensors.scanSpeedBoost",function(newData){
 	if(newData == null){
-		setDatabaseValue("internalSensors.scanSpeedBoost",sensorScansCore_InternalSpeedBoost);
+		Interstellar.setDatabaseValue("internalSensors.scanSpeedBoost",sensorScansCore_InternalSpeedBoost);
 		return;
 	}
 	sensorScansCore_InternalSpeedBoost = newData;
 })
 
-onDatabaseValueChange("externalSensors.scanSpeedBoost",function(newData){
+Interstellar.onDatabaseValueChange("externalSensors.scanSpeedBoost",function(newData){
 	if(newData == null){
-		setDatabaseValue("externalSensors.scanSpeedBoost",sensorScansCore_ExternalSpeedBoost);
+		Interstellar.setDatabaseValue("externalSensors.scanSpeedBoost",sensorScansCore_ExternalSpeedBoost);
 		return;
 	}
 	sensorScansCore_ExternalSpeedBoost = newData;
 });
 
-onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
+Interstellar.onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
 	var shouldAnnounce = Sensor_Scans_Core_Preset.notifyOnNewScan;
 	sensorScansCore_externalScanInfo = newData;
 	sensor_Scans_Core_UpdateBasedOnScanType();
@@ -356,13 +356,13 @@ onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
 		return;
 	}
 	if(sensorScansCore_externalScanInfo.time.timePassed >= sensorScansCore_externalScanInfo.time.timeRequired && sensorScansCore_externalScanAnswer == ""){
-		interstellarSay("EXTERNAL SCAN PENDING ANSWER!");
+		Interstellar.say("EXTERNAL SCAN PENDING ANSWER!");
 	}
 	if(newData == "canceled"){
-		interstellarSay("EXTERNAL SCAN CANCELED");
+		Interstellar.say("EXTERNAL SCAN CANCELED");
 		$("#Sensor-Scans-Core_ExternalSensorsProgressFill").css("width","0%");
 		$("#Sensor-Scans-Core_ExternalSensorsProgressLabel").html("EXTERNAL SCAN PROGRESS (0%)");
-		setDatabaseValue("sensors.externalScans.scanObject",undefined);
+		Interstellar.setDatabaseValue("sensors.externalScans.scanObject",undefined);
 		sensorScanCore_externalScanAnnounced = false;
 		if(sensorScansCore_ScanTypeSelected == "external"){
 			$("#Sensor-Scans-Core_ScanQuerry").prepend("(CANCELED)");
@@ -371,7 +371,7 @@ onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
 	}
 	if(!sensorScanCore_externalScanAnnounced){
 		if(shouldAnnounce){
-			interstellarSay("NEW EXTERNAL SCAN");
+			Interstellar.say("NEW EXTERNAL SCAN");
 		}
 		sensorScanCore_externalScanAnnounced = true;
 
@@ -406,7 +406,7 @@ onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
 	$("#Sensor-Scans-Core_ExternalSensorsProgressLabel").html("EXTERNAL SCAN PROGRESS (" + Math.floor(progress) + "%)");
 });
 
-onDatabaseValueChange("internalSensors.scanInfo",function(newData){
+Interstellar.onDatabaseValueChange("internalSensors.scanInfo",function(newData){
 	var shouldAnnounce = Sensor_Scans_Core_Preset.notifyOnNewScan;
 	var shouldAnnounceAutoAnswer = Sensor_Scans_Core_Preset.notifyOnAutoAnswer;
 
@@ -419,13 +419,13 @@ onDatabaseValueChange("internalSensors.scanInfo",function(newData){
 		return;
 	}
 	if(sensorScansCore_internalScanInfo.timePassed >= sensorScansCore_internalScanInfo.timeRequired && sensorScansCore_internalScanAnswer == ""){
-		interstellarSay("INTERNAL SCAN PENDING ANSWER!");
+		Interstellar.say("INTERNAL SCAN PENDING ANSWER!");
 	}
 	if(newData == "canceled"){
-		interstellarSay("INTERNAL SCAN CANCELED");
+		Interstellar.say("INTERNAL SCAN CANCELED");
 		$("#Sensor-Scans-Core_InternalSensorsProgressFill").css("width","0%");
 		$("#Sensor-Scans-Core_InternalSensorsProgressLabel").html("INTERNAL SCAN PROGRESS (0%)");
-		setDatabaseValue("internalSensors.scanInfo",null);
+		Interstellar.setDatabaseValue("internalSensors.scanInfo",null);
 		sensorScanCore_internalScanAnnounced = false;
 		if(sensorScansCore_ScanTypeSelected == "internal"){
 			$("#Sensor-Scans-Core_ScanQuerry").prepend("(CANCELED)");
@@ -454,10 +454,10 @@ onDatabaseValueChange("internalSensors.scanInfo",function(newData){
 						}
 						if(queryWeight <= thisQueryWeight){
 							queryWeight = thisQueryWeight;
-							setDatabaseValue("internalSensors.scanAnswer",sensorScansCore_internalAutoResponseItems[i].response.toUpperCase());
+							Interstellar.setDatabaseValue("internalSensors.scanAnswer",sensorScansCore_internalAutoResponseItems[i].response.toUpperCase());
 							if(!sensorScanCore_internalScanAnnounced){
 								if(shouldAnnounceAutoAnswer){
-									interstellarSay("INTERNAL SCAN AUTOMATICALLY ANSWERED");
+									Interstellar.say("INTERNAL SCAN AUTOMATICALLY ANSWERED");
 								}
 								sensorScanCore_internalScanAnnounced = true;
 							}
@@ -468,7 +468,7 @@ onDatabaseValueChange("internalSensors.scanInfo",function(newData){
 		}
 		if(!sensorScanCore_internalScanAnnounced){
 			if(shouldAnnounce){
-				interstellarSay("NEW INTERNAL SCAN");
+				Interstellar.say("NEW INTERNAL SCAN");
 			}
 			sensorScanCore_internalScanAnnounced = true;
 		}
@@ -548,7 +548,7 @@ function sensor_scans_core_UpdateUserPrefs(){
 			var index = $(event.target).attr("index")
 			console.log(index);
 			Sensor_Scans_Core_Preset.hotkeys.splice(index,1);
-			setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
+			Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
 		});
 	}else{
 		$(".Sensor-Scans-Core-UserPrefsWindow-hotkeysContainer-hotKeysList-hotkeyItem").off();
@@ -571,13 +571,13 @@ function sensor_scans_core_UpdateUserPrefs(){
 		}
 		var index = $(event.target).attr("keyIndex");
 		Sensor_Scans_Core_Preset.hotkeys[index].keyInfo = keyInfo;
-		setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
+		Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
 	});
 	$(".Sensor-Scans-Core-UserPrefsWindow-hotkeysContainer-hotKeysList-hotkeyItem-valueTextbox").off();
 	$(".Sensor-Scans-Core-UserPrefsWindow-hotkeysContainer-hotKeysList-hotkeyItem-valueTextbox").change(function(event){
 		var index = $(event.target).attr("keyIndex");
 		Sensor_Scans_Core_Preset.hotkeys[index].value = $(event.target).val();
-		setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
+		Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
 	});
 }
 
@@ -634,7 +634,7 @@ function sensor_scans_core_UpdateAutoResponseList(){
 		$(".Sensors-Scans-Core-AutoResponseOptions-tableItem").click(function(event){
 			var index = $(event.target).attr("index");
 			sensorScansCore_internalAutoResponseItems.splice(index,1);
-			setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
+			Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
 		});
 	}
 	//remove current event handlers
@@ -647,7 +647,7 @@ function sensor_scans_core_UpdateAutoResponseList(){
 		if(type == "internal"){
 			sensorScansCore_internalAutoResponseItems[index].isActive = ! sensorScansCore_internalAutoResponseItems[index].isActive;
 		}
-		setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
+		Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
 	});
 	//remove current event handlers
 	//so that we don't have old ones firing.
@@ -659,7 +659,7 @@ function sensor_scans_core_UpdateAutoResponseList(){
 		if(type == "internal"){
 			sensorScansCore_internalAutoResponseItems[index].location = $(event.target).val();
 		}
-		setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
+		Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
 	});
 	//remove current event handlers
 	//so that we don't have old ones firing.
@@ -671,7 +671,7 @@ function sensor_scans_core_UpdateAutoResponseList(){
 		if(type == "internal"){
 			sensorScansCore_internalAutoResponseItems[index].response = $(event.target).val();
 		}
-		setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
+		Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
 	});
 	//remove current event handlers
 	//so that we don't have old ones firing.
@@ -683,7 +683,7 @@ function sensor_scans_core_UpdateAutoResponseList(){
 		if(type == "internal"){
 			sensorScansCore_internalAutoResponseItems[index].query = $(event.target).val();
 		}
-		setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
+		Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
 	});
 }
 
@@ -835,7 +835,7 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 		}
 		var newProgress = event.offsetX / $(event.target).width();
 		sensorScansCore_internalScanInfo.timePassed = newProgress * sensorScansCore_internalScanInfo.timeRequired;
-		setDatabaseValue("internalSensors.scanInfo",sensorScansCore_internalScanInfo);
+		Interstellar.setDatabaseValue("internalSensors.scanInfo",sensorScansCore_internalScanInfo);
 	});
 
 	$("#Sensor-Scans-Core_InternalSensorsProgress").click(function(event){
@@ -844,19 +844,19 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 		}
 		var newProgress = event.offsetX / $(event.target).width();
 		sensorScansCore_internalScanInfo.timePassed = newProgress * sensorScansCore_internalScanInfo.timeRequired;
-		setDatabaseValue("internalSensors.scanInfo",sensorScansCore_internalScanInfo);
+		Interstellar.setDatabaseValue("internalSensors.scanInfo",sensorScansCore_internalScanInfo);
 	});
 
 	$("#Sensor-Scans-Core_InstantFinishButton").click(function(event){
 		if(sensorScansCore_ScanTypeSelected == "internal"){
 			if(sensorScansCore_internalScanInfo != null){
 				sensorScansCore_internalScanInfo.timePassed = sensorScansCore_internalScanInfo.timeRequired;
-				setDatabaseValue("internalSensors.scanInfo",sensorScansCore_internalScanInfo);
+				Interstellar.setDatabaseValue("internalSensors.scanInfo",sensorScansCore_internalScanInfo);
 			}
 		}else{
 			if(sensorScansCore_externalScanInfo != null){
 				sensorScansCore_externalScanInfo.time.timePassed = sensorScansCore_externalScanInfo.time.timeRequired;
-				setDatabaseValue("sensors.externalScans.scanObject",sensorScansCore_externalScanInfo);
+				Interstellar.setDatabaseValue("sensors.externalScans.scanObject",sensorScansCore_externalScanInfo);
 			}
 		}
 	});
@@ -865,10 +865,10 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 		var scanAnswer = $("#Sensor-ScansCore_ScanAnswerTextarea").val();
 		if(sensorScansCore_ScanTypeSelected == "internal"){
 		//answer internal scan
-		setDatabaseValue("internalSensors.scanAnswer",scanAnswer);
+		Interstellar.setDatabaseValue("internalSensors.scanAnswer",scanAnswer);
 	}else{
 		//answer external scan
-		setDatabaseValue("externalSensors.scanAnswer",scanAnswer);
+		Interstellar.setDatabaseValue("externalSensors.scanAnswer",scanAnswer);
 	}
 });
 
@@ -912,7 +912,7 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 			$(".Sensors-Scans-Core-AutoResponseOptions-tableItem").click(function(event){
 				var index = $(event.target).attr("index");
 				sensorScansCore_internalAutoResponseItems.splice(index,1);
-				setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
+				Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
 			});
 		}else{
 			$(".Sensors-Scans-Core-AutoResponseOptions-tableItem").remove("sensor-scans-core_deleteMode")
@@ -929,7 +929,7 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 			"presets" : presets
 		}
 		sensorScansCore_internalAutoResponsePresets.internal.splice(sensorScansCore_internalAutoResponsePresets.internal.length,0,presetObject);
-		setPresetValue("sensor-scans-core.autoResponseItemsPresets",sensorScansCore_internalAutoResponsePresets);
+		Interstellar.setPresetValue("sensor-scans-core.autoResponseItemsPresets",sensorScansCore_internalAutoResponsePresets);
 		$("#Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresets-newPreset").slideUp(function(){
 			$("#Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresets-newPreset-nameTextbox").val("");
 		});
@@ -943,7 +943,7 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 			"isActive" : false
 		}
 		sensorScansCore_internalAutoResponseItems.splice(sensorScansCore_internalAutoResponseItems.length,0,newQuery);
-		setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
+		Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponseItems);
 	});
 
 	$("#Sensors-Scans-Core-AutoResponseOptions-tableOptions-overridePresetCheckbox").change(function(event){
@@ -958,7 +958,7 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 				var index = $(event.target).attr("index")
 				console.log(index);
 				Sensor_Scans_Core_Preset.hotkeys.splice(index,1);
-				setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
+				Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
 			});
 		}else{
 			$(".Sensor-Scans-Core-UserPrefsWindow-hotkeysContainer-hotKeysList-hotkeyItem").off();
@@ -978,7 +978,7 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 			"value" : ""
 		}
 		Sensor_Scans_Core_Preset.hotkeys.splice(Sensor_Scans_Core_Preset.hotkeys.length,0,newHotkey);
-		setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
+		Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
 	});
 
 	$("#Sensors-Scans-Core-AutoResponseOptions-tableOptions-presetsDropdown").change(function(event){
@@ -986,9 +986,9 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 		for(var i = 0;i < sensorScansCore_internalAutoResponsePresets.internal.length;i++){
 			if(newPresetToLoad == sensorScansCore_internalAutoResponsePresets.internal[i].presetName){
 				if(overrideAutoResponseOptions){
-					setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponsePresets.internal[i].presets);
+					Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponsePresets.internal[i].presets);
 				}else{
-					setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponsePresets.internal[i].presets.concat(sensorScansCore_internalAutoResponseItems));
+					Interstellar.setDatabaseValue("sensor-scans-core.internalAutoResponseItems",sensorScansCore_internalAutoResponsePresets.internal[i].presets.concat(sensorScansCore_internalAutoResponseItems));
 				}
 			}
 		}
@@ -1026,7 +1026,7 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 		}else{
 			Sensor_Scans_Core_Preset.notifyOnNewScan = false;
 		}
-		setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
+		Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
 	});
 
 	$("#Sensor-Scans-Core-UserPrefsWindow-generalSettings-contentArea-announceAutoAnswerDropdown").change(function(event){
@@ -1035,16 +1035,16 @@ function sensor_Scans_Core_UpdateBasedOnScanType(){
 		}else{
 			Sensor_Scans_Core_Preset.notifyOnAutoAnswer = false;
 		}
-		setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
+		Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
 	});
 
 	$("#Sensor-Scans-Core-UserPrefsWindow-generalSettings-contentArea-externalSpeedBoostTextbox").on("change",function(event){
 		Sensor_Scans_Core_Preset.speedBoosts.external = $(event.target).val().replace(/[^\d.-]/g, '');
-		setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
+		Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
 	});
 
 	$("#Sensor-Scans-Core-UserPrefsWindow-generalSettings-contentArea-internalSpeedBoostTextbox").on("change",function(event){
 		Sensor_Scans_Core_Preset.speedBoosts.internal = $(event.target).val().replace(/[^\d.-]/g, '');
-		setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
+		Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
 	});
 });

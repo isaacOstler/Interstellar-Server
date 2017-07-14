@@ -14,7 +14,7 @@ function startSerialConnection(comName){
 
 	port.on('open', function() {
 		console.log("Connected to port!");
-		onDatabaseValueChange("coolant.coolantInMainTank",function(newData){
+		Interstellar.onDatabaseValueChange("coolant.coolantInMainTank",function(newData){
 			if(newData == null){
 				return;
 			}

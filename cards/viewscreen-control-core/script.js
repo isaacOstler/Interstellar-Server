@@ -1,11 +1,11 @@
 var ViewscreenControlCore_CurrentCard = 0;
 var ViewscreenControlCore_TaticalMaster;
 
-onDatabaseValueChange("viewscreen.tacticalMaster",function(newData){
+Interstellar.onDatabaseValueChange("viewscreen.tacticalMaster",function(newData){
 	if(newData == null){
 		return;
 	}
-	interstellarSay("New viewscreen tactical, " + newData.tacticalName);
+	Interstellar.say("New viewscreen tactical, " + newData.tacticalName);
 	ViewscreenControlCore_TaticalMaster = newData;
 	$("#Viewscreen-Control-Core_taticalNameTextbox").val(newData.tacticalName);
 });
@@ -23,7 +23,7 @@ function ViewscreenControlCore_drawCardsList(){
 	$(".Viewscreen-Control-Core_CardsListCard").off();
 	$(".Viewscreen-Control-Core_CardsListCard").click(function(event){
 		ViewscreenControlCore_CurrentCard = Number($(event.target).attr("currentCard"));
-		setDatabaseValue("viewscreen.forceToTacticalCard",ViewscreenControlCore_CurrentCard);
+		Interstellar.setDatabaseValue("viewscreen.forceToTacticalCard",ViewscreenControlCore_CurrentCard);
 	});
 	$("#Viewscreen-Control-Core_CardsList").stop();
 	$("#Viewscreen-Control-Core_CardsList").animate({scrollTop : ViewscreenControlCore_CurrentCard * 16 + "px"});
@@ -31,16 +31,16 @@ function ViewscreenControlCore_drawCardsList(){
 
 $("#Viewscreen-Control-Core_nextCardButton").click(function(event){
 	ViewscreenControlCore_CurrentCard++;
-	setDatabaseValue("viewscreen.forceToTacticalCard",ViewscreenControlCore_CurrentCard);
+	Interstellar.setDatabaseValue("viewscreen.forceToTacticalCard",ViewscreenControlCore_CurrentCard);
 });
 $("#Viewscreen-Control-Core_lastCardButton").click(function(event){
 	ViewscreenControlCore_CurrentCard--;
 	if(ViewscreenControlCore_CurrentCard == -1){
 		ViewscreenControlCore_CurrentCard = ViewscreenControlCore_TaticalMaster.cards.length - 1;
 	}
-	setDatabaseValue("viewscreen.forceToTacticalCard",ViewscreenControlCore_CurrentCard);
+	Interstellar.setDatabaseValue("viewscreen.forceToTacticalCard",ViewscreenControlCore_CurrentCard);
 });
-onDatabaseValueChange("viewscreen.currentCard",function(newData){
+Interstellar.onDatabaseValueChange("viewscreen.currentCard",function(newData){
 	if(newData == null){
 		return;
 	}
@@ -51,6 +51,6 @@ onDatabaseValueChange("viewscreen.currentCard",function(newData){
 
 $("#Viewscreen-Control-Core_currentCardTextbox").on("change",function(event){
 	var card = event.target.value - 1;
-	setDatabaseValue("viewscreen.forceToTacticalCard",card);
+	Interstellar.setDatabaseValue("viewscreen.forceToTacticalCard",card);
 	event.target.value = ViewscreenControlCore_CurrentCard;
 });

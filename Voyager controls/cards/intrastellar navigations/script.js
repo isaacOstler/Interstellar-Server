@@ -28,7 +28,7 @@ function init() {
     renderer.setSize( screenWidth, screenHeight );
 
     document.body.appendChild(renderer.domElement);
-    onDatabaseValueChange("physics.movingObjects",function(newData){
+    Interstellar.onDatabaseValueChange("physics.movingObjects",function(newData){
         if(newData == null || newData == undefined){
             initMesh(0,0,0,.1,0,0,0,0,0);
             initMesh(0,0,0,0,.1,0,0,0,0);

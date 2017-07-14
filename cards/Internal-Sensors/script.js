@@ -3,14 +3,14 @@ var roomScanTime = {"light" : 10,"normal" : 20,"heavy" : 30};
 var timeRequired = 10;
 var shipRooms = [];
 
-onDatabaseValueChange("ship.roomScanTime",function(newData){
+Interstellar.onDatabaseValueChange("ship.roomScanTime",function(newData){
 	if(newData == null){
 		return;
 	}
 	roomScanTime = newData;
 })
 
-onDatabaseValueChange("ship.rooms",function(newData){
+Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
 	if(newData == null){
 		return; //it's not our job to update this, wait for it to update.  (Typically this is core)
 		//you don't want this on more than one station though, or you can get conflicting room inits.
@@ -84,9 +84,9 @@ function calculateEstimatedScanTime(numberOfRooms){
 	$("#amountOfSeconds").html(timeRequired + " SECONDS");
 }
 
-onDatabaseValueChange("internalSensors.scanAnswer",function(newData){
+Interstellar.onDatabaseValueChange("internalSensors.scanAnswer",function(newData){
 	if(newData == null){
-		setDatabaseValue("internalSensors.scanAnswer","");
+		Interstellar.setDatabaseValue("internalSensors.scanAnswer","");
 		return;
 	}
 	$("#scanAnswerText").html(newData);
@@ -107,7 +107,7 @@ $('#shipPicture').on('dragstart', function(event) { event.preventDefault(); });
 
 	*/
 	$("#cancelScanButton").on("click",function(event){
-		setDatabaseValue("internalSensors.scanInfo","canceled");
+		Interstellar.setDatabaseValue("internalSensors.scanInfo","canceled");
 		$("#queryTextbox").val("");
 	});
 
@@ -121,11 +121,11 @@ $('#shipPicture').on('dragstart', function(event) { event.preventDefault(); });
 			"scanType" : $("#scanType").val()
 		}
 		console.log(scanInfo);
-		setDatabaseValue("internalSensors.scanAnswer","");
-		setDatabaseValue("internalSensors.scanInfo",scanInfo);
+		Interstellar.setDatabaseValue("internalSensors.scanAnswer","");
+		Interstellar.setDatabaseValue("internalSensors.scanInfo",scanInfo);
 	});
 
-	onDatabaseValueChange("internalSensors.scanInfo",function(newData){
+	Interstellar.onDatabaseValueChange("internalSensors.scanInfo",function(newData){
 		if(newData == null || newData == "canceled"){
 			$("#scanAnswerView").slideDown();
 			$("#beginScanButton").removeClass("disabledButton");

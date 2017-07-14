@@ -3,9 +3,9 @@ var scanningInterval = undefined;
 var scanAnswer = "";
 var updateSpeed = 100; // this is how long the interval to update the time passed will wait;
 
-onDatabaseValueChange("internalSensors.scanAnswer",function(newData){
+Interstellar.onDatabaseValueChange("internalSensors.scanAnswer",function(newData){
 	if(newData == null){
-		setDatabaseValue("internalSensors.scanAnswer","");
+		Interstellar.setDatabaseValue("internalSensors.scanAnswer","");
 		return;
 	}
 	scanAnswer = newData;
@@ -13,11 +13,11 @@ onDatabaseValueChange("internalSensors.scanAnswer",function(newData){
 		return;
 	}
 	if(scanningObject.timePassed >= scanningObject.timeRequired && scanAnswer != ""){
-		setDatabaseValue("internalSensors.scanInfo",null);
+		Interstellar.setDatabaseValue("internalSensors.scanInfo",null);
 	}
 })
 
-onDatabaseValueChange("internalSensors.scanInfo",function(newData){
+Interstellar.onDatabaseValueChange("internalSensors.scanInfo",function(newData){
 	scanningObject = newData;
 	if(scanningInterval != undefined){
 		clearInterval(scanningInterval);
@@ -29,10 +29,10 @@ onDatabaseValueChange("internalSensors.scanInfo",function(newData){
 	scanningInterval = setInterval(function(){
 		if(scanningObject.timePassed < scanningObject.timeRequired){
 			scanningObject.timePassed += updateSpeed / 1000;
-			setDatabaseValue("internalSensors.scanInfo",scanningObject)
+			Interstellar.setDatabaseValue("internalSensors.scanInfo",scanningObject)
 		}else{;
 			if(scanningObject.timePassed >= scanningObject.timeRequired && scanAnswer != ""){
-				setDatabaseValue("internalSensors.scanInfo",null);
+				Interstellar.setDatabaseValue("internalSensors.scanInfo",null);
 			}
 		}
 	},updateSpeed);

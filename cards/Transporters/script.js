@@ -20,14 +20,14 @@ var noTargetsFound = false;
 drawTargetLockGUI();
 xPosForXBar = $("#xTarget").width() / 2;
 
-onDatabaseValueChange("transporters.noTargetsFound",function(newData){
+Interstellar.onDatabaseValueChange("transporters.noTargetsFound",function(newData){
 	if(newData == null){
-		setDatabaseValue("transporters.noTargetsFound",false);
+		Interstellar.setDatabaseValue("transporters.noTargetsFound",false);
 		return;
 	}
 	noTargetsFound = newData;
 	if(newData == true){
-		setDatabaseValue("transporters.noTargetsFound",false);
+		Interstellar.setDatabaseValue("transporters.noTargetsFound",false);
 		$("#scanningLabel").css("background-color","red");
 		$("#scanningLabel").html("NO TARGET FOUND");
 		setTimeout(function(){
@@ -39,7 +39,7 @@ onDatabaseValueChange("transporters.noTargetsFound",function(newData){
 	}
 })
 
-onDatabaseValueChange("transporters.transportTargets",function(newData){
+Interstellar.onDatabaseValueChange("transporters.transportTargets",function(newData){
 	if(newData == null){
 		var newTransportObjects = [/*{
 			"name" : "Isaac",
@@ -58,16 +58,16 @@ onDatabaseValueChange("transporters.transportTargets",function(newData){
 			"xPos" : .12,
 			"yPos" : .35
 		}*/];
-		setDatabaseValue("transporters.transportTargets",newTransportObjects);
+		Interstellar.setDatabaseValue("transporters.transportTargets",newTransportObjects);
 		return;
 	}
 	transportObjects = newData;
 	drawTargetLockGUI();
 })
 
-onDatabaseValueChange("transporters.isScanning",function(newData){
+Interstellar.onDatabaseValueChange("transporters.isScanning",function(newData){
 	if(newData == null){
-		setDatabaseValue("transporters.isScanning",false);
+		Interstellar.setDatabaseValue("transporters.isScanning",false);
 		return;
 	}
 	isScanning = newData;
@@ -116,17 +116,17 @@ onDatabaseValueChange("transporters.isScanning",function(newData){
 	}
 })
 
-onDatabaseValueChange("transporters.destination",function(newData){
+Interstellar.onDatabaseValueChange("transporters.destination",function(newData){
 	if(newData == null){
-		setDatabaseValue("#transporters.destination","");
+		Interstellar.setDatabaseValue("#transporters.destination","");
 		return;
 	}
 	$("#destination").val(newData);
 })
 
-onDatabaseValueChange("transporters.target",function(newData){
+Interstellar.onDatabaseValueChange("transporters.target",function(newData){
 	if(newData == null){
-		setDatabaseValue("#transporters.target","");
+		Interstellar.setDatabaseValue("#transporters.target","");
 		return;
 	}
 	$("#target").val(newData);
@@ -134,17 +134,17 @@ onDatabaseValueChange("transporters.target",function(newData){
 
 $("#scanButton").on("click",function(event){
 	if(isScanning != true){
-		setDatabaseValue("transporters.target",$("#target").val());
-		setDatabaseValue("transporters.destination",$("#destination").val());
-		setDatabaseValue("transporters.transportTargets",[]);
-		setDatabaseValue("transporters.isScanning",true);
+		Interstellar.setDatabaseValue("transporters.target",$("#target").val());
+		Interstellar.setDatabaseValue("transporters.destination",$("#destination").val());
+		Interstellar.setDatabaseValue("transporters.transportTargets",[]);
+		Interstellar.setDatabaseValue("transporters.isScanning",true);
 	}
 });
 $("#cancelButton").on("click",function(event){
 	if(isScanning != false){
-		setDatabaseValue("transporters.target","");
-		setDatabaseValue("transporters.destination","");
-		setDatabaseValue("transporters.isScanning",false);
+		Interstellar.setDatabaseValue("transporters.target","");
+		Interstellar.setDatabaseValue("transporters.destination","");
+		Interstellar.setDatabaseValue("transporters.isScanning",false);
 	}
 })
 function drawTargetLockGUI(){
@@ -218,7 +218,7 @@ $("#targetLock").mousemove(function(event){
 	}
 })
 
-onDatabaseValueChange("ship.systems",function(newData){
+Interstellar.onDatabaseValueChange("ship.systems",function(newData){
 	console.log(newData);
 	if(newData == null){
 		return;
@@ -255,9 +255,9 @@ $("#sensor").mouseover(function(event){
 	}
 });
 
-onDatabaseValueChange("transporters.isTransporting",function(newData){
+Interstellar.onDatabaseValueChange("transporters.isTransporting",function(newData){
 	if(newData == null){
-		setDatabaseValue("transporters.isTransporting",false);
+		Interstellar.setDatabaseValue("transporters.isTransporting",false);
 		return;
 	}
 	if(newData){
@@ -281,14 +281,14 @@ $("#sensor").mousemove(function(event){
 		transportProgress -= .002;
 		$("#powerLevels").css("height",100 * transportProgress + "%");
 		$("#sensor").css("bottom",((100 * transportProgress) - 0.5) + "%");
-		setDatabaseValue("transporters.transportProgress",transportProgress);
+		Interstellar.setDatabaseValue("transporters.transportProgress",transportProgress);
 	}else if(event.pageY < lastDirection){
 		//movingUp
 		transportProgress += .002;
 		$("#powerLevels").css("height",100 * transportProgress + "%");
 		$("#sensor").css("height","2%");
 		$("#sensor").css("bottom",((100 * transportProgress) - 0.5) + "%");
-		setDatabaseValue("transporters.transportProgress",transportProgress);
+		Interstellar.setDatabaseValue("transporters.transportProgress",transportProgress);
 	}
 	if(transportProgress >= .96){
 		transportInProgress = true;
@@ -303,10 +303,10 @@ $("#sensor").mousemove(function(event){
 				$("#target").val("");
 				$("#destination").val("");
 			}
-			setDatabaseValue("transporters.transportTargets",arrayOfTransporterTargets);
+			Interstellar.setDatabaseValue("transporters.transportTargets",arrayOfTransporterTargets);
 		}
-		setDatabaseValue("transporters.isTransporting",true);
-		setDatabaseValue("transporters.transportProgress",0);
+		Interstellar.setDatabaseValue("transporters.isTransporting",true);
+		Interstellar.setDatabaseValue("transporters.transportProgress",0);
 		transportAnimation = setInterval(function(){
 			transportProgress -= .002;
 			$("#powerLevels").css("height",100 * transportProgress + "%");
@@ -318,7 +318,7 @@ $("#sensor").mousemove(function(event){
 				clearInterval(transportAnimation);
 				transportAnimation = undefined;
 				$("#sensor").css("bottom",1 + "%");
-				setDatabaseValue("transporters.isTransporting",false);
+				Interstellar.setDatabaseValue("transporters.isTransporting",false);
 			}
 		},0010);
 		lastDirection = 0;
@@ -336,7 +336,7 @@ $("#sensor").mouseout(function(event){
 			return;
 		}
 		transportProgress -= .00075;
-		setDatabaseValue("transporters.transportProgress",transportProgress);
+		Interstellar.setDatabaseValue("transporters.transportProgress",transportProgress);
 		$("#powerLevels").css("height",100 * transportProgress + "%");
 		$("#sensor").css("bottom",((100 * transportProgress) - 0.5) + "%");
 	},0003);

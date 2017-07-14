@@ -15,10 +15,10 @@ var selectedMessage = -1;
 
 	*/
 
-	onDatabaseValueChange("communications.longRangeCommCyphers",function(newData){
+	Interstellar.onDatabaseValueChange("communications.longRangeCommCyphers",function(newData){
 		if(newData == null){
 			$.getJSON('/resource?path=public/cyphers.json', function(cyphers) {
-				setDatabaseValue("communications.longRangeCommCyphers",cyphers);
+				Interstellar.setDatabaseValue("communications.longRangeCommCyphers",cyphers);
 				return;
 			});
 			return;
@@ -46,7 +46,7 @@ var selectedMessage = -1;
 			var formatedString = decodeMessage(encodeMessage(commMessages[selectedMessage].message,commMessages[selectedMessage].cypher),key);
 			if(commMessages[selectedMessage].message == formatedString){
 				commMessages[selectedMessage].hasBeenDecoded = true;
-				setDatabaseValue("communications.longRangeMessages",commMessages) 
+				Interstellar.setDatabaseValue("communications.longRangeMessages",commMessages) 
 			}
 			let finalMessage = "";
 			let intervalCount = 0;
@@ -80,7 +80,7 @@ var selectedMessage = -1;
 	});
 
 
-	onDatabaseValueChange("communications.longRangeMessages",function(newData){
+	Interstellar.onDatabaseValueChange("communications.longRangeMessages",function(newData){
 		if(newData == null){
 			var template = [
 			{
@@ -116,7 +116,7 @@ var selectedMessage = -1;
 				"message" : "LOL!  WE SENT 2 MESSAGES TO OURSELVES!!"
 			}
 			]
-			setDatabaseValue("communications.longRangeMessages",template);
+			Interstellar.setDatabaseValue("communications.longRangeMessages",template);
 			return;
 		}
 		commMessages = newData;

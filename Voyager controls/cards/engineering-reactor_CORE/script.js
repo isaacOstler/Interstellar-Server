@@ -1,4 +1,4 @@
-onDatabaseValueChange("engineering.reactorStatus.reactorStress",function(newValue){
+Interstellar.onDatabaseValueChange("engineering.reactorStatus.reactorStress",function(newValue){
 	if(newValue == null){
 		setDatabaseValue("engineering.reactorStatus.reactorStress", .1);
 		return;

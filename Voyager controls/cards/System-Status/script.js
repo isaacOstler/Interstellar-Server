@@ -11,7 +11,7 @@ var selectedDiagnosticLevel = 1;
 var checkTimer = undefined;
 
 $.getJSON('/resource?path=public/systemStatus.json', function(systemStatusJSONFile) {
-	onDatabaseValueChange("systems.efficency",function(newData){
+	Interstellar.onDatabaseValueChange("systems.efficency",function(newData){
 		if(newData == null){
 			setDatabaseValue("systems.efficency",systemStatusJSONFile);
 			return;
@@ -114,7 +114,7 @@ function getTimePassedInSeconds(timeA,timeB){
 	console.log("Hours: " + hours + " Minutes:" + minutes + " Seconds:" + seconds + " Miliseconds:" + miliseconds);
 	return 0;
 }
-onDatabaseValueChange("systems.currentDiagnostic",function(newData){
+Interstellar.onDatabaseValueChange("systems.currentDiagnostic",function(newData){
 	console.log(newData);
 	var progress = (newData.timePassed / newData.timeRequired) * 100;
 	$("#diagnosticProgress").html(progress + "% COMPLETE");

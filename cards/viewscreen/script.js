@@ -23,21 +23,21 @@ var movingIconsObjects =
         ];
 var tacticalMaster = getViewscreenTacticalMaster();
 $(document).ready(function(event){
-    setDatabaseValue("viewscreen.tacticalMaster",tacticalMaster);
+    Interstellar.setDatabaseValue("viewscreen.tacticalMaster",tacticalMaster);
     loadCard(0); //load the first card
 });
 
-onDatabaseValueChange("viewscreen.forceToTacticalCard",function(newData){
+Interstellar.onDatabaseValueChange("viewscreen.forceToTacticalCard",function(newData){
     if(newData == null){
         return; //no command;
     }
     cardNumber = newData;
     loadCard(newData); //go to card
-    setDatabaseValue("viewscreen.forceToTacticalCard",null); //reset
+    Interstellar.setDatabaseValue("viewscreen.forceToTacticalCard",null); //reset
 });
 
         function loadCard(index){
-            setDatabaseValue("viewscreen.currentCard",index);
+            Interstellar.setDatabaseValue("viewscreen.currentCard",index);
             console.log(tacticalMaster);
             keyPressCallbacks = [];
             var movingIcons = document.getElementById("movingIcons");
@@ -208,9 +208,9 @@ onDatabaseValueChange("viewscreen.forceToTacticalCard",function(newData){
         }
 
         //document.getElementById("stationName").innerHTML = getStation().toUpperCase();
-        onDatabaseValueChange("shields.shieldStrength",function(newData){
+        Interstellar.onDatabaseValueChange("shields.shieldStrength",function(newData){
             if(newData == null){
-                setDatabaseValue("shields.shieldStrength",[1,1,1,1,1,1,1,1,1,1]);
+                Interstellar.setDatabaseValue("shields.shieldStrength",[1,1,1,1,1,1,1,1,1,1]);
                 return;
             }
             shieldCanvas.width = $("#shipView").width() *.8;
@@ -238,7 +238,7 @@ onDatabaseValueChange("viewscreen.forceToTacticalCard",function(newData){
 
 
         })
-        onDatabaseValueChange("ship.systems",function(newData){
+        Interstellar.onDatabaseValueChange("ship.systems",function(newData){
             if(newData == null){
                 return; //the viewscreen does not handle setting up the database.
             }
@@ -271,7 +271,7 @@ onDatabaseValueChange("viewscreen.forceToTacticalCard",function(newData){
             //add animation here
         })
 
-        onDatabaseValueChange("ship.alertStatus",function(newData){
+        Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
             var redAlertInverseCContainer = "url('/resource?path=/public/inverse_c_container_red.png')";
             var yellowAlertinverseCContainer = "url('/resource?path=/public/inverse_c_container_yellow.png')";
             var inverseCContainer = "url('/resource?path=/public/inverse_c_container.png')";
