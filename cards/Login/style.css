@@ -1,0 +1,72 @@
+@keyframes rotate {
+    0%   {transform: rotateY(0deg);filter:drop-shadow(0px 0px 20px #1764ff) brightness(1.7) contrast(1);}
+    25%  {transform: rotateY(90deg);filter:drop-shadow(0px 0px 2px #1764ff) brightness(.8) contrast(1.5);}
+    50%  {transform: rotateY(180deg);filter:drop-shadow(0px 0px 20px #1764ff) brightness(1.7) contrast(1);}
+    75% {transform: rotateY(270deg);filter:drop-shadow(0px 0px 2px #1764ff) brightness(.8) contrast(1.5);}
+    100% {transform: rotateY(360deg);filter:drop-shadow(0px 0px 20px #1764ff) brightness(1.7) contrast(1);}
+}
+#loginNameHeader{
+	position: absolute;
+	top:75%;
+	left: 10%;
+	width: 80%;
+	text-align: center;
+	font-size: 48px;
+}
+#logo{
+	position: absolute;
+	top:15%;
+	width: 60%;
+	left: calc(50% - (60% / 2));
+	height: 60%;
+	background-image: url("/ship?file=logo.png");
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+    animation-name: rotate;
+    animation-duration: 30s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+#loginButton{
+	vertical-align: text-top;
+	position: absolute;
+	bottom:10%;
+	width: 35%;
+	height: 45px;
+	left: 32.5%;
+}
+#loginBox{
+	display: none;
+	position: absolute;
+	top:20%;
+	height: 30%;
+	width: 60%;
+	left: 20%;
+}
+#loginBoxHeader{
+	display: none;
+	position: absolute;
+	top:10%;
+	width: 100%;
+	left: 0px;
+	font-size: 3vw;
+	text-align: center;
+}
+#loginBoxTextbox{
+	text-transform: capitalize;
+	position: absolute;
+	top:62.5%;
+	height: 25%;
+	width: 60%;
+	left: 10%;
+	display: none;
+}
+#loginBoxLoginButton{
+	position: absolute;
+	top:62.5%;
+	height: 25%;
+	width: 20%;
+	left: 70%;
+	display: none
+}

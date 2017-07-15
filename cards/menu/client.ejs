@@ -3,10 +3,10 @@
 	body{
 		font-size: 26px;
 		background: black;
-    	background-size: 100%;
-    	background-repeat: no-repeat;
-    	background-attachment: fixed;
-    	margin: 0;
+		background-size: 100%;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		margin: 0;
 	}
 	
 	a{
@@ -21,25 +21,25 @@
 		user-select: none;
 	}
 	#menu{
-	    position: absolute;
-	    padding-top: 20px;
-    	top: 14%;
-    	width: 22%;
-    	height: 81%;
-    	border-image-source: url('/container4');
-    	border-image-slice: fill 49 49 49 49;
-    	z-index: 20;
-    	border-image-width: 2em;
-    	right:2%;
+		position: absolute;
+		padding-top: 20px;
+		top: 14%;
+		width: 22%;
+		height: 81%;
+		border-image-source: url('/container4');
+		border-image-slice: fill 49 49 49 49;
+		z-index: 20;
+		border-image-width: 2em;
+		right:2%;
 	}
 	.menuItem{
-    	width: 80%;
-    	padding-top: 10px;
-    	padding-bottom: 10px;
-    	text-align: center;
-    	border-image-source: url('/container1');
-    	border-image-slice: fill 49 49 49 49;
-    	border-image-width: 2em;
+		width: 80%;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		text-align: center;
+		border-image-source: url('/container1');
+		border-image-slice: fill 49 49 49 49;
+		border-image-width: 2em;
 	}
 	#bodyFrame{
 		position: absolute;
@@ -47,10 +47,10 @@
 		left:0px;
 		width: 100%;
 		height: 100%;
-    	border-image-source: url('/resource?path=public/alertStatus5.png&screen=menu');
-    	border-image-slice: fill 298 298 1 298;
-    	border-image-width: 10em;
-    	z-index: -100;
+		border-image-source: url('/resource?path=public/alertStatus5.png&screen=menu');
+		border-image-slice: fill 298 298 1 298;
+		border-image-width: 10em;
+		z-index: -100;
 	}
 	#hexagonBackground{
 		filter:brightness(.5);
@@ -65,15 +65,15 @@
 		z-index: -101;
 	}
 	#icon{    
-	position: absolute;
-    top: 7px;
-    left: 14px;
-    width: 164px;
-    height: 164px;
-    z-index: -99;
-    background-image: url(/resource?path=public/logo.png&screen=menu);
-    background-size: 100%;
-    background-repeat: no-repeat;
+		position: absolute;
+		top: 7px;
+		left: 14px;
+		width: 164px;
+		height: 164px;
+		z-index: -99;
+		background-image: url(/resource?path=public/logo.png&screen=menu);
+		background-size: 100%;
+		background-repeat: no-repeat;
 	}
 	#stationName{
 		position: absolute;
@@ -83,16 +83,16 @@
 	}
 </style>
 <div id="menu"><center>
-		<% for(var i=0; i<screens.length; i++) {%>
-		<a href="/card?card=<%= screens[i] %>"><div class="menuItem beepOnClick"><%= screens[i].toUpperCase() %></div></a>
-		<% } %></center>
+	<% for(var i=0; i<screens.length; i++) {%>
+	<a href="/card?card=<%= screens[i] %>"><div class="menuItem beepOnClick"><%= screens[i].toUpperCase() %></div></a>
+	<% } %></center>
 </div>
 <div id="stationName">USS VOYAGER</div>
 <div id="hexagonBackground"></div>
 <div id="bodyFrame"></div>
 <div id="icon"></div>
 <script type="text/javascript">
-	document.getElementById("stationName").innerHTML = getStation().toUpperCase();
+	document.getElementById("stationName").innerHTML = Interstellar.getStation().toUpperCase();
 	Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
 		if(newData == null){
 			Interstellar.setDatabaseValue("ship.alertStatus",5);
@@ -102,4 +102,36 @@
 
 		$("#bodyFrame").css("border-image-source","url(" + alertStatusURL + ")");
 	});
+	var MENU_IS_LOGGED_IN_BOOL = true;
+	Interstellar.onDatabaseValueChange("ship.loginNames",function(newData){
+		if(newData == null){
+			Interstellar.setDatabaseValue("ship.loginNames",[]);
+			return;
+		}
+		var loginNames = newData;
+		var station = Interstellar.getStation();
+		for(var i = 0;i < loginNames.length;i++){
+			if(loginNames[i].station == station){
+				if(!MENU_IS_LOGGED_IN_BOOL){
+					//just logged in!
+					MENU_IS_LOGGED_IN_BOOL = true;
+					$("#contentArea").animate({width : "63%"});
+					$("#menu").slideDown();
+				}
+				return;
+			}
+		}
+		if(MENU_IS_LOGGED_IN_BOOL){
+			//just logged out!
+			MENU_IS_LOGGED_IN_BOOL = false;
+			var currentScreen = Interstellar.getCurrentScreen();
+			$("#menu").slideUp(function(){
+				$("#contentArea").animate({width : "78%"});
+			});
+			if(currentScreen != "Login"){
+				Interstellar.setCurrentScreen("Login");
+			}
+		}
+	});
+
 </script>
