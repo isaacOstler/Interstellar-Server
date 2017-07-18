@@ -30,9 +30,9 @@ Interstellar.onDatabaseValueChange("sensors.externalScans.scanObject",function(n
 		if(scanningObject.time.timePassed < scanningObject.time.timeRequired){
 			scanningObject.time.timePassed += updateSpeed / 1000;
 			Interstellar.setDatabaseValue("sensors.externalScans.scanObject",scanningObject)
-		}else{;
+		}else{
 			if(scanningObject.time.timePassed >= scanningObject.time.timeRequired && scanAnswer != ""){
-				Interstellar.setDatabaseValue("internalSensors.scanInfo",null);
+				Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
 			}
 		}
 	},updateSpeed);

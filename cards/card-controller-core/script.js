@@ -81,6 +81,10 @@ Interstellar.addCoreWidget("Card Controller",function(){
 		generateButtonText();
 	});
 	$("#card-controller-core_executeButton").click(function(event){
+		if(currentCommand.toLowerCase() == "reset"){
+			Interstellar.clearDatabase();
+			return;
+		}
 		Interstellar.setDatabaseValue("ship.cardController.command",{"command" : currentCommand, "station" : currentStation});
 	});
 });

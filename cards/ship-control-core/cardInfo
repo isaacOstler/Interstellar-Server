@@ -1,0 +1,1 @@
+{"cardName":"ship-control-core","cardType":"coreWidget","author":"Isaac Ostler","copyright":"Isaac Ostler","version":"1.0.0","description":"Allows the FD control over specific ship variables, such as crew count.  Also allows for the adjustment of rooms, decks, and even some theming control"}

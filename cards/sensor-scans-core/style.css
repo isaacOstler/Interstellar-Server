@@ -3,6 +3,224 @@
     70%   {background-color:red;opacity: .1}
     100%   {background-color:red;opacity: 1}
 }
+.ship-control-core_shipControlWindow_deleteMode{
+	background-color: rgba(255,0,0,.5);
+}
+.ship-control-core_shipControlWindow_deleteMode:hover{
+	background-color: rgba(255,0,0,.8);
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_cancelButton{
+    position: absolute;
+    right: 2px;
+    width: calc(15% - 2px);
+    bottom: calc(17% + 2px);
+    height: 10%;
+    background: linear-gradient(to bottom, rgba(229,4,19,1) 0%,rgba(198,3,7,1) 44%,rgba(175,0,8,1) 100%);
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_saveButton{
+	position: absolute;
+    right: 2px;
+    bottom: calc(7% + 1px);
+    width: calc(15% - 2px);
+    height: 10%;
+    background: linear-gradient(to bottom, rgba(142,226,77,1) 0%,rgba(97,196,25,1) 100%);
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomDesc{
+    position: absolute;
+    top: 82px;
+    width: calc(100% - 15px);
+    left: 5px;
+    background-color: rgba(128,128,128,0.2);
+    height: calc(100% - 91px);
+    color: white;
+    border-radius: 5px;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomNameLabel{
+	position: absolute;
+	top:4px;
+	left: 4px;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomDescLabel{
+    position: absolute;
+    top: 64px;
+    left: 4px;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomSecuritySelect{
+    position: absolute;
+    top: 45px;
+    width: 35%;
+    left: 142px;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomSecurityLabel{
+    position: absolute;
+    top: 45px;
+    left: 4px;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomNameTextbox{
+    position: absolute;
+    top: 4px;
+    left: 142px;
+    width: 34%;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomDeckLabel{
+	position: absolute;
+    top: 25px;
+    left: 4px;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomDeckSelect{
+    position: absolute;
+    top: 24px;
+    left: 142px;
+    width: 35%;
+}
+.ship-control-core_shipControlWindow_shipRoomsTab_ListClass{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	color:white;
+	cursor: pointer;
+	height: 16px;
+	font-size: 14px;
+}
+.ship-control-core_shipControlWindow_shipRoomsTab_ListClass:hover{
+	background-color: rgba(128,128,128,.5);
+}
+.ship-control-core_shipControlWindow_shipRoomsTab_ListClass:active{
+	filter: brightness(0.65);
+}
+.ship-control-core_shipControlWindow_textbox{
+    background-color: rgba(45,45,45,.3);
+    color: white;
+    float: right;
+    width: 70%;
+    border: 1px solid white;
+    border-radius: 3px;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomListLabel{
+    position: absolute;
+    top: calc(55% + 6px);
+    font-size: 22px;
+    left: calc(30% + 2px);
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomList{
+    position: absolute;
+    top: calc(55% + 30px);
+    left: calc(25% + 7px);
+    width: calc(60% - 11px);
+    height: calc(43% - 47px);
+    border: 1px solid white;
+    border-radius: 3px;
+    overflow: auto;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomInformationLabel{
+	position: absolute;
+    top: 5px;
+    left: calc(25% + 7px);
+    width: 35%;
+    font-size: 22px;
+    text-align: center;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_roomInformation{
+	position: absolute;
+	top:30px;
+	left: calc(25% + 7px);
+	width: calc(75% - 11px);
+	height: 40%;
+    border: 1px solid white;
+    border-radius: 3px;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_deckListLabel{
+	position: absolute;
+	top:5px;
+	left: 2px;
+	width: 25%;
+	text-align: center;
+	font-size: 22px;
+}
+#ship-control-core_shipControlWindow_shipRoomsTab_deckList{
+    left: 2px;
+    position: absolute;
+    top: 30px;
+    height: calc(100% - 54px);
+    width: 25%;
+    border: 1px solid white;
+    overflow: auto;
+    border-radius: 3px;
+}
+#ship-control-core_shipControlWindow_shipTab_shipNameLabel{
+	position: absolute;
+	top:20px;
+	left: 5px;
+}
+#ship-control-core_shipControlWindow_shipTab_shipNameTextbox{
+	text-transform: capitalize;
+    position: absolute;
+    top: 18px;
+    left: 88px;
+    width: calc(100% - 97px);
+    height: 15px;
+    font-size: 14px;
+}
+#ship-control-core_shipControlWindow_shipTab_shipAllegianceLabel{
+	position: absolute;
+	top:40px;
+	left: 5px;
+}
+#ship-control-core_shipControlWindow_shipTab_shipAllegianceTextbox{
+    text-transform: capitalize;
+    position: absolute;
+    top: 42px;
+    left: 120px;
+    width: calc(100% - 129px);
+    height: 15px;
+    font-size: 14px;
+}
+#ship-control-core_shipControlWindow_menu{
+	position: absolute;
+	top:21px;
+	height: 30px;
+	width: 100%;
+	background-color: rgba(45,45,45,.5);
+	border-bottom: white 1px solid;
+}
+.ship-control-core_shipControlWindow_tab{
+	display: none;
+	position: absolute;
+	top:52px;
+	width: 100%;
+	height: calc(100% - 52px);
+}
+#ship-control-core_shipControlWindow_menu_shipButton{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 33.3%;
+    background-color: #008cff;
+    color: black;
+    height: calc(100% - 1);
+    font-size: 25px;
+}
+#ship-control-core_shipControlWindow_menu_shipRoomsButton{
+	position: absolute;
+	top:0px;
+	left: calc(33.3% + 1px);
+	width: 33.3%;
+	background-color: #ffbb00;
+    height: calc(100% - 1);
+	color:black;
+    font-size: 25px;
+}
+#ship-control-core_shipControlWindow_menu_crewButton{
+	position: absolute;
+	top:0px;
+	left: calc(66.6% + 2px);
+	width: 33.3%;
+	background-color: #62e300;
+    height: calc(100% - 1);
+	color:black;
+    font-size: 25px;
+}
 #Sensor-Scans-Core-UserPrefsWindow-generalSettings{
     position: absolute;
     top: 4.5%;

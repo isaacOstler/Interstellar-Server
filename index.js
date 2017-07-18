@@ -179,6 +179,11 @@ app.on('ready',function(){
 					//socket.emit("databaseValueDidChange",data);
 				});
 
+				socket.on('clearDatabase',function(data){
+					databaseManager.clearDatabase()
+					io.emit("databaseValueDidChange","all");
+				})
+
 				socket.on('getViewscreenCard',function(data){
 					console.log("Sending viewscreen card...");
 					cardManager.serveCard("viewscreen",function(bufferStream){

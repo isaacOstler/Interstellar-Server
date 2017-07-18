@@ -670,9 +670,6 @@ Interstellar.addCoreWidget("Sensors",function(){
         Sensors_Core_Sensors_ContactAttributesLastChangedValue = newData.lastChangedValue;
         Sensors_Array_Core_drawSensorsArray();
         Sensors_Array_Core_Update_Contact_Editor();
-        if(Sensors_Core_Sensors_ContactAttributesLastChangedValue == "contactIsActive"){
-            return;
-        }
         Sensors_Array_Core_drawContactsList();
     });
     Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
@@ -1151,7 +1148,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             }
             Sensors_Core_MouseDragSelectionSelectedContacts = [];
             Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
-            Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactLastEdited});
+            Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : "multiple"});
             Sensors_Core_CurrentDragTarget = undefined;
             Sensors_Core_CurrentDragTargetIsDragging = false;
         }

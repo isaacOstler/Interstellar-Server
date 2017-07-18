@@ -1,0 +1,92 @@
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=ship-control-core">
+
+<div id="ship-control-core_shipControlWindow" class="coreWindow" windowName="Ship Settings" style="width: 625px;height: 400px;">
+	<div id="ship-control-core_shipControlWindow_menu">
+		<div id="ship-control-core_shipControlWindow_menu_shipButton" class="customButton">
+			Ship
+		</div>
+		<div id="ship-control-core_shipControlWindow_menu_shipRoomsButton" class="customButton">
+			Ship Rooms
+		</div>
+		<div id="ship-control-core_shipControlWindow_menu_crewButton" class="customButton">
+			Crew
+		</div>
+	</div>
+	<div id="ship-control-core_shipControlWindow_shipTab" class="ship-control-core_shipControlWindow_tab">
+		<div id="ship-control-core_shipControlWindow_shipTab_shipNameLabel">
+			Ship Name
+		</div>
+		<input type="text" id="ship-control-core_shipControlWindow_shipTab_shipNameTextbox">
+		<div id="ship-control-core_shipControlWindow_shipTab_shipAllegianceLabel">
+			Ship Allegiance
+		</div>
+		<input type="text" id="ship-control-core_shipControlWindow_shipTab_shipAllegianceTextbox">
+	</div>
+	<div id="ship-control-core_shipControlWindow_shipRoomsTab" class="ship-control-core_shipControlWindow_tab" style="display: block">
+		<div id="ship-control-core_shipControlWindow_shipRoomsTab_deckListLabel">
+			Deck List
+			<input type="button" value="+" class="coreButton" id="ship-control-core_shipControlWindow_shipRoomsTab_deckListAddButton"><input type="button" value="-" class="coreButton" style="background-color: rgb(255,58,58)" id="ship-control-core_shipControlWindow_shipRoomsTab_deckListRemoveButton">
+		</div>
+		<div id="ship-control-core_shipControlWindow_shipRoomsTab_deckList" class="noselect">
+		</div>
+		<div id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformationLabel">
+			Room Information
+		</div>
+		<div id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation">
+			<div id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomName">
+				<div id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomNameLabel">Room Name</div> <input type="text" id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomNameTextbox" class="ship-control-core_shipControlWindow_textbox">
+			</div>
+			<div id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomDeck">
+				<div id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomDeckLabel">Room Deck</div>
+				<select id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomDeckSelect" class="userPreferenceOption" id="">
+				</select>
+			</div>
+			<div id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomSecurityLabel">Securiy Clearance</div>
+			<select id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomSecuritySelect" class="userPreferenceOption" id="">
+				<option>Open Access</option>
+				<option>Level 1 and up</option>
+				<option>Level 2 and up</option>
+				<option>Level 3 and up</option>
+				<option>Level 4 and up</option>
+				<option>Level 5 and up</option>
+				<option>Level 6 and up</option>
+				<option>Level 7 and up</option>
+				<option>Level 8 and up</option>
+				<option>Level 9 and up</option>
+				<option>Level 10 Only</option>
+			</select>
+			<div id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomDescLabel">Room Description</div>
+			<textarea id="ship-control-core_shipControlWindow_shipRoomsTab_roomInformation_roomDesc" placeholder="No Description"></textarea>
+		</div>
+	</div>
+	<div id="ship-control-core_shipControlWindow_shipRoomsTab_roomListLabel">
+		Rooms List 
+		<input type="button" value="+" class="coreButton" id="ship-control-core_shipControlWindow_shipRoomsTab_roomListAddButton"><input type="button" value="-" class="coreButton" style="background-color: rgb(255,58,58)" id="ship-control-core_shipControlWindow_shipRoomsTab_roomListRemoveButton">
+	</div>
+	<div id="ship-control-core_shipControlWindow_shipRoomsTab_roomList">
+	</div>
+	<div id="ship-control-core_shipControlWindow_shipRoomsTab_saveButton" class="customButton">Save</div>
+	<div id="ship-control-core_shipControlWindow_shipRoomsTab_cancelButton" class="customButton">Cancel</div>
+</div>
+<div id="ship-control-core_shipControlWindow_crewTab" class="ship-control-core_shipControlWindow_tab">
+
+</div>
+</div>
+
+<div id="ship-control-Core-Widget" widgetName="Ship Control" class="Core_Theme-CoreWidget" style="width: 178px; height: 40px; top: 105px; left: 867px;">
+	<div class="hardContainer">
+		<div id="ship-control-Core_crew-count">
+			<div id="ship-control-Core_crew-crew_count_label">Life Count</div>
+			<div id="ship-control-Core_crew-count_upArrow" class="customButton ship-control-Core_crew-count_arrow">↑</div>
+			<input type="text" id="ship-control-Core_crew-count_inputTextbox" class="editable" onClick='this.select();'>
+			<div id="ship-control-Core_crew-count_downArrow" class="customButton ship-control-Core_crew-count_arrow">↓</div>
+		</div>
+		<div id="ship-control-Core_editShipButton" class="customButton">
+			Edit Ship
+		</div>
+		<div id="ship-control-Core_editLayoutButton" class="customButton">
+			Edit Layout
+		</div>
+	</div>
+</div>
+<script src="/resource?path=script.js&screen=ship-control-core" type="text/javascript"></script>

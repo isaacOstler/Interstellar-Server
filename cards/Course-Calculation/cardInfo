@@ -1,0 +1,8 @@
+{
+	"cardName":"Course-Calculation",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the user to set the ship's course to another position"
+}

@@ -18,7 +18,8 @@ flashProcessedDataInterval = undefined,
 shouldFlashWhenThereIsProcessedData = true,
 flashEntireScreen = false,
 scanningObject = undefined,
-requiredScanTime = 300;
+requiredScanTime = 300,
+scanAnswer = "";
 
 drawSensorsGui();
 init();
@@ -33,6 +34,13 @@ Interstellar.onDatabaseValueChange("sensors.externalScans.scanObject",function(n
         //scan in progress
         $("#scanButton").html("CANCEL");
     }
+
+    if(scanningObject != undefined){
+        $("#scanAnswerTextArea").html("");
+    }else{
+        $("#scanAnswerTextArea").html(scanAnswer);
+    }
+
     drawSensorsGui();
 });
 
@@ -102,6 +110,14 @@ Interstellar.onDatabaseValueChange("sensors.processedData",function(newData){
         }
     },0100);
 })
+
+Interstellar.onDatabaseValueChange("externalSensors.scanAnswer",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("externalSensors.scanAnswer","");
+        return;
+    }
+    scanAnswer = newData;
+});
 
 Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
     if(newData == null){
@@ -275,7 +291,7 @@ function drawSensorsGui(){
     ctx.fill();
     ctx.stroke();
     if(scanningObject != undefined){
-
+        $("#scanAnswerTextArea").html("Scan Progress: " + Math.round((scanningObject.time.timePassed / scanningObject.time.timeRequired) * 100) + "%")
         var innerRadius = circleSize * (scanningObject.time.timePassed / scanningObject.time.timeRequired),
         outerRadius = 0,
         // Radius of the entire circle.
@@ -501,6 +517,11 @@ function render() {
                     }
                 break;
             }
+            if(!sensorsContactObjectAttributes.contactIsActive){
+                threeJSObject.material.opacity = 0;
+            }else{
+                threeJSObject.material.opacity = 1;
+            }
         }
     }
     //Colors and whatnot
@@ -629,6 +650,7 @@ $("#scanButton").click(function(event){
             }
         }
         Interstellar.setDatabaseValue("sensors.externalScans.scanObject",scanningObject);
+        Interstellar.setDatabaseValue("externalSensors.scanAnswer","");
     }else{
         //cancel a scan
         Interstellar.setDatabaseValue("sensors.externalScans.scanObject",undefined);

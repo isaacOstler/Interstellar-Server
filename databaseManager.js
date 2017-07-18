@@ -121,3 +121,11 @@ module.exports.getDatabaseValue = function(dataKey,passedCallback){
 		}
 	});
 }
+
+module.exports.clearDatabase = function(callback){
+	if(runningIFDatabase){
+		ifDatabase = [];
+	}else{
+		console.log("[" + "DATABASE MANAGER".yellow + "]" + "Cannot clear a monogoDB database!".error);
+	}
+}

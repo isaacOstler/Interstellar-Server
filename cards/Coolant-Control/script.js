@@ -5,7 +5,7 @@ var heightOfCoolantTank = 7;
 var systemsThatTakeCoolant = [
 	{
 		"systemName" : "MAIN REACTOR",
-		"coolantAmount" : .5,
+		"coolantAmount" : 0,
 	},
 	{
 		"systemName" : "PHASERS",
