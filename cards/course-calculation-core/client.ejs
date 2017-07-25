@@ -1,0 +1,39 @@
+<div id="course-calculation-core" class="Core_Theme-CoreWidget" widgetName="Course Calculation"
+	style="
+	width: 216px;
+    height: 98px;
+    top: 0px;
+    left: 867px;
+    ">
+	<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=course-calculation-core">
+		<div class="hardContainer">
+			<input id="course-calculation-core_courseNameTextbox" onClick='this.select();' class="coreTextbox">
+			<div id="course-calculation-core_thrusters">
+				<div id="course-calculation-core_thrusters_currentLabel">CURRENT</div>
+				<div id="course-calculation-core_thrusters_calcLabel">CALCULATED</div>
+				<div id="course-calculation-core_thrusters_currentThrusters">
+					<input type="text"  onClick='this.select();' class="coreTextbox" id="course-calculation-core_thrusters_currentThrusters_yaw">
+					<input type="text"  onClick='this.select();' class="coreTextbox" id="course-calculation-core_thrusters_currentThrusters_pitch">
+					<input type="text"  onClick='this.select();' class="coreTextbox" id="course-calculation-core_thrusters_currentThrusters_roll">
+					<div id="course-calculation-core_thrusters_currentThrusters_yawLabel">Yaw</div>
+					<div id="course-calculation-core_thrusters_currentThrusters_pitchLabel">Pitch</div>
+					<div id="course-calculation-core_thrusters_currentThrusters_rollLabel">Roll</div>
+				</div>
+				<div id="course-calculation-core_thrusters_calcThrusters">
+					<input type="text" onClick='this.select();' class="coreTextbox" id="course-calculation-core_thrusters_calcThrusters_yaw">
+					<input type="text" onClick='this.select();' class="coreTextbox" id="course-calculation-core_thrusters_calcThrusters_pitch">
+					<input type="text" onClick='this.select();' class="coreTextbox" id="course-calculation-core_thrusters_calcThrusters_roll">
+					<div id="course-calculation-core_thrusters_calcThrusters_yawLabel">Yaw</div>
+					<div id="course-calculation-core_thrusters_calcThrusters_pitchLabel">Pitch</div>
+					<div id="course-calculation-core_thrusters_calcThrusters_rollLabel">Roll</div>
+				</div>
+			</div>
+			<div id="course-calculation-core_sendButtons">
+				<input type="button" class="coreButton" value="Random" id="course-calculation-core_sendButtons_randomButton">
+				<input type="button" class="coreButton" value="None" id="course-calculation-core_sendButtons_noneButton">
+				<input type="button" class="coreButton" value="Send" id="course-calculation-core_sendButtons_sendButton">
+			</div>
+		</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+	<script src="/resource?path=script.js&screen=course-calculation-core" type="text/javascript"></script>
+</div>

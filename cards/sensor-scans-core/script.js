@@ -337,6 +337,7 @@ Interstellar.addCoreWidget("Sensor Scans",function(){
 			return;
 		}
 		sensorScansCore_InternalSpeedBoost = newData;
+		$("#Sensor-Scans-Core_SpeedTextbox").val(newData + "x");
 	})
 
 	Interstellar.onDatabaseValueChange("externalSensors.scanSpeedBoost",function(newData){
@@ -603,7 +604,7 @@ Interstellar.addCoreWidget("Sensor Scans",function(){
 			internalRoomsList += "</option></optgroup>";
 			for(var j = 0;j < sensorScansCore_shipRooms[i].length;j++){
 				internalRoomsList += "<option>";
-				internalRoomsList += "Deck " + (i + 1) + ", " + sensorScansCore_shipRooms[i][j];
+				internalRoomsList += "Deck " + (i + 1) + ", " + sensorScansCore_shipRooms[i][j].name;
 				internalRoomsList += "</option>";
 			}
 		}
@@ -1048,6 +1049,11 @@ Interstellar.addCoreWidget("Sensor Scans",function(){
 		$("#Sensor-Scans-Core-UserPrefsWindow-generalSettings-contentArea-internalSpeedBoostTextbox").on("change",function(event){
 			Sensor_Scans_Core_Preset.speedBoosts.internal = $(event.target).val().replace(/[^\d.-]/g, '');
 			Interstellar.setPresetValue("sensor-scans-core.generalPrefrences",Sensor_Scans_Core_Preset);
+		});
+
+		$("#Sensor-Scans-Core_SpeedTextbox").change(function(event){
+			var newValue = Number($(event.target).val().replace(/[^\d.-]/g, ''));
+			Interstellar.setDatabaseValue("internalSensors.scanSpeedBoost",newValue);
 		});
 	});
 });

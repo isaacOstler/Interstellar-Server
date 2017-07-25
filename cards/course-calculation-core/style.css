@@ -1,0 +1,147 @@
+#course-calculation-core_courseNameTextbox{
+	position: absolute;
+	top:1px;
+	left: 1px;
+	width: calc(100% - 2px);
+	height: calc(20% - 1px);
+	overflow: hidden;
+	text-transform: capitalize;
+}
+#course-calculation-core_thrusters{
+	position: absolute;
+	top:calc(20% + 1px);
+	left: 1px;
+	height: calc(65% - 2px);
+	overflow: hidden;
+	width: calc(100% - 2px);
+}
+#course-calculation-core_sendButtons{
+    position: absolute;
+    top: calc(80% + 3px);
+    left: 1px;
+    height: calc(20% - 4px);
+    width: calc(100% - 2px);
+}
+#course-calculation-core_sendButtons_randomButton{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 45%;
+	height: 100%;
+}
+#course-calculation-core_sendButtons_noneButton{
+	position: absolute;
+	top:0px;
+	left: calc(45% + 1px);
+	width: calc(25% - 1px);
+	height: 100%;
+}
+#course-calculation-core_sendButtons_sendButton{
+	position: absolute;
+	top:0px;
+	left: calc(70% + 1px);
+	width: calc(30% - 2px);
+	height: 100%;
+}
+#course-calculation-core_thrusters_currentLabel{
+	position: absolute;
+	top:0px;
+	left: 0px;
+}
+#course-calculation-core_thrusters_calcLabel{
+	position: absolute;
+	top:0px;
+	right: 0px;
+}
+#course-calculation-core_thrusters_currentThrusters{
+	position: absolute;
+	top:calc(25% + 1px);
+	left: 0px;
+	width: calc(50% - 1px);
+	height: calc(75% - 2px);
+}
+#course-calculation-core_thrusters_calcThrusters{
+	position: absolute;
+	top:calc(25% + 1px);
+	right: 0px;
+	width: calc(50% - 2px);
+	height: calc(75% - 2px);
+}
+#course-calculation-core_thrusters_currentThrusters_yaw{
+	position: absolute;
+	top:0px;
+	left: 33%;
+	width: 66%;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_currentThrusters_pitch{
+	position: absolute;
+	top:33%;
+	left: 33%;
+	width: 66%;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_currentThrusters_roll{
+	position: absolute;
+	top:66%;
+	left: 33%;
+	width: 66%;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_currentThrusters_yawLabel{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_currentThrusters_pitchLabel{
+	position: absolute;
+	top:33%;
+	left: 0px;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_currentThrusters_rollLabel{
+	position: absolute;
+	top:66%;
+	left: 0px;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_calcThrusters_yaw{
+	position: absolute;
+	top:0px;
+	right: 33%;
+	width: 66%;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_calcThrusters_pitch{
+	position: absolute;
+	top:33%;
+	right: 33%;
+	width: 66%;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_calcThrusters_roll{
+	position: absolute;
+	top:66%;
+	right: 33%;
+	width: 66%;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_calcThrusters_yawLabel{
+	position: absolute;
+	top:0px;
+	right: 0px;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_calcThrusters_pitchLabel{
+	position: absolute;
+	top:33%;
+	right: 0px;
+	height: calc(33% - 3px);
+}
+#course-calculation-core_thrusters_calcThrusters_rollLabel{
+	position: absolute;
+	top:66%;
+	right: 0px;
+	height: calc(33% - 3px);
+}

@@ -10,21 +10,21 @@
 		{
 			"stationInfo": {
 				"name" : "CORE",
-				"cards" : ["Power-Distribution-Core","Coolant-Core","sensor-scans-core","Transporters-Core","alert-status-core","viewscreen-control-core","processed-data-core","card-controller-core","login-core","ship-control-core","sensors-core"]
+				"cards" : ["course-calculation-core","Power-Distribution-Core","Coolant-Core","sensor-scans-core","Transporters-Core","alert-status-core","viewscreen-control-core","processed-data-core","card-controller-core","login-core","ship-control-core","sensors-core"]
 			},
 			"stationType" : "core"
 		},
 		{
 			"stationInfo": {
 				"name" : "AUX-CORE",
-				"cards" : ["Power-Distribution-Core","sensor-scans-core","processed-data-core","card-controller-core"]
+				"cards" : ["Snake"]
 			},
 			"stationType" : "core"
 		},
 		{
 			"stationInfo" : {
 				"name" : "TACTICAL",
-				"cards" : ["Course-Calculation","Login","Internal-Sensors","Transporters","Alert-Status","Coolant-Control","Long-Range-Comm"]
+				"cards" : ["Engine-Control","Course-Calculation","Login","Internal-Sensors","Transporters","Alert-Status","Coolant-Control","Long-Range-Comm"]
 			},
 			"stationType" : "station"
 		}

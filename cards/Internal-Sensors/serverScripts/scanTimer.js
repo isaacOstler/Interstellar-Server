@@ -2,6 +2,15 @@ var scanningObject;
 var scanningInterval = undefined;
 var scanAnswer = "";
 var updateSpeed = 100; // this is how long the interval to update the time passed will wait;
+var speedBoost = 0;
+
+Interstellar.onDatabaseValueChange("internalSensors.scanSpeedBoost",function(newData){
+	if(newData == null){
+		//not our responsiblity to set this
+		return;
+	}
+	speedBoost = Number(newData);
+});
 
 Interstellar.onDatabaseValueChange("internalSensors.scanAnswer",function(newData){
 	if(newData == null){
@@ -28,7 +37,7 @@ Interstellar.onDatabaseValueChange("internalSensors.scanInfo",function(newData){
 	}
 	scanningInterval = setInterval(function(){
 		if(scanningObject.timePassed < scanningObject.timeRequired){
-			scanningObject.timePassed += updateSpeed / 1000;
+			scanningObject.timePassed += (updateSpeed / 1000) * speedBoost;
 			Interstellar.setDatabaseValue("internalSensors.scanInfo",scanningObject)
 		}else{;
 			if(scanningObject.timePassed >= scanningObject.timeRequired && scanAnswer != ""){

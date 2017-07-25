@@ -1,0 +1,8 @@
+{
+	"cardName":"course-calculation-core",
+	"cardType":"coreWidget",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the FD to send a course to the crew, when scanned for"
+}

@@ -1,0 +1,41 @@
+<link rel="stylesheet" type="text/css" href="/stationThemes">
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css">
+<div id="contentArea" class="noselect">
+	<div id="impulseLabel">
+		IMPULSE
+	</div>
+	<div id="impulseContainer">
+
+	</div>
+	<div id="warpLabel">
+		WARP
+	</div>
+	<div id="warpContainer">
+
+	</div>
+	<div id="fullStopButton" class="verticalAlign beepOnClick">
+		FULL STOP
+	</div>
+	<div id="currentSpeedLabel">CURRENT SPEED<div id="currentSpeed">WARP 5</div></div>
+	<div id="starboardHeatLabel">STARBOARD ENGINE HEAT</div>
+	<div class="heatDisplay" engine="warpStarboard" style="top:35%;right:0%;"><canvas class="heatDisplayCanvas" id="warpStarboardCanvas"></canvas></div>
+	<div id="portHeatLabel">PORT ENGINE HEAT</div>
+	<div class="heatDisplay" engine="warpPort" style="top:35%;left:0%;"><canvas class="heatDisplayCanvas" id="warpPortCanvas"></canvas></div>
+	<div class="heatDisplay" engine="impulseStarboard" style="top:35%;right:0%;"><canvas class="heatDisplayCanvas" id="impulseStarboardCanvas"></canvas></div>
+	<div class="heatDisplay" engine="impulsePort" style="top:35%;left:0%;"><canvas class="heatDisplayCanvas" id="impulsePortCanvas"></canvas></div>
+	<div id="portCoolantFlush" class="Button2 noselect beepOnClick verticalAlign">
+		FLUSH COOLANT
+	</div>
+	<div id="starboardCoolantFlush" class="Button2 noselect beepOnClick verticalAlign">
+		FLUSH COOLANT
+	</div>
+	<div id="shipView"></div>
+	<div id="coolantLabel">
+		COOLANT RESERVE
+	</div>
+	<div id="coolantAmount">
+		<div id="coolantAmountFillBar"></div>
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+<script src="/resource?path=script.js" type="text/javascript"></script>

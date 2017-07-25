@@ -116,6 +116,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     var Sensors_Core_NebulaTexture = new THREE.TextureLoader().load( '/resource?path=public/nebula.png&screen=sensors-core' );
     var Sensors_Core_AskForSpeed = Sensors_Core_Presets.defaultAskForSpeed;
     var Sensors_core_isSelectingMoveSpeed = false;
+    var moveAll = false;
     //var Sensors_Core_time = 8401481;
 
     //when the document finishes loading
@@ -1842,6 +1843,9 @@ Interstellar.addCoreWidget("Sensors",function(){
 
         for(var i = 0;i < Sensors_Core_Sensors_Contacts.length; i++){
             if((Sensors_Core_Sensors_Contacts[i] != sensors_array_getContactByContactID(Sensors_Core_CurrentDragTarget)) && sensors_array_getContactAttributesByContactID(Sensors_Core_Sensors_Contacts[i].contactID).contactIsActive){
+                if(sensors_array_getContactAttributesByContactID(Sensors_Core_Sensors_Contacts[i].contactID).contactType == "contact" && !moveAll){
+                    continue;
+                }
                 // convert their cartesian cords to polar cords
                 Sensors_Core_Sensors_Contacts[i].wantedXPos += cartX;
                 Sensors_Core_Sensors_Contacts[i].wantedYPos -= cartY;
@@ -2395,5 +2399,20 @@ Interstellar.addCoreWidget("Sensors",function(){
         Interstellar.setDatabaseValue("sensors.graphical.drawGradient",Sensors_Core_Presets.drawGradient);
         Interstellar.setDatabaseValue("sensors.graphical.colorType",Sensors_Core_Presets.sensorsArrayColorType);
     }
+    $("#Sensors-Core-ClearSensors").click(function(event){
+        Interstellar.setDatabaseValue("sensors.contacts",[]);
+        Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : [], "contactLastEdited" : "multiple"});
+        });
+    $("#Sensors-Core-StopSensors").click(function(event){
+        for(var i = 0;i < Sensors_Core_Sensors_Contacts.length;i++){
+            Sensors_Core_Sensors_Contacts[i].wantedXPos = Sensors_Core_Sensors_Contacts[i].xPos;
+            Sensors_Core_Sensors_Contacts[i].wantedYPos = Sensors_Core_Sensors_Contacts[i].yPos;
+        }
+        Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
+    });
+    $("#sensors-core_moveAllCheckbox").change(function(event){
+        moveAll = $(event.target).prop("checked");
+    });
+
     });
 });

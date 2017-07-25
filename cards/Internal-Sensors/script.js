@@ -1,5 +1,6 @@
 var scanInfo;
-var roomScanTime = {"light" : 10,"normal" : 20,"heavy" : 30};
+var roomScanTime = {"light" : 10,"normal" : 12.5,"heavy" : 15};
+var speedBoost = 1;
 var timeRequired = 10;
 var shipRooms = [];
 
@@ -9,6 +10,15 @@ Interstellar.onDatabaseValueChange("ship.roomScanTime",function(newData){
 	}
 	roomScanTime = newData;
 })
+
+Interstellar.onDatabaseValueChange("internalSensors.scanSpeedBoost",function(newData){
+	if(newData == null){
+		//not our responsiblity to set this
+		return;
+	}
+	speedBoost = Number(newData);
+	calculateEstimatedScanTime();
+});
 
 Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
 	if(newData == null){
@@ -23,9 +33,17 @@ Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
 	$("#deckDropdown").html(html);
 	html = "<option>ALL ROOMS</option>";
 	for(var i = 0;i < newData[0].length;i++){
-		html += "<option>" + newData[0][i] + "</option>";
+		html += "<option>" + newData[0][i].name + "</option>";
 	}
 	$("#roomDropdown").html(html);
+	var numberOfRooms = 0;
+	for(var i = 0;i < newData.length;i++){
+		for(var j = 0;j < newData[i].length;j++){
+			numberOfRooms++;
+		}
+	}
+	timeRequired = Math.round(Number((roomScanTime.light * numberOfRooms) / speedBoost));
+	$("#amountOfSeconds").html(timeRequired + " SECONDS");
 });
 $("#roomDropdown").on("change",function(event){
 	if(event.target.value == "ALL ROOMS"){
@@ -48,7 +66,7 @@ $("#deckDropdown").on("change",function(event){
 	}
 	html = "<option>ALL ROOMS</option>";
 	for(var i = 0;i < shipRooms[index - 1].length;i++){
-		html += "<option>" + shipRooms[index - 1][i] + "</option>";
+		html += "<option>" + shipRooms[index - 1][i].name + "</option>";
 	}
 	calculateEstimatedScanTime(shipRooms[index - 1].length);
 	$("#roomDropdown").html(html);
@@ -80,7 +98,7 @@ function calculateEstimatedScanTime(numberOfRooms){
 		roomScanTimeRequired = roomScanTime.heavy;
 		break;
 	}
-	timeRequired = roomScanTimeRequired * numberOfRooms;
+	timeRequired = Math.round(Number((Number(roomScanTimeRequired) * Number(numberOfRooms)) / Number(speedBoost)));
 	$("#amountOfSeconds").html(timeRequired + " SECONDS");
 }
 

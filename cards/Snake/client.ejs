@@ -1,15 +1,30 @@
-<div id="Snake-Core-Widget" class="Core_Theme-CoreWidget" style="width:400px;height:400px;top:425px;left:0px;">
+<div id="Snake-core-snakeMasterWindow" class="coreWindow" windowName="SNAKKEEE MASTTERRR" style="width: 250px;height: 120px;position: absolute;top: 495px; left: 931px;">
+<center>Great snake master!  Enter your name for the legend...<br />
+<input type="text" class="coreTextbox" id="Snake-core-snakeMasterWindow_Textbox"><input type="button" id="Snake-core-snakeMasterWindow_button" value="Record my legend"></center>
+</div>
+		 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+<div id="Snake-Core-Widget" class="Core_Theme-CoreWidget" style="width:400px;height:400px;top: 495px; left: 1031px;">
 	<div id="Snake_Core_Widget_highScore" style="position: absolute;">HIGHSCORE: 0</div>
 	<canvas id="gc" width="400" height="400"></canvas>
 	<script>
-		//james.  Stop touching the code.  you don't know what you're doing.
-		//if you break it... I won't fix it!
-		//-Isaac
+	var snakeCoreWidget_HasInit = false;
+	var snakeCoreWidget_highscore = 0;
+	Interstellar.onPresetValueChange("snake.highscore",function(loadedHighscore){
+		if(loadedHighscore == null){
+			Interstellar.setPresetValue("snake.highscore",{"score" : 0,"player" : "lavapig1"});
+			return;
+		}
+		snakeCoreWidget_highscore = loadedHighscore.score;
+		$("#Snake_Core_Widget_highScore").html("HIGHSCORE: " + loadedHighscore.score + " (By " + loadedHighscore.player + ")")
+		if(snakeCoreWidget_HasInit){
+			return;
+		}
+		snakeCoreWidget_HasInit = true;
 		canv=document.getElementById("gc");
 		ctx=canv.getContext("2d");
 		document.addEventListener("keydown",keyPush);
 		var score = 0;
-		var highScore = 0;
 		var gameSpeed = 15;
 
 		var gameinterval = setInterval(game,1000/gameSpeed);
@@ -42,6 +57,17 @@
 			for(var i=0;i<trail.length;i++) {
 				ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
 				if(trail[i].x==px && trail[i].y==py) {
+					if(score == snakeCoreWidget_highscore){
+						$("#Snake-core-snakeMasterWindow").slideDown();	
+						$("#Snake-core-snakeMasterWindow_button").off();
+						let scoreAchieved = score;		
+						$("#Snake-core-snakeMasterWindow_button").click(function(event){
+							var preset = {"player" : "","score" : scoreAchieved};
+							preset.player = $("#Snake-core-snakeMasterWindow_Textbox").val();
+							Interstellar.setPresetValue("snake.highscore",preset);
+							Interstellar.closeCoreWindow("Snake-core-snakeMasterWindow");
+						});
+					}
 					tail = 5;
 					$("#Snake_Core_Widget_highScore").css("color","white");
 					score = 0;
@@ -55,10 +81,9 @@
 			if(ax==px && ay==py) {
 				tail++;
 				score++;
-				if(score > highScore){
-					highScore = score;
+				if(score > snakeCoreWidget_highscore){
+					Interstellar.setPresetValue("snake.highscore",{"score" : score, "player" : "YOU!"});
 					$("#Snake_Core_Widget_highScore").css("color","red");
-					$("#Snake_Core_Widget_highScore").html("HIGHSCORE: " + highScore);
 				}
 				ax=Math.floor(Math.random()*tc);
 				ay=Math.floor(Math.random()*tc);
@@ -69,7 +94,6 @@
 			ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
 		}
 		function keyPush(evt) {
-			console.log(evt.key);
 			switch(evt.key) {
 				case "a":
 				xv=-1;yv=0;
@@ -85,5 +109,6 @@
 				break;
 			}
 		}
+	});
 	</script>﻿
 </div>

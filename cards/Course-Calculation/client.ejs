@@ -1,7 +1,18 @@
 <link rel="stylesheet" type="text/css" href="/stationThemes">
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css">
 <div id="contentArea" class="noselect">
-	<div id="container" class="container4"></div>
+	<div id="container" class="container4">
+		<div id="scanningCourseTitle" class="verticalAlign"></div>
+	</div>
+	<div id="scanForCourseButton" class="Button2 noselect beepOnClick">
+		CALCULATE COURSE
+	</div>
+	<input type="text" id="courseTextbox">
+	<div id="thrusters">
+		<canvas id="yaw" class="thruster"></canvas>
+		<canvas id="pitch" class="thruster"></canvas>
+		<canvas id="roll" class="thruster"></canvas>
+	</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
 <script src="/threejs"></script>
