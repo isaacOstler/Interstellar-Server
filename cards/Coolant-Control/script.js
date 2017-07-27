@@ -12,11 +12,7 @@ var systemsThatTakeCoolant = [
 		"coolantAmount" : 0,
 	},
 	{
-		"systemName" : "WARP ENGINES",
-		"coolantAmount" : 0,
-	},
-	{
-		"systemName" : "IMPULSE ENGINES",
+		"systemName" : "ENGINES",
 		"coolantAmount" : 0,
 	}
 ];

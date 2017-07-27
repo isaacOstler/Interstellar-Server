@@ -1,3 +1,29 @@
+#warpButtonContainer{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+#impulseButtonContainer{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+.offlineContainer{	
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 5;
+	color:red;
+	background-color: rgba(0,0,0,.75);
+	display: none;
+	font-size: 2vw;
+}
 .speedButton{
 	position: absolute;
 	top:0px;
@@ -14,6 +40,18 @@
 }
 .speedButton:active{
 	filter:brightness(0.65);
+}
+#notEnoughPower{
+	display: none;
+	border: 1px solid white;
+	position: absolute;
+	top:40%;
+	height: 20%;
+	width: 100%;
+	left: 0px;
+	background-color: rgba(0,0,0,.8);
+	z-index: 5;
+	font-size: 72px;
 }
 #impulseLabel{
 	position: absolute;

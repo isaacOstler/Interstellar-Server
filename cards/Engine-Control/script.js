@@ -25,9 +25,17 @@ var heats = {
 	}
 	maxHeat = 10000,
 	currentEngine = 0, //0 for impulse, 1 for warp
+	currentSpeed = 0, //index of the speed (for the speed arrays)
 	alertStatus = 5,
 	impulseSpeeds = ["1/4","1/2","3/4","FULL"],
-	warpSpeeds = [1,2,3,4,5,6,7,8,9,9.23];
+	warpSpeeds = [1,2,3,4,5,6,7,8,9,9.23],
+	warpPower = 999, //until we know otherwise, assume we have enough power
+	impulsePower = 999, //until we know otherwise, assume we have enough power
+	flashNotEnoughPowerInterval = undefined,
+	flushCoolantInterval = undefined,
+	impulseOffline = false,
+	warpOffline = false,
+	coolant = [];
 
 //DOM references
 var heatDisplays = {
@@ -42,15 +50,39 @@ var heatDisplays = {
 			"portCanvas" : $("#impulsePortCanvas")
 		}
 	},
-	warpContainer = $("#warpContainer"),
-	impulseContainer = $("#impulseContainer"),
-	currentSpeedContainer = $("#currentSpeed");
+	warpContainer = $("#warpButtonContainer"),
+	impulseContainer = $("#impulseButtonContainer"),
+	currentSpeedContainer = $("#currentSpeed"),
+	notEnoughPowerElement = $("#notEnoughPower"),
+	notEnoughPowerTextElement = $("#notEnoughPowerText"),
+	currentSpeedLabel = $("#currentSpeed"),
+	warpOfflineElement = $("#warpOffline"),
+	impulseOfflineElement = $("#impulseOffline"),
+	coolantFillBar = $("#coolantAmountFillBar");
 //init calls
 init();
 
 //preset observers
 
 //database observers
+
+Interstellar.onDatabaseValueChange("engineControl.heat",function(newData){
+	if(newData == null){
+		Interstellar.setDatabaseValue("engineControl.heat",heats);
+		return;
+	}
+	heat = newData;
+	drawHeatDisplays();
+});
+
+Interstellar.onDatabaseValueChange("coolant.systemCoolantLevels",function(newData){
+	if(newData == null){
+		//do not set this value!  We are not responsible for it!
+		return;
+	}
+	coolant = newData;
+	drawGUI();
+});
 
 Interstellar.onDatabaseValueChange("engineControl.currentEngine",function(newData){
 	if(newData == null){
@@ -72,6 +104,69 @@ Interstellar.onDatabaseValueChange("engineControl.currentEngine",function(newDat
 	drawHeatDisplays();
 });
 
+Interstellar.onDatabaseValueChange("engineControl.currentSpeed",function(newData){
+	if(newData == null){
+		Interstellar.setDatabaseValue("engineControl.currentSpeed",-1);
+		return;
+	}
+	currentSpeed = newData;
+	drawGUI();
+});
+
+Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
+	if(newData == null){
+		Interstellar.setDatabaseValue("ship.alertStatus",5);
+		return;
+	}
+	alertStatus = newData;
+	drawGUI();
+});
+
+Interstellar.onDatabaseValueChange("ship.systems",function(newData){
+	if(newData == null){
+		//we do not set this.  Period.  Stop trying to change the code James.
+		return;
+	}
+	var err = "Could not find warp engines!  (On ship system list)";
+	for(var i = 0;i < newData.length;i++){
+		if(newData[i].systemName.includes("WARP")){
+			err = undefined;
+			warpOffline = newData[i].isDamaged;
+			if(warpOffline && currentEngine == 1 && currentSpeed > 0){
+				flashWarpOffline();
+				Interstellar.setDatabaseValue("engineControl.currentSpeed",-1);
+			}
+			for(var j = 0;j < newData[i].requiredPower.length;j++){
+				if(newData[i].requiredPower[j] <= newData[i].systemPower){
+					warpPower = j;
+				}
+			}
+		}
+	}
+	if(err != undefined){
+		console.warn(err);
+	}
+	err = "Could not find impulse engines!  (On ship system list)";
+	for(var i = 0;i < newData.length;i++){
+		if(newData[i].systemName.includes("IMPULSE")){
+			err = undefined;
+			impulseOffline = newData[i].isDamaged;
+			if(impulseOffline && currentEngine == 0 && currentSpeed > 0){
+				flashImpulseOffline();
+				Interstellar.setDatabaseValue("engineControl.currentSpeed",-1);
+			}
+			for(var j = 0;j < newData[i].requiredPower.length;j++){
+				if(newData[i].requiredPower[j] <= newData[i].systemPower){
+					impulsePower = j;
+				}
+			}
+		}
+	}
+	if(err != undefined){
+		console.warn(err);
+	}
+	drawGUI();
+});
 //functions
 
 function init(){
@@ -81,25 +176,122 @@ function init(){
 }
 
 function drawGUI(){
+	if(currentSpeed < 0){
+		currentSpeedLabel.html("FULL STOP");
+	}else{
+		if(currentEngine == 0){
+			currentSpeedLabel.css("font-size","36px");
+			currentSpeedLabel.html(impulseSpeeds[currentSpeed] + " IMPULSE");
+		}else{
+			currentSpeedLabel.css("font-size","59px");
+			currentSpeedLabel.html("WARP " + warpSpeeds[currentSpeed]);
+		}
+	}
+	if(coolant != undefined){
+		for(var i = 0;i < coolant.length;i++){
+			if(coolant[i].systemName.includes("ENGINE")){
+				var coolantAmount = coolant[i].coolantAmount;
+				coolantFillBar.css("width",(coolantAmount * 100) + "%")
+				break;
+			}
+		}
+	}
 	var html = "";
 	var width = (warpContainer.width() + 2) / warpSpeeds.length;
 	var i;
+	var color;
+	switch(Number(alertStatus)){
+        case 5:
+        color = 'rgba(66, 191, 244, 0.5)'; //set the color to white
+        break;
+        case 4:
+        color = 'rgba(65, 244, 166, 0.5)'; //set the color to a greenish blue color
+        break;
+        case 3:
+        color = 'rgba(244, 238, 66, 0.5)'; //set the color to yellow
+        break;
+        case 2:
+        color = 'rgba(172, 119, 32, 0.6)'; //set the color to orange
+        break;
+        case 1:
+        color = 'rgba(255, 0, 0, 0.5)'; //set the color to red
+        break;
+    	default: //in case the alert status is something wierd, default to this
+    	color = 'rgba(66, 191, 244, 0.5)';
+    	break;
+	}
+	if(warpOffline){
+		warpOfflineElement.fadeIn();
+	}else{
+		warpOfflineElement.fadeOut();
+	}
 	for(i = 0;i < warpSpeeds.length;i++){
-		var style = "'left:" + (i * width) + "px;width: " + width + "px'";
-		html += "<div style=" + style + " speed='" + warpSpeeds[i] + "' class='speedButton warpButton verticalAlign beepOnClick'>";
+		var style = "'left:" + (i * width) + "px;width: " + width + "px;";
+		if(i <= currentSpeed && currentEngine == 1){
+			style += "background-color:" + color + ";"
+		}else if(i <= warpPower){
+			style += "background-color:rgba(255,150,0,.6);"
+		}
+		style += "'";
+		html += "<div style=" + style + " speed='" + i + "' class='speedButton warpButton verticalAlign'>";
 		html += warpSpeeds[i];
 		html += "</div>";
 	}
 	warpContainer.html(html);
 	html = "";
+
+	if(impulseOffline){
+		impulseOfflineElement.fadeIn();
+	}else{
+		impulseOfflineElement.fadeOut();
+	}
 	width = (impulseContainer.width() + 2) / impulseSpeeds.length;
 	for(i = 0;i < impulseSpeeds.length;i++){
-		var style = "'left:" + (i * width) + "px;width: " + width + "px'";
-		html += "<div style=" + style + " speed='" + impulseSpeeds[i] + "' class='speedButton impulseButton verticalAlign beepOnClick'>";
+		var style = "'left:" + (i * width) + "px;width: " + width + "px;";
+		if(i <= currentSpeed && currentEngine == 0){
+			style += "background-color:" + color + ";"
+		}else if(i <= impulsePower){
+			style += "background-color:rgba(255,150,0,.6);"
+		}
+		style += "'";
+		html += "<div style=" + style + " speed='" + i + "' class='speedButton impulseButton verticalAlign'>";
 		html += impulseSpeeds[i];
 		html += "</div>";
 	}
 	impulseContainer.html(html);
+	$(".impulseButton").off();
+	$(".impulseButton").click(function(event){
+		if(impulseOffline){
+			flashImpulseOffline();
+			return;
+		}
+		var speed = $(event.target).attr("speed");
+		if(speed > impulsePower){
+			flashNotEnoughPower();
+			return;
+		}
+		playRandomBeep();
+		notEnoughPowerElement.slideUp();
+		Interstellar.setDatabaseValue("engineControl.currentEngine",0);
+		Interstellar.setDatabaseValue("engineControl.currentSpeed",speed);
+	});
+
+	$(".warpButton").off();
+	$(".warpButton").click(function(event){
+		if(warpOffline){
+			flashWarpOffline();
+			return;
+		}
+		var speed = $(event.target).attr("speed");
+		if(speed > warpPower){
+			flashNotEnoughPower();
+			return;
+		}
+		playRandomBeep();
+		notEnoughPowerElement.slideUp();
+		Interstellar.setDatabaseValue("engineControl.currentEngine",1);
+		Interstellar.setDatabaseValue("engineControl.currentSpeed",speed);
+	});
 }
 
 setInterval(function(){
@@ -109,6 +301,49 @@ setInterval(function(){
 	heatVariance.warp.starboard = (Math.random() * 1) + (Math.random() * -1);
 	drawHeatDisplays();
 },0450);
+
+function flashWarpOffline(){
+	notEnoughPowerTextElement.html("WARP ENGINES OFFLINE");
+	flashElement();
+}
+
+function flashImpulseOffline(){
+	notEnoughPowerTextElement.html("IMPULSE ENGINES OFFLINE");
+	flashElement();
+}
+
+function flashNotEnoughPower(){
+	notEnoughPowerTextElement.html("ADDITIONAL POWER REQUIRED");
+	flashElement();
+}
+
+function flashElement(){
+	Interstellar.playErrorNoise();
+	notEnoughPowerElement.slideDown();
+	if(flashNotEnoughPowerInterval != undefined){
+		clearInterval(flashNotEnoughPowerInterval);
+		flashNotEnoughPowerInterval = undefined;
+	}
+	let flashState = 0;
+	let timesFlashed = 0;
+	let maxFlashes = 10;
+	flashNotEnoughPowerInterval = setInterval(function(){
+		if(timesFlashed >= maxFlashes){
+			clearInterval(flashNotEnoughPowerInterval);
+			flashNotEnoughPowerInterval = undefined;
+			notEnoughPowerElement.slideUp();
+			return;
+		}
+		if(flashState == 0){
+			flashState = 1;
+			notEnoughPowerTextElement.css("color","rgb(128,0,0)");
+		}else{
+			flashState = 0;
+			notEnoughPowerTextElement.css("color","rgb(255,0,0)");
+		}
+		timesFlashed++;
+	},0250);
+}
 
 function initHeatDisplays(){
 	for(var i = 0;i < 4;i++){
@@ -138,21 +373,21 @@ function drawHeatDisplays(){
 			if(i == 0){
 				element = heatDisplays.impulse.starboardCanvas;
 				heat = heats.impulse.starboard + heatVariance.impulse.starboard;
-				heatValueInPercentage = Math.log((heats.impulse.starboard + heatVariance.impulse.starboard) - 60) / Math.log(maxHeat);
+				heatValueInPercentage = Math.log((heats.impulse.starboard + heatVariance.impulse.starboard) - 50) / Math.log(maxHeat);
 			}else{
 				element = heatDisplays.impulse.portCanvas;
 				heat = heats.impulse.port + heatVariance.impulse.port
-				heatValueInPercentage = Math.log((heats.impulse.port + heatVariance.impulse.port) - 60) / Math.log(maxHeat);
+				heatValueInPercentage = Math.log((heats.impulse.port + heatVariance.impulse.port) - 50) / Math.log(maxHeat);
 			}
 		}else{
 			if(i == 0){
 				element = heatDisplays.warp.starboardCanvas;
 				heat = heats.warp.starboard + heatVariance.warp.starboard;
-				heatValueInPercentage = Math.log((heats.warp.starboard + heatVariance.warp.starboard) - 60) / Math.log(maxHeat);
+				heatValueInPercentage = Math.log((heats.warp.starboard + heatVariance.warp.starboard) - 50) / Math.log(maxHeat);
 			}else{
 				element = heatDisplays.warp.portCanvas;
 				heat = heats.warp.port + heatVariance.warp.port;
-				heatValueInPercentage = Math.log((heats.warp.port + heatVariance.warp.port) - 60) / Math.log(maxHeat);
+				heatValueInPercentage = Math.log((heats.warp.port + heatVariance.warp.port) - 50) / Math.log(maxHeat);
 			}
 		}
 		if(heatValueInPercentage <= 0){
@@ -272,26 +507,98 @@ function drawHeatDisplays(){
 	}
 }
 //event handlers
-$(".impulseButton").click(function(event){
-	var speed = $(event.target).attr("speed");
-	for(var i = 0;i < impulseSpeeds.length;i++){
-		if(impulseSpeeds[i] == speed){
-			Interstellar.setDatabaseValue("engineControl.currentEngine",0);
-			Interstellar.setDatabaseValue("engineControl.currentSpeed",impulseSpeeds[0]);
-		}
-	}
-});
 
-$(".warpButton").click(function(event){
-	var speed = $(event.target).attr("speed");
-	for(var i = 0;i < impulseSpeeds.length;i++){
-		if(warpSpeeds[i] == speed){
-			Interstellar.setDatabaseValue("engineControl.currentEngine",1);
-			Interstellar.setDatabaseValue("engineControl.currentSpeed",warpSpeeds[0]);
-		}
-	}
-});
+//for warp and impulse event handlers, see DrawGUI()
 
 $("#fullStopButton").click(function(event){
 	Interstellar.setDatabaseValue("engineControl.currentSpeed",undefined);
 });
+
+$(".flushCoolant").mousedown(function(event){
+	for(var i = 0;i < coolant.length;i++){
+		if(coolant[i].systemName.includes("ENGINE")){
+			coolantAmount = coolant[i].coolantAmount;
+			coolantFillBar.css("width",(coolantAmount * 100) + "%")
+			coolantAmount -= .01;
+			if(coolantAmount <= 0){
+				Interstellar.playErrorNoise();
+				return;
+			}
+			break;
+		}
+	}
+	let engineFlushing = $(event.target).attr("engine");
+	if(flushCoolantInterval != undefined){
+		clearInterval(flushCoolantInterval);
+		flushCoolantInterval = undefined;
+	}
+	flushCoolantInterval = setInterval(function(){
+		var amountToChange = 0;
+		for(var i = 0;i < coolant.length;i++){
+			if(coolant[i].systemName.includes("ENGINE")){
+				coolantAmount = coolant[i].coolantAmount;
+				coolantFillBar.css("width",(coolantAmount * 100) + "%")
+				coolantAmount -= .01;
+				coolant[i].coolantAmount = coolantAmount;
+				console.log(coolantAmount);
+				Interstellar.setDatabaseValue("coolant.systemCoolantLevels",coolant);
+				if(coolantAmount <= 0){
+					if(flushCoolantInterval != undefined){
+						clearInterval(flushCoolantInterval);
+						flushCoolantInterval = undefined;
+					}
+					$(document).off();
+					return;
+				}
+				break;
+			}
+		}
+		if(currentEngine == 0){
+			if(engineFlushing == "port"){
+				amountToChange = (heats.impulse.port / maxHeat) * 25;
+			}else{
+				amountToChange = (heats.impulse.starboard / maxHeat) * 25;
+			}
+		}else{
+			if(engineFlushing == "port"){
+				amountToChange = (heats.warp.port / maxHeat) * 25;
+			}else{
+				amountToChange = (heats.warp.starboard / maxHeat) * 25;
+			}
+		}
+		if(currentEngine == 0){
+			if(engineFlushing == "port"){
+				heats.impulse.port -= amountToChange;
+				if(heats.impulse.port < 0){
+					heats.impulse.port = 0;
+				}
+			}else{
+				heats.impulse.starboard -= amountToChange;
+				if(heats.impulse.starboard < 0){
+					heats.impulse.starboard = 0;
+				}
+			}
+		}else{
+			if(engineFlushing == "port"){
+				heats.warp.port -= amountToChange;
+				if(heats.warp.port < 0){
+					heats.warp.port = 0;
+				}
+			}else{
+				heats.warp.starboard -= amountToChange;
+				if(heats.warp.starboard < 0){
+					heats.warp.starboard = 0;
+				}
+			}
+		}
+		Interstellar.setDatabaseValue("engineControl.heat",heats);
+	},0040);
+	$(document).mouseup(function(event){
+		if(flushCoolantInterval != undefined){
+			clearInterval(flushCoolantInterval);
+			flushCoolantInterval = undefined;
+		}
+		$(document).off();
+	})
+});
+

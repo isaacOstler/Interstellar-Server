@@ -1,32 +1,51 @@
 <link rel="stylesheet" type="text/css" href="/stationThemes">
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css">
 <div id="contentArea" class="noselect">
+	<div id="notEnoughPower">
+		<div id="notEnoughPowerText" class="verticalAlign" style="position: absolute;top:0px;left: 0px;height: 100%;width: 100%">
+			ADDITIONAL POWER REQUIRED
+		</div>
+	</div>
 	<div id="impulseLabel">
 		IMPULSE
 	</div>
 	<div id="impulseContainer">
-
+		<div id="impulseButtonContainer">
+		
+		</div>
+		<div id="impulseOffline">
+			<div class="verticalAlign offlineContainer" id="impulseOfflineText">
+				IMPULSE ENGINES OFFLINE
+			</div>
+		</div>
 	</div>
 	<div id="warpLabel">
 		WARP
 	</div>
 	<div id="warpContainer">
+		<div id="warpButtonContainer">
 
+		</div>
+		<div id="warpOffline">
+			<div class="verticalAlign offlineContainer" id="warpOfflineText">
+				WARP ENGINES OFFLINE
+			</div>
+		</div>
 	</div>
 	<div id="fullStopButton" class="verticalAlign beepOnClick">
 		FULL STOP
 	</div>
-	<div id="currentSpeedLabel">CURRENT SPEED<div id="currentSpeed">WARP 5</div></div>
+	<div id="currentSpeedLabel">CURRENT SPEED<div id="currentSpeed">FULL STOP</div></div>
 	<div id="starboardHeatLabel">STARBOARD ENGINE HEAT</div>
 	<div class="heatDisplay" engine="warpStarboard" style="top:35%;right:0%;"><canvas class="heatDisplayCanvas" id="warpStarboardCanvas"></canvas></div>
 	<div id="portHeatLabel">PORT ENGINE HEAT</div>
 	<div class="heatDisplay" engine="warpPort" style="top:35%;left:0%;"><canvas class="heatDisplayCanvas" id="warpPortCanvas"></canvas></div>
 	<div class="heatDisplay" engine="impulseStarboard" style="top:35%;right:0%;"><canvas class="heatDisplayCanvas" id="impulseStarboardCanvas"></canvas></div>
 	<div class="heatDisplay" engine="impulsePort" style="top:35%;left:0%;"><canvas class="heatDisplayCanvas" id="impulsePortCanvas"></canvas></div>
-	<div id="portCoolantFlush" class="Button2 noselect beepOnClick verticalAlign">
+	<div id="portCoolantFlush" engine="port" class="flushCoolant Button2 noselect beepOnClick verticalAlign">
 		FLUSH COOLANT
 	</div>
-	<div id="starboardCoolantFlush" class="Button2 noselect beepOnClick verticalAlign">
+	<div id="starboardCoolantFlush" engine="starboard" class="flushCoolant Button2 noselect beepOnClick verticalAlign">
 		FLUSH COOLANT
 	</div>
 	<div id="shipView"></div>
