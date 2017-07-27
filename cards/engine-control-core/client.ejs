@@ -3,5 +3,45 @@
     height: 125px;
     top: 0px;
     left: 1090px;">
+    <div id="engine-control-core_currentSpeed" class="notEditable verticalAlign">
+    	FULL STOP
+    </div>
+    <select id="engine-control-core_forceToSpeed">
+    	<optgroup label="Warp">
+    		<option>Warp 1</option>
+    		<option>Warp 2</option>
+    		<option>Warp 3</option>
+    		<option>Warp 4</option>
+    		<option>Warp 5</option>
+    		<option>Warp 6</option>
+    		<option>Warp 7</option>
+    		<option>Warp 8</option>
+    		<option>Warp 9</option>
+    	</optgroup>
+    	<optgroup label="Impulse">
+    		<option>1/4 Impulse</option>
+    		<option>1/2 Impulse</option>
+    		<option>3/4 Impulse</option>
+    		<option>Full Impulse</option>
+    	</optgroup>
+    </select>
+    <div id="engine-control-core_forceToStop" class="customButton verticalAlign">
+    	FORCE STOP
+    </div>
+    <div id="engine-control-core_heatLevels">
+    	<div id="engine-control-core_impulseLabel" class="verticalAlign">
+    		Impulse Heat
+    	</div>
+    	<div id="engine-control-core_warpLabel" class="verticalAlign">
+    		Warp Heat
+    	</div>
+    	<div id="engine-control-core_impulsePort" style="top:40%;left: 0px;" class="engine-control-core_heatLevel verticalAlign">Port</div>
+    	<div id="engine-control-core_impulseStarboard" style="top:calc(70% + 1px);left: 0px;" class="engine-control-core_heatLevel verticalAlign">Starboard</div>
+    	<div id="engine-control-core_warpPort" style="top:40%;left: 50%;" class="engine-control-core_heatLevel verticalAlign">Port</div>
+    	<div id="engine-control-core_warpStarboard" style="top:calc(70% + 1px);left: 50%;" class="engine-control-core_heatLevel verticalAlign">Starboard</div>
+    </div>
+    <div id="engine-control-core_heatControls">
+    Foo
+    </div>
 </div>
 <script src="/resource?path=script.js&screen=engine-control-core" type="text/javascript"></script>
