@@ -24,13 +24,25 @@
 	display: none;
 	font-size: 2vw;
 }
+.powerContainer{
+	font-size: 12px;
+	border-top:1px solid white;
+	border-right: 1px solid white;
+	position: absolute;
+	bottom: 0px;
+	height: 20%;
+	left: 0px;
+	width: 0%;
+	color:black;
+	background-color: rgba(255,255,0,.8);
+}
 .speedButton{
 	position: absolute;
 	top:0px;
 	left: 0px;
 	width: 25%;
 	border-right: 1px solid white;
-	height: 100%;
+	height: 80%;
 	cursor: pointer;
 	font-size: 30px;
     background-color: rgba(128,128,128,.5);
@@ -84,6 +96,7 @@
 	filter:brightness(0.65);
 }
 #impulseContainer{
+	overflow: hidden;
 	position: absolute;
     top: 15%;
     left: 10%;
@@ -92,6 +105,7 @@
     border: 1px solid white;
 }
 #warpContainer{
+	overflow: hidden;
     position: absolute;
     top: 5%;
     right: 0%;

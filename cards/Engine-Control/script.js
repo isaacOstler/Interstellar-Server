@@ -230,13 +230,17 @@ function drawGUI(){
 		if(i <= currentSpeed && currentEngine == 1){
 			style += "background-color:" + color + ";"
 		}else if(i <= warpPower){
-			style += "background-color:rgba(255,150,0,.6);"
+			//style += "background-color:rgba(255,150,0,.6);"
 		}
 		style += "'";
 		html += "<div style=" + style + " speed='" + i + "' class='speedButton warpButton verticalAlign'>";
 		html += warpSpeeds[i];
 		html += "</div>";
 	}
+	var style = "'width:" + (width * (warpPower + 1)) + "px'";
+	html += "<div class='powerContainer' style=" + style + ">";
+	html += "POWER"
+	html += "</div>"
 	warpContainer.html(html);
 	html = "";
 
@@ -251,13 +255,17 @@ function drawGUI(){
 		if(i <= currentSpeed && currentEngine == 0){
 			style += "background-color:" + color + ";"
 		}else if(i <= impulsePower){
-			style += "background-color:rgba(255,150,0,.6);"
+			//style += "background-color:rgba(255,150,0,.6);"
 		}
 		style += "'";
 		html += "<div style=" + style + " speed='" + i + "' class='speedButton impulseButton verticalAlign'>";
 		html += impulseSpeeds[i];
 		html += "</div>";
 	}
+	var style = "'width:" + (width * (impulsePower + 1)) + "px'";
+	html += "<div class='powerContainer' style=" + style + ">";
+	html += "POWER"
+	html += "</div>"
 	impulseContainer.html(html);
 	$(".impulseButton").off();
 	$(".impulseButton").click(function(event){
