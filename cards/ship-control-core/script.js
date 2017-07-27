@@ -27,7 +27,8 @@ Interstellar.addCoreWidget("Ship Control",function(){
 		selectedDeck = -1,
 		selectedRoom = -1,
 		deleteRoomMode = false,
-		deleteDeckMode = false;
+		deleteDeckMode = false,
+		isAdjustingLayout = false;
 
 		//DOM references
 		var crewCountTextbox = $("#ship-control-Core_crew-count_inputTextbox"),
@@ -282,6 +283,10 @@ Interstellar.addCoreWidget("Ship Control",function(){
 		addDeckButton.click(function(event){
 			rooms.splice(rooms.length,0,[]);
 			Interstellar.setDatabaseValue("ship.rooms",rooms);
+		});
+		layoutButton.click(function(event){
+			isAdjustingLayout = !isAdjustingLayout;
+			Interstellar.setCoreWidgetMovement(isAdjustingLayout);
 		});
 	});
 });
