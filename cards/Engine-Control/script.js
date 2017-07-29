@@ -71,7 +71,7 @@ Interstellar.onDatabaseValueChange("engineControl.heat",function(newData){
 		Interstellar.setDatabaseValue("engineControl.heat",heats);
 		return;
 	}
-	heat = newData;
+	heats = newData;
 	drawHeatDisplays();
 });
 
@@ -84,32 +84,27 @@ Interstellar.onDatabaseValueChange("coolant.systemCoolantLevels",function(newDat
 	drawGUI();
 });
 
-Interstellar.onDatabaseValueChange("engineControl.currentEngine",function(newData){
+Interstellar.onDatabaseValueChange("engineControl.engineInformation",function(newData){
 	if(newData == null){
-		Interstellar.setDatabaseValue("engineControl.currentEngine",0);
+		Interstellar.setDatabaseValue("engineControl.engineInformation",{"currentEngine" : 0,"currentSpeed" : -1});
 		return;
 	}
-	currentEngine = newData;
-	if(currentEngine == 0){
-		heatDisplays.impulse.starboardCanvas.fadeIn();
-		heatDisplays.impulse.portCanvas.fadeIn();
-		heatDisplays.warp.starboardCanvas.fadeOut();
-		heatDisplays.warp.portCanvas.fadeOut();
-	}else{
-		heatDisplays.impulse.portCanvas.fadeOut();
-		heatDisplays.impulse.starboardCanvas.fadeOut();
-		heatDisplays.warp.portCanvas.fadeIn();
-		heatDisplays.warp.starboardCanvas.fadeIn();
+	currentSpeed = newData.currentSpeed;
+	if(currentEngine != newData.currentEngine){
+		if(currentEngine == 0){
+			heatDisplays.impulse.starboardCanvas.fadeIn();
+			heatDisplays.impulse.portCanvas.fadeIn();
+			heatDisplays.warp.starboardCanvas.fadeOut();
+			heatDisplays.warp.portCanvas.fadeOut();
+		}else{
+			heatDisplays.impulse.portCanvas.fadeOut();
+			heatDisplays.impulse.starboardCanvas.fadeOut();
+			heatDisplays.warp.portCanvas.fadeIn();
+			heatDisplays.warp.starboardCanvas.fadeIn();
+		}
+		drawHeatDisplays();
 	}
-	drawHeatDisplays();
-});
-
-Interstellar.onDatabaseValueChange("engineControl.currentSpeed",function(newData){
-	if(newData == null){
-		Interstellar.setDatabaseValue("engineControl.currentSpeed",-1);
-		return;
-	}
-	currentSpeed = newData;
+	currentEngine = newData.currentEngine;
 	drawGUI();
 });
 
@@ -134,7 +129,7 @@ Interstellar.onDatabaseValueChange("ship.systems",function(newData){
 			warpOffline = newData[i].isDamaged;
 			if(warpOffline && currentEngine == 1 && currentSpeed > 0){
 				flashWarpOffline();
-				Interstellar.setDatabaseValue("engineControl.currentSpeed",-1);
+				Interstellar.setDatabaseValue("engineControl.engineInformation",{"currentEngine":currentEngine,"currentSpeed":-1});
 			}
 			for(var j = 0;j < newData[i].requiredPower.length;j++){
 				if(newData[i].requiredPower[j] <= newData[i].systemPower){
@@ -153,7 +148,7 @@ Interstellar.onDatabaseValueChange("ship.systems",function(newData){
 			impulseOffline = newData[i].isDamaged;
 			if(impulseOffline && currentEngine == 0 && currentSpeed > 0){
 				flashImpulseOffline();
-				Interstellar.setDatabaseValue("engineControl.currentSpeed",-1);
+				Interstellar.setDatabaseValue("engineControl.engineInformation",{"currentEngine":currentEngine,"currentSpeed":-1});
 			}
 			for(var j = 0;j < newData[i].requiredPower.length;j++){
 				if(newData[i].requiredPower[j] <= newData[i].systemPower){
@@ -280,8 +275,7 @@ function drawGUI(){
 		}
 		playRandomBeep();
 		notEnoughPowerElement.slideUp();
-		Interstellar.setDatabaseValue("engineControl.currentEngine",0);
-		Interstellar.setDatabaseValue("engineControl.currentSpeed",speed);
+		Interstellar.setDatabaseValue("engineControl.engineInformation",{"currentEngine":0,"currentSpeed":speed});
 	});
 
 	$(".warpButton").off();
@@ -297,8 +291,7 @@ function drawGUI(){
 		}
 		playRandomBeep();
 		notEnoughPowerElement.slideUp();
-		Interstellar.setDatabaseValue("engineControl.currentEngine",1);
-		Interstellar.setDatabaseValue("engineControl.currentSpeed",speed);
+		Interstellar.setDatabaseValue("engineControl.engineInformation",{"currentEngine":1,"currentSpeed":speed});
 	});
 }
 
@@ -519,7 +512,7 @@ function drawHeatDisplays(){
 //for warp and impulse event handlers, see DrawGUI()
 
 $("#fullStopButton").click(function(event){
-	Interstellar.setDatabaseValue("engineControl.currentSpeed",undefined);
+	Interstellar.setDatabaseValue("engineControl.engineInformation",{"currentEngine":currentEngine,"currentSpeed":-1});
 });
 
 $(".flushCoolant").mousedown(function(event){
@@ -548,7 +541,6 @@ $(".flushCoolant").mousedown(function(event){
 				coolantFillBar.css("width",(coolantAmount * 100) + "%")
 				coolantAmount -= .01;
 				coolant[i].coolantAmount = coolantAmount;
-				console.log(coolantAmount);
 				Interstellar.setDatabaseValue("coolant.systemCoolantLevels",coolant);
 				if(coolantAmount <= 0){
 					if(flushCoolantInterval != undefined){
