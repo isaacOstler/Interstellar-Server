@@ -1,0 +1,8 @@
+{
+	"cardName":"Shields",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the user to raise, lower, and monitor the ship's shields"
+}
