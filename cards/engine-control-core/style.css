@@ -102,7 +102,7 @@
     height: calc(75% - 44px);
 }
 .engine-control-core_heatLevel{
-	cursor: col-resize;
+	cursor: pointer;
 	position: absolute;
 	width: 50%;
 	height: 30%;

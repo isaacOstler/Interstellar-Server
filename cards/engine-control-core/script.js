@@ -30,10 +30,11 @@ Interstellar.addCoreWidget("Engine Control",function(){
 				}
 		},
 		maxHeat = 10000,
+		restingHeat = 70,
 		heatLevels = 
 		{
-			"impulse" : 10,
-			"warp" : 1
+			"impulse" : 0.5,
+			"warp" : 0.5
 		},
 		heatPans =
 		{
@@ -65,7 +66,12 @@ Interstellar.addCoreWidget("Engine Control",function(){
 				"port" : $("#engine-control-core_warpPortHeatFill"),
 				"starboard" : $("#engine-control-core_warpStarboardHeatFill")
 			}
-		}
+		},
+		impulseHeatLevelRangeElement = $("#engine-control-core_heatControls_ImpulseControls_heatRate"),
+		warpHeatLevelRangeElement = $("#engine-control-core_heatControls_WarpControls_heatRate"),
+		impulseHeatLevelTextboxElement = $("#engine-control-core_heatControls_ImpulseControls_heatRateTextbox"),
+		warpHeatLevelTextboxElement = $("#engine-control-core_heatControls_WarpControls_heatRateTextbox");
+
 
 	//init calls
 
@@ -187,26 +193,54 @@ Interstellar.addCoreWidget("Engine Control",function(){
 	}
 	//intervals
 	setInterval(function(){
-		if(currentSpeed == -1){
-			return;
-		}
 		var heatToAdd = 0;
+		if(currentSpeed == -1){
+			//impulse (move to resting)
+			heatToAdd = -(heats.impulse.port / restingHeat) + 1;
+			heats.impulse.port += heatToAdd;
+			heatToAdd = -(heats.impulse.starboard / restingHeat) + 1;
+			heats.impulse.starboard += heatToAdd;
+			//warp (move to resting)
+			heatToAdd = -(heats.warp.port / restingHeat) + 1;
+			heats.warp.port += heatToAdd;
+			heatToAdd = -(heats.warp.starboard / restingHeat) + 1;
+			heats.warp.starboard += heatToAdd;
+		}
 		if(currentEngine == 0){
 			heatToAdd = heatLevels.impulse;
 			heatToAdd = heatToAdd * ((currentSpeed + 1) / impulseSpeeds.length);
 			heats.impulse.port += heatToAdd;
 			heats.impulse.starboard += heatToAdd;
+			//warp (move to resting)
+			heatToAdd = -(heats.warp.port / restingHeat) + 1;
+			heats.warp.port += heatToAdd;
+			heatToAdd = -(heats.warp.starboard / restingHeat) + 1;
+			heats.warp.starboard += heatToAdd;
 		}else{
 			heatToAdd = heatLevels.warp;
 			heatToAdd = heatToAdd * ((currentSpeed + 1) / warpSpeeds.length);
 			heats.warp.port += heatToAdd;
 			heats.warp.starboard += heatToAdd;
+			//impulse (move to resting)
+			heatToAdd = -(heats.impulse.port / restingHeat) + 1;
+			heats.impulse.port += heatToAdd;
+			heatToAdd = -(heats.impulse.starboard / restingHeat) + 1;
+			heats.impulse.starboard += heatToAdd;
 		}
-		if(heatToAdd == 0){
-			return; //don't waste network traffic on heat levels that aren't changing
+		if(heats.warp.port > maxHeat){
+			heats.warp.port = maxHeat;
+		}
+		if(heats.warp.starboard > maxHeat){
+			heats.warp.starboard = maxHeat;
+		}
+		if(heats.impulse.port > maxHeat){
+			heats.impulse.port = maxHeat;
+		}
+		if(heats.impulse.starboard > maxHeat){
+			heats.impulse.starboard = maxHeat;
 		}
 		Interstellar.setDatabaseValue("engineControl.heat",heats);
-	},0250);
+	},0500);
 	//event listeners
 	forceToSpeedElement.change(function(event){
 		var index = Number(forceToSpeedElement.prop('selectedIndex'));
@@ -223,5 +257,58 @@ Interstellar.addCoreWidget("Engine Control",function(){
 	});
 	forceToStopButton.click(function(event){
 		Interstellar.setDatabaseValue("engineControl.engineInformation",{"currentEngine" : 0,"currentSpeed" : -1});
+	});
+	impulseHeatLevelRangeElement.on("input",function(event){
+		heatLevels.impulse = $(event.target).val();
+		impulseHeatLevelTextboxElement.val(heatLevels.impulse);
+	});
+	impulseHeatLevelTextboxElement.on("input",function(event){
+		heatLevels.impulse = Number($(event.target).val().replace(/[^\d.-]/g, ''));
+		impulseHeatLevelRangeElement.val(heatLevels.impulse);
+	});
+	warpHeatLevelRangeElement.on("input",function(event){
+		heatLevels.warp = $(event.target).val();
+		warpHeatLevelTextboxElement.val(heatLevels.warp);
+	});
+	warpHeatLevelTextboxElement.on("input",function(event){
+		heatLevels.warp = Number($(event.target).val().replace(/[^\d.-]/g, ''));
+		warpHeatLevelRangeElement.val(heatLevels.warp);
+	});
+	$(".engine-control-core_heatLevel").dblclick(function(event){
+		var engine = $(event.target).attr("engine");
+		var side = $(event.target).attr("side");
+		if(engine == "impulse"){
+			if(side == "port"){
+				heats.impulse.port = restingHeat;
+			}else{
+				heats.impulse.starboard = restingHeat;
+			}
+		}else{
+			if(side == "port"){
+				heats.warp.port = restingHeat;
+			}else{
+				heats.warp.starboard = restingHeat;
+			}
+		}
+		Interstellar.setDatabaseValue("engineControl.heat",heats);
+	});
+	$(".engine-control-core_heatLevel").click(function(event){
+		var engine = $(event.target).attr("engine");
+		var side = $(event.target).attr("side");
+		var value = (event.offsetX / $(event.target).width()) * maxHeat;
+		if(engine == "impulse"){
+			if(side == "port"){
+				heats.impulse.port = value;
+			}else{
+				heats.impulse.starboard = value;
+			}
+		}else{
+			if(side == "port"){
+				heats.warp.port = value;
+			}else{
+				heats.warp.starboard = value;
+			}
+		}
+		Interstellar.setDatabaseValue("engineControl.heat",heats);
 	});
 });

@@ -555,15 +555,15 @@ $(".flushCoolant").mousedown(function(event){
 		}
 		if(currentEngine == 0){
 			if(engineFlushing == "port"){
-				amountToChange = (heats.impulse.port / maxHeat) * 25;
+				amountToChange = (heats.impulse.port / maxHeat) * 50;
 			}else{
-				amountToChange = (heats.impulse.starboard / maxHeat) * 25;
+				amountToChange = (heats.impulse.starboard / maxHeat) * 50;
 			}
 		}else{
 			if(engineFlushing == "port"){
-				amountToChange = (heats.warp.port / maxHeat) * 25;
+				amountToChange = (heats.warp.port / maxHeat) * 50;
 			}else{
-				amountToChange = (heats.warp.starboard / maxHeat) * 25;
+				amountToChange = (heats.warp.starboard / maxHeat) * 50;
 			}
 		}
 		if(currentEngine == 0){
