@@ -91,6 +91,7 @@ Interstellar.onDatabaseValueChange("engineControl.engineInformation",function(ne
 	}
 	currentSpeed = newData.currentSpeed;
 	if(currentEngine != newData.currentEngine){
+		currentEngine = newData.currentEngine;
 		if(currentEngine == 0){
 			heatDisplays.impulse.starboardCanvas.fadeIn();
 			heatDisplays.impulse.portCanvas.fadeIn();
@@ -104,7 +105,6 @@ Interstellar.onDatabaseValueChange("engineControl.engineInformation",function(ne
 		}
 		drawHeatDisplays();
 	}
-	currentEngine = newData.currentEngine;
 	drawGUI();
 });
 
@@ -438,13 +438,13 @@ function drawHeatDisplays(){
 	    someColors.push('#0F0');
 	    someColors.push('#0F0');
 	    someColors.push('#0F0');
+	    someColors.push('#0F0');
+	    someColors.push('#0F0');
 	    someColors.push('#FF0');
 	    someColors.push('#FF0');
 	    someColors.push('#FF0');
 	    someColors.push('#FF0');
-	    someColors.push('#F00');
-	    someColors.push('#F00');
-	    someColors.push('#F00');
+	    someColors.push('#FF0');
 	    someColors.push('#F00');
 	    someColors.push('#F00');
 	    someColors.push('#F00');

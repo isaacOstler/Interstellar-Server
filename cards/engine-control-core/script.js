@@ -193,21 +193,20 @@ Interstellar.addCoreWidget("Engine Control",function(){
 		var heatToAdd = 0;
 		if(currentEngine == 0){
 			heatToAdd = heatLevels.impulse;
-			heatToAdd = heatToAdd * ((currentSpeed - 1) / impulseSpeeds.length);
+			heatToAdd = heatToAdd * ((currentSpeed + 1) / impulseSpeeds.length);
 			heats.impulse.port += heatToAdd;
 			heats.impulse.starboard += heatToAdd;
 		}else{
 			heatToAdd = heatLevels.warp;
-			heatToAdd = heatToAdd * ((currentSpeed - 1) / warpSpeeds.length);
+			heatToAdd = heatToAdd * ((currentSpeed + 1) / warpSpeeds.length);
 			heats.warp.port += heatToAdd;
 			heats.warp.starboard += heatToAdd;
 		}
-		if(heatToAdd == 0)
-		{
+		if(heatToAdd == 0){
 			return; //don't waste network traffic on heat levels that aren't changing
 		}
 		Interstellar.setDatabaseValue("engineControl.heat",heats);
-	},0050);
+	},0250);
 	//event listeners
 	forceToSpeedElement.change(function(event){
 		var index = Number(forceToSpeedElement.prop('selectedIndex'));
