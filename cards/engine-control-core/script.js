@@ -70,7 +70,9 @@ Interstellar.addCoreWidget("Engine Control",function(){
 		impulseHeatLevelRangeElement = $("#engine-control-core_heatControls_ImpulseControls_heatRate"),
 		warpHeatLevelRangeElement = $("#engine-control-core_heatControls_WarpControls_heatRate"),
 		impulseHeatLevelTextboxElement = $("#engine-control-core_heatControls_ImpulseControls_heatRateTextbox"),
-		warpHeatLevelTextboxElement = $("#engine-control-core_heatControls_WarpControls_heatRateTextbox");
+		warpHeatLevelTextboxElement = $("#engine-control-core_heatControls_WarpControls_heatRateTextbox"),
+		warpPanLevelTextboxElement = $("#engine-control-core_heatControls_WarpControls_heatPanTextbox"),
+		impulsePanLevelTextboxElement = $("#engine-control-core_heatControls_ImpulseControls_heatPanTextbox");
 
 
 	//init calls
@@ -166,10 +168,14 @@ Interstellar.addCoreWidget("Engine Control",function(){
 		}
 	}
 	function updateHeatGUI(){
-		heatProgressBarFill.impulse.port.css("width",((heats.impulse.port / maxHeat) * 100) + "%");
-		heatProgressBarFill.impulse.starboard.css("width",((heats.impulse.starboard / maxHeat) * 100) + "%");
-		heatProgressBarFill.warp.port.css("width",((heats.warp.port / maxHeat) * 100) + "%");
-		heatProgressBarFill.warp.starboard.css("width",((heats.warp.starboard / maxHeat) * 100) + "%");
+		heatProgressBarFill.impulse.port.stop();
+		heatProgressBarFill.impulse.port.animate({"width":((heats.impulse.port / maxHeat) * 100) + "%"});
+		heatProgressBarFill.impulse.starboard.stop();
+		heatProgressBarFill.impulse.starboard.animate({"width":((heats.impulse.starboard / maxHeat) * 100) + "%"});
+		heatProgressBarFill.warp.port.stop();
+		heatProgressBarFill.warp.port.animate({"width":((heats.warp.port / maxHeat) * 100) + "%"});
+		heatProgressBarFill.warp.starboard.stop();
+		heatProgressBarFill.warp.starboard.animate({"width":((heats.warp.starboard / maxHeat) * 100) + "%"});
 	}
 	function drawForceToSpeedGUI(){
 		var html = "";
@@ -209,8 +215,16 @@ Interstellar.addCoreWidget("Engine Control",function(){
 		if(currentEngine == 0){
 			heatToAdd = heatLevels.impulse;
 			heatToAdd = heatToAdd * ((currentSpeed + 1) / impulseSpeeds.length);
-			heats.impulse.port += heatToAdd;
-			heats.impulse.starboard += heatToAdd;
+			var heatToAddWithPan = (heatToAdd * (1 + heatPans.impulse));
+			if(heatToAddWithPan < 0){
+				heatToAddWithPan = 0;
+			}
+			heats.impulse.starboard += heatToAddWithPan;
+			heatToAddWithPan = (heatToAdd * (1 - heatPans.impulse));
+			if(heatToAddWithPan < 0){
+				heatToAddWithPan = 0;
+			}
+			heats.impulse.port += heatToAddWithPan;
 			//warp (move to resting)
 			heatToAdd = -(heats.warp.port / restingHeat) + 1;
 			heats.warp.port += heatToAdd;
@@ -219,8 +233,16 @@ Interstellar.addCoreWidget("Engine Control",function(){
 		}else{
 			heatToAdd = heatLevels.warp;
 			heatToAdd = heatToAdd * ((currentSpeed + 1) / warpSpeeds.length);
-			heats.warp.port += heatToAdd;
-			heats.warp.starboard += heatToAdd;
+			var heatToAddWithPan = (heatToAdd * (1 + heatPans.warp));
+			if(heatToAddWithPan < 0){
+				heatToAddWithPan = 0;
+			}
+			heats.warp.starboard += heatToAddWithPan;
+			heatToAddWithPan = (heatToAdd * (1 - heatPans.warp));
+			if(heatToAddWithPan < 0){
+				heatToAddWithPan = 0;
+			}
+			heats.warp.port += heatToAddWithPan;
 			//impulse (move to resting)
 			heatToAdd = -(heats.impulse.port / restingHeat) + 1;
 			heats.impulse.port += heatToAdd;
@@ -273,6 +295,32 @@ Interstellar.addCoreWidget("Engine Control",function(){
 	warpHeatLevelTextboxElement.on("input",function(event){
 		heatLevels.warp = Number($(event.target).val().replace(/[^\d.-]/g, ''));
 		warpHeatLevelRangeElement.val(heatLevels.warp);
+	});
+	warpPanLevelTextboxElement.on("input",function(event){
+		heatPans.warp = Number($(event.target).val().replace(/[^\d.-]/g, ''));
+		if(heatPans.warp == undefined || heatPans.warp == null || isNaN(heatPans.warp)){
+			heatPans.warp = 0;
+		}
+		if(heatPans.warp > 1){
+			heatPans.warp = 1;
+			$(event.target).val(heatPans.warp);
+		}else if(heatPans.warp < -1){
+			heatPans.warp = -1;
+			$(event.target).val(heatPans.warp);
+		}
+	});
+	impulsePanLevelTextboxElement.on("input",function(event){
+		heatPans.impulse = Number($(event.target).val().replace(/[^\d.-]/g, ''));
+		if(heatPans.impulse == undefined || heatPans.impulse == null || isNaN(heatPans.impulse)){
+			heatPans.impulse = 0;
+		}
+		if(heatPans.impulse > 1){
+			heatPans.impulse = 1;
+			$(event.target).val(heatPans.impulse);
+		}else if(heatPans.impulse < -1){
+			heatPans.impulse = -1;
+			$(event.target).val(heatPans.impulse);
+		}
 	});
 	$(".engine-control-core_heatLevel").dblclick(function(event){
 		var engine = $(event.target).attr("engine");
