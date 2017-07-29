@@ -13,6 +13,8 @@ var renderer = new THREE.WebGLRenderer( { alpha: true } );
 var geometry;
 var innerShieldMaterials = [];
 var outerShieldMaterials = [];
+var innerShield;
+var outerShield
 
 init();
 
@@ -34,9 +36,9 @@ function init(){
 		if(row < (64 / 3.5)){
 			geometry.faces[i].materialIndex = 0;
 		}else if(row < (64 / 3.5) * 2.5){
-			for(var j = 0;j < 7;j++){
+			for(var j = 0;j < 4;j++){
 				matIndex = j + 1;
-				var cap = Math.round((requiredColumnAmount / 8) * j);
+				var cap = Math.round((requiredColumnAmount / 4) * j);
 				if(isOdd(cap)){
 					cap--;
 				}
@@ -46,12 +48,12 @@ function init(){
 				}
 			}
 		}else{
-			geometry.faces[i].materialIndex = 9;
+			geometry.faces[i].materialIndex = 5;
 		}
 	}
 	geometry.colorsNeedUpdate = true;
 	outerShieldMaterials = [];
-	for(var i = 0;i < 10;i++){
+	for(var i = 0;i < 6;i++){
 		var newMat = new THREE.MeshBasicMaterial({
 		    color: 0x00ffff, 
 		    transparent: true,
@@ -60,7 +62,7 @@ function init(){
 		outerShieldMaterials.push(newMat);
 	}
 	innerShieldMaterials = [];
-	for(var i = 0;i < 10;i++){
+	for(var i = 0;i < 6;i++){
 		var newMat = new THREE.MeshBasicMaterial({
 		    color: 0x00ffff, 
 		    transparent: true,
@@ -73,9 +75,11 @@ function init(){
 	var grid = new THREE.GridHelper(100, 20);
 	scene.add(grid);
 
-	var innerShield = new THREE.Mesh( geometry, innerShieldMaterials );
-	var outerShield = new THREE.Mesh( geometry, outerShieldMaterials );
+	innerShield = new THREE.Mesh( geometry, innerShieldMaterials );
+	outerShield = new THREE.Mesh( geometry, outerShieldMaterials );
 	innerShield.scale.set(.995,.995,.995);
+	innerShield.rotation.set(0,0.78539816,0); //radians, not degrees... get's me every time
+	outerShield.rotation.set(0,0.78539816,0); //radians, not degrees... get's me every time
 	scene.add( innerShield );
 	scene.add( outerShield );
 	camera.position.set(100,10,0);
