@@ -1,10 +1,31 @@
 <link rel="stylesheet" type="text/css" href="/stationThemes">
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css">
 <div id="contentArea" class="noselect">
-	
+	<div id="shield3DCanvas">
+	</div>
+	<div id="shieldInfoContainer" class="container4">
+		<div id="shieldInfoContainer_individualShieldsContainer">
+
+		</div>
+		<div id="shieldInfoContainer_allShieldsContainer">
+			<div id="shieldInfoContainer_allShieldsContainer_allShieldStrength">
+				AVERAGE SHIELD STRENGTH: <div id="shieldInfoContainer_allShieldsContainer_allShieldStrength_value">100%</div>
+			</div>
+			<div id="shieldInfoContainer_allShieldsContainer_raiseLowerAllShieldsButtons">
+				<div class="Button2 beepOnClick noselect" id="raiseAllShieldsButton">
+					RAISE ALL SHIELDS
+				</div>
+				<div class="Button2 beepOnClick noselect" id="lowerAllShieldsButton">
+					LOWER ALL SHIELDS
+				</div>
+			</div>
+			<div id="shieldInfoContainer_allShieldsContainer_shieldFrequency">
+				SHIELD FREQUENCY <div id="shieldInfoContainer_allShieldsContainer_shieldFrequency_upArrow" class="arrow beepOnClick noselect" type="up" title="Hold to change frequency faster">↑</div><input type="text" value="152.1MHz" id="shieldInfoContainer_allShieldsContainer_shieldFrequency_textbox" class="noselect" style="height: 100%" readonly><div id="shieldInfoContainer_allShieldsContainer_shieldFrequency_downArrow" class="arrow beepOnClick noselect" type="down" title="Hold to change frequency faster">↓</div>
+			</div>
+		</div>
+	</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
 <script src="/threejs"></script>
-<script src="/threejs?file=js/shaders/FresnelShader.js"></script>
 <script src="/threejs?file=js/controls/OrbitControls.js"></script>
 <script src="/resource?path=script.js" type="text/javascript"></script>

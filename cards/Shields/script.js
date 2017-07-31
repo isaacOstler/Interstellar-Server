@@ -5,8 +5,8 @@ Three.js crap
 */
 
 var scene = new THREE.Scene();
-var width = $("#contentArea").width();
-var height = $("#contentArea").height();
+var width = $("#shield3DCanvas").width();
+var height = $("#shield3DCanvas").height();
 var aspect = width / height;
 var camera = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer( { alpha: true } );
@@ -20,10 +20,10 @@ init();
 
 function init(){
 	renderer.setSize( width, height );
-	$("#contentArea").append( renderer.domElement );
+	$("#shield3DCanvas").append( renderer.domElement );
 
 	var row = 0;
-	var column = 32;
+	var column = 64;
 	var requiredColumnAmount = column * 2;
 	geometry = new THREE.SphereGeometry( 40, column, column);
 
@@ -33,9 +33,9 @@ function init(){
 			row++;
 		}
 		column++;
-		if(row < (32 / 3.5)){
+		if(row < (64 / 3.5)){
 			geometry.faces[i].materialIndex = 0;
-		}else if(row < (32 / 3.5) * 2.5){
+		}else if(row < (64 / 3.5) * 2.5){
 			for(var j = 0;j < 4;j++){
 				matIndex = j + 1;
 				var cap = Math.round((requiredColumnAmount / 4) * j);
@@ -56,7 +56,7 @@ function init(){
 		var newMat = new THREE.MeshBasicMaterial({
 		    color: 0x00ffff, 
 		    transparent: true,
-		    opacity: 0.5
+		    opacity: 0
 		});
 		outerShieldMaterials.push(newMat);
 	}
@@ -71,8 +71,8 @@ function init(){
 		innerShieldMaterials.push(newMat);
 	}
 
-	var grid = new THREE.GridHelper(100, 20);
-	//scene.add(grid);
+	var grid = new THREE.GridHelper(40, 20);
+	scene.add(grid);
 
 	innerShield = new THREE.Mesh( geometry, new THREE.MultiMaterial(innerShieldMaterials) );
 	outerShield = new THREE.Mesh( geometry, new THREE.MultiMaterial(outerShieldMaterials) );
@@ -81,7 +81,7 @@ function init(){
 	outerShield.rotation.set(0,0.78539816,0); //radians, not degrees... get's me every time
 	scene.add( innerShield );
 	scene.add( outerShield );
-	camera.position.set(100,10,0);
+	camera.position.set(72,40,40);
 	outerShield.scale.set(1,.7,1);
 	innerShield.scale.set(1,.7,1);
 	var loader = new THREE.TextureLoader();
@@ -94,7 +94,7 @@ function init(){
 		// do something with the texture
     	loader = new THREE.JSONLoader();
 		loader.load('/ship?file=3d/model.JSON', function(geometry) {
-	  		var material = new THREE.MeshPhongMaterial({map: texture, overdraw: 0.5});
+	  		var material = new THREE.MeshPhongMaterial({map: texture});
 	    	shipMesh = new THREE.Mesh(geometry, material);
 		    //shipMesh.scale.set(3);
 		    shipMesh.scale.set(7,7,7);
@@ -108,17 +108,42 @@ function init(){
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 }
 
-function setShieldStrength(shields){
+function updateShieldStrength(){
+    if(shields == undefined || actualShields == undefined){
+        return;
+    }
+    for(var i = 0;i < shields.length;i++){
+        var shieldStrength = shields[i].strength;
+        if(!shields[i].isRaised){
+            shieldStrength = 0;
+        }
+        if(shipSystems != undefined){
+            for(var j = 0;j < shipSystems.length;j++){
+                if(shipSystems[j].systemName.toLowerCase().includes(shields[i].name.toLowerCase()) && shipSystems[j].systemName.toLowerCase().includes("shields")){
+                    if(shipSystems[j].requiredPower[0] > shipSystems[j].systemPower){
+                        shieldStrength = 0;
+                    }
+                }
+            }
+        }
+        if(shieldStrength != actualShields[i].strength){
+            if(shieldStrength < actualShields[i].strength){
+                actualShields[i].strength -= .01;
+            }else{
+                actualShields[i].strength += .01;
+            }
+        }
+    }
 	for(var i = 0;i < shields.length;i++){
-		outerShieldMaterials[i].opacity = shields[i] / 2;
-		innerShieldMaterials[i].opacity = shields[i] / 2;
-		outerShieldMaterials[i].color.set(changeHue("#00b7ff",-(260 - (260 * shields[i]))));
-		innerShieldMaterials[i].color.set(changeHue("#00b7ff",-(260 - (260 * shields[i]))));
+		outerShieldMaterials[i].opacity = actualShields[i].strength / 2;
+		innerShieldMaterials[i].opacity = actualShields[i].strength / 2;
+		outerShieldMaterials[i].color.set(changeHue("#00b7ff",-(260 - (260 * actualShields[i].strength))));
+		innerShieldMaterials[i].color.set(changeHue("#00b7ff",-(260 - (260 * actualShields[i].strength))));
 	}
 }
 
 var render = function () {
-
+    updateShieldStrength();
   requestAnimationFrame( render );
   renderer.render( scene, camera );
 };
@@ -250,14 +275,249 @@ function rgbToHex(r, g, b) {
 */
 
 //variables
-var shields;
+var shields =
+[
+    {
+        "name" : "DORSAL",
+        "strength" : 1,
+        "isRaised" : false
+    },{
+        "name" : "FORWARD",
+        "strength" : 1,
+        "isRaised" : false
+    },{
+        "name" : "PORT",
+        "strength" : 1,
+        "isRaised" : false
+    },{
+        "name" : "AFT",
+        "strength" : 1,
+        "isRaised" : false
+    },{
+        "name" : "STARBOARD",
+        "strength" : 1,
+        "isRaised" : false
+    },{
+        "name" : "VENTRAL",
+        "strength" : 1,
+        "isRaised" : false
+    }
+],
+actualShields = [
+    {
+        "name" : "DORSAL",
+        "strength" : 0,
+        "isRaised" : false
+    },{
+        "name" : "FORWARD",
+        "strength" : 0,
+        "isRaised" : false
+    },{
+        "name" : "PORT",
+        "strength" : 0,
+        "isRaised" : false
+    },{
+        "name" : "AFT",
+        "strength" : 0,
+        "isRaised" : false
+    },{
+        "name" : "STARBOARD",
+        "strength" : 0,
+        "isRaised" : false
+    },{
+        "name" : "VENTRAL",
+        "strength" : 0,
+        "isRaised" : false
+    }
+],
+shipSystems = [],
+arrowTimeIntervals = {
+    "lowTime" : undefined,
+    "midTime" : undefined,
+    "highTime" : undefined,
+    "clock" : undefined
+},
+frequency = 150.2;
+
+//DOM References
+var shieldInfoContainer = $("#shieldInfoContainer"),
+    individualShieldsContainer = $("#shieldInfoContainer_individualShieldsContainer"),
+    allShieldsContainer = $("#shieldInfoContainer_allShieldsContainer"),
+    averageShieldStrengthLabel = $("#shieldInfoContainer_allShieldsContainer_allShieldStrength_value"),
+    raiseAllShieldsButton = $("#raiseAllShieldsButton"),
+    lowerAllShieldsButton = $("#lowerAllShieldsButton"),
+    frequencyTextbox = $("#shieldInfoContainer_allShieldsContainer_shieldFrequency_textbox");
 
 //database observers
+Interstellar.onDatabaseValueChange("shields.frequency",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("shields.frequency",frequency);
+        return;
+    }
+    frequency = newData;
+    frequencyTextbox.val(frequency.toFixed(1) + "MHz");
+});
+Interstellar.onDatabaseValueChange("ship.systems",function(newData){
+    if(newData == null){
+        //DO NOT DEFINE THIS HERE!  JAMES!  STOP TOUCHING MY CODE!
+        return;
+    }
+    shipSystems = newData;
+    drawGUI();
+    return;
+});
 Interstellar.onDatabaseValueChange("shields.strength",function(newData){
 	if(newData == null){
-		Interstellar.setDatabaseValue("shields.strength",{"ventral" : 1,"dorsal" : 1,"forward" : 1,"aft" : 1,"port" : 1,"starboard" : 1});
+		Interstellar.setDatabaseValue("shields.strength",shields);
 		return;
 	}
 	shields = newData;
-	setShieldStrength([shields.dorsal,shields.forward,shields.port,shields.aft,shields.starboard,shields.ventral]);
+    drawGUI();
 });
+
+//functions
+function drawGUI(){
+    var html = "";
+    for(var i = 0;i < shields.length;i++){
+        var status = "RAISE";
+        if(shields[i].isRaised){
+            status = "LOWER";
+        }
+        var hasEnoughPower = true;
+        if(shipSystems != undefined){
+            for(var j = 0;j < shipSystems.length;j++){
+                if(shipSystems[j].systemName.toLowerCase().includes(shields[i].name.toLowerCase()) && shipSystems[j].systemName.toLowerCase().includes("shields")){
+                    if(shipSystems[j].requiredPower[0] > shipSystems[j].systemPower){
+                        hasEnoughPower = false;
+                    }
+                }
+            }
+        }
+        var isOffline = false;
+        html += "<div class='shield3DCanvas_shield' style='top:" + ((individualShieldsContainer.height() / shields.length) * i) + "px;height:" + (individualShieldsContainer.height() / shields.length) + "px;'>";
+        html += "<div class='shield3DCanvas_shield_label'>";
+        if(shields[i].strength <= 0){
+            isOffline = true;
+            html += "<span style='color:red'>"
+        }else if(!shields[i].isRaised || !hasEnoughPower)
+        {
+            html += "<span style='color:#606060'>"
+        }
+        html += shields[i].name + " SHIELD";
+        if(!shields[i].isRaised || shields[i].strength <= 0 || !hasEnoughPower){
+            html += "</span>"
+        }
+        html += "</div>"
+        if(hasEnoughPower){
+            html += "<div index='" + i + "' class='individualShieldsContainer_button noselect ";
+            if(isOffline){
+                html += "Button2Disabled";
+            }else{
+                html += "raiseLowerShieldButton Button2";
+            }
+            html += "'>";
+            html += status;
+            html += "</div>";
+            html += "<input type='text' class='individualShieldsContainer_textbox textbox noselect' value='" + (shields[i].strength * 100) + "%' style='height:100%' readonly>";    
+        }else{
+            html += "<div class='individualShieldsContainer_noPower'>";
+            html += "INSUFFICIENT POWER";
+            html += "</div>";
+        }
+        html += "</div>";
+    }
+    var averageShieldStrength = 0;
+    var i;
+    for(i = 0;i < shields.length;i++){
+        var hasEnoughPower = true;
+        if(shipSystems != undefined){
+            for(var j = 0;j < shipSystems.length;j++){
+                if(shipSystems[j].systemName.toLowerCase().includes(shields[i].name.toLowerCase()) && shipSystems[j].systemName.toLowerCase().includes("shields")){
+                    if(shipSystems[j].requiredPower[0] > shipSystems[j].systemPower){
+                        hasEnoughPower = false;
+                    }
+                }
+            }
+        }
+        if(hasEnoughPower){
+            averageShieldStrength += shields[i].strength;
+        }
+    }
+    averageShieldStrength = Math.round(((averageShieldStrength / shields.length) * 100));
+    averageShieldStrengthLabel.html("&nbsp" + averageShieldStrength + "%");
+    individualShieldsContainer.html(html);
+    $(".raiseLowerShieldButton").off();
+    $(".raiseLowerShieldButton").click(function(event){
+        playRandomBeep();
+        var index = Number($(event.target).attr("index"));
+        shields[index].isRaised = !shields[index].isRaised;
+        Interstellar.setDatabaseValue("shields.strength",shields);
+    });
+}
+//event listeners
+raiseAllShieldsButton.click(function(event){
+    for(var i = 0;i < shields.length;i++){
+        shields[i].isRaised = true;
+    }
+    Interstellar.setDatabaseValue("shields.strength",shields);
+});
+lowerAllShieldsButton.click(function(event){
+    for(var i = 0;i < shields.length;i++){
+        shields[i].isRaised = false;
+    }
+    Interstellar.setDatabaseValue("shields.strength",shields);
+});
+$(".arrow").click(function(event){
+    let direction = .1;
+    if($(event.target).attr("type") == "down"){
+        direction = -.1;
+    }
+    Interstellar.setDatabaseValue("shields.frequency",roundToFirstDecimal(frequency + direction));
+});
+$(".arrow").mousedown(function(event){
+    let direction = .1;
+    if($(event.target).attr("type") == "down"){
+        direction = -.1;
+    }
+    arrowTimeIntervals.clock = setInterval(function(event){
+            Interstellar.setDatabaseValue("shields.frequency",roundToFirstDecimal(frequency + direction));
+    },0250);
+    arrowTimeIntervals.lowTime = setTimeout(function(event){
+        clearInterval(arrowTimeIntervals.clock);
+        arrowTimeIntervals.clock = setInterval(function(event){
+            Interstellar.setDatabaseValue("shields.frequency",roundToFirstDecimal(frequency + direction));
+        },0100);
+    },2000);
+    arrowTimeIntervals.midTime = setTimeout(function(event){
+        clearInterval(arrowTimeIntervals.clock);
+        arrowTimeIntervals.clock = setInterval(function(event){
+            Interstellar.setDatabaseValue("shields.frequency",roundToFirstDecimal(frequency + direction));
+        },0050);
+    },5000);
+    arrowTimeIntervals.highTime = setTimeout(function(event){
+        direction = direction * 10;
+    },7000);
+    $(document).mouseup(function(event){
+        if(arrowTimeIntervals.lowTime != undefined){
+            clearTimeout(arrowTimeIntervals.lowTime);
+            arrowTimeIntervals.lowTime = undefined;
+        }
+        if(arrowTimeIntervals.midTime != undefined){
+            clearTimeout(arrowTimeIntervals.midTime);
+            arrowTimeIntervals.midTime = undefined;
+        }
+        if(arrowTimeIntervals.highTime != undefined){
+            clearTimeout(arrowTimeIntervals.highTime);
+            arrowTimeIntervals.highTime = undefined;
+        }
+        if(arrowTimeIntervals.clock != undefined){
+            clearInterval(arrowTimeIntervals.clock);
+            arrowTimeIntervals.clock = undefined;
+        }
+        $(document).off();
+    });
+});
+
+function roundToFirstDecimal(num){
+   return Math.round( num * 10) / 10;
+}
