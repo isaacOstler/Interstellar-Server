@@ -1,0 +1,33 @@
+<div id="shields-core_setShieldStrengthWindow" class="coreWindow" windowName="Set Shield Strength" style="width: 300px;height: 100px;">
+	<div id="shields-core_setShieldStrengthWindow_header">Please Enter The New Shield Value:</div>
+	<input type="text" id="shields-core_setShieldStrengthWindow_textbox" placeholder="100%">
+	<input type="button" value="Submit" id="shields-core_setShieldStrengthWindow_submitButton" class="coreButton">
+</div>
+<div id="shields-core" class="Core_Theme-CoreWidget" widgetName="Shields Core"
+	style="
+    width: 324px;
+    height: 125px;
+    top: 656px;
+    left: 1097px;
+    ">
+	<div class="hardContainer">
+	    <div id="shields-core_shieldContainer">
+	    </div>
+	    <div id="shields-core_shieldControls">
+	    	<input type="button" value="HIT ALL" class="coreButton" id="shields-core_shieldControls_hitAllButton">
+	    	<input type="button" value="CHANGE ALL" class="coreButton" id="shields-core_shieldControls_changeAllButton">
+	    	<input type="range" value=".5" step=".01" max="10" min="0" id="shields-core_shieldControls_hitStrengthRange">
+	    	<div id="shields-core_shieldControls_hitStrengthLabel" class="noselect">
+	    		Hit Strength:
+	    	</div>
+	    	<div id="shields-core_shieldControls_autoDamageContainer" class="noselect">
+	    		Auto Damage <input type="checkbox" checked="checked" id="shields-core_shieldControls_autoDamageCheckbox">
+	    	</div>
+	    	<div id="shields-core_shieldControls_shieldRegenContainer" class="noselect">
+	    		Shield Generation <input type="text" id="shields-core_shieldControls_shieldRegenTextbox" class="coreTextbox" onclick="this.select()" value="1">
+	    	</div>
+	    </div>
+    </div>
+	<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=shields-core">
+	<script src="/resource?path=script.js&screen=shields-core" type="text/javascript"></script>
+</div>
