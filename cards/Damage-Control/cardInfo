@@ -1,0 +1,8 @@
+{
+	"cardName":"Damage-Control",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler, Victor Williamson",
+	"version":"1.0.0",
+	"description":"Allows users to order damage teams what to repair first in the ship, and allows damage teams to send 'ping' requests to the user."
+}
