@@ -1,8 +1,38 @@
 <link rel="stylesheet" type="text/css" href="/stationThemes">
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css">
 <div id="contentArea" class="noselect">
-	<div id='test'>
-
+	<div id="systemListLabel">
+		SYSTEM
+	</div>
+	<div id="systemRepairLabel">
+		REPAIR STATUS
+	</div>
+	<div id='SystemList' class="container5">
+		<div class="damagedSystemRow" style="top:10px">
+			<div class="damagedSystemRow_label">TRANSPORTERS</div>
+			<div class="damagedSystemRow_progress">
+				<div class="damagedSystemRow_progressFill"></div>
+			</div>
+		</div>
+	</div>
+	<div id="damagePingsLabel">
+		PING REQUESTS
+	</div>
+	<div id="damagePings" class="container4">
+		<div id="damagePingsContainer">
+			
+		</div>
+	</div>
+	<div id="pingInfoLabel">
+		PING INFORMATION
+	</div>
+	<div id="pingInfo" class="container4">
+		<div id="pingInfoTextContainer">
+			
+		</div>
+		<div id="completePingButton" class="Button2 beepOnClick">
+			COMPLETE PING REQUEST
+		</div>
 	</div>
 </div>
 <script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
