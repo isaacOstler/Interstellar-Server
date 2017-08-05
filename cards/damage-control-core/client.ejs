@@ -1,0 +1,88 @@
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=damage-control-core">
+<div id="damage-control-core_editPingWindow" class="coreWindow" windowName="Ping Editor" style="width: 650px;height: 350px;">
+	<div id="damage-control-core_editPingWindow_title">
+		Damage Pings
+	</div>
+	<input type="button" value="-" id="damage-control-core_editPingWindow_removeButton" class="coreButton">
+	<input type="button" value="+" id="damage-control-core_editPingWindow_addButton" class="coreButton">
+	<div id="damage-control-core_editPingWindow_pingList">
+	</div>
+	<input type="text" id="damage-control-core_editPingWindow_pingTitle">
+	<textarea id="damage-control-core_editPingWindow_pingData"></textarea>
+</div>
+<div id="damage-control-core_editSecondarySystemWindow" class="coreWindow" windowName="Secondary Systems" style="width: 250px;height: 350px;">
+	<div id="damage-control-core_editSecondarySystemWindow_systemsListLabel">
+		Secondary Systems
+	</div>
+	<div id="damage-control-core_editSecondarySystemWindow_systemsList">
+	</div>
+	<input type="text" class="coreTextbox" id="damage-control-core_editSecondarySystemWindow_editSystemTextbox" onclick="this.select()">
+	<input type="button" value="New" id="damage-control-core_editSecondarySystemWindow_newSystemButton" class="coreButton">
+	<input type="button" value="Remove" id="damage-control-core_editSecondarySystemWindow_removeSystemButton" disabled="disabled"  class="coreButton damage-control-core_editSecondarySystemWindow_disabledButton">
+	<input type="button" value="Edit" id="damage-control-core_editSecondarySystemWindow_editSystemButton" disabled="disabled" class="coreButton damage-control-core_editSecondarySystemWindow_disabledButton">
+</div>
+<div id="damage-control-core" widgetName="Damage Control" class="Core_Theme-CoreWidget" style="
+    width: 580px;
+    height: 269px;
+    top: 150px;
+    left: 255px;">
+    <div id="damage-control-core_damagedSystemListLabel">
+    	Damaged Systems
+    </div>
+	<div id="damage-control-core_damagedSystemList">
+		
+	</div>
+	<div id="damage-control-core_pingListLabel">
+		Ping Requests
+	</div>
+	<div id="damage-control-core_pingList">
+
+	</div>
+	<div id="damage-control-core_damagedSystemControls">
+	<!--
+		okay, so I literally accidentally named this ENTIRE div with the wrong prefix (_pingRequestControls_)
+		but it would take so long to fix, I'm not going to... so just pretend it's the right prefix! xD
+	-->
+		<select id="damage-control-core_pingRequestControls_minorSystemDropdown">
+			<optgroup label="Minor Damage">
+				<option>Fire</option>
+				<option>Burst Water Pipe</option>
+				<option>Hull Breach</option>
+				<option>Plasma Leak</option>
+			</optgroup>
+		</select>
+		<input type="button" class="coreButton" id="damage-control-core_pingRequestControls_addMinorDamageButton" value="Add">
+		<input type="button" class="coreButton" id="damage-control-core_pingRequestControls_editMinorDamageButton" value="Edit">
+		<div id="damage-control-core_pingRequestControls_selectedSystemMask">
+		</div>
+		<div id="damage-control-core_pingRequestControls_selectedSystemLabel">
+			Selected System
+		</div>
+		<div id="damage-control-core_pingRequestControls_selectedSystem" class="notEditable">
+			None Selected
+		</div>
+		<div id="damage-control-core_pingRequestControls_timeRemainingLabel">
+			Time Remaining
+		</div>
+		<input type="text" id="damage-control-core_pingRequestControls_timeRemainingTextbox" value="0:00" class="coreTextbox">
+		<input type="button" class="coreButton" id="damage-control-core_pingRequestControls_instantFinishButton" value="Instant Finish">
+		<input type="button" class="coreButton" id="damage-control-core_pingRequestControls_pingSystemButton" value="Create Random Ping For System">
+	</div>
+	<div id="damage-control-core_pingRequestControls">
+	<!--
+		okay, so I literally accidentally named this ENTIRE div with the wrong prefix (_systemDamageControls_)
+		but it would take so long to fix, I'm not going to... so just pretend it's the right prefix! xD
+	-->
+		<select id="damage-control-core_systemDamageControls_pingSelectDropdown">
+		</select>
+		<select id="damage-control-core_systemDamageControls_pingSystemSelectDropdown">
+		</select>
+
+		<input type="button" value="Edit" class="coreButton" id="damage-control-core_systemDamageControls_editPingButton">
+		<input type="button" value="Create" class="coreButton" id="damage-control-core_systemDamageControls_createSystemButton">
+		<input type="button" value="Remove Selected" class="coreButton" id="damage-control-core_systemDamageControls_removePingButton" disabled="disabled">
+		<input type="button" class="coreButton" id="damage-control-core_systemDamageControls_pingSystemButton" value="Create Random Ping">
+	</div>
+</div>
+<script src="/jquery"></script>
+<script src="/resource?path=script.js&screen=damage-control-core" type="text/javascript"></script>

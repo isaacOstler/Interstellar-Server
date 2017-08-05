@@ -1,0 +1,8 @@
+{
+	"cardName":"damage-control-core",
+	"cardType":"coreWidget",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the control room to regulate the repairs of damaged systems through adjusting repair times, creating ping requests, and creating minor damage"
+}

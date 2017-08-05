@@ -2,7 +2,15 @@ Interstellar.addCoreWidget("Power Distribution",function(){
 	var thisWidget = this;
 	var PowerDistributionshipSystems = [];
 	var PowerDistributionPowerInUse = 0;
-	var PowerDistributionReactorOutput = 140;
+	var PowerDistributionReactorOutput = 140,
+		PowerDistributionDamagedSystems = [];
+
+	Interstellar.onDatabaseValueChange("damageControl.damagedSystems",function(newData){
+		if(newData == null){
+			return;
+		}
+		PowerDistributionDamagedSystems = newData;
+	})
 
 	Interstellar.onDatabaseValueChange("ship.systems",function(newData){
 		if(newData == null){
@@ -67,7 +75,6 @@ Interstellar.addCoreWidget("Power Distribution",function(){
 		var html = "";
 		var heightOfBox = $("#Power-Distribution-Core-Widget").height();
 		var widthOfBox = $("#Power-Distribution-Core-Widget").width();
-		console.log(heightOfBox);
 		for(var i = 0;i < PowerDistributionshipSystems.length;i++){
 			var color = "white";
 			PowerDistributionPowerInUse += shipSystems[i].systemPower;
@@ -125,6 +132,18 @@ Interstellar.addCoreWidget("Power Distribution",function(){
 			for(var i = 0;i < shipSystems.length;i++){
 				if(html == shipSystems[i].systemName){
 					shipSystems[i].isDamaged = !shipSystems[i].isDamaged;
+					/*if(shipSystems[i].isDamaged){
+						var didFind = false;
+						for(var j = 0;j < PowerDistributionDamagedSystems.length;j++){
+							if(PowerDistributionDamagedSystems[j].systemName.toLowerCase() == shipSystems[i].systemName.toLowerCase()){
+								didFind = true;
+							}
+						}
+						if(!didFind){
+							PowerDistributionDamagedSystems.push({"systemName" : shipSystems[i].systemName,"timeRequired" : 400, "timePassed" : 0});
+							Interstellar.setDatabaseValue("damageControl.damagedSystems",PowerDistributionDamagedSystems);
+						}
+					}*/
 					Interstellar.setDatabaseValue("ship.systems",shipSystems);
 					return;
 				}

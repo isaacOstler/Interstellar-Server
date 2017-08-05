@@ -18,7 +18,7 @@ var systemList = $("#SystemList"),
 
 Interstellar.onDatabaseValueChange("damageControl.damagePings",function(newData){
 	if(newData == null){
-		Interstellar.setDatabaseValue("damageControl.damagePings",[{"pingName" : "RESET ISONLINEAR RODS","pingData" : "BLAH BLAH BLAH\n1:) asdf","pingSystem" : "WARP ENGINES","timePassed" : 0},{"pingName" : "RESET ISONLINEAR RODS","pingData" : "BLAH BLAH BLAH<br />1:) asdf","pingSystem" : "WARP ENGINES","timePassed" : 0},{"pingName" : "RESET ISONLINEAR RODS","pingData" : "BLAH BLAH BLAH\n1:) asdf","pingSystem" : "WARP ENGINES","timePassed" : 0}]);
+		Interstellar.setDatabaseValue("damageControl.damagePings",[]);
 		return;
 	}
 	/*
@@ -50,7 +50,7 @@ Interstellar.onDatabaseValueChange("damageControl.damagePings",function(newData)
 
 Interstellar.onDatabaseValueChange("damageControl.damagedSystems",function(newData){
 	if(newData == null){
-		Interstellar.setDatabaseValue("damageControl.damagedSystems",[{"systemName" : "WARP ENGINES","timePassed" : 0,"timeRequired" : 400,"speed" : 1},{"systemName" : "IMPULSE ENGINES","timePassed" : 1,"timeRequired" : 400,"speed" : .8},{"systemName" : "TRANSPORTERS","timePassed" : 0,"timeRequired" : 400,"speed" : .6},{"systemName" : "OXYGEN GENERATORS","timePassed" : 0,"timeRequired" : 400,"speed" : .4},{"systemName" : "CO2 SCRUBBERS","timePassed" : 0,"timeRequired" : 400,"speed" : .2},{"systemName" : "PHASERS","timePassed" : 0,"timeRequired" : 400,"speed" : .2},{"systemName" : "DORSAL SHIELDS","timePassed" : 0,"timeRequired" : 400,"speed" : .2},{"systemName" : "FORWARD SHIELDS","timePassed" : 0,"timeRequired" : 400,"speed" : .2},{"systemName" : "AFT SHIELDS","timePassed" : 0,"timeRequired" : 400,"speed" : .2}]);
+		Interstellar.setDatabaseValue("damageControl.damagedSystems",[]);
 		return;
 	}
 	/*
@@ -119,6 +119,11 @@ function drawPingGUI(){
 		playRandomBeep();
 		var index = Number($(event.target).attr("index"));
 		var pingData = damagePings[index].pingData;
+		
+		pingData = pingData.replace('\n',"<br / >");
+		var regex = new RegExp("\n", 'g');
+		pingData = pingData.replace(regex, '<br />');
+
 		selectedPing = index;
 		completePingButton.animate({"opacity" : 1});
 		damagePingTextArea.html(pingData);

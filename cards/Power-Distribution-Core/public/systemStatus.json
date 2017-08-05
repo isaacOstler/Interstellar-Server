@@ -94,7 +94,7 @@
 		"systemName" : "CO2 SCRUBBERS",
 		"systemPower" : 9,
 		"requiredPower" : [9],
-		"isDamaged" : true,
+		"isDamaged" : false,
 		"quickTooltip" : "CO2 SCRUBBERS CLEANS THE AIR FOR THE CREW TO BREATH"
 	},
 	{
