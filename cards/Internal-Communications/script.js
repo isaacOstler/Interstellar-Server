@@ -100,7 +100,32 @@ Interstellar.onDatabaseValueChange("internalComm.crewCall.currentCall",function(
 		stopCalling();
 	}else{
 		callboxRoomHeader.html(newData);
-		startCalling();
+		if(!lineConnected && !isCalling){
+			startCalling();
+		}else{
+			callBox.fadeIn();
+			if(lineMuted){
+				callboxHeader.css("color","rgb(255,128,0)");
+				callboxHeader.html("LINE MUTED");
+				muteButton.html("UNMUTE");
+				phoneMutedIcon.fadeIn();
+				phoneIcon.fadeOut();
+				phoneConnectedIcon.fadeOut();
+			}else{
+				if(lineConnected){
+					callboxHeader.css("color","lime");
+					callboxHeader.html("LINE CONNECTED");
+					muteButton.html("MUTED");
+					phoneMutedIcon.fadeOut();
+					phoneIcon.fadeOut();
+					phoneConnectedIcon.fadeIn();
+				}else{
+					phoneMutedIcon.fadeOut();
+					phoneIcon.fadeIn();
+					phoneConnectedIcon.fadeOut();
+				}
+			}
+		}
 	}
 });
 
@@ -130,7 +155,7 @@ function drawAllRooms(){
 
 	var html = "";
 	html += "<div index='-2' class='tableItem' style='top:0px'>";
-	html += "ALL ROOMS"
+	html += "ALL ROOMS, ALL DECKS"
 	html += "</div>"
 	for(var i = 0;i < allRoomsList.length;i++){
 		html += "<div deck='" + allRoomsList[i].deck + "' index='" + i + "' class='tableItem' style='top:" + (((i + 1) * 26) + 7) + "px'>";
@@ -140,12 +165,22 @@ function drawAllRooms(){
 	roomList.html(html);
 	$(".tableItem").off();
 	$(".tableItem").click(function(event){
-		currentRoom = allRoomsList[Number($(event.target).attr("index"))].normalIndex;
-		currentDeck = allRoomsList[Number($(event.target).attr("index"))].deck;
-		setCallMask(currentDeck);
-		selectedRoomTextbox.val($(event.target).html());
-		callButton.removeClass("Button2Disabled");
-		callButton.addClass("Button2");
+		console.log(Number($(event.target).attr("index")));
+		if(Number($(event.target).attr("index")) == -2){
+			setCallMask(-2);
+			currentDeck = -2;
+			currentRoom = -2;
+			selectedRoomTextbox.val("ALL ROOMS, ALL DECKS");
+			callButton.removeClass("Button2Disabled");
+			callButton.addClass("Button2");
+		}else{
+			currentRoom = allRoomsList[Number($(event.target).attr("index"))].normalIndex;
+			currentDeck = allRoomsList[Number($(event.target).attr("index"))].deck;
+			setCallMask(currentDeck);
+			selectedRoomTextbox.val($(event.target).html());
+			callButton.removeClass("Button2Disabled");
+			callButton.addClass("Button2");
+		}
 	});
 }
 
@@ -192,10 +227,19 @@ function drawDeckList(){
 		currentDeck = index;
 		setCallMask(currentDeck);
 		drawRoomListForDeck(currentDeck);
+		if(index == -2){
+			selectedRoomTextbox.val("ALL ROOMS, ALL DECKS");
+		}
 	});
 }
 
 function drawRoomListForDeck(deck){
+	if(deck == -2){
+		$(".roomItem").off();
+		var html = "";
+		roomList.html(html);
+		return;
+	}
 	var html = "";
 	html += "<div index='-2' class='tableItem roomItem' style='top:0px'>";
 	html += "ALL ROOMS"
@@ -205,6 +249,7 @@ function drawRoomListForDeck(deck){
 		html += shipRooms[currentDeck][i].name.toUpperCase();
 		html += "</div>"
 	}
+	$(".roomItem").off();
 	roomList.html(html);
 	$(".roomItem").off();
 	$(".roomItem").click(function(event){
@@ -223,6 +268,11 @@ function setCallMask(deck){
 	
 	var height = ((shipImage.height() * .92) / shipRooms.length) / 2;
 	var top = height * deck;
+
+	if(deck == -2){
+		height = shipImage.height();
+		top = 0;
+	}
 
 	var topPercentage = (top / callBar.height()) * 100;
 	var heightPercentage = (height / callBar.height()) * 100;
