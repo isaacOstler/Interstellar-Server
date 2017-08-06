@@ -1,0 +1,8 @@
+{
+	"cardName":"Internal-Communications",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the user to call other rooms in the ship - IMPORTANT, This screen DOES NOT ALLOW THE USER TO RECIEVE CALLS!  That is done through the 'Incoming Call' card controller!"
+}
