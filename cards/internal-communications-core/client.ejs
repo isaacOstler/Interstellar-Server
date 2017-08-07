@@ -1,0 +1,38 @@
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=internal-communications-core">
+<div id="internal-communciations-Core-Widget" widgetName="Internal Communications" class="Core_Theme-CoreWidget" style="
+    width: 290px;
+    height: 59px;
+    top: 816px;
+    left: 800px;">
+    <div class="hardContainer">
+    	<input type="text" class="coreTextbox noselect verticalAlign" readonly id="internalCommunicationsCore_incomingCallTextfield" value="NO INTERNAL HAIL">
+    	<input type="button" value="ACCEPT" class="coreButton" id="internalCommunicationsCore_incomingCall_connectButton" disabled="disabled">
+    	<input type="button" value="SORT ALPHABETICALLY" class="coreButton" id="internalCommunicationsCore_sortButton">
+    	<select id="internalCommunicationsCore_deckDropdown">
+    		<optgroup label="Deck">
+    			<option>DECK 1</option>
+    			<option>DECK 2</option>
+    			<option>DECK 3</option>
+    			<option>DECK 4</option>
+    			<option>DECK 5</option>
+    			<option>DECK 6</option>
+    			<option>DECK 7</option>
+    		</optgroup>
+    	</select>
+    	<div id="internalCommunicationsCore_callInfoLabel" class="verticalAlign noselect">No Call</div>
+    	<select id="internalCommunicationsCore_roomDropdown">
+    		<optgroup label="Room">
+    			<option>DECK 1</option>
+    			<option>DECK 2</option>
+    			<option>DECK 3</option>
+    			<option>DECK 4</option>
+    			<option>DECK 5</option>
+    			<option>DECK 6</option>
+    			<option>DECK 7</option>
+    		</optgroup>
+    	</select>
+    	<input type="button" class="coreButton" value="CALL" id="internalCommunicationsCore_callButton">
+    </div>
+</div>
+<script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+<script src="/resource?path=script.js&screen=internal-communications-core" type="text/javascript"></script>
