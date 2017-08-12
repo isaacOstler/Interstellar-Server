@@ -1,0 +1,8 @@
+{
+	"cardName":"Short-Range-Comm",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the user to hail on a short range comm frequency (external telephone/radio communications), and also recieve these communications."
+}

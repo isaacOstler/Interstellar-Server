@@ -24,7 +24,7 @@
 		{
 			"stationInfo" : {
 				"name" : "TACTICAL",
-				"cards" : ["Internal-Communications","Damage-Control","Shields","Engine-Control","Power-Distribution","Course-Calculation","Login","Internal-Sensors","Transporters","Alert-Status","Coolant-Control","Long-Range-Comm"]
+				"cards" : ["Short-Range-Comm","Internal-Communications","Damage-Control","Shields","Engine-Control","Power-Distribution","Course-Calculation","Login","Internal-Sensors","Transporters","Alert-Status","Coolant-Control","Long-Range-Comm"]
 			},
 			"stationType" : "station"
 		}
