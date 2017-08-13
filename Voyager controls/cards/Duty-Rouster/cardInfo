@@ -1,8 +1,0 @@
-{
-	"cardName":"Duty-Rouster",
-	"cardType":"card",
-	"author":"Isaac Ostler",
-	"copyright":"Isaac Ostler",
-	"version":"1.0.0",
-	"description":"Allows crew members to be assigned to positions throughout the ship, as well as have their personal needs addressed.  Ideal for the first officer station."
-}

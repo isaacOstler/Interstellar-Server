@@ -1,8 +1,0 @@
-{
-	"cardName":"System-Status",
-	"cardType":"card",
-	"author":"Isaac Ostler",
-	"copyright":"Isaac Ostler",
-	"version":"1.0.0",
-	"description":"Crew members can monitor the efficiency of shipwide systems, and run diagnostics on systems that are running poorly."
-}

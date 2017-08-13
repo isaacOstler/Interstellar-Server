@@ -1,8 +1,0 @@
-{
-	"cardName":"Alert-Status",
-	"cardType":"card",
-	"author":"Isaac Ostler",
-	"copyright":"Isaac Ostler",
-	"version":"1.0.0",
-	"description":"Allows the user to set the shipwide alert status (red alert, yellow alert, normal operations, etc)"
-}
