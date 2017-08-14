@@ -1,3 +1,18 @@
+#pictureLabel{
+	display: none;
+	z-index: 10;
+	position: absolute;
+	top:calc(50% - 50px);
+	left: 0%;
+	width: 100%;
+	text-align: center;
+	font-size: 100px;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
 #frequencyCanvasContainer{
 	position: absolute;
 	bottom: 10%;
@@ -6,14 +21,36 @@
 	height: 25%;
 }
 #picture{
-	background-color:rgba(0,0,0,.5);
 	position: absolute;
-	top:5%;
-	right: 5%;
+	top:0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
 	background-image: url('/resource?path=/public/federationLogo.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
+}
+#pictureFilter{
+	display: none;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: lime;
+	mix-blend-mode: multiply;
+	z-index: 5;
+	-webkit-mask-size:contain;
+	-webkit-mask-position:center;
+	-webkit-mask-repeat:no-repeat;
+	-webkit-mask-image: url('/resource?path=/public/federationLogo.png');
+}
+#pictureContainer{
+	background-color:rgba(0,0,0,.5);
+	position: absolute;
+	top:5%;
+	right: 5%;
 	width: 60%;
 	height: 50%;
 	border: 1px solid white;
