@@ -35,7 +35,6 @@ Interstellar.onDatabaseValueChange("shortRangeComm.hailChannels",function(newDat
 	if(newData == null){
 		return;
 	}
-	console.log(newData);
 	channels = newData;
 	drawAmplitudeFrequencySliderCanvas();
 });
@@ -192,12 +191,6 @@ function drawAmplitudeFrequencySliderCanvas(){
 			ctx.stroke();
 		}
 		for(var i = 0;i < incomingHailValues.length;i++){
-			ctx.beginPath();
-			ctx.strokeStyle = "black";
-			ctx.lineWidth = 11;
-			ctx.moveTo(0,Number(incomingHailValues[i].value) * height);
-			ctx.lineTo(width,Number(incomingHailValues[i].value) * height);
-			ctx.stroke();
 			ctx.beginPath();
 			ctx.lineWidth = 8;
 			ctx.strokeStyle = incomingHailValues[i].color;
