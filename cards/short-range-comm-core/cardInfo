@@ -1,0 +1,8 @@
+{
+	"cardName":"short-range-comm-core",
+	"cardType":"coreWidget",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the flight director or supervisor to hail the crew from another vessel/external location"
+}

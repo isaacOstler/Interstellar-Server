@@ -2,61 +2,8 @@
 var commFreq = .05,
 	commAmp = .6,
 	commPhase = 0,
-	incomingHails = 
-	[
-		{
-			"frequency" : Math.random() * .2,
-			"amplitude" : Math.random() * .9,
-			"phase" : 0,
-			"isConnected" : false,
-			"color" : "rgba(" + Math.round(Math.random() * 255) + "," + Math.round(Math.random() * 255) + "," + Math.round(Math.random() * 255) + ",.7)"
-		}
-	],
-	channels = 
-	[
-		{
-			"channelName" : "Dominion",
-			"picture" : "dominionLogo.png",
-			"top" : 0,
-			"bottom" : 0.1
-		},
-		{
-			"channelName" : "Starfleet",
-			"picture" : "federationLogo.png",
-			"top" : 0.1,
-			"bottom" : 0.25
-		},
-		{
-			"channelName" : "General Use",
-			"picture" : "anonLogo.png",
-			"top" : 0.25,
-			"bottom" : 0.45
-		},
-		{
-			"channelName" : "Klingon",
-			"picture" : "klingonLogo.png",
-			"top" : 0.45,
-			"bottom" : 0.6
-		},
-		{
-			"channelName" : "Romulan",
-			"picture" : "romulanLogo.png",
-			"top" : 0.6,
-			"bottom" : 0.75
-		},
-		{
-			"channelName" : "Cardassian",
-			"picture" : "cardassianLogo.png",
-			"top" : 0.75,
-			"bottom" : 0.9
-		},
-		{
-			"channelName" : "Ferengi",
-			"picture" : "ferengiLogo.png",
-			"top" : 0.9,
-			"bottom" : 1
-		}
-	],
+	incomingHails = [],
+	channels = [],
 	canConnectToLine = false,
 	isConnected = false,
 	currentPicture = "",
@@ -84,6 +31,15 @@ drawFrequencyCanvas();
 //preset observers
 
 //database observers
+Interstellar.onDatabaseValueChange("shortRangeComm.hailChannels",function(newData){
+	if(newData == null){
+		return;
+	}
+	console.log(newData);
+	channels = newData;
+	drawAmplitudeFrequencySliderCanvas();
+});
+
 Interstellar.onDatabaseValueChange("shortRangeComm.outgoingHail",function(newData){
 	if(newData == null){
 		Interstellar.setDatabaseValue("shortRangeComm.outgoingHail","none");

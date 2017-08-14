@@ -1,0 +1,27 @@
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=short-range-comm-core">
+<div id="short-range-comm-Core-Widget" widgetName="Short Range Comm" class="Core_Theme-CoreWidget" style="
+    width: 225px;
+    height: 172px;
+    top: 424px;
+    left: 255px;">
+    <div class="hardContainer">
+    	<div id="short-range-comm-core_label">
+            Short Range Comm
+        </div>
+        <div id="short-range-comm-core_editGear" class="gearIcon"></div>
+        <div id="short-range-comm-core_currentHails" class="noselect">
+        </div>
+        <div id="short-range-comm-core_incomingHailButtons">
+            <input type="text" value="STARFLEET FREQUENCY" class="coreTextbox" id="short-range-comm-core_incomingHailButtons_hailTypeTextbox" readonly>
+            <input type="button" value="ACCEPT" class="coreButton" id="short-range-comm-core_incomingHailButtons_acceptButton">
+            <input type="button" value="REJECT" class="coreButton" id="short-range-comm-core_incomingHailButtons_rejectButton">
+        </div>
+        <div id="short-range-comm-core_hailControlContainer">
+            <select id="short-range-comm-core_hailControlContainer_hailSelectDropdown"></select>
+            <input type="button" value="HAIL" id="short-range-comm-core_hailControlContainer_hailButton" class="coreButton">
+            <input type="button" value="QUICK HAIL" id="short-range-comm-core_hailControlContainer_quickHailButton" class="coreButton">
+        </div>
+    </div>
+</div>
+<script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+<script src="/resource?path=script.js&screen=short-range-comm-core" type="text/javascript"></script>
