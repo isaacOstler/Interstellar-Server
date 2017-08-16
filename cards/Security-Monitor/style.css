@@ -252,6 +252,11 @@
 	border-bottom: 1px solid white;
 	background-color: rgba(255,255,255,0.05);
 }
+#deckControls_gasLabel{
+	position: absolute;
+	bottom: 5%;
+	left: 5%;
+}
 .deckList_item:hover{
 	background-color: rgba(255,255,255,0.4);
 }

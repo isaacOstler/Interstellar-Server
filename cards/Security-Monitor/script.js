@@ -100,7 +100,7 @@ function updateRoomsList(){
 	for(var i = 0;i < rooms[currentDeck].length;i++){
 		if(gasLevels != undefined){
 			gasProgressBarFill.css("width",(gasLevels[currentDeck] * 100) + "%");
-			gasProgressBarLabel.html((gasLevels[currentDeck] * 100) + "%");
+			gasProgressBarLabel.html(Math.round(gasLevels[currentDeck] * 100) + "% - " + getGasMessage(gasLevels[currentDeck] * 100))
 		}
 		if(rooms[currentDeck][i].alarms.length > 0){
 			$("#room_" + i).addClass("alertFlash");
@@ -161,6 +161,10 @@ function drawDeckList(){
 function drawRoomList(deck){
 	for(var i = 0;i < numberOfRoomsGeneratedLast;i++){
 		$("#room_" + i).off();
+	}
+	if(gasLevels != undefined){
+		gasProgressBarFill.css("width",(gasLevels[currentDeck] * 100) + "%");
+		gasProgressBarLabel.html(Math.round(gasLevels[currentDeck] * 100) + "% - " + getGasMessage(gasLevels[currentDeck] * 100));
 	}
 	var roomsForDeck = rooms[deck];
 	numberOfRoomsGeneratedLast = roomsForDeck.length;
@@ -401,6 +405,26 @@ function formatRooms(newData){
 	}
 	return newArray;
 }
+
+function getGasMessage(level){
+	if(level > 85){
+		return "EXTREMELY TOXIC LEVELS";
+	}else if(level > 60){
+		return "LIFE THREATENING LEVELS";
+	}else if(level > 40){
+		return "HARMFUL LEVELS";
+	}else if(level > 20){
+		return "POTENTIALLY HARMFUL LEVELS";
+	}else if(level > 9){
+		return "UNCONSCIOUSNESS";
+	}else if(level > 3){
+		return "HEADACHE AND MINOR SYMPTOMS";
+	}else if(level > 0.1){
+		return "NEGLIGIBLE EFFECTS";
+	}
+	return "NO EFFECT";
+}
+
 function formatTimeWithSeconds(seconds){
 	var minutes = Math.floor(seconds / 60);
 	var hours = Math.floor(minutes / 60);
@@ -456,7 +480,7 @@ gasProgressBar.mousedown(function(event){
 			newProgress = 1;
 		}
 		gasProgressBarFill.css("width",(newProgress * 100) + "%");
-		gasProgressBarLabel.html(Math.round(newProgress * 100) + "%")
+		gasProgressBarLabel.html(Math.round(newProgress * 100) + "% - " + getGasMessage(newProgress * 100))
 	});
 	$(document).mouseup(function(event){
 		var newProgress = ((offsetX - event.clientX) / width) * -1;
