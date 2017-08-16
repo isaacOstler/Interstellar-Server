@@ -1,0 +1,291 @@
+.roomsList_header_roomLabel{
+	position: absolute;
+	top:4px;
+	left: 4px;
+	height: 32px;
+}
+.roomsList_header_doorLabel{
+	position: absolute;
+	top:4px;
+	left: 65%;
+	height: 32px;
+}
+.roomsList_header_personnelLabel{
+	position: absolute;
+	top:4px;
+	right: 2%;
+	height: 32px;
+}
+#deckControls_gasProgressBar{
+	cursor: col-resize;
+	position: absolute;
+	bottom: 7%;
+	height: 23%;
+	width: 75%;
+	border: 1px solid white;
+	right: 20px;
+}
+#deckControls_gasProgressBar_label{
+	position: absolute;
+	top:4px;
+	font-size: 28px;
+	left: 10px;
+}
+#deckControls_gasProgressBar_fill{
+	border-right: double 4px white;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 50%;
+	height: 100%;
+	background-color: rgba(55,255,47,.5);
+}
+
+#deckControls_lockAllButton{
+    position: absolute;
+    top: 9%;
+    width: calc(50% - 25px);
+    height: 27%;
+    left: 20px;
+}
+
+#deckControls_unlockAllbutton{
+    position: absolute;
+    top: 40%;
+    width: calc(50% - 25px);
+    height: 27%;
+    left: 20px;
+}
+
+#deckControls_evacAllButton{
+    position: absolute;
+    top: 9%;
+    width: calc(50% - 25px);
+    height: 27%;
+    right: 20px;
+}
+
+#deckControls_returnAllPersonnelButton{
+    position: absolute;
+    top: 40%;
+    width: calc(50% - 25px);
+    height: 27%;
+    right: 20px;
+}
+
+.alertFlash{
+    animation-name: flash;
+    animation-duration: .4s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes flash {
+    49%  {}
+    50%   {background-color: red;}
+    51%  {}
+}
+
+
+.roomsList_roomInfoItem_closeDoorsButton{
+	position: absolute;
+	top:5px;
+	width: 20%;
+	left: 40%;
+}
+.roomsList_roomInfoItem_roomName{
+	position: absolute;
+	top:5px;
+	left: 5px;
+	font-size: 32px;
+}
+.roomsList_roomInfoItem_Description{
+	background-color: rgba(0,0,0,.7);
+	position: absolute;
+	top: 100px;
+	height: 110px;
+	left: 5px;
+	font-size: 14px;
+	font-family: 'Arial';
+	width: calc(50% - 6px);
+	border: 1px solid white;
+	padding: 4px;
+	overflow: auto;
+}
+.roomsList_roomInfoItem_DescriptionLabel{
+	position: absolute;
+	top: 74px;
+	left: 4px;
+	font-size: 26px;
+}
+.roomsList_roomInfoItem_Alerts{
+	background-color: rgba(0,0,0,.7);
+	position: absolute;
+	top: 100px;
+	height: 110px;
+	right: 5px;
+	font-size: 14px;
+	font-family: 'Arial';
+	width: calc(50% - 6px);
+	border: 1px solid white;
+	padding: 4px;
+	overflow: auto;
+}
+.roomsList_roomInfoItem_AlertsLabel{
+	position: absolute;
+	top: 74px;
+	left: 50%;
+	font-size: 26px;
+}
+.roomsList_roomInfoItem_doorsSwitch{
+	position: absolute;
+	top:10px;
+	right: 80px;
+}
+.roomsList_roomInfoItem_evacSwitch{
+	position: absolute;
+	top:40px;
+	right: 80px;
+}
+
+.roomsList_roomInfoItem_evacLabel{
+	position: absolute;
+	top:40px;
+	right: 250px;
+	font-size: 22px;
+}
+.roomsList_roomInfoItem_evacLabel_onDuty{
+	position: absolute;
+	top:40px;
+	right: 17px;
+	font-size: 22px;
+}
+.roomsList_roomInfoItem_evacLabel_evac{
+	position: absolute;
+	top:40px;
+	right: 160px;
+	font-size: 22px;
+}
+
+.roomsList_roomInfoItem_doorsLabel{
+	position: absolute;
+	top:11px;
+	right: 250px;
+	font-size: 22px;
+}
+.roomsList_roomInfoItem_doorsLabel_unLocked{
+	position: absolute;
+	top:11px;
+	right: 17px;
+	font-size: 22px;
+}
+.roomsList_roomInfoItem_doorsLabel_locked{
+	position: absolute;
+	top:11px;
+	right: 160px;
+	font-size: 22px;
+}
+.switch{
+	background-color: rgba(0,0,0,.9);
+	border: 1px solid white;
+	width: 75px;
+	height: 25px;
+}
+.roomsList_roomInfoItem_securityClearance{
+	position: absolute;
+	top:34px;
+	left: 5px;
+	font-size: 16px;
+}
+#deckControls{
+	position: absolute;
+	bottom: 6%;
+	height: 22%;
+	width: 75%;
+	left: 25%;
+}
+#roomsList{
+	position: absolute;
+	top:3.5%;
+	height: 67%;
+	width: 75%;
+	right: 0%;
+}
+#roomListContainer{
+	position: absolute;
+	top:2%;
+	left: 2%;
+	width: 96%;
+	height: 96%;
+	overflow-y: auto;
+}
+#deckList{
+	position: absolute;
+	top:3.5%;
+	height: 91%;
+	width: 20%;
+	left: 3.5%;
+}
+#deckListContainer{
+	position: absolute;
+    top: 6px;
+    left: 8px;
+    width: calc(100% - 16px);
+    height: 96%;
+    overflow-y: auto;
+}
+.deckList_item_evac{
+	position: absolute;
+	top:calc(50% - 12.5px);
+	right: 5%;
+}
+.deckList_item_door{
+	position: absolute;
+	top:calc(50% - 12.5px);
+	left: 65%;
+}
+.deckList_item{
+	cursor: pointer;
+	font-size: 28px;
+	height: 30px;
+	position: relative;
+	width: 100%;
+	border-bottom: 1px solid white;
+	background-color: rgba(255,255,255,0.05);
+}
+.deckList_item:hover{
+	background-color: rgba(255,255,255,0.4);
+}
+.deckList_item:active{
+	filter: brightness(0.65);
+}
+.roomsList_header{
+	cursor: default;
+	font-size: 36px;
+	height: 40px;
+	position: relative;
+	width: 100%;
+	border-bottom: 1px solid white;
+	background-color: rgba(0,0,0,0.7);
+}
+.roomsList_item{
+	cursor: pointer;
+	font-size: 36px;
+	height: 40px;
+	position: relative;
+	width: 100%;
+	border-bottom: 1px solid white;
+	background-color: rgba(255,255,255,0.05);
+}
+.roomsList_item:hover{
+	background-color: rgba(255,255,255,0.4);
+}
+.roomsList_item:active{
+	filter: brightness(0.65);
+}
+.roomsList_roomInfoItem{
+	background-color: rgba(0,0,0,.5);
+	display: none;
+	position: relative;
+	height: 214px;
+	border-bottom: 1px solid white;
+}

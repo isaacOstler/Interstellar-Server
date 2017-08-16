@@ -71,7 +71,8 @@ Interstellar.addCoreWidget("Short Range Comm",function(){
 		{
 			"index" : -1,
 			"bound" : 0 //0 top, 1 bottom
-		}
+		},
+		isConnected = false;
 
 	//DOM References
 	var thisWidgetElement = $("#short-range-comm-Core-Widget"),
@@ -209,6 +210,18 @@ Interstellar.addCoreWidget("Short Range Comm",function(){
 			return;
 		}
 		incomingHails = newData;
+		var lineConnectionDetected = false;
+		for(var i = 0;i < incomingHails.length;i++){
+			if(incomingHails[i].isConnected){
+				isConnected = true;
+				lineConnectionDetected = true;
+				Interstellar.say("Line Connected");
+			}
+		}
+		if(isConnected && !lineConnectionDetected){
+			isConnected = false;
+			Interstellar.say("Line Disconnected");
+		}
 		drawHailList();
 	});
 
@@ -345,7 +358,7 @@ Interstellar.addCoreWidget("Short Range Comm",function(){
 		}
 		var newHail = 
 		{
-			"frequency" : frequency,
+			"frequency" : frequency * .2,
 			"amplitude" : Math.random() * (1 - frequency),
 			"phase" : 0,
 			"isConnected" : false,

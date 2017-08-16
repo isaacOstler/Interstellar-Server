@@ -83,38 +83,14 @@ var selectedMessage = -1;
 	Interstellar.onDatabaseValueChange("communications.longRangeMessages",function(newData){
 		if(newData == null){
 			var template = [
-			{
-				"to" : "USS VOYAGER",
-				"from" : "STARFLEET COMMAND",
-				"cypher" : "A1-X2",
-				"hasBeenDecoded" : false,
-				"priority" : 3,
-				"message" : "TO: USS VOYAGER \n FROM: STARFLEET COMMAND \n - \n VOYAGER,\n\nWHAT IS YOUR STATUS?\nPLEASE KEEP US UPDATED!\n\nGOOD LUCK VOYAGER!\n-\nSTARFLEET COMMAND OUT"
-			},
-			{
-				"to" : "USS VOYAGER",
-				"from" : "USS ODYSSEY",
-				"cypher" : "R2-D2",
-				"hasBeenDecoded" : false,
-				"priority" : 1,
-				"message" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-			},
-			{
-				"to" : "USS VOYAGER",
-				"from" : "USS VOYAGER",
-				"cypher" : "AX-21",
-				"hasBeenDecoded" : true,
-				"priority" : 1,
-				"message" : "LOL, WE SENT A MESSAGE TO OURSELVES"
-			},
-			{
-				"to" : "USS VOYAGER",
-				"from" : "USS VOYAGER",
-				"cypher" : "AX-21",
-				"hasBeenDecoded" : false,
-				"priority" : 2,
-				"message" : "LOL!  WE SENT 2 MESSAGES TO OURSELVES!!"
-			}
+				{
+					"to" : "USS VOYAGER",
+					"from" : "STARFLEET COMMAND",
+					"cypher" : "A1-X2",
+					"hasBeenDecoded" : false,
+					"priority" : 3,
+					"message" : "TO: USS VOYAGER \n FROM: STARFLEET COMMAND \n - \n VOYAGER,\n\nWHAT IS YOUR STATUS?\nPLEASE KEEP US UPDATED!\n\nGOOD LUCK VOYAGER!\n-\nSTARFLEET COMMAND OUT"
+				}
 			]
 			Interstellar.setDatabaseValue("communications.longRangeMessages",template);
 			return;
