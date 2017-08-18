@@ -1,0 +1,8 @@
+{
+	"cardName":"security-monitor-core",
+	"cardType":"coreWidget",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the supervisor to view the security status of the ship, and send out alerts to rooms."
+}

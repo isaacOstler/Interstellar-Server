@@ -1,0 +1,298 @@
+.Security-Monitor-Core_alarmControls_currentAlarmsList_item_alarmLabel{
+	text-overflow: ellipsis;
+	position: absolute;
+	top:0px;
+	left: 2px;
+	border-right: 1px solid white;
+	height: 100%;
+	width: calc(55% - 50px);
+	overflow: hidden;
+}
+.Security-Monitor-Core_alarmControls_currentAlarmsList_item_roomLabel{
+	text-overflow: ellipsis;
+	position: absolute;
+	top:0px;
+	left: calc(55% - 46px);
+	height: 100%;
+	width: calc(45% - 50px);
+	border-right: 1px solid white;
+	overflow: hidden;
+}
+.Security-Monitor-Core_alarmControls_currentAlarmsList_item_delete{
+	position: absolute;
+	top:0px;
+	right: 0px;
+	width: 18px;
+	text-align: center;
+	height: 100%;
+	overflow: hidden;
+}
+.Security-Monitor-Core_alarmControls_currentAlarmsList_item_timeLabel{
+	position: absolute;
+	top:0px;
+	right: 18px;
+	width: 80px;
+	border-right: 1px solid white;
+	text-align: center;
+	overflow: hidden;
+}
+.Security-Monitor-Core_alarmControls_currentAlarmsList_item{
+    font-size: 11px;
+    height: 14px;
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    border-bottom: 1px solid white;
+	overflow: hidden;
+}
+#Security-Monitor-Core_alarmControls_currentAlarmsListHeader_timeLabel{
+	position: absolute;
+	top:0px;
+	right: 38px;
+}
+#Security-Monitor-Core_alarmControls_currentAlarmsListHeader_locationLabel{
+	position: absolute;
+	top:0px;
+	left: calc(50% - 20px);
+}
+#Security-Monitor-Core_alarmControls_currentAlarmsListHeader{
+	position: absolute;
+	top:38px;
+	left: 2px;
+	height: 16px;
+	overflow: hidden;
+	width: calc(100% - 6px);
+}
+#Security-Monitor-Core_alarmControls_currentAlarmsList{
+    position: absolute;
+    left: 2px;
+    top: 54px;
+    height: calc(100% - 58px);
+    border: 1px solid white;
+    overflow: auto;
+    width: calc(100% - 6px);
+}
+#Security-Monitor-Core_alarmControls_alarmDropdown{
+    position: absolute;
+    top: 19px;
+    left: 0px;
+    width: calc(100% - 80px);
+}
+#Security-Monitor-Core_alarmControls_editButton{
+	position: absolute;
+    top: 20px;
+    right: 1px;
+    height: 16px;
+    width: 79px;
+}
+#Security-Monitor-Core_alarmControls_createButton{
+	position: absolute;
+	top:1px;
+	right: 1px;
+	width: 79px;
+    background: linear-gradient(to bottom, rgba(255,255,0,1) 0%,rgba(229,214,0,1) 100%);
+}
+#Security-Monitor-Core_alarmControls_locationDropdown{
+	position: absolute;
+	top:1px;
+	left: 20px;
+	width: calc(100% - 100px);
+}
+#Security-Monitor-Core_alarmControls_sortType:active{
+	filter: brightness(0.15);
+}
+#Security-Monitor-Core_alarmControls_sortType:hover{
+	filter: brightness(1.25);
+}
+#Security-Monitor-Core_alarmControls_sortType{
+	filter: brightness(0.8);
+	cursor: pointer;
+	position: absolute;
+	top:0px;
+	left: 0px;
+}
+#Security-Monitor-Core_alarmControls_sortType_deck{
+	display: none;
+}
+#security-monitor-core_roomHeader_evacLabel{
+    position: absolute;
+    right: 91px;
+    top: 0px;
+}
+#security-monitor-core_roomHeader_doorLabel{
+    position: absolute;
+    right: 30px;
+    top: 0px;
+}
+#security-monitor-core_roomHeader{
+	top: 2px;
+    right: 2px;
+    width: calc(100% - 175px);
+    position: absolute;
+    border: 1px solid white;
+    background-color: rgba(0,0,0,.6);
+    height: 15px;
+    font-size: 14px;
+}
+.security-monitor-core_roomItem_roomName{
+	position: absolute;
+	top:2px;
+	font-size: 17px;
+	left: 2px;
+}
+.security-monitor-core_roomItem_roomEvac{
+	cursor: pointer;
+	color: black;
+	background-color: lime;
+	position: absolute;
+	right:81px;
+	width: 80px;
+	height: 100%;
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+}
+.security-monitor-core_roomItem_roomDoor{
+	cursor: pointer;
+	color: black;
+	background-color: lime;
+	position: absolute;
+	right:0px;
+	width: 80px;
+	height: 100%;
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+}
+.security-monitor-core_roomItem:active{
+	filter: brightness(0.6);
+}
+.security-monitor-core_roomItem:hover{
+	background-color: rgba(255,255,255,0.4);
+}
+.security-monitor-core_roomItem{
+	cursor: pointer;
+	position: relative;
+	width: 100%;
+	border-bottom: 1px solid white;
+	background-color: rgba(255,255,255,.15);
+	height: 22px;
+}
+
+.security-monitor-core_deckTextbox{
+	cursor: default;
+    position: absolute;
+    border: 1px solid black;
+    top: 0px;
+    left: 0px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    text-align: center;
+}
+.Security-Monitor-Core_deckList_item_gas{
+	cursor: pointer;
+	overflow: hidden;
+	position: absolute;
+	top: 0px;
+	left: 132px;
+	width: 33px;
+	height: 100%;
+}
+.Security-Monitor-Core_deckList_item_evac{
+	overflow: hidden;
+	position: absolute;
+	top:0px;
+	left: 97px;
+	width: 34px;
+	height: 100%;
+}
+.Security-Monitor-Core_deckList_item_doors{
+	overflow: hidden;
+	position: absolute;
+	top:0px;
+	left: 63px;
+	width: 33px;
+	height: 100%;
+}
+.Security-Monitor-Core_deckList_item_deck{
+	overflow: hidden;
+	position: absolute;
+	top:0px;
+	font-size: 14px;
+	left: 2px;
+	height: 100%;
+	width: 50%;
+}
+.Security-Monitor-Core_deckList_header_deck{
+	position: absolute;
+	top:2px;
+	font-size: 14px;
+	left: 2px;
+}
+.Security-Monitor-Core_deckList_header_doors{
+	position: absolute;
+	top: 2px;
+	font-size: 12px;
+	right: 69px;
+}
+.Security-Monitor-Core_deckList_header_evac{
+	position: absolute;
+	top: 2px;
+	font-size: 12px;
+	right: 37px;
+}
+.Security-Monitor-Core_deckList_header_gas{
+	position: absolute;
+	top: 2px;
+	font-size: 12px;
+	right: 7px;
+}
+.Security-Monitor-Core_deckList_header{
+	position: relative;
+	width: 100%;
+	height: 16px;
+	cursor: default;
+	border-bottom: 1px solid white;
+}
+.Security-Monitor-Core_deckList_item:active{
+	filter: brightness(0.65);
+}
+.Security-Monitor-Core_deckList_item:hover{
+	background-color: rgba(255,255,255,0.4);
+}
+.Security-Monitor-Core_deckList_item{
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+	height: 20px;
+	font-size: 18px;
+	cursor: pointer;
+	border-bottom: 1px solid white;
+	background-color: rgba(255,255,255,0.15);
+}
+#Security-Monitor-Core_deckList{
+    position: absolute;
+    overflow: auto;
+    top: 2px;
+    left: 2px;
+    width: 165px;
+    height: calc(100% - 6px);
+    border: 1px solid white;
+}
+
+#Security-Monitor-Core_roomList{
+	cursor: pointer;
+    position: absolute;
+    top: 18px;
+    right: 2px;
+    width: calc(100% - 175px);
+    height: calc(60% - 22px);
+    border: 1px solid white;
+    overflow: auto;
+}
+#Security-Monitor-Core_alarmControls{
+	position: absolute;
+    width: calc(100% - 175px);
+    height: calc(40% - 4px);
+	bottom: 2px;
+	right: 2px;
+    border: 1px solid white;
+}

@@ -30,6 +30,7 @@ var roomList = $("#roomListContainer"),
 
 Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
 	if(newData == null){
+		return; // remove this warn for dev mode
 		console.warn("WARN: Do not set room values on a station widget!");
 		$.getJSON('/resource?path=public/rooms.json', function(roomsJSON) {
 			Interstellar.setDatabaseValue("ship.rooms",roomsJSON);
@@ -39,9 +40,9 @@ Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
 	}
 	if(doInitRooms){
 		doInitRooms = false;
-		Interstellar.setDatabaseValue("security.roomInfo",formatRooms(newData.rooms));
+		Interstellar.setDatabaseValue("security.roomInfo",formatRooms(newData));
 		var newArray = [];
-		for(var i = 0;i < newData.rooms.length;i++){
+		for(var i = 0;i < newData.length;i++){
 			newArray.splice(newArray.length,0,0);
 		}
 		Interstellar.setDatabaseValue("security.deckGasLevels",newArray);
@@ -61,10 +62,9 @@ Interstellar.onDatabaseValueChange("security.deckGasLevels",function(newData){
 
 Interstellar.onDatabaseValueChange("security.roomInfo",function(newData){
 	if(newData == null){
-		//THIS IS FOR DEV PURPOSES ONLY!
 		doInitRooms = true;
 		if(Interstellar.getDatabaseValue("ship.rooms") != null){
-			Interstellar.setDatabaseValue("security.roomInfo",formatRooms(Interstellar.getDatabaseValue("ship.rooms").rooms));
+			Interstellar.setDatabaseValue("security.roomInfo",formatRooms(Interstellar.getDatabaseValue("ship.rooms")));
 		}
 		return;
 	}
@@ -385,6 +385,9 @@ function drawSwitch(switchID,value){
 }
 
 function formatRooms(newData){
+	if(newData == undefined){
+		return;
+	}
 	//hopefully this will only ever set once!
 	var newArray = [];
 	for(var i = 0;i < newData.length;i++){
