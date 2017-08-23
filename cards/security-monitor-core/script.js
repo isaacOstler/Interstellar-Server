@@ -16,7 +16,44 @@ Interstellar.addCoreWidget("Login Names",function(){
 		currentDeck = 0,
 		currentRoom = 0,
 		oldAlarmLength = 0,
-		lastRoomsSpawned = 0;
+		lastRoomsSpawned = 0,
+		loadedAlarms = [],
+		timerInterval = undefined,
+		defaultAlarmPresets =
+		[
+			{
+				"name" : "Intruder detected".toUpperCase(),
+				"alarmInfo" : "a crew member has reported that an intruder was seen in this location, a security team should be deployed immediately.".toUpperCase()
+			},
+			{
+				"name" : "suspicious individual".toUpperCase(),
+				"alarmInfo" : "a crew member has reported a suspicious individual in the area, a security team should be deployed immediately.".toUpperCase()
+			},
+			{
+				"name" : "medical emergency".toUpperCase(),
+				"alarmInfo" : "a crew member has reported a medical emergency for this room, the ship's sickbay should be alerted immediately and security personnel should be deployed for emergency medical care.".toUpperCase()
+			},
+			{
+				"name" : "plasma leak".toUpperCase(),
+				"alarmInfo" : "a plasma leak has been detected in this room.  all nearby rooms should be evacuated due to toxic fumes, and damage control should be notified.".toUpperCase()
+			},
+			{
+				"name" : "fire".toUpperCase(),
+				"alarmInfo" : "a fire has been detected in this location.  the fire will continue to spread if this room is not sealed.  all nearby personnel should be evacuated from this room.".toUpperCase()
+			},
+			{
+				"name" : "hull breach".toUpperCase(),
+				"alarmInfo" : "a hull breach (a hole in the ship's wall), was detected in this location.  oxygen will be drained from this room until the doors are sealed.  any personnel in this room were likely vented.".toUpperCase()
+			},
+			{
+				"name" : "unauthorized transport".toUpperCase(),
+				"alarmInfo" : "an unauthorized transport to this room was detected, unauthorized intruders could be present.".toUpperCase()
+			},
+			{
+				"name" : "bomb".toUpperCase(),
+				"alarmInfo" : "an armed explosive device was detected in this room, time until detonation could not be detected.".toUpperCase()
+			}
+		];
 
 	//DOM References
 	var deckList = $("#Security-Monitor-Core_deckList"),
@@ -24,8 +61,16 @@ Interstellar.addCoreWidget("Login Names",function(){
 		alarmList = $("#Security-Monitor-Core_alarmControls_currentAlarmsList"),
 		sortByAlpha = $("#Security-Monitor-Core_alarmControls_sortType_alpha"),
 		sortByDeck = $("#Security-Monitor-Core_alarmControls_sortType_deck"),
+		alarmSelectDropdown = $("#Security-Monitor-Core_alarmControls_alarmDropdown"),
+		alarmLocationSelectDropdown = $("#Security-Monitor-Core_alarmControls_locationDropdown"),
 		editAlarmsButton = $("#Security-Monitor-Core_alarmControls_editButton"),
-		createAlarmButton = $("#Security-Monitor-Core_alarmControls_createButton");
+		createAlarmButton = $("#Security-Monitor-Core_alarmControls_createButton"),
+		alarmEditorWindow_addButton = $("#security_monitor_core_editAlarmWindow_addButton"),
+		alarmEditorWindow_removeButton = $("#security_monitor_core_editAlarmWindow_removeButton"),
+		alarmEditorWindow_alarmsList = $("#security_monitor_core_editAlarmWindow_pingList"),
+		alarmEditorWindow_alarmTitleTextbox = $("#security_monitor_core_editAlarmWindow_pingTitle"),
+		alarmEditorWindow_alarmTextbox = $("#security_monitor_core_editAlarmWindow_pingData");
+
 		
 	//init calls
 	drawDeckList();
@@ -75,7 +120,7 @@ Interstellar.addCoreWidget("Login Names",function(){
 			html += "<div guid='" + guid + "' id='Security-Monitor-Core_alarmControls_currentAlarmsList_item_" + i + "' class='Security-Monitor-Core_alarmControls_currentAlarmsList_item'>";
     		html += "<div guid='" + guid + "' class='Security-Monitor-Core_alarmControls_currentAlarmsList_item_alarmLabel'>" + alarms[i].name + "</div>";
     		html += "<div guid='" + guid + "' class='Security-Monitor-Core_alarmControls_currentAlarmsList_item_roomLabel'>" + alarms[i].room + "</div>";
-    		html += "<div guid='" + guid + "' class='Security-Monitor-Core_alarmControls_currentAlarmsList_item_timeLabel'>" + alarms[i].timePassed + "</div>";
+    		html += "<div guid='" + guid + "' class='Security-Monitor-Core_alarmControls_currentAlarmsList_item_timeLabel'>" + formatTimeWithSeconds(alarms[i].timePassed) + "</div>";
     		html += "<div guid='" + guid + "' class='Security-Monitor-Core_alarmControls_currentAlarmsList_item_delete'>";
     		html += "<svg guid='" + guid + "' fill='#FFFFFF' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'>";
     		html += "<path guid='" + guid + "' d='M0 0h24v24H0V0z' fill='none'/>";
@@ -151,7 +196,7 @@ Interstellar.addCoreWidget("Login Names",function(){
     			percentageGas = gasLevels[i];
     		}
     		html += "<div index='" + i + "' id='securityMonitorCore_deck_" + i + "' class='Security-Monitor-Core_deckList_item'>";
-    		html += "<div index='" + i + "' class='Security-Monitor-Core_deckList_item_deck'>";
+    		html += "<div index='" + i + "' id='Security-Monitor-Core_deckList_item_deck_" + i + "' class='Security-Monitor-Core_deckList_item_deck'>";
     		html += "Deck " + (i + 1);
     		html += "</div>";
     		html += "<div index='" + i + "' class='Security-Monitor-Core_deckList_item_doors'>";
@@ -209,6 +254,22 @@ Interstellar.addCoreWidget("Login Names",function(){
 		return newArray;
 	}
 
+	function updateLocationDropdown(){
+		var i;
+		var k;
+		var html;
+		for(i = 0;i < rooms.length;i++){
+			html += "<optgroup label='DECK " + (i + 1) + "'>"
+			for(k = 0;k < rooms[i].length;k++){
+				html += "<option value='" + i + "," + k + "'>";
+				html += rooms[i][k].name + ", deck " + (i + 1);
+				html += "</option>";
+			}
+			html += "</optgroup>";
+		}
+		alarmLocationSelectDropdown.html(html);
+	}
+
 	function drawRoomsForDeck(deck){
 		var i;
 		for(i = 0;i < lastRoomsSpawned;i++){
@@ -218,7 +279,11 @@ Interstellar.addCoreWidget("Login Names",function(){
 		lastRoomsSpawned = rooms[deck].length;
 		for(i = 0;i < lastRoomsSpawned;i++){
 			html += "<div id='securityMonitorCore_RoomList_Room_" + i + "' class='security-monitor-core_roomItem noselect'>";
-    		html += "<div class='security-monitor-core_roomItem_roomName'>" + rooms[deck][i].name + "</div>";
+			if(rooms[deck][i].alarms.length > 0){
+    			html += "<div id='securityMonitorCore_RoomList_Room_roomName_" + i + "' class='security-monitor-core_roomItem_roomName' style='color:red'>" + rooms[deck][i].name + "</div>";
+			}else{
+    			html += "<div id='securityMonitorCore_RoomList_Room_roomName_" + i + "' class='security-monitor-core_roomItem_roomName'>" + rooms[deck][i].name + "</div>";
+			}
     		if(rooms[deck][i].evacuated){
     			html += "<div id='securityMonitorCore_RoomList_Room_EvacStatus_" + i + "' class='security-monitor-core_roomItem_roomEvac verticalAlign' style='background-color:red;font-size:14px'>EVACUATED</div>";
     		}else{
@@ -273,7 +338,7 @@ Interstellar.addCoreWidget("Login Names",function(){
 				percentageGas = gasLevels[i];
 			}
 			
-			var deckLabel = $("#securityMonitorCore_deck_" + i);
+			var deckLabel = $("#Security-Monitor-Core_deckList_item_deck_" + i);
 			var doorText = $("#Security-Monitor-Core_deckList_header_doors_" + i);
 			var evacText = $("#Security-Monitor-Core_deckList_header_evac_" + i);
 			var gasText = $("#Security-Monitor-Core_deckList_header_gas_" + i);
@@ -281,15 +346,42 @@ Interstellar.addCoreWidget("Login Names",function(){
 			evacText.val(Math.round(percentageEvac * 100) + "%");
 			gasText.val(Math.round(percentageGas * 100) + "%");
 
+			var alarmDetected = false;
+			for(var j = 0;j < rooms[i].length;j++){
+				if(rooms[i][j].alarms.length > 0){
+					alarmDetected = true;
+				}
+			}
+			if(alarmDetected){
+				deckLabel.css("color","red");
+			}else{
+				deckLabel.css("color","white");
+			}
 			doorText.css("background-color",Interstellar.rotateHue("#FF0000",90 - (90 * percentageDoors)));
 			evacText.css("background-color",Interstellar.rotateHue("#FF0000",90 - (90 * percentageEvac)));
 			gasText.css("background-color",Interstellar.rotateHue("#FF0000",90 - (90 * percentageGas)));
 		}
 	}
 
+	function drawAlarmOptionGUI(){
+		var i;
+		var html = "";
+		for(i = 0;i < loadedAlarms.length;i++){
+			html += "<option>";
+			html += loadedAlarms[i].name;
+			html += "</option>";
+		}
+		alarmSelectDropdown.html(html);
+	}
+
 	function updateRoomList(){
 		var i;
 		for(i = 0;i < lastRoomsSpawned;i++){
+			if(rooms[currentDeck][i].alarms.length > 0){
+				$("#securityMonitorCore_RoomList_Room_roomName_" + i).css("color","red");
+			}else{
+				$("#securityMonitorCore_RoomList_Room_roomName_" + i).css("color","white");
+			}
 			if(rooms[currentDeck][i].evacuated){
 				$("#securityMonitorCore_RoomList_Room_EvacStatus_" + i).html("EVACUATED")
 				$("#securityMonitorCore_RoomList_Room_EvacStatus_" + i).css("background-color","red");
@@ -316,7 +408,60 @@ Interstellar.addCoreWidget("Login Names",function(){
     	});
     }
 
+
+	function formatTimeWithSeconds(seconds){
+		var minutes = Math.floor(seconds / 60);
+		var hours = Math.floor(minutes / 60);
+		seconds = seconds - (minutes * 60);
+		minutes = minutes - (hours * 60);
+		return formatTwoDigitNumber(hours) + ":" + formatTwoDigitNumber(minutes) + ":" + formatTwoDigitNumber(seconds);
+	}
+
+	function formatTwoDigitNumber(number){
+		if(number > 9){
+			return number;
+		}else{
+			return "0" + number;
+		}
+	}
+
+
+    function startTimer(){
+    	if(timerInterval != undefined){
+    		return;
+    	}
+    	timerInterval = setInterval(function(){
+    		var i;
+    		var k;
+    		var j;
+    		var didChange = false;
+    		for(i = 0;i < rooms.length;i++){
+    			for(k = 0;k < rooms[i].length;k++){
+    				for(j = 0;j < rooms[i][k].alarms.length;j++){
+    					didChange = true;
+    					rooms[i][k].alarms[j].timePassed++;
+    				}
+    			}
+    		}
+    		if(!didChange){
+    			clearInterval(timerInterval);
+    			timerInterval = undefined;
+    			return;
+    		}
+    		Interstellar.setDatabaseValue("security.roomInfo",rooms);
+    	},1000);
+    }
+
 	//preset observers
+
+	Interstellar.onPresetValueChange("security.roomAlarms",function(newData){
+		if(newData == null){
+			Interstellar.setPresetValue("security.roomAlarms",defaultAlarmPresets);
+			return;
+		}
+		loadedAlarms = newData;
+		drawAlarmOptionGUI();
+	});
 
 	//database observers
 
@@ -329,11 +474,29 @@ Interstellar.addCoreWidget("Login Names",function(){
 			return;
 		}
 		rooms = newData;
+
+		var alarmDetected = false;
+		var i;
+		var j;
+		for(i = 0;i < rooms.length;i++){
+			for(j = 0;j < rooms[i].length;j++){
+				if(rooms[i][j].alarms.length > 0){
+					alarmDetected = true;
+				}
+			}
+		}
+		if(alarmDetected && timerInterval == undefined){
+			startTimer();
+		}else if(!alarmDetected && timerInterval != undefined){
+			clearInterval(timerInterval);
+			timerInterval = undefined;
+		}
 		if(!hasDrawn){
 			hasDrawn = true;
 			drawDeckList();
 			drawRoomsForDeck(0);
 			drawAlarms();
+			updateLocationDropdown();
 		}else{
 			updateDeckList();
 			updateRoomList();
@@ -369,7 +532,25 @@ Interstellar.addCoreWidget("Login Names",function(){
 	});
 	//event handlers
 	createAlarmButton.click(function(event){
-
+		var i;
+		var loadedAlarmName = alarmSelectDropdown.val();
+		var alarm;
+		for(i = 0;i < loadedAlarms.length;i++){
+			if(loadedAlarmName == loadedAlarms[i].name){
+				alarm = loadedAlarms[i];
+			}
+		}
+		var newAlarm = 
+		{
+			"name" : loadedAlarmName,
+			"alarmInfo" : alarm.alarmInfo,
+			"timePassed" : 0,
+			"guid" : generateUUID()
+		}
+		var deckIndex = Number(alarmLocationSelectDropdown.val().split(",")[0]);
+		var roomIndex = Number(alarmLocationSelectDropdown.val().split(",")[1]);
+		rooms[deckIndex][roomIndex].alarms.splice(rooms[deckIndex][roomIndex].alarms.length,0,newAlarm);
+		Interstellar.setDatabaseValue("security.roomInfo",rooms);
 	});
 
 	editAlarmsButton.click(function(event){
