@@ -1,3 +1,72 @@
+.security_monitor_core_editAlarmWindow_pingItem{
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    height: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    border-bottom: 1px solid white;
+	background-color: rgba(255,255,255,.15);
+}
+#security_monitor_core_editAlarmWindow_removeButton{
+    position: absolute;
+    top: 21px;
+    height: 17px;
+    left: 194px;
+}
+#security_monitor_core_editAlarmWindow_addButton{
+    position: absolute;
+    top: 21px;
+    height: 17px;
+    left: 212px;
+}
+.security_monitor_core_editAlarmWindow_pingItem:hover{
+	background-color: rgba(255,255,255,.25);
+}
+.security_monitor_core_editAlarmWindow_pingItem:active{
+	background-color: rgba(255,255,255,.15);
+	filter: brightness(.5);
+}
+#security_monitor_core_editAlarmWindow_title{
+	position: absolute;
+	top:22px;
+    font-size: 16px;
+	left: 1px;
+}
+#security_monitor_core_editAlarmWindow_pingTitle{
+    position: absolute;
+    right: 1px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,.25);
+    border: 1px solid white;
+    color: white;
+    width: calc(65% - 10px);
+    top: 21px;
+    text-transform: uppercase;
+    font-size: 16px;
+    height: 21px;
+}
+#security_monitor_core_editAlarmWindow_pingData{
+    position: absolute;
+    top: 47px;
+    right: 1px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,.25);
+    border: 1px solid white;
+    color: white;
+    width: calc(65% - 12px);
+    height: calc(100% - 74px);
+}
+#security_monitor_core_editAlarmWindow_pingList{
+    position: absolute;
+    top: 39px;
+    left: 1px;
+    width: 35%;
+    border: 1px solid white;
+    height: calc(100% - 62px);
+}
+
+
 .Security-Monitor-Core_alarmControls_currentAlarmsList_item_alarmLabel{
 	text-overflow: ellipsis;
 	position: absolute;

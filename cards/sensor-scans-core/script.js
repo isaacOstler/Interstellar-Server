@@ -812,7 +812,7 @@ Interstellar.addCoreWidget("Sensor Scans",function(){
 			
 		});
 
-		$("#Sensor-Scans-Core_AutoSendButton").contextmenu(function(event){
+		$("#Sensor-Scans-Core_AutoSendButton").click(function(event){
 			openCoreWindow("Sensors-Scans-Core-AutoResponseOptions",event);
 		});
 

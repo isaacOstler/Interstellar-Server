@@ -1,10 +1,22 @@
 
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=security-monitor-core">
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=damage-control-core">
+<div id="security_monitor_core_editAlarmWindow" class="coreWindow" windowName="Alarm Editor" style="width: 650px;height: 350px;">
+	<div id="security_monitor_core_editAlarmWindow_title">
+		Security Alarms
+	</div>
+	<input type="button" value="-" id="security_monitor_core_editAlarmWindow_removeButton" class="coreButton">
+	<input type="button" value="+" id="security_monitor_core_editAlarmWindow_addButton" class="coreButton">
+	<div id="security_monitor_core_editAlarmWindow_pingList">
+	</div>
+	<input type="text" id="security_monitor_core_editAlarmWindow_pingTitle">
+	<textarea id="security_monitor_core_editAlarmWindow_pingData"></textarea>
+</div>
 <div id="Security-Monitor-Core-Widget" widgetName="Security Monitor" class="Core_Theme-CoreWidget" style="    
-	width: 585px;
-    height: 369px;
+	width: 557px;
+    height: 340px;
     top: 149px;
-    left: 470px;">
+    left: 699px;">
 
     <div id="Security-Monitor-Core_deckList" class="noselect"></div>
     <div id="security-monitor-core_roomHeader">ROOM NAME<div id="security-monitor-core_roomHeader_evacLabel">EVACUATION</div><div id="security-monitor-core_roomHeader_doorLabel">DOORS</div></div>

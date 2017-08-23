@@ -18,13 +18,15 @@ Interstellar.addCoreWidget("Login Names",function(){
 		oldAlarmLength = 0,
 		lastRoomsSpawned = 0;
 
-
 	//DOM References
 	var deckList = $("#Security-Monitor-Core_deckList"),
 		roomList = $("#Security-Monitor-Core_roomList"),
 		alarmList = $("#Security-Monitor-Core_alarmControls_currentAlarmsList"),
 		sortByAlpha = $("#Security-Monitor-Core_alarmControls_sortType_alpha"),
-		sortByDeck = $("#Security-Monitor-Core_alarmControls_sortType_deck");
+		sortByDeck = $("#Security-Monitor-Core_alarmControls_sortType_deck"),
+		editAlarmsButton = $("#Security-Monitor-Core_alarmControls_editButton"),
+		createAlarmButton = $("#Security-Monitor-Core_alarmControls_createButton");
+		
 	//init calls
 	drawDeckList();
 	//interstellar calls
@@ -62,9 +64,9 @@ Interstellar.addCoreWidget("Login Names",function(){
 				}
 			}
 		}
-		for(i = 0;i < oldAlarmLength;i++){
+		/*for(i = 0;i < oldAlarmLength;i++){
 			$("#Security-Monitor-Core_alarmControls_currentAlarmsList_item_" + i).off();
-		}
+		}*/
 		oldAlarmLength = alarms.length;
 		var html = "";
 		for(i = 0;i < oldAlarmLength;i++){
@@ -85,11 +87,24 @@ Interstellar.addCoreWidget("Login Names",function(){
     		html += "</div>";
 		}
 		alarmList.html(html);
-		for(i = 0;i < oldAlarmLength;i++){
-			$("#Security-Monitor-Core_alarmControls_currentAlarmsList_item_" + i).click(function(event){
-				console.log()
-			});
-		}
+		$(".Security-Monitor-Core_alarmControls_currentAlarmsList_item_delete").off();
+		$(".Security-Monitor-Core_alarmControls_currentAlarmsList_item_delete").click(function(event){
+			var guid = $(event.target).attr("guid");
+			var i;
+			var j;
+			var k;
+			for(i = 0;i < rooms.length;i++){
+				for(j = 0;j < rooms[i].length;j++){
+					for(k = 0;k < rooms[i][j].alarms.length;k++){
+						if(rooms[i][j].alarms[k].guid == guid){
+							rooms[i][j].alarms.splice(k,1);
+							Interstellar.setDatabaseValue("security.roomInfo",rooms);
+							return;
+						}
+					}
+				}
+			}
+		});
 	}
 
 	function updateAlarms(){
@@ -353,15 +368,24 @@ Interstellar.addCoreWidget("Login Names",function(){
 		}
 	});
 	//event handlers
+	createAlarmButton.click(function(event){
+
+	});
+
+	editAlarmsButton.click(function(event){
+		Interstellar.openCoreWindow("security_monitor_core_editAlarmWindow",event);
+	})
+	/*
 	setInterval(function(){
-		/*object: 
+		var genericObject = 
 			{
 				"room" : "MAIN ENGINEERING, DECK 12",
 				"name" : "Inturders detected",
 				"alarmInfo" : "aaaa, there are intruders here",
 				"timePassed" : 0
 			}
-		*/
+		
+
 		var newAlarm = 
 		{
 			"room" : "MAIN ENGINEERING, DECK 12",
@@ -374,5 +398,5 @@ Interstellar.addCoreWidget("Login Names",function(){
 		var randomRoom = Math.floor(Math.random() * rooms[randomDeck].length);
 		rooms[randomDeck][randomRoom].alarms.splice(rooms[randomDeck][randomRoom].alarms.length,0,newAlarm);
 		Interstellar.setDatabaseValue("security.roomInfo",rooms);
-	},10000);
+	},2000);*/
 });
