@@ -1,0 +1,130 @@
+.phaser_dischargeButton:active{
+	filter: brightness(0.55);
+}
+.phaser_dischargeButton:hover{
+	filter: brightness(1.25);
+}
+.phaser_dischargeButton{
+	color:black;
+	cursor: pointer;
+    position: absolute;
+    height: 29%;
+    top: 1px;
+    right: 5px;
+    width: calc(40% - 60px);
+    background: linear-gradient(to bottom, rgba(239,255,25,1) 0%,rgba(209,209,4,1) 100%);
+    border-radius: 0px 25px 25px 0px;
+    border: 1px solid white;
+    text-align: center;
+}
+
+.phaser_chargeButton:active{
+	filter: brightness(0.55);
+}
+.phaser_chargeButton:hover{
+	filter: brightness(1.25);
+}
+.phaser_chargeButton{
+	cursor: pointer;
+    position: absolute;
+    height: 29%;
+    top: 1px;
+    right: calc(40% - 54px);
+    width: calc(40% - 60px);
+    background: linear-gradient(to bottom, rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%);
+    border-radius: 25px 0px 0px 25px;
+    border: 1px solid white;
+    text-align: center;
+}
+.phaser_chargeLabel{
+	position: absolute;
+	bottom: calc(30% + 10px);
+	left: 4px;
+}
+.phaser_heatLabel{
+	position: absolute;
+	bottom: 10px;
+	left: 4px;
+}
+.phaser_chargeProgressBar_fill{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width:50%;
+	height: 100%;
+	background-color: rgba(253, 235, 0, 0.76);
+	border-right: 1px solid white;
+}
+.phaser_chargeProgressBar{
+	position: absolute;
+	bottom:calc(30% + 10px);
+	right: 5px;
+	width:calc(100% - 74px);
+	border:1px solid white;
+	height: 30%;
+}
+.phaser_heatProgressBar_fill{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width:50%;
+	height: 100%;
+	background-color: rgba(255,0,0,.7);
+	border-right: 1px solid white;
+}
+.phaser_heatProgressBar{
+	position: absolute;
+	bottom:5px;
+	right: 5px;
+	width:calc(100% - 74px);
+	border:1px solid white;
+	height: 30%;
+}
+.phaser_header{
+    position: absolute;
+    left: 4px;
+    font-size: 2vw;
+}
+.phaser{
+	z-index: 1;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 45%;
+	height: 15%;
+	border:1px solid white;
+	background-color: rgba(0,0,0,.65);
+}
+#weaponContainers{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width:100%;
+	height: 100%;
+	z-index: 5;
+}
+#canvas{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width:100%;
+	height: 100%;
+}
+#canvasContainer{
+    position: absolute;
+    top: 5%;
+    left: 0%;
+    height: 90%;
+    width: 100%;
+}
+#shipPicture{
+	position: absolute;
+    top: 12.5%;
+    left: 12.5%;
+    height: 75%;
+    width: 75%;
+    background-image: url(/ship?file=dorsal.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,116 @@
+[
+	{
+		"type" : "phaser",
+		"weaponName" : "PORT BOW PHASER",
+		"position" :
+		{
+			"x" : 0,
+			"y" : 0
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		}
+	},
+	{
+		"type" : "phaser",
+		"weaponName" : "STARBOARD BOW PHASER",
+		"position" :
+		{
+			"x" : 0.6,
+			"y" : 0
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		}
+	},
+	{
+		"type" : "phaser",
+		"weaponName" : "PORT PHASER",
+		"position" :
+		{
+			"x" : 0,
+			"y" : 0.2
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		}
+	},
+	{
+		"type" : "phaser",
+		"weaponName" : "STARBOARD PHASER",
+		"position" :
+		{
+			"x" : 0.6,
+			"y" : 0.2
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		}
+	},
+	{
+		"type" : "phaser",
+		"weaponName" : "PORT QUARTER PHASER",
+		"position" :
+		{
+			"x" : 0,
+			"y" : 0.85
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		}
+	},
+	{
+		"type" : "phaser",
+		"weaponName" : "STARBOARD QUARTER PHASER",
+		"position" :
+		{
+			"x" : 0.6,
+			"y" : 0.85
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		}
+	}
+]
