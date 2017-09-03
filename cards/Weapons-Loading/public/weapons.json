@@ -16,6 +16,11 @@
 		{
 			"phaserCharge" : 0,
 			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.45,
+			"y" : 0.25
 		}
 	},
 	{
@@ -35,6 +40,11 @@
 		{
 			"phaserCharge" : 0,
 			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.55,
+			"y" : 0.25
 		}
 	},
 	{
@@ -43,7 +53,7 @@
 		"position" :
 		{
 			"x" : 0,
-			"y" : 0.2
+			"y" : 0.20
 		},
 		"size" :
 		{
@@ -54,6 +64,11 @@
 		{
 			"phaserCharge" : 0,
 			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.475,
+			"y" : 0.4
 		}
 	},
 	{
@@ -62,7 +77,7 @@
 		"position" :
 		{
 			"x" : 0.6,
-			"y" : 0.2
+			"y" : 0.20
 		},
 		"size" :
 		{
@@ -73,6 +88,11 @@
 		{
 			"phaserCharge" : 0,
 			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.525,
+			"y" : 0.4
 		}
 	},
 	{
@@ -92,6 +112,11 @@
 		{
 			"phaserCharge" : 0,
 			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.45,
+			"y" : 0.75
 		}
 	},
 	{
@@ -111,6 +136,59 @@
 		{
 			"phaserCharge" : 0,
 			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.55,
+			"y" : 0.75
+		}
+	},
+	{
+		"type" : "torpedo",
+		"weaponName" : "FORWARD TORPEDO LAUNCHER",
+		"position" :
+		{
+			"x" : 0,
+			"y" : 0.4
+		},
+		"size" :
+		{
+			"height" : 0.30,
+			"width" : 0.35
+		},
+		"weaponStatus" :
+		{
+			"torpedoCount" : 2,
+			"torpedoLoaded" : false
+		},
+		"point" :
+		{
+			"x" : 0.5005,
+			"y" : 0.2
+		}
+	},
+	{
+		"type" : "torpedo",
+		"weaponName" : "AFT TORPEDO LAUNCHER",
+		"position" :
+		{
+			"x" : 0.65,
+			"y" : 0.4
+		},
+		"size" :
+		{
+			"height" : 0.30,
+			"width" : 0.35
+		},
+		"weaponStatus" :
+		{
+			"torpedoCount" : 25,
+			"torpedoLoaded" : true
+		},
+		"point" :
+		{
+			"x" : 0.5005,
+			"y" : 0.72
 		}
 	}
 ]

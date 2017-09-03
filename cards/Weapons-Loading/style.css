@@ -1,8 +1,8 @@
-.phaser_dischargeButton:active{
-	filter: brightness(0.55);
-}
 .phaser_dischargeButton:hover{
 	filter: brightness(1.25);
+}
+.phaser_dischargeButton:active{
+	filter: brightness(0.55);
 }
 .phaser_dischargeButton{
 	color:black;
@@ -18,11 +18,11 @@
     text-align: center;
 }
 
-.phaser_chargeButton:active{
-	filter: brightness(0.55);
-}
 .phaser_chargeButton:hover{
 	filter: brightness(1.25);
+}
+.phaser_chargeButton:active{
+	filter: brightness(0.55);
 }
 .phaser_chargeButton{
 	cursor: pointer;
@@ -50,10 +50,10 @@
 	position: absolute;
 	top:0px;
 	left: 0px;
-	width:50%;
 	height: 100%;
 	background-color: rgba(253, 235, 0, 0.76);
 	border-right: 1px solid white;
+	overflow: hidden;
 }
 .phaser_chargeProgressBar{
 	position: absolute;
@@ -62,12 +62,12 @@
 	width:calc(100% - 74px);
 	border:1px solid white;
 	height: 30%;
+	overflow: hidden;
 }
 .phaser_heatProgressBar_fill{
 	position: absolute;
 	top:0px;
 	left: 0px;
-	width:50%;
 	height: 100%;
 	background-color: rgba(255,0,0,.7);
 	border-right: 1px solid white;
@@ -84,6 +84,81 @@
     position: absolute;
     left: 4px;
     font-size: 2vw;
+}
+.torpedo_torpedoContainer{
+	position: absolute;
+	top: 54px;
+	width: 100%;
+	left: 0px;
+	height: 56%;
+}
+.torpedo_loadButton:hover{
+	filter: brightness(1.25);
+}
+.torpedo_loadButton:active{
+	filter: brightness(0.65);
+}
+.torpedo_loadButton{
+	cursor: pointer;
+	position: absolute;
+	bottom: 2px;
+	height: 30px;
+	width: 47.5%;
+	left: 2.5%;
+	border: 1px solid white;
+    background: linear-gradient(to bottom, rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%);
+    border-radius: 25px 0px 0px 25px;
+    text-align: center;
+}
+.torpedo_unloadButton:hover{
+	filter: brightness(1.25);
+}
+.torpedo_unloadButton:active{
+	filter: brightness(0.65);
+}
+.torpedo_unloadButton{
+	cursor: pointer;
+	color:black;
+	position: absolute;
+	bottom: 2px;
+	height: 30px;
+	width: calc(47.5% - 1px);
+	right: 2.5%;
+	border: 1px solid white;
+    background: linear-gradient(to bottom, rgba(239,255,25,1) 0%,rgba(209,209,4,1) 100%);
+    border-radius: 0px 25px 25px 0px;
+    text-align: center;
+}
+.torpedo_header{
+	position: absolute;
+	top:2px;
+	font-size: 30px;
+	left: 2px;
+}
+.torepdoIcon{
+	position: absolute;
+	top: 54px;
+	left: 206px;
+	width: 8%;
+	height: 4.5%;
+	border:1px solid white;
+	background:black;
+	border-radius: 25px;
+}
+.torpedo_tube{
+	position: absolute;
+	top:32px;
+	left: 0px;
+}
+.torpedo{
+	z-index: 10;
+	position: absolute;
+	top: 229px;
+	left: 0px;
+	width: 36%;
+	height: 29%;
+	border:1px solid white;
+	background-color: rgba(0,0,0,.65);
 }
 .phaser{
 	z-index: 1;
