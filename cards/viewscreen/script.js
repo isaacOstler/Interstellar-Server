@@ -19,8 +19,8 @@ var movingIconsObjects =
             "iconName" : "USS Voyager",
             "commands" : {xyz}
         }
-        */
-        ];
+    */
+];
 var tacticalMaster = getViewscreenTacticalMaster();
 $(document).ready(function(event){
     setDatabaseValue("viewscreen.tacticalMaster",tacticalMaster);

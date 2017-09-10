@@ -285,8 +285,15 @@ Interstellar.addCoreWidget("Ship Control",function(){
 			Interstellar.setDatabaseValue("ship.rooms",rooms);
 		});
 		layoutButton.click(function(event){
-			isAdjustingLayout = !isAdjustingLayout;
+			isAdjustingLayout = true
 			Interstellar.setCoreWidgetMovement(isAdjustingLayout);
+			$(document).keyup(function(e) {
+     			if (e.keyCode == 27) { // escape key maps to keycode `27`
+    				isAdjustingLayout = false;
+					Interstellar.setCoreWidgetMovement(isAdjustingLayout);
+					$(document).off();
+    			}
+			});
 		});
 	});
 });

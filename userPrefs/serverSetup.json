@@ -10,7 +10,7 @@
 		{
 			"stationInfo": {
 				"name" : "CORE",
-				"cards" : ["short-range-comm-core","internal-communications-core","damage-control-core","engine-control-core","course-calculation-core","Power-Distribution-Core","Coolant-Core","sensor-scans-core","Transporters-Core","alert-status-core","viewscreen-control-core","processed-data-core","card-controller-core","login-core","ship-control-core","shields-core"]
+				"cards" : ["internal-communications-core","engine-control-core","course-calculation-core","Power-Distribution-Core","Coolant-Core","sensor-scans-core","Transporters-Core","alert-status-core","viewscreen-control-core","processed-data-core","card-controller-core","login-core","ship-control-core","shields-core","sensors-core"]
 			},
 			"stationType" : "core"
 		},
@@ -24,7 +24,7 @@
 		{
 			"stationInfo" : {
 				"name" : "TACTICAL",
-				"cards" : ["Weapons-Loading","Security-Monitor","Short-Range-Comm","Internal-Communications","Damage-Control","Shields","Engine-Control","Power-Distribution","Course-Calculation","Login","Internal-Sensors","Transporters","Alert-Status","Coolant-Control","Long-Range-Comm"]
+				"cards" : ["Weapons-Control","Weapons-Loading","Security-Monitor","Short-Range-Comm","Internal-Communications","Damage-Control","Shields","Engine-Control","Power-Distribution","Course-Calculation","Login","Internal-Sensors","Transporters","Alert-Status","Coolant-Control","Long-Range-Comm"]
 			},
 			"stationType" : "station"
 		}

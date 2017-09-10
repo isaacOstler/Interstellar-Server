@@ -1,0 +1,8 @@
+{
+	"cardName":"Weapons-Control",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the user to fire weapons at targets in the ship's weapon's range"
+}
