@@ -29,9 +29,9 @@
 #sensorsArray{
     position: absolute;
     top: 0%;
-    height: 90%;
-    width: 93%;
-    left: 19%;
+    height: 60%;
+    width: 80%;
+    left: 10%;
 }
 #processedData{
     position: absolute;

@@ -21,11 +21,13 @@
 		{
 			"x" : 0.45,
 			"y" : 0.25
-		}
+		},
+		"angleOfFire" : 56,
+		"direction" : 303
 	},
 	{
 		"type" : "phaser",
-		"weaponName" : "STARBOARD BOW PHASER",
+		"weaponName" : "STAR BOW PHASER",
 		"position" :
 		{
 			"x" : 0.6,
@@ -45,7 +47,9 @@
 		{
 			"x" : 0.55,
 			"y" : 0.25
-		}
+		},
+		"angleOfFire" : 56,
+		"direction" : 0
 	},
 	{
 		"type" : "phaser",
@@ -69,7 +73,9 @@
 		{
 			"x" : 0.475,
 			"y" : 0.4
-		}
+		},
+		"angleOfFire" : 56,
+		"direction" : 243
 	},
 	{
 		"type" : "phaser",
@@ -93,7 +99,9 @@
 		{
 			"x" : 0.525,
 			"y" : 0.4
-		}
+		},
+		"angleOfFire" : 56,
+		"direction" : 64
 	},
 	{
 		"type" : "phaser",
@@ -117,11 +125,13 @@
 		{
 			"x" : 0.45,
 			"y" : 0.75
-		}
+		},
+		"angleOfFire" : 56,
+		"direction" : 181
 	},
 	{
 		"type" : "phaser",
-		"weaponName" : "STARBOARD QUARTER PHASER",
+		"weaponName" : "STAR QUARTER PHASER",
 		"position" :
 		{
 			"x" : 0.6,
@@ -141,7 +151,9 @@
 		{
 			"x" : 0.55,
 			"y" : 0.75
-		}
+		},
+		"angleOfFire" : 56,
+		"direction" : 124
 	},
 	{
 		"type" : "torpedo",
@@ -165,7 +177,9 @@
 		{
 			"x" : 0.5005,
 			"y" : 0.2
-		}
+		},
+		"angleOfFire" : 140,
+		"direction" : 290
 	},
 	{
 		"type" : "torpedo",
@@ -189,6 +203,8 @@
 		{
 			"x" : 0.5005,
 			"y" : 0.72
-		}
+		},
+		"angleOfFire" : 140,
+		"direction" : 110
 	}
 ]

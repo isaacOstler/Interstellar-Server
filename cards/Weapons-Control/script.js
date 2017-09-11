@@ -19,104 +19,40 @@ shouldFlashWhenThereIsProcessedData = true,
 flashEntireScreen = false,
 scanningObject = undefined,
 requiredScanTime = 300,
-scanAnswer = "";
+scanAnswer = "",
+weapons = [],
+targetPosition = 
+{
+    "degrees" : 0,
+    "distance" : 50
+}
+isDraggingTarget = false;
 
 drawSensorsGui();
 init();
 animate();
 
-Interstellar.onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
-    scanningObject = newData;
-    if(newData == null || newData == undefined){
-        //no scan
-        $("#scanButton").html("SCAN");
-    }else{
-        //scan in progress
-        $("#scanButton").html("CANCEL");
-    }
+//DOM References
+var canvas = $("#sensorsArray");
 
-    if(scanningObject != undefined){
-        $("#scanAnswerTextArea").html("");
-    }else{
-        $("#scanAnswerTextArea").html(scanAnswer);
+Interstellar.onDatabaseValueChange("weapons.targetPosition",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("weapons.targetPosition",targetPosition);
+        return;
     }
-
+    targetPosition = newData;
     drawSensorsGui();
 });
 
-Interstellar.onDatabaseValueChange("sensors.externalScans.scanTime",function(newData){
+Interstellar.onDatabaseValueChange("weapons.weaponStatus",function(newData){
     if(newData == null){
+        $.getJSON("/resource?path=public/weapons.json", function(loadedJSON){
+            Interstellar.setDatabaseValue("weapons.weaponStatus",loadedJSON);
+        });
         return;
     }
-    requiredScanTime = newData;
-});
-
-Interstellar.onDatabaseValueChange("sensors.processedData.doFlash",function(newData){
-    if(newData == null){
-        Interstellar.setDatabaseValue("sensors.processedData.doFlash",true);
-        return;
-    }
-    shouldFlashWhenThereIsProcessedData = newData;
-});
-Interstellar.onDatabaseValueChange("sensors.processedData.flashFullScreen",function(newData){
-    if(newData == null){
-        Interstellar.setDatabaseValue("sensors.processedData.flashFullScreen",false);
-        return;
-    }
-    flashFullScreen = newData;
-});
-
-Interstellar.onDatabaseValueChange("sensors.processedData.noFlashAndSend",function(newData){
-    if(newData == null){
-        Interstellar.setDatabaseValue("sensors.processedData.noFlashAndSend","");
-        return;
-    }
-    $("#processedDataContainer").html(newData);
-});
-
-Interstellar.onDatabaseValueChange("sensors.processedData",function(newData){
-    if(newData == null){
-        Interstellar.setDatabaseValue("sensors.processedData","");
-        return;
-    }
-    $("#processedDataContainer").html(newData);
-    if(flashProcessedDataInterval != undefined){
-        clearInterval(flashProcessedDataInterval);
-        flashProcessedDataInterval == undefined;
-    }
-    if(newData == "" || !shouldFlashWhenThereIsProcessedData){
-        return; //don't flash unless there is new data, and only if we have permission to flash
-    }
-    let flashState = false;
-    let flashCount = 0;
-    let flashDocument;
-    if(flashFullScreen){
-        flashDocument = $("body");
-    }else{
-        flashDocument = $("#processedData");
-    }
-    flashProcessedDataInterval = setInterval(function(){
-        flashState = !flashState;
-        if(flashState){
-            flashDocument.addClass("flash");
-            flashCount++;
-        }else{
-            flashDocument.removeClass("flash");
-        }
-        if(flashCount >= 10){
-            clearInterval(flashProcessedDataInterval);
-            flashProcessedDataInterval == undefined;
-            flashDocument.removeClass("flash");
-        }
-    },0100);
-})
-
-Interstellar.onDatabaseValueChange("externalSensors.scanAnswer",function(newData){
-    if(newData == null){
-        Interstellar.setDatabaseValue("externalSensors.scanAnswer","");
-        return;
-    }
-    scanAnswer = newData;
+    weapons = newData;
+    drawSensorsGui();
 });
 
 Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
@@ -159,7 +95,6 @@ Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
 function init() {
     sensors_array_sensorsArrayContainer = document.createElement( 'div' );
     //$(sensors_array_sensorsArrayContainer).addClass("SensorsArrayContactCanvas");
-    console.log($(sensors_array_sensorsArrayContainer));//sensorsPosition
    // $("#sensorsArray").append( sensors_array_sensorsArrayContainer );
    var percentageOffset = $("#sensorsArrayCanvas").width() * .1;
    var width = $("#sensorsArrayCanvas").width();
@@ -281,62 +216,102 @@ function drawSensorsGui(){
     ctx.fillStyle = gradient;
     ctx.fill();
     ctx.stroke();
-    if(scanningObject != undefined){
-        $("#scanAnswerTextArea").html("Scan Progress: " + Math.round((scanningObject.time.timePassed / scanningObject.time.timeRequired) * 100) + "%")
-        var innerRadius = circleSize * (scanningObject.time.timePassed / scanningObject.time.timeRequired),
-        outerRadius = 0,
-        // Radius of the entire circle.
-        radius = circleSize;
-        var segmentSize = Sensors_Array_DegreesToRadians(360 / 12);
-        var position = scanningObject.direction - 3; //-3 so that 1 o'clock is actually 1 o'clock, not 3 o'clock
-
-        var oldStyle = ctx.strokeStyle;
-        var oldLineWidth = ctx.lineWidth;
-        var style = "rgba(98, 244, 66,.9)";
-        ctx.shadowBlur = 20;
-        ctx.shadowColor = style;
-        //ctx.lineCap="round";
-        ctx.strokeStyle=style;
-        var lineWidth = 0;
-        lineWidth = (innerRadius * (1 - (innerRadius / circleSize))) * .5;
-        
-        ctx.lineWidth = lineWidth;
-        ctx.closePath();
-        ctx.moveTo(center,center);
-        ctx.beginPath();
-        if(scanningObject.direction == -1){
-            ctx.arc(center, center, innerRadius, 0, 2 * Math.PI);
-        }else{
-            ctx.arc(center, center, innerRadius, segmentSize * position, (segmentSize * position) + segmentSize);
-        }
-        ctx.stroke();
-    }
-    return;
 
     //draw everything to the canvas
     ctx.stroke();
-    //draw the outer ring
-    ctx.moveTo(center + (circleSize * 1.06),center);
-    ctx.arc(center, center, circleSize * 1.06, 0, 2 * Math.PI);
-    //give the degrees
-    for(var i = 0;i < numberOfLines;i++){
-        //basic math here, set the line to it's position on the outer edge
-        var x = (((circleSize * 1.025) * Math.cos((2 * Math.PI / numberOfLines) * i)) + center) + 1.5708;
-        var y = (((circleSize * 1.025) * Math.sin((2 * Math.PI / numberOfLines) * i)) + center) + 1.5708;
-        //minus 90°, so that 0° is the top
-        var degrees = Math.round(Sensors_Array_RadiansToDegrees(2 * Math.PI / numberOfLines) * i) + 90;
-        degrees = modifyToBounds(degrees,0,360);
+    //draw the weapons buttons
+    var i;
+    for(i = 0;i < weapons.length;i++){
+        ctx.beginPath();
+        var weaponsStartRadius = radius * 1.09;
+        var weaponsEndRadius = radius * 1.01;
+        if(weapons[i].type != "phaser"){
+            weaponsStartRadius = radius * 1.2;
+            weaponsEndRadius = radius * 1.1;
+        }
+        ctx.lineWidth = (radius * .1);
+        ctx.strokeStyle = "white";
 
-        ctx.font= "10px Arial";
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-        ctx.fillText(degrees + "°", x, y);
-        //move to to that position we just caluated°
-        //ctx.lineTo(x,y);
-        //go back to the center for the next line
-        //ctx.moveTo(center,center);
+        ctx.arc(center,center,weaponsStartRadius,(Sensors_Array_DegreesToRadians(weapons[i].direction)) - Sensors_Array_DegreesToRadians(90),(Sensors_Array_DegreesToRadians(weapons[i].direction) + Sensors_Array_DegreesToRadians(weapons[i].angleOfFire)) - Sensors_Array_DegreesToRadians(90)); 
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.lineWidth = (radius * .085);
+
+
+        var startPosition = weapons[i].direction;
+        if(startPosition + weapons[i].angleOfFire > 360 && !(targetPosition.degrees > startPosition && targetPosition.degrees < startPosition + weapons[i].angleOfFire)){
+            startPosition = startPosition - 360;
+        }
+        var endPosition = startPosition + weapons[i].angleOfFire;
+
+        if(targetPosition.degrees > startPosition && targetPosition.degrees < endPosition){
+            ctx.strokeStyle = "rgba(25,255,25,.9)";
+        }else{
+            ctx.strokeStyle = "rgba(25,25,25,.9)";
+        }
+
+        ctx.arc(center,center,weaponsStartRadius,(Sensors_Array_DegreesToRadians(weapons[i].direction + .4)) - Sensors_Array_DegreesToRadians(90),(Sensors_Array_DegreesToRadians(weapons[i].direction) + Sensors_Array_DegreesToRadians(weapons[i].angleOfFire - .4)) - Sensors_Array_DegreesToRadians(90));
+        ctx.stroke();
     }
+
+    for(var i = 0;i < weapons.length;i++){  
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.font = Math.min(18,(weapons[i].angleOfFire / (weapons[i].weaponName.length * .3))) +  "px Arial";
+        var totalDegreesUsedForText = (3 - (10 / weapons[i].weaponName.length)) * weapons[i].weaponName.length;
+        var textRadius = radius * 1.06;
+        var textBuffer = (weapons[i].angleOfFire - totalDegreesUsedForText) / 2;//weapons[i].angleOfFire / 8;
+        if(weapons[i].type != "phaser"){
+            textRadius = radius * 1.17;
+            //textBuffer = weapons[i].angleOfFire / 4;
+        }
+        var startPosition = weapons[i].direction;
+        if(startPosition + weapons[i].angleOfFire > 360){
+            startPosition = startPosition - 360;
+        }
+        var endPosition = startPosition + weapons[i].angleOfFire;
+
+        if((startPosition > 90 || startPosition < -145) && startPosition < 200){
+            textBuffer = -textBuffer;
+            if(weapons[i].type != "phaser"){
+                textBuffer = -textBuffer * .75;
+            }
+            textCircle(ctx,weapons[i].weaponName,center,center,textRadius,Math.PI/2.5,Sensors_Array_DegreesToRadians(weapons[i].direction + .4) + Sensors_Array_DegreesToRadians(220) + Sensors_Array_DegreesToRadians(textBuffer),0);
+        }else{
+            textCircle(ctx,weapons[i].weaponName,center,center,textRadius,Math.PI/2.5,Sensors_Array_DegreesToRadians(weapons[i].direction + .4) + Sensors_Array_DegreesToRadians(18) + Sensors_Array_DegreesToRadians(textBuffer),1);
+        }
+        ctx.stroke();
+    }
+
+    ctx.beginPath();
+    ctx.strokeStyle = "red";
+    var polarCordsOfTargetPosition =
+    {
+        "radians" : Sensors_Array_DegreesToRadians(targetPosition.degrees - 90),
+        "distance" : targetPosition.distance
+    }
+    ctx.lineWidth = 2;
+    var radiusOfTarget = polarCordsOfTargetPosition.distance / 5;
+    ctx.arc(polarToCartesian(polarCordsOfTargetPosition).x + center,polarToCartesian(polarCordsOfTargetPosition).y + center - 5,radiusOfTarget,Math.PI * 2,0);
     ctx.stroke();
+}
+
+function textCircle(ctx,text,x,y,radius,space,position,top){
+   space = space || 0;
+   var numRadsPerLetter = Sensors_Array_DegreesToRadians(3 - (10 / text.length));//(Math.PI - space * 2) / text.length;
+   ctx.save();
+   ctx.translate(x,y);
+   var k = (top) ? 1 : -1; 
+   ctx.rotate((-k * ((Math.PI - numRadsPerLetter) / 2 - space))+ position);
+   for(var i=0;i<text.length;i++){
+        ctx.save();
+        ctx.rotate(k*i*(numRadsPerLetter));
+        ctx.textAlign = "center";
+        ctx.textBaseline = (!top) ? "top" : "bottom";
+        ctx.fillText(text[i],0,-k*(radius));
+        ctx.restore();
+   }
+   ctx.restore();
 }
 
 function Sensors_Array_Core_drawSensorsArray(){
@@ -572,6 +547,30 @@ function modifyToBounds(number,min,max,exemption){ //bounds number to the specif
         return modifyToBounds(min + placesOff,min,max);
     }
 }
+
+//name: cartesian2Polar
+//purpse: converts cartesian cords to polar cords, assuming origin is x:0 y:0 (top left)
+//takes: x cord, y cord
+//returns: object, containing distance and radians
+
+function cartesian2Polar(x, y){
+    //pythagorean theorem
+    distance = Math.sqrt(x*x + y*y);
+    //trig ... yuck
+    radians = Math.atan2(y,x) //This takes y first
+    //create the polarCoor object
+    polarCoor = { distance:distance, radians:radians }
+    //return this value to the orignal caller
+    return polarCoor;
+}
+
+function polarToCartesian(polarCord){
+    return {
+        "x" : polarCord.distance * Math.cos(polarCord.radians),
+        "y" : polarCord.distance * Math.sin(polarCord.radians)
+    }
+}
+
 function drawTextAlongArc(context, str, centerX, centerY, radius, angle,font){
     context.save();
     context.translate(centerX, centerY);
@@ -589,71 +588,34 @@ function drawTextAlongArc(context, str, centerX, centerY, radius, angle,font){
     }
     context.restore();
 }
-
-$(".fontSizeAdjustButton").click(function(event){
-    var fontSize = Number($("#processedDataContainer").css("font-size").replace("px",""));
-    if($(event.target).html() == "+"){
-        fontSize++;
-    }else{
-        fontSize--;
-    }
-    if(fontSize > maxFontSize){
-        fontSize = maxFontSize;
-    }
-    $("#processedDataContainer").css("font-size",fontSize + "px");
+//event listeners
+canvas.mousedown(function(event){
+    canvas.css("cursor","crosshair");
+    isDraggingTarget = true;
+    var polarCords = cartesian2Polar(event.offsetX - ($(event.target).width() / 2),event.offsetY - ($(event.target).height() / 2));
+    targetPosition.degrees = modifyToBounds(Sensors_Array_RadiansToDegrees(polarCords.radians) + 90,0,360,1000);
+    targetPosition.distance = polarCords.distance;
+    drawSensorsGui();
 });
-
-$(".viewTypeButton").click(function(event){
-    if($(event.target).html() == "VISIBLE LIGHT"){
-        if(currentSensorsType == "normal"){
-            return;
-        }
-        currentSensorsType = "normal";
-        $(event.target).addClass("selectedButton");
-        $("#infraredButton").removeClass("selectedButton");
-        $("#sensorsArray").removeClass("infraredSensors");
-    }else{
-        if(currentSensorsType == "IR"){
-            return;
-        }
-        currentSensorsType = "IR";
-        $(event.target).addClass("selectedButton");
-        $("#visibleButton").removeClass("selectedButton");
-        $("#sensorsArray").addClass("infraredSensors");
+canvas.mouseup(function(event){
+    canvas.css("cursor","default");
+    Interstellar.setDatabaseValue("weapons.targetPosition",targetPosition);
+    isDraggingTarget = false;
+});
+canvas.mousemove(function(event){
+    if(isDraggingTarget){
+        var polarCords = cartesian2Polar(event.offsetX - ($(event.target).width() / 2),event.offsetY - ($(event.target).height() / 2));
+        targetPosition.degrees = modifyToBounds(Sensors_Array_RadiansToDegrees(polarCords.radians) + 90,0,360,1000);
+        targetPosition.distance = polarCords.distance;
+        drawSensorsGui();
     }
 });
-
-$("#scanButton").click(function(event){
-    if(scanningObject == undefined){
-        //start a new scan
-        var timeRequired = requiredScanTime;
-        if(($("#directionDropdown").prop('selectedIndex') - 1) != -1){
-            timeRequired = timeRequired / 3;
-        }
-        scanningObject = 
-        {
-            "querry" : $("#scanTextbox").val(),
-            "direction" : $("#directionDropdown").prop('selectedIndex') - 1,
-            "time" : 
-            {
-                "timePassed" : 0,
-                "timeRequired" : timeRequired
-            }
-        }
-        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",scanningObject);
-        Interstellar.setDatabaseValue("externalSensors.scanAnswer","");
-    }else{
-        //cancel a scan
-        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",undefined);
-    }
-});
+//intervals
 /*
 setInterval(function(){
-    if(scanningObject != undefined){
-        scanningObject.time.timePassed += .05;
-        drawSensorsGui();
-        if(scanningObject.time.timePassed >= scanningObject.time.timeRequired){
-            Interstellar.setDatabaseValue("sensors.externalScans.scanObject",undefined);
-        }
+    targetPosition++;
+    if(targetPosition >= 360){
+        targetPosition = 0;
     }
+    drawSensorsGui();
 },0010);*/
