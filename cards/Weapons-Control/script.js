@@ -213,8 +213,8 @@ function drawSensorsGui(){
 
     ctx.arc(center, center, radius, 0, 2 * Math.PI);
 
-    ctx.fillStyle = gradient;
-    ctx.fill();
+    //ctx.fillStyle = gradient;
+    //ctx.fill();
     ctx.stroke();
 
     //draw everything to the canvas
