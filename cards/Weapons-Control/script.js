@@ -292,7 +292,7 @@ function drawSensorsGui(){
     }
     ctx.lineWidth = 2;
     var radiusOfTarget = polarCordsOfTargetPosition.distance / 5;
-    ctx.arc(polarToCartesian(polarCordsOfTargetPosition).x + center,polarToCartesian(polarCordsOfTargetPosition).y + center - 5,radiusOfTarget,Math.PI * 2,0);
+    ctx.arc(polarToCartesian(polarCordsOfTargetPosition).x + center,polarToCartesian(polarCordsOfTargetPosition).y + center,radiusOfTarget,Math.PI * 2,0);
     ctx.stroke();
 }
 
@@ -590,12 +590,40 @@ function drawTextAlongArc(context, str, centerX, centerY, radius, angle,font){
 }
 //event listeners
 canvas.mousedown(function(event){
-    canvas.css("cursor","crosshair");
-    isDraggingTarget = true;
     var polarCords = cartesian2Polar(event.offsetX - ($(event.target).width() / 2),event.offsetY - ($(event.target).height() / 2));
-    targetPosition.degrees = modifyToBounds(Sensors_Array_RadiansToDegrees(polarCords.radians) + 90,0,360,1000);
-    targetPosition.distance = polarCords.distance;
-    drawSensorsGui();
+    if(polarCords.distance <= (canvas.width() / 2) * .75){
+        canvas.css("cursor","crosshair");
+        isDraggingTarget = true;
+        targetPosition.degrees = modifyToBounds(Sensors_Array_RadiansToDegrees(polarCords.radians) + 90,0,360,1000);
+        targetPosition.distance = Math.min(polarCords.distance,(canvas.width() / 2) * .66);
+        drawSensorsGui();
+    }else{
+        var i;
+        var degree = modifyToBounds(Sensors_Array_RadiansToDegrees(polarCords.radians) + 90,0,360);
+        var distance = polarCords.distance;
+        for(i = 0;i < weapons.length;i++){
+            var minDistance = (canvas.width() / 2) * .79;
+            var maxDistance = (canvas.width() / 2) * .87;
+            if(weapons[i].type != "phaser"){
+                minDistance = (canvas.width() / 2) * .88;
+                maxDistance = (canvas.width() / 2) * .95;
+            }
+            var startPosition = weapons[i].direction;
+            if(startPosition + weapons[i].angleOfFire > 360 && !(degree > startPosition && degree < startPosition + weapons[i].angleOfFire)){
+                startPosition = startPosition - 360;
+            }
+            var endPosition = startPosition + weapons[i].angleOfFire;
+
+            if(degree > startPosition && degree < endPosition){
+                if(distance > minDistance && distance < maxDistance){
+                    console.log("Clicked " + weapons[i].weaponName + "!");
+                    Interstellar.playRandomBeep();
+                    return;
+                }
+            }
+        }
+        console.log("didn't click a button");
+    }
 });
 canvas.mouseup(function(event){
     canvas.css("cursor","default");
@@ -606,8 +634,45 @@ canvas.mousemove(function(event){
     if(isDraggingTarget){
         var polarCords = cartesian2Polar(event.offsetX - ($(event.target).width() / 2),event.offsetY - ($(event.target).height() / 2));
         targetPosition.degrees = modifyToBounds(Sensors_Array_RadiansToDegrees(polarCords.radians) + 90,0,360,1000);
-        targetPosition.distance = polarCords.distance;
+        targetPosition.distance = Math.min(polarCords.distance,(canvas.width() / 2) * .66);
         drawSensorsGui();
+    }else{
+        var polarCords = cartesian2Polar(event.offsetX - ($(event.target).width() / 2),event.offsetY - ($(event.target).height() / 2));
+        if(polarCords.distance >= (canvas.width() / 2) * .75){
+            var i;
+            var degree = modifyToBounds(Sensors_Array_RadiansToDegrees(polarCords.radians) + 90,0,360);
+            var distance = polarCords.distance;
+            for(i = 0;i < weapons.length;i++){
+                var minDistance = (canvas.width() / 2) * .79;
+                var maxDistance = (canvas.width() / 2) * .87;
+                if(weapons[i].type != "phaser"){
+                    minDistance = (canvas.width() / 2) * .88;
+                    maxDistance = (canvas.width() / 2) * .95;
+                }
+                var startPosition = weapons[i].direction;
+                if(startPosition + weapons[i].angleOfFire > 360 && !(degree > startPosition && degree < startPosition + weapons[i].angleOfFire)){
+                    startPosition = startPosition - 360;
+                }
+                var endPosition = startPosition + weapons[i].angleOfFire;
+
+                if(degree > startPosition && degree < endPosition){
+                    if(distance > minDistance && distance < maxDistance){
+                        canvas.css("cursor","pointer");
+                        return;
+                    }
+                }
+
+                /*if(degree > weapons[i].direction && degree < weapons[i].direction + weapons[i].angleOfFire){
+                    if(distance > minDistance && distance < maxDistance){
+                        canvas.css("cursor","pointer");
+                        return;
+                    }
+                }*/
+            }
+            canvas.css("cursor","default");
+        }else{
+            canvas.css("cursor","crosshair");
+        }
     }
 });
 //intervals
