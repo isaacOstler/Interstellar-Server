@@ -1,5 +1,23 @@
-.infraredSensors{
-	filter: grayscale(1) blur(2px);
+#weaponErrorDisplay{
+    display: none;
+    z-index: 5;
+    position: absolute;
+    top: 40%;
+    height: 10%;
+    border: 1px solid white;
+    width: 90%;
+    left: 5%;
+    background-color: rgba(0,0,0,.75);
+    overflow: hidden;
+}
+#weaponErrorDisplay_textArea{
+    font-size: 64px;
+    color:red;
+    position: absolute;
+    top:calc(50% - 32px);
+    left: 0px;
+    width: 100%;
+    text-align: center;
 }
 .selectedButton{
     filter: brightness(0.7) contrast(1.42);
@@ -11,7 +29,7 @@
 	filter: brightness(0.4)
 }
 .flash{
-	filter: grayscale(1) invert(1);
+	filter: grayscale(1) invert(1) brightness(2);
 }
 #sensorsArrayCanvas{
 	position: absolute;

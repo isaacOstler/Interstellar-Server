@@ -26,14 +26,17 @@ targetPosition =
     "degrees" : 0,
     "distance" : 50
 }
-isDraggingTarget = false;
+isDraggingTarget = false,
+weaponErrorDisplay_interval = undefined;
 
 drawSensorsGui();
 init();
 animate();
 
 //DOM References
-var canvas = $("#sensorsArray");
+var canvas = $("#sensorsArray"),
+    weaponErrorDisplay = $("#weaponErrorDisplay"),
+    weaponErrorDisplay_textArea = $("#weaponErrorDisplay_textArea");
 
 Interstellar.onDatabaseValueChange("weapons.targetPosition",function(newData){
     if(newData == null){
@@ -63,6 +66,7 @@ Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
     alertStatus = newData;
     drawSensorsGui();
 });
+
 //used to detect a change to the contacts on the database,
 //when we do detect a change we fire Sensors_Array_Core_drawSensorsArray()
 Interstellar.onDatabaseValueChange("sensors.contactAttributes",function(newData){
@@ -245,7 +249,23 @@ function drawSensorsGui(){
         var endPosition = startPosition + weapons[i].angleOfFire;
 
         if(targetPosition.degrees > startPosition && targetPosition.degrees < endPosition){
-            ctx.strokeStyle = "rgba(25,255,25,.9)";
+            if(weapons[i].type == "phaser"){
+                if(weapons[i].weaponStatus.phaserCharge > 0){
+                    //phasers charged
+                    ctx.strokeStyle = "rgba(25,255,25,.9)";
+                }else{
+                    ctx.strokeStyle = "rgba(255,25,25,.9)";
+                    //phasers not charged
+                }
+            }else{
+                if(weapons[i].weaponStatus.torpedoLoaded){
+                    ctx.strokeStyle = "rgba(25,255,25,.9)";
+                    //torpedo loaded
+                }else{
+                    ctx.strokeStyle = "rgba(255,25,25,.9)";
+                    //torpedo not loaded
+                }
+            }
         }else{
             ctx.strokeStyle = "rgba(25,25,25,.9)";
         }
@@ -588,6 +608,90 @@ function drawTextAlongArc(context, str, centerX, centerY, radius, angle,font){
     }
     context.restore();
 }
+
+function showErrorDisplay(errorText){
+    weaponErrorDisplay.slideDown(250);
+    weaponErrorDisplay_textArea.html(errorText);
+    if(weaponErrorDisplay_interval != undefined){
+        clearInterval(weaponErrorDisplay_interval);
+    }
+    let flashState = false;
+    let flashCount = 0;
+    weaponErrorDisplay_interval = setInterval(function(){
+        flashCount++;
+        if(flashCount > 22){
+            clearInterval(weaponErrorDisplay_interval);
+            weaponErrorDisplay_interval = undefined;
+            weaponErrorDisplay.slideUp(250);
+            return;
+        }
+        flashState = !flashState;
+        if(flashState){
+            weaponErrorDisplay_textArea.addClass("flash");
+        }else{
+            weaponErrorDisplay_textArea.removeClass("flash");
+        }
+    },0175);
+}
+
+/*
+name: Sensors_Array_Core_addNewContactToDatabase
+purpse: adds a new contact to the database, so it can be seen by all clients
+takes: name, the name of the icon (example, USS WASHINGTON)
+    xPos, the xPos of the new icon, this is a PERCENTAGE, and is from 0-100 NOT 0-1!! (contact xPos can be beyond 0 or 100)
+    yPos, the yPos of the new icon, this is a PERCENTAGE, and is from 0-100 NOT 0-1!! (contact yPos can be beyond 0 or 100)
+    icon, the icon of the contact, this is the picture that shows up on the array.  MUST BE ON ICONS.JSON!!
+    image, the image of the contact, this is the picture that shows up when they click the contact.  MUST BE ON IMAGES.JSON!!
+    width, the width of the contact, this is a PERCENTAGE, and is from 0-100 NOT 0-1!!
+    height, the height of the contact, this is a PERCENTAGE, and is from 0-100 NOT 0-1!!
+    attributes, this object contains information like "isVisible" and "isInfared"
+returns: none
+*/
+function addNewContactToDatabase(name,type,xPos,yPos,icon,image,width,height,attributes,xStep,yStep,wantedX,wantedY){
+    if(icon == ""){
+        icon = "Generic.png";
+    }
+    var contactID = guidGenerator();
+    //create the new contact Attributes
+    var newContactAttributes = 
+    {
+        "contactType" : type, //used to differentiate between contacts and programs
+        "contactIsActive" : true,
+        "xStep" : xStep, //calcuated before animations start to ensure a linear line with animations
+        "yStep" : yStep, //calcuated before animations start to ensure a linear line with animations
+        "width" : width, //width, the width of the contact, this is a PERCENTAGE, and is from 0-100 NOT 0-1!!
+        "height" : height, //height, the height of the contact, this is a PERCENTAGE, and is from 0-100 NOT 0-1!!
+        "name" : name, //name, the name of the icon (example, USS WASHINGTON)
+        "icon" : icon, //icon, the icon of the contact, this is the picture that shows up on the array.  MUST BE ON ICONS.JSON!!
+        "image" : image, //image, the image of the contact, this is the picture that shows up when they click the contact.  MUST BE ON IMAGES.JSON!!
+        "attributes" : attributes, //this object contains information like "isVisible" and "isInfared"
+        "animationSpeed" : 100, //this controls how fast the object moves from it's position to it's wanted position
+        "contactID" : contactID //this is a unique id that helps to seperate contacts
+    }
+    //then it's position data
+    var newContact = 
+    {
+        "xPos" : xPos, //xPos, the xPos of the new icon, this is a PERCENTAGE, and is from 0-100 NOT 0-1!! (contact xPos can be beyond 0 or 100) 
+        "yPos" : yPos, //yPos, the yPos of the new icon, this is a PERCENTAGE, and is from 0-100 NOT 0-1!! (contact yPos can be beyond 0 or 100)
+        "wantedXPos" : wantedX, //this has to do with animations
+        "wantedYPos" : wantedY, //this has to do with animations
+        "contactID" : contactID
+    }
+    //insert it into the Sensors_Core_Sensors_Contacts array
+    Sensors_Core_Sensors_Contacts.splice(Sensors_Core_Sensors_Contacts.length,0,newContact);
+    Sensors_Core_Sensors_ContactAttributes.splice(Sensors_Core_Sensors_ContactAttributes.length,0,newContactAttributes);
+    Sensors_Core_ContactEditorCurrentContact = newContactAttributes;
+    //update the database
+    Interstellar.setDatabaseValue("sensors.contacts",Sensors_Core_Sensors_Contacts);
+    Interstellar.setDatabaseValue("sensors.contactAttributes",{"contactAttributes" : Sensors_Core_Sensors_ContactAttributes, "contactLastEdited" : contactID});
+}
+function guidGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+   };
+   return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
 //event listeners
 canvas.mousedown(function(event){
     var polarCords = cartesian2Polar(event.offsetX - ($(event.target).width() / 2),event.offsetY - ($(event.target).height() / 2));
@@ -614,15 +718,56 @@ canvas.mousedown(function(event){
             }
             var endPosition = startPosition + weapons[i].angleOfFire;
 
+
+            var weaponsTargetting_startPosition = weapons[i].direction;
+            if(weaponsTargetting_startPosition + weapons[i].angleOfFire > 360 && !(targetPosition.degrees > weaponsTargetting_startPosition && targetPosition.degrees < weaponsTargetting_startPosition + weapons[i].angleOfFire)){
+                weaponsTargetting_startPosition = weaponsTargetting_startPosition - 360;
+            }
+            var weaponsTargetting_endPosition = weaponsTargetting_startPosition + weapons[i].angleOfFire;
+            var targetIsInFiringRange = false;
+            if(targetPosition.degrees > weaponsTargetting_startPosition && targetPosition.degrees < weaponsTargetting_endPosition){
+                targetIsInFiringRange = true;
+            }
             if(degree > startPosition && degree < endPosition){
                 if(distance > minDistance && distance < maxDistance){
-                    console.log("Clicked " + weapons[i].weaponName + "!");
-                    Interstellar.playRandomBeep();
+                    //clicked a valid weapon!
+                    if(!targetIsInFiringRange){
+                        Interstellar.playErrorNoise();
+                        showErrorDisplay("CANNOT FIRE - OUT OF RANGE");
+                        return;
+                    }
+                    if(weapons[i].type == "phaser"){
+                        if(weapons[i].weaponStatus.phaserCharge > 0){
+                            //phasers charged
+                            Interstellar.playRandomBeep();
+                            //addNewContactToDatabase("PHASER FIRE","phaser",50,50,"","",width,height,attributes,xStep,yStep);
+                            Interstellar.setDatabaseValue("weapons.weaponNotification",weapons[i].weaponName + " FIRING");
+                        }else{
+                            //phasers not charged
+                            Interstellar.playErrorNoise();
+                            showErrorDisplay("CANNOT FIRE - PHASER MUST BE RECHARGED");
+                        }
+                    }else{
+                        if(weapons[i].weaponStatus.torpedoLoaded){
+                            //torpedo loaded
+                            Interstellar.playRandomBeep();
+                            var polarCordsOfTargetPosition = polarToCartesian({"radians" : Sensors_Array_DegreesToRadians(targetPosition.degrees - 90),"distance" : targetPosition.distance});
+                            var xStep = (polarCordsOfTargetPosition.x / (canvas.width() / 2)) * .25;
+                            var yStep = (polarCordsOfTargetPosition.y / (canvas.height() / 2)) * -.25;
+
+                            addNewContactToDatabase("TORPEDO","torpedo",50,50,"Torpedo.png","",2,2,{"isVisible" : true,"isInfared" : true,"isSpinning" : true},xStep,yStep,99,99);
+                            Interstellar.setDatabaseValue("weapons.weaponNotification",weapons[i].weaponName + " FIRED");
+                        }else{
+                            //torpedo not loaded
+                            Interstellar.playErrorNoise();
+                            showErrorDisplay("CANNOT FIRE - NO TORPEDO HAS BEEN LOADED")
+                        }
+                    }
                     return;
                 }
             }
         }
-        console.log("didn't click a button");
+        //no weapon clicked
     }
 });
 canvas.mouseup(function(event){
