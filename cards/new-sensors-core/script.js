@@ -125,8 +125,13 @@ Interstellar.addCoreWidget("Sensors",function(){
         animationInterval = undefined, //the variable pointing to the animation interval
         networkRefreshTimeout = undefined, //the variable pointing to the network update timeout
         frameRate = 60, //the frame rate for the sensors array (how many frames per second)
-        networkRefreshRate = 120, //how many milliseconds until the network is updated on the contacts positions
+        networkRefreshRate = 360, //how many milliseconds until the network is updated on the contacts positions
         contacts = [], //sensor contacts
+        moveAllSpeeds = 
+        {
+            "x" : 0,
+            "y" : -.05
+        },
         //three.js stuff
         camera, scene, renderer,
         frustumSize = 100;
@@ -148,31 +153,17 @@ Interstellar.addCoreWidget("Sensors",function(){
         //if there is no new data (the value hasn't been set on the database yet)
         if(newData == null){
             //for debugging purposes, I've generated a test value
-            var presetContacts =
-                [
-                    {
-                        "GUID" : guidGenerator(),
-                        "xPos" : Math.random() * 100,
-                        "yPos" : Math.random() * 100,
-                        "wantedX" : Math.random() * 100,
-                        "wantedY" : Math.random() * 100,
-                        "xStep" : Math.random() * .2,
-                        "yStep" : Math.random() * .2,
-                        "attributes" :
-                        {
-                            "isActive" : true
-                        }
-                    }
-                ]
-            for(var k = 0;k < 100;k++){
+            var presetContacts =[]
+            for(var k = 0;k < 500;k++){
                 var newContact = {
                         "GUID" : guidGenerator(),
                         "xPos" : Math.random() * 100,
                         "yPos" : Math.random() * 100,
                         "wantedX" : Math.random() * 100,
                         "wantedY" : Math.random() * 100,
-                        "xStep" : Math.random() * .5,
-                        "yStep" : Math.random() * .5,
+                        "animationSpeed" : Math.random() * 3000,
+                        "xStep" : undefined,
+                        "yStep" : undefined,
                         "attributes" :
                         {
                             "isActive" : true
@@ -189,7 +180,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         //compile all the arrays into one compoundArray
         let CompoundContactsArray = newData;
         //forcibly update all values on the array
-        updateContactsOnArray(CompoundContactsArray);
+        //updateContactsOnArray(CompoundContactsArray);
         //if there is already an animation interval
         if(animationInterval != undefined){
             //clear it
@@ -201,10 +192,9 @@ Interstellar.addCoreWidget("Sensors",function(){
             //cycle through every object
             for(i = 0;i < CompoundContactsArray.length;i++){
                 //are they at their target destination?
-                if(!(withinRange(CompoundContactsArray[i].xPos,CompoundContactsArray[i].wantedX,1)) && !(withinRange(CompoundContactsArray[i].yPos,CompoundContactsArray[i].wantedY,1))){
+                if(!(withinRange(CompoundContactsArray[i].xPos,CompoundContactsArray[i].wantedX,.2)) || !(withinRange(CompoundContactsArray[i].yPos,CompoundContactsArray[i].wantedY,.2))){
                     //nope, let's move them closer
 
-                    //we must first calculate their steps
                     //the step values are how far they should travel for every refreshRate
                     //so we just have to divide the frameRate by the refresh rate to get a scaler
                     var scaler = frameRate / networkRefreshRate;
@@ -213,8 +203,14 @@ Interstellar.addCoreWidget("Sensors",function(){
                     //same for the y
                     CompoundContactsArray[i].yPos += (scaler * CompoundContactsArray[i].yStep);
                 }else{
-                    console.log("Hey!  That's pretty good!");
+                    //already at it's destination
+                    //console.log("Hey!  That's pretty good!");
                 }
+                var scaler = frameRate / networkRefreshRate;
+                //let's also factor in the move all speed
+                CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
+                //same for the y
+                CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
             }
             //now we update the array!
             updateContactsOnArray(CompoundContactsArray);
@@ -222,9 +218,48 @@ Interstellar.addCoreWidget("Sensors",function(){
 
         //THIS PART IS ONLY FOR CORE!!!
         var i;
+        var differenceDetected = false;
         for(i = 0;i < contacts.length;i++){
-            contacts[i].xPos += contacts[i].xStep;
-            contacts[i].yPos += contacts[i].yStep;
+            //we need to apply the move all speed to these contacts, if applicable
+            if(moveAllSpeeds.x != 0 || moveAllSpeeds.y != 0){
+                differenceDetected = true;
+                contacts[i].xPos += moveAllSpeeds.x;
+                contacts[i].wantedX += moveAllSpeeds.x;
+                contacts[i].yPos += moveAllSpeeds.y;
+                contacts[i].wantedY += moveAllSpeeds.y;
+            }
+            //are they at their target destination?
+            if(!(withinRange(contacts[i].xPos,contacts[i].wantedX,.2)) || !(withinRange(contacts[i].yPos,contacts[i].wantedY,.2))){
+                //nope, let's move them closer
+                //do they have animation steps?
+                if(contacts[i].xStep == undefined || contacts[i].yStep == undefined){
+                    //we must first calculate their steps
+
+                    //what is the difference between them?
+                    var differenceX = Number(contacts[i].wantedX - contacts[i].xPos);
+                    var differenceY = Number(contacts[i].wantedY - contacts[i].yPos);
+                    //now we divide their animation time by the distance (v=d/t...)
+                    contacts[i].xStep = (differenceX / Number(contacts[i].animationSpeed));
+                    contacts[i].yStep = (differenceY / Number(contacts[i].animationSpeed));
+                    //console.log("Calculate!");
+                }
+                //add their velocity to their position
+                differenceDetected = true;
+                contacts[i].xPos += contacts[i].xStep;
+                contacts[i].yPos += contacts[i].yStep;
+            }else{
+                //the contacts are already fairly close to their positions, let's remove their steps
+                //and force them to their exact position
+                contacts[i].xPos = contacts[i].wantedX;
+                contacts[i].yPos = contacts[i].wantedY;
+                contacts[i].xStep = undefined;
+                contacts[i].yStep = undefined;
+            }
+        }
+        //if there was no difference detected from the last network update,
+        //then there is no need to update the server again!
+        if(!differenceDetected){
+            return;
         }
         //if there is already a timeout
         if(networkRefreshTimeout != undefined){
