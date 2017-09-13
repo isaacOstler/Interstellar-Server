@@ -1,0 +1,8 @@
+{
+	"cardName":"new-sensors-core",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"2.0.0",
+	"description":"Allows flight director to control the ship's sensors array.  This is version 2 (for legacy, look up old-sensors-core)"
+}
