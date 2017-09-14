@@ -127,6 +127,14 @@ Interstellar.addCoreWidget("Sensors",function(){
         frameRate = 60, //the frame rate for the sensors array (how many frames per second)
         networkRefreshRate = 360, //how many milliseconds until the network is updated on the contacts positions
         contacts = [], //sensor contacts
+        selectionDragPoints = //these points are used to draw the drag selection box
+        {
+            "startX" : 0,
+            "startY" : 0,
+            "endX" : 0,
+            "endY" : 0
+        },
+        selectedContacts = [], //selected contacts by the flight director, these can be dragged around
         moveAllSpeeds = 
         {
             "x" : 0,
@@ -418,6 +426,26 @@ Interstellar.addCoreWidget("Sensors",function(){
         //ctx.fill();
         //draw everything to the canvas
         ctx.stroke();
+        //now we need to draw the strokes for the drag selections
+        //I like lime colored selections
+        ctx.strokeStyle="rgba(25,255,25,.9)";
+        //define the box height and width
+        var dragSelectionWidth = selectionDragPoints.endX - selectionDragPoints.startX,
+            dragSelectionHeight = selectionDragPoints.endY - selectionDragPoints.startY;
+        //create the rect
+        ctx.beginPath();
+        ctx.rect(selectionDragPoints.startX,selectionDragPoints.startY,dragSelectionWidth,dragSelectionHeight);
+        //we want a lime fill
+        ctx.fillStyle = "rgba(25,255,25,.3)";
+        ctx.fill();
+        //and a dashed selection border
+        ctx.setLineDash([3,1]);
+        //and a smaller stroke style
+        ctx.lineWidth = 1.5;
+        //draw!
+        ctx.stroke();
+        //restore the stroke style back to white
+        ctx.strokeStyle="white";
     }
 
     function updateContactsOnArray(contacts){
@@ -478,8 +506,14 @@ Interstellar.addCoreWidget("Sensors",function(){
             contact.position.x = contacts[i].xPos;
             //set it's position to the proper yPos;
             contact.position.y = contacts[i].yPos;
+            //set it's proper width
+            contact.scale.x = contacts[i].width;
+            //set it's proper height
+            contact.scale.y = contacts[i].height;
         }
     }
+    //creates a unique*** global ID (technically, there COUUULLDLDDDD be more than contact with the same ID, but the
+    //chances of that are so low it's not even realistic to worry about)
     function guidGenerator() {
         var S4 = function() {
            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -487,11 +521,13 @@ Interstellar.addCoreWidget("Sensors",function(){
        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
     }
 
-    function addNewContact(xPos,yPos,wantedX,wantedY,animationSpeed){
+    function addNewContact(xPos,yPos,height,width,wantedX,wantedY,animationSpeed){
         var newContact = 
         {
             "GUID" : guidGenerator(),
             "xPos" : xPos,
+            "height" : height,
+            "width" : width,
             "yPos" : yPos,
             "wantedX" : wantedX,
             "wantedY" : wantedY,
@@ -510,6 +546,18 @@ Interstellar.addCoreWidget("Sensors",function(){
     //three.js functions
 
     function animate() {
+        var i;
+        for(i = 0;i < contacts.length;i++){
+            var contactObject = scene.getObjectByName(contacts[i].GUID);
+            if(contactObject != undefined){
+                contactObject.material.color.set("#ffffff");
+            }
+        }
+        var i;
+        for(i = 0;i < selectedContacts.length;i++){
+            var contactObject = scene.getObjectByName(selectedContacts[i]);
+            contactObject.material.color.set("#2fff00");
+        }
         requestAnimationFrame( animate );
         render();
     }
@@ -524,8 +572,77 @@ Interstellar.addCoreWidget("Sensors",function(){
         moveAllSpeeds.y = ($(event.target).val() - 5) * .1;
         Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
     });
-    canvas.click(function(event){
-        addNewContact((event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,Math.random() * 100,Math.random() * 100,Math.random() * 3000);
+    canvas.mousedown(function(event){
+        //define the start x and y points for the drag selection
+        selectionDragPoints.startX = event.offsetX;
+        selectionDragPoints.startY = event.offsetY;
+        //when we click on the canvas
+        //clear old event listeners (so we don't leak them)
+        $(document).off('mousemove.sensorsSelection');
+        $(document).off('mousemove.sensorsSelectionEnd');
+        //tell the document what to do when the mouse moves
+        $(document).on('mousemove.sensorsSelection',function(event){
+            //set the current end points
+            selectionDragPoints.endX = event.offsetX;
+            selectionDragPoints.endY = event.offsetY;
+            //and redraw the GUI
+            //now that we have finalized the box, lets convert it to a simple x,y,height width to make
+            //comparisons easier
+            var selectionX,selectionY,selectionHeight,selectionWidth;
+
+            //first figure out the X
+            if(selectionDragPoints.startX > selectionDragPoints.endX){
+                selectionX = (selectionDragPoints.endX / canvas.width()) * 100;
+            }else{
+                selectionX = (selectionDragPoints.startX  / canvas.width()) * 100;
+            }
+            //set the width
+            selectionWidth = (Math.abs(selectionDragPoints.startX - selectionDragPoints.endX) / canvas.width()) * 100;
+
+            //now for the Y!
+            if(selectionDragPoints.startY < selectionDragPoints.endY){
+                selectionY = 100 - ((selectionDragPoints.endY / canvas.height()) * 100); //we have to invert y
+            }else{
+                selectionY = 100 - ((selectionDragPoints.startY / canvas.height()) * 100); //we have to invert y
+            }
+            //set the height
+            selectionHeight = (Math.abs(selectionDragPoints.startY - selectionDragPoints.endY) / canvas.height()) * 100;
+            //add all the contacts in the drag selection box to the selected contacts array
+            selectedContacts = [];
+            var i;
+            for(i = 0;i < contacts.length;i++){
+                //see if it falls in the right bounds
+                if(
+                    contacts[i].xPos >= selectionX &&
+                    contacts[i].xPos + contacts[i].width <= selectionX + selectionWidth &&
+                    contacts[i].yPos >= selectionY &&
+                    contacts[i].yPos + contacts[i].height <= selectionY + selectionHeight
+                ){
+                    //the item falls in the selection box
+                    selectedContacts.splice(selectedContacts.length,0,contacts[i].GUID);
+                }
+            }
+
+            drawSensorsGui();
+        });
+        //when we let go of the mouse
+        $(document).on('mouseup.sensorsSelectionEnd',function(event){
+            //erase the selection box (by reseting it's values back to 0)
+            selectionDragPoints.startX = 0;
+            selectionDragPoints.startY = 0;
+            selectionDragPoints.endX = 0;
+            selectionDragPoints.endY = 0;
+            //and draw the canvas again
+            drawSensorsGui();
+            //clear all the event listeners (so the drawing stops)
+            $(document).off('mousemove.sensorsSelection');
+            $(document).off('mouseup.sensorsSelectionEnd');
+        });
+    });
+    canvas.contextmenu(function(event){
+        //if(event.which == 3){
+            addNewContact((event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,1,1,Math.random() * 100,Math.random() * 100,Math.random() * 3000);
+        //}
     });
     //intervals
 });
