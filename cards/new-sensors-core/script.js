@@ -138,7 +138,8 @@ Interstellar.addCoreWidget("Sensors",function(){
 
     //DOM references
     var canvas = $("#new_sensors-core_sensorsArray_Canvas"),
-        canvasContainer = $("#new_sensors-core_sensorsArray");
+        canvasContainer = $("#new_sensors-core_sensorsArray"),
+        range = $("#range");
     //init calls
 
     drawSensorsGui();
@@ -147,6 +148,13 @@ Interstellar.addCoreWidget("Sensors",function(){
     //preset observers
 
     //database observers
+    Interstellar.onDatabaseValueChange("sensors.moveAllSpeeds",function(newData){
+        if(newData == null){
+            Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
+            return;
+        }
+        moveAllSpeeds = newData;
+    });
     Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
         //this entire function is plotted out in a diagram at the top of the document.
 
@@ -154,6 +162,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         if(newData == null){
             //for debugging purposes, I've generated a test value
             var presetContacts =[]
+            /*
             for(var k = 0;k < 500;k++){
                 var newContact = {
                         "GUID" : guidGenerator(),
@@ -170,7 +179,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                         }
                     }
                 presetContacts.splice(presetContacts.length,0,newContact);
-            }
+            }*/
             //set the default value
             Interstellar.setDatabaseValue("sensors.contacts",presetContacts);
             //terminate execution of this function
@@ -478,6 +487,26 @@ Interstellar.addCoreWidget("Sensors",function(){
        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
     }
 
+    function addNewContact(xPos,yPos,wantedX,wantedY,animationSpeed){
+        var newContact = 
+        {
+            "GUID" : guidGenerator(),
+            "xPos" : xPos,
+            "yPos" : yPos,
+            "wantedX" : wantedX,
+            "wantedY" : wantedY,
+            "animationSpeed" : animationSpeed,
+            "xStep" : undefined,
+            "yStep" : undefined,
+            "attributes" :
+            {
+                "isActive" : true
+            }
+        }
+        contacts.splice(contacts.length,0,newContact);
+        Interstellar.setDatabaseValue("sensors.contacts",contacts);
+    }
+
     //three.js functions
 
     function animate() {
@@ -491,6 +520,12 @@ Interstellar.addCoreWidget("Sensors",function(){
     // Schedule the first frame.
     requestAnimationFrame(animate);
     //event handlers
-
+    range.on("input",function(event){
+        moveAllSpeeds.y = ($(event.target).val() - 5) * .1;
+        Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
+    });
+    canvas.click(function(event){
+        addNewContact((event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,Math.random() * 100,Math.random() * 100,Math.random() * 3000);
+    });
     //intervals
 });
