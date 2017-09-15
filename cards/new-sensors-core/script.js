@@ -573,71 +573,88 @@ Interstellar.addCoreWidget("Sensors",function(){
         Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
     });
     canvas.mousedown(function(event){
-        //define the start x and y points for the drag selection
-        selectionDragPoints.startX = event.offsetX;
-        selectionDragPoints.startY = event.offsetY;
-        //when we click on the canvas
-        //clear old event listeners (so we don't leak them)
-        $(document).off('mousemove.sensorsSelection');
-        $(document).off('mousemove.sensorsSelectionEnd');
-        //tell the document what to do when the mouse moves
-        $(document).on('mousemove.sensorsSelection',function(event){
-            //set the current end points
-            selectionDragPoints.endX = event.offsetX;
-            selectionDragPoints.endY = event.offsetY;
-            //and redraw the GUI
-            //now that we have finalized the box, lets convert it to a simple x,y,height width to make
-            //comparisons easier
-            var selectionX,selectionY,selectionHeight,selectionWidth;
+        //first we need to know if they are selecting one contact
+        //in particular, or if they are trying to drag select
+        var selectingContact = false;
+        //cycle through each contact, if the offset lies within
+        //it's bounds, then we are selecting it.
+        var i;
+        for(i = 0;i < contacts.length;i++){
+            /*if(
+                
+            ){
+                selectingContact = true;
+            }*/
+        }
+        if(selectingContact){
 
-            //first figure out the X
-            if(selectionDragPoints.startX > selectionDragPoints.endX){
-                selectionX = (selectionDragPoints.endX / canvas.width()) * 100;
-            }else{
-                selectionX = (selectionDragPoints.startX  / canvas.width()) * 100;
-            }
-            //set the width
-            selectionWidth = (Math.abs(selectionDragPoints.startX - selectionDragPoints.endX) / canvas.width()) * 100;
-
-            //now for the Y!
-            if(selectionDragPoints.startY < selectionDragPoints.endY){
-                selectionY = 100 - ((selectionDragPoints.endY / canvas.height()) * 100); //we have to invert y
-            }else{
-                selectionY = 100 - ((selectionDragPoints.startY / canvas.height()) * 100); //we have to invert y
-            }
-            //set the height
-            selectionHeight = (Math.abs(selectionDragPoints.startY - selectionDragPoints.endY) / canvas.height()) * 100;
-            //add all the contacts in the drag selection box to the selected contacts array
-            selectedContacts = [];
-            var i;
-            for(i = 0;i < contacts.length;i++){
-                //see if it falls in the right bounds
-                if(
-                    contacts[i].xPos >= selectionX &&
-                    contacts[i].xPos + contacts[i].width <= selectionX + selectionWidth &&
-                    contacts[i].yPos >= selectionY &&
-                    contacts[i].yPos + contacts[i].height <= selectionY + selectionHeight
-                ){
-                    //the item falls in the selection box
-                    selectedContacts.splice(selectedContacts.length,0,contacts[i].GUID);
-                }
-            }
-
-            drawSensorsGui();
-        });
-        //when we let go of the mouse
-        $(document).on('mouseup.sensorsSelectionEnd',function(event){
-            //erase the selection box (by reseting it's values back to 0)
-            selectionDragPoints.startX = 0;
-            selectionDragPoints.startY = 0;
-            selectionDragPoints.endX = 0;
-            selectionDragPoints.endY = 0;
-            //and draw the canvas again
-            drawSensorsGui();
-            //clear all the event listeners (so the drawing stops)
+        }else{
+            //define the start x and y points for the drag selection
+            selectionDragPoints.startX = event.offsetX;
+            selectionDragPoints.startY = event.offsetY;
+            //when we click on the canvas
+            //clear old event listeners (so we don't leak them)
             $(document).off('mousemove.sensorsSelection');
-            $(document).off('mouseup.sensorsSelectionEnd');
-        });
+            $(document).off('mousemove.sensorsSelectionEnd');
+            //tell the document what to do when the mouse moves
+            $(document).on('mousemove.sensorsSelection',function(event){
+                //set the current end points
+                selectionDragPoints.endX = event.offsetX;
+                selectionDragPoints.endY = event.offsetY;
+                //and redraw the GUI
+                //now that we have finalized the box, lets convert it to a simple x,y,height width to make
+                //comparisons easier
+                var selectionX,selectionY,selectionHeight,selectionWidth;
+
+                //first figure out the X
+                if(selectionDragPoints.startX > selectionDragPoints.endX){
+                    selectionX = (selectionDragPoints.endX / canvas.width()) * 100;
+                }else{
+                    selectionX = (selectionDragPoints.startX  / canvas.width()) * 100;
+                }
+                //set the width
+                selectionWidth = (Math.abs(selectionDragPoints.startX - selectionDragPoints.endX) / canvas.width()) * 100;
+
+                //now for the Y!
+                if(selectionDragPoints.startY < selectionDragPoints.endY){
+                    selectionY = 100 - ((selectionDragPoints.endY / canvas.height()) * 100); //we have to invert y
+                }else{
+                    selectionY = 100 - ((selectionDragPoints.startY / canvas.height()) * 100); //we have to invert y
+                }
+                //set the height
+                selectionHeight = (Math.abs(selectionDragPoints.startY - selectionDragPoints.endY) / canvas.height()) * 100;
+                //add all the contacts in the drag selection box to the selected contacts array
+                selectedContacts = [];
+                var i;
+                for(i = 0;i < contacts.length;i++){
+                    //see if it falls in the right bounds
+                    if(
+                        contacts[i].xPos >= selectionX &&
+                        contacts[i].xPos + contacts[i].width <= selectionX + selectionWidth &&
+                        contacts[i].yPos >= selectionY &&
+                        contacts[i].yPos + contacts[i].height <= selectionY + selectionHeight
+                    ){
+                        //the item falls in the selection box
+                        selectedContacts.splice(selectedContacts.length,0,contacts[i].GUID);
+                    }
+                }
+
+                drawSensorsGui();
+            });
+            //when we let go of the mouse
+            $(document).on('mouseup.sensorsSelectionEnd',function(event){
+                //erase the selection box (by reseting it's values back to 0)
+                selectionDragPoints.startX = 0;
+                selectionDragPoints.startY = 0;
+                selectionDragPoints.endX = 0;
+                selectionDragPoints.endY = 0;
+                //and draw the canvas again
+                drawSensorsGui();
+                //clear all the event listeners (so the drawing stops)
+                $(document).off('mousemove.sensorsSelection');
+                $(document).off('mouseup.sensorsSelectionEnd');
+            });
+        }
     });
     canvas.contextmenu(function(event){
         //if(event.which == 3){

@@ -196,6 +196,18 @@ app.on('ready',function(){
 					});
 				});
 
+				socket.on('getDMXCard',function(data){
+					console.log("Sending DMX card...");
+					cardManager.serveCard("dmx",function(bufferStream){
+						if(bufferStream){
+							socket.emit('recieveDMXCard',{
+								"cardName" : "dmx",
+								"bufferStream" : bufferStream
+							});
+						}
+					});
+				});
+
 				socket.on('getMenu',function(){
 					cardManager.getMenu(function(bufferStream){
 						if(bufferStream){
