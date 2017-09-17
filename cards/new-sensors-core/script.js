@@ -140,6 +140,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "x" : 0,
             "y" : -.05
         },
+        CompoundContactsArray = [],
         //three.js stuff
         camera, scene, renderer,
         frustumSize = 100;
@@ -195,7 +196,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
         contacts = newData;
         //compile all the arrays into one compoundArray
-        let CompoundContactsArray = newData;
+        CompoundContactsArray = newData;
         //forcibly update all values on the array
         //updateContactsOnArray(CompoundContactsArray);
         //if there is already an animation interval
@@ -486,7 +487,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                 //this object has been created!
                 //lets add it now!
                 //first we make the geometry (just a plane)
-                var geometry = new THREE.PlaneGeometry( 10, 10 );
+                var geometry = new THREE.PlaneGeometry( 100, 100 );
                 //then we load the texture
                 var texture = new THREE.TextureLoader().load( '/resource?path=public/generic.png&screen=' + thisWidgetName );
                 //now we need to make a material with that texture
@@ -507,9 +508,9 @@ Interstellar.addCoreWidget("Sensors",function(){
             //set it's position to the proper yPos;
             contact.position.y = contacts[i].yPos;
             //set it's proper width
-            contact.scale.x = contacts[i].width;
+            contact.scale.x = contacts[i].width / 100; //we devide by 100, becuase we need to decimate the size
             //set it's proper height
-            contact.scale.y = contacts[i].height;
+            contact.scale.y = contacts[i].height / 100; //we devide by 100, becuase we need to decimate the size
         }
     }
     //creates a unique*** global ID (technically, there COUUULLDLDDDD be more than contact with the same ID, but the
@@ -556,7 +557,9 @@ Interstellar.addCoreWidget("Sensors",function(){
         var i;
         for(i = 0;i < selectedContacts.length;i++){
             var contactObject = scene.getObjectByName(selectedContacts[i]);
-            contactObject.material.color.set("#2fff00");
+            if(contactObject != undefined){
+                contactObject.material.color.set("#2fff00");
+            }
         }
         requestAnimationFrame( animate );
         render();
@@ -575,20 +578,35 @@ Interstellar.addCoreWidget("Sensors",function(){
     canvas.mousedown(function(event){
         //first we need to know if they are selecting one contact
         //in particular, or if they are trying to drag select
-        var selectingContact = false;
+        var selectingContact = "";
         //cycle through each contact, if the offset lies within
-        //it's bounds, then we are selecting it.
         var i;
-        for(i = 0;i < contacts.length;i++){
-            /*if(
-                
+        var cursorXpercentage = (event.offsetX / canvas.width()) * 100,
+            cursorYpercentage = 100 - ((event.offsetY / canvas.height() * 100));
+        for(i = 0;i < CompoundContactsArray.length;i++){
+            //it's bounds, then we are selecting it.
+            if(
+                cursorXpercentage > CompoundContactsArray[i].xPos - (CompoundContactsArray[i].width / 2) &&
+                cursorXpercentage < CompoundContactsArray[i].xPos + (CompoundContactsArray[i].width / 2) &&
+                cursorYpercentage > CompoundContactsArray[i].yPos - (CompoundContactsArray[i].height / 2) &&
+                cursorYpercentage < CompoundContactsArray[i].yPos + (CompoundContactsArray[i].height / 2)
             ){
-                selectingContact = true;
-            }*/
+                //set the selected contact to the GUID;
+                selectingContact = CompoundContactsArray[i].GUID;
+                //and stop the execution of this for loop, for the sake of speed
+                break;
+            }
         }
-        if(selectingContact){
-
+        //if there was a contact on our mouse click
+        if(selectingContact != ""){
+            //first we need to know if this contact has already been selected
+            if(jQuery.inArray(selectingContact,selectedContacts) == -1){
+                //since this contact wasn't in the array, we unselect every other contact
+                selectedContacts = [selectingContact];
+            }
         }else{
+            //we are drag selecting
+
             //define the start x and y points for the drag selection
             selectionDragPoints.startX = event.offsetX;
             selectionDragPoints.startY = event.offsetY;
@@ -626,16 +644,16 @@ Interstellar.addCoreWidget("Sensors",function(){
                 //add all the contacts in the drag selection box to the selected contacts array
                 selectedContacts = [];
                 var i;
-                for(i = 0;i < contacts.length;i++){
+                for(i = 0;i < CompoundContactsArray.length;i++){
                     //see if it falls in the right bounds
                     if(
-                        contacts[i].xPos >= selectionX &&
-                        contacts[i].xPos + contacts[i].width <= selectionX + selectionWidth &&
-                        contacts[i].yPos >= selectionY &&
-                        contacts[i].yPos + contacts[i].height <= selectionY + selectionHeight
+                        CompoundContactsArray[i].xPos + (CompoundContactsArray[i].width / 2) >= selectionX &&
+                        CompoundContactsArray[i].xPos - (CompoundContactsArray[i].width / 2) <= selectionX + selectionWidth &&
+                        CompoundContactsArray[i].yPos + (CompoundContactsArray[i].height / 2)>= selectionY &&
+                        CompoundContactsArray[i].yPos - (CompoundContactsArray[i].height / 2) <= selectionY + selectionHeight
                     ){
                         //the item falls in the selection box
-                        selectedContacts.splice(selectedContacts.length,0,contacts[i].GUID);
+                        selectedContacts.splice(selectedContacts.length,0,CompoundContactsArray[i].GUID);
                     }
                 }
 
@@ -657,9 +675,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
     });
     canvas.contextmenu(function(event){
-        //if(event.which == 3){
-            addNewContact((event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,1,1,Math.random() * 100,Math.random() * 100,Math.random() * 3000);
-        //}
+        addNewContact((event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,10,10,Math.random() * 100,Math.random() * 100,Math.random() * 3000);
     });
     //intervals
 });
