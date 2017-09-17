@@ -565,16 +565,13 @@ Interstellar.addCoreWidget("Sensors",function(){
 
             //draw the line between the two
 
-            var newLineGeometry = new THREE.Geometry();
-            newLineGeometry.dynamic = true;
-            newLineGeometry.vertices.push(contact.position);
-            newLineGeometry.vertices.push(contactGhost.position);
-            newLineGeometry.verticesNeedUpdate = true;
-
-            line.geometry = newLineGeometry;
+            line.geometry.dynamic = true;
+            line.geometry.vertices.push(contact.position);
+            line.geometry.vertices.push(contactGhost.position);
+            line.geometry.verticesNeedUpdate = true;
         }
     }
-    //creates a unique*** global ID (technically, there COUUULLDLDDDD be more than contact with the same ID, but the
+    //creates a unique*** global ID (technically, there COUUULLDLDDDD be more than one GUID with the same value, but the
     //chances of that are so low it's not even realistic to worry about)
     function guidGenerator() {
         var S4 = function() {
