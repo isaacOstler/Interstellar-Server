@@ -135,10 +135,17 @@ Interstellar.addCoreWidget("Sensors",function(){
             "endY" : 0
         },
         selectedContacts = [], //selected contacts by the flight director, these can be dragged around
+        selectedContactOffsets = [], //x and y offset objects from selectedContacts array;
+        draggingContactsMouseOffset = 
+        {
+            "x" : 0,
+            "y" : 0
+        },
+        isDraggingContacts = false,
         moveAllSpeeds = 
         {
             "x" : 0,
-            "y" : -.05
+            "y" : 0
         },
         CompoundContactsArray = [],
         //three.js stuff
@@ -372,22 +379,24 @@ Interstellar.addCoreWidget("Sensors",function(){
         //draw the first circle
         ctx.arc(center, center, circleRadius, 0, 2 * Math.PI);
         //move in a little bit
-        ctx.moveTo(center + (center / 1.5),center);
+        ctx.moveTo(center + (circleRadius / 1.5),center);
         //draw again, this time make the circle smaller
         ctx.arc(center, center, circleRadius / 1.5, 0, 2 * Math.PI);
         //move in a little bit more
-        ctx.moveTo(center + (center / 3),center);
+        ctx.moveTo(center + (circleRadius / 3),center);
         //draw the last circle, a little bit smaller
         ctx.arc(center, center, circleRadius / 3, 0, 2 * Math.PI);
         //move to the center
         ctx.moveTo(center,center);
         //set the number of lines (usually 12)
+        ctx.stroke();
+
         var numberOfLines = 12;
         //draw each line
         for(var i = 0;i < numberOfLines;i++){
             //basic math here, set the line to it's position on the outer edge
-            var x = (circleRadius * Math.cos((2 * Math.PI / numberOfLines) * i)) + center;
-            var y = (circleRadius * Math.sin((2 * Math.PI / numberOfLines) * i)) + center;
+            var x = (circleRadius * Math.cos(((2 * Math.PI / numberOfLines) * i) + degreesToRadians(15)) + center);
+            var y = (circleRadius * Math.sin(((2 * Math.PI / numberOfLines) * i) + degreesToRadians(15)) + center);
             //move to to that position we just valuated
             ctx.lineTo(x,y);
             //go back to the center for the next line
@@ -396,6 +405,10 @@ Interstellar.addCoreWidget("Sensors",function(){
         var innerRadius = circleRadius * 1.5,
             outerRadius = 0;
 
+
+        ctx.stroke();
+
+        /*
         var gradient = ctx.createRadialGradient(center, center, innerRadius, center, center, outerRadius);
         switch(Number(alertStatus)){
             case 5:
@@ -419,6 +432,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
         gradient.addColorStop(.6, 'rgba(0, 0, 0, 0.7)');
 
+        ctx.moveTo(center,center);
         //make the final circle
         ctx.arc(center, center, circleRadius, 0, 2 * Math.PI);
         //set the gradient
@@ -426,7 +440,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         //fill the gradient
         //ctx.fill();
         //draw everything to the canvas
-        ctx.stroke();
+        ctx.stroke();*/
         //now we need to draw the strokes for the drag selections
         //I like lime colored selections
         ctx.strokeStyle="rgba(25,255,25,.9)";
@@ -547,6 +561,16 @@ Interstellar.addCoreWidget("Sensors",function(){
     //three.js functions
 
     function animate() {
+        if(isDraggingContacts){
+            var i;
+            for(i = 0;i < selectedContacts.length;i++){
+                var contact = scene.getObjectByName(selectedContacts[i]);
+                if(contact != undefined){
+                    contact.position.x = draggingContactsMouseOffset.x + selectedContactOffsets[i].x;
+                    contact.position.y = draggingContactsMouseOffset.y + selectedContactOffsets[i].y;
+                }
+            }
+        }
         var i;
         for(i = 0;i < contacts.length;i++){
             var contactObject = scene.getObjectByName(contacts[i].GUID);
@@ -566,6 +590,13 @@ Interstellar.addCoreWidget("Sensors",function(){
     }
     function render() {
         renderer.render( scene, camera );
+    }
+    function degreesToRadians(degrees){
+        return degrees * (Math.PI / 180);
+    }
+
+    function radiansToDegrees(radians){
+        return radians * (180 / Math.PI);
     }
 
     // Schedule the first frame.
@@ -604,6 +635,60 @@ Interstellar.addCoreWidget("Sensors",function(){
                 //since this contact wasn't in the array, we unselect every other contact
                 selectedContacts = [selectingContact];
             }
+            //set the flag that we are dragging contacts to true
+            isDraggingContacts = true;
+            //now record the mouse position
+            console.log((event.offsetX / canvas.width()) * 100);
+            draggingContactsMouseOffset.x = (event.offsetX / canvas.width()) * 100;
+            draggingContactsMouseOffset.y = 100 - ((event.offsetY / canvas.height() * 100));
+            //time to record the offsets
+            //let's first clear them all
+            selectedContactOffsets.splice(0,selectedContactOffsets.length);
+            var i,
+                j;
+            for(i = 0;i < selectedContacts.length;i++){
+                for(j = 0;j < CompoundContactsArray.length;j++){
+                    if(selectedContacts[i] == CompoundContactsArray[j].GUID){
+                        var contactOffsetX = CompoundContactsArray[j].xPos - draggingContactsMouseOffset.x;
+                        var contactOffsetY = CompoundContactsArray[j].yPos - draggingContactsMouseOffset.y;
+                        selectedContactOffsets.splice(selectedContactOffsets.length,0,
+                        {
+                            "x" : contactOffsetX,
+                            "y" : contactOffsetY
+                        });
+                        console.log(draggingContactsMouseOffset.y);
+                    }
+                }
+            }
+            //clear old event listeners (so we don't leak them)
+            $(document).off('mousemove.sensorsDragging');
+            $(document).off('mouseup.sensorsDraggingEnd');
+            //tell the document what to do when the mouse moves
+            $(document).on('mousemove.sensorsDragging',function(event){
+                //record the mouse positions, so that three.js can render the contacts moving
+                draggingContactsMouseOffset.x = (event.offsetX / canvas.width()) * 100;
+                draggingContactsMouseOffset.y = 100 - ((event.offsetY / canvas.height() * 100));
+            });
+            $(document).on('mouseup.sensorsDraggingEnd',function(event){
+                isDraggingContacts = false;
+                //now we need to save these points and push to the database
+                var i,
+                    j;
+                for(i = 0;i < selectedContacts.length;i++){
+                    for(j = 0;j < CompoundContactsArray.length;j++){
+                        if(CompoundContactsArray[j].GUID == selectedContacts[i]){
+                            CompoundContactsArray[j].wantedX = draggingContactsMouseOffset.x + selectedContactOffsets[i].x;
+                            CompoundContactsArray[j].wantedY = draggingContactsMouseOffset.y + selectedContactOffsets[i].y;
+                            console.log(CompoundContactsArray[j].wantedY);
+                            CompoundContactsArray[j].xStep = undefined;
+                            CompoundContactsArray[j].yStep = undefined;
+                        }
+                    }
+                }
+                $(document).off('mousemove.sensorsDragging');
+                $(document).off('mouseup.sensorsDraggingEnd');
+                Interstellar.setDatabaseValue("sensors.contacts",CompoundContactsArray);
+            });
         }else{
             //we are drag selecting
 
@@ -649,7 +734,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     if(
                         CompoundContactsArray[i].xPos + (CompoundContactsArray[i].width / 2) >= selectionX &&
                         CompoundContactsArray[i].xPos - (CompoundContactsArray[i].width / 2) <= selectionX + selectionWidth &&
-                        CompoundContactsArray[i].yPos + (CompoundContactsArray[i].height / 2)>= selectionY &&
+                        CompoundContactsArray[i].yPos + (CompoundContactsArray[i].height / 2) >= selectionY &&
                         CompoundContactsArray[i].yPos - (CompoundContactsArray[i].height / 2) <= selectionY + selectionHeight
                     ){
                         //the item falls in the selection box
@@ -675,7 +760,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
     });
     canvas.contextmenu(function(event){
-        addNewContact((event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,10,10,Math.random() * 100,Math.random() * 100,Math.random() * 3000);
+        addNewContact((event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,10,10,(event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,100);
     });
     //intervals
 });
