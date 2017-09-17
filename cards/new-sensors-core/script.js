@@ -482,6 +482,14 @@ Interstellar.addCoreWidget("Sensors",function(){
                 if(contacts[j].GUID == scene.children[i].name){
                     found = true;
                 }
+                //if the object id matches the GUID of a contact's GHOST, mark found as true
+                if(contacts[j].GUID + "_GHOST" == scene.children[i].name){
+                    found = true;
+                }
+                //if the object id matches the GUID of a contact's LINE, mark found as true
+                if(contacts[j].GUID + "_LINE" == scene.children[i].name){
+                    found = true;
+                }
             }
             //we didn't find this ID, remove it.
             if(!found){
@@ -497,8 +505,10 @@ Interstellar.addCoreWidget("Sensors",function(){
         for(i = 0;i < contacts.length;i++){
             //first, lets see if the contact can be found
             var contact = scene.getObjectByName(contacts[i].GUID);
-            if(contact == undefined){
-                //this object has been created!
+            var contactGhost = scene.getObjectByName(contacts[i].GUID + "_GHOST");
+            var line = scene.getObjectByName(contacts[i].GUID + "_LINE");
+            if(contact == undefined ){
+                //this object hasn't been created!
                 //lets add it now!
                 //first we make the geometry (just a plane)
                 var geometry = new THREE.PlaneGeometry( 100, 100 );
@@ -514,17 +524,54 @@ Interstellar.addCoreWidget("Sensors",function(){
                 scene.add(newContact);
                 //save a reference
                 contact = newContact;
+                //great!  Let's add his ghost too!
+                //pretty much the same exact thing
+                material = new THREE.MeshBasicMaterial( { map: texture,transparent: true,opacity : .5} );
+                var newGhost = new THREE.Mesh(geometry, material);
+                //assign the GUID to the name of this new mesh
+                newGhost.name = contacts[i].GUID + "_GHOST";
+                //add it to the scene
+                scene.add(newGhost);
+                //save a reference
+                contactGhost = newGhost;
+                //now lets create the line between the two
+                //create a blue LineBasicMaterial
+                var material = new THREE.LineBasicMaterial({ color: 0xffffff * Math.random() });
+                var geometry = new THREE.Geometry();
+
+                geometry.vertices.push(contact.position);
+                geometry.vertices.push(contactGhost.position);
+
+                var newLine = new THREE.Line(geometry, material);
+                newLine.name = contacts[i].GUID + "_LINE";
+                scene.add(newLine);
+
+                line = newLine;
             }
             //now let's update it's values
 
             //set it's position to the proper xPos;
-            contact.position.x = contacts[i].xPos;
+            contactGhost.position.x = contacts[i].xPos;
+            contact.position.x = contacts[i].wantedX;
             //set it's position to the proper yPos;
-            contact.position.y = contacts[i].yPos;
+            contactGhost.position.y = contacts[i].yPos;
+            contact.position.y = contacts[i].wantedY;
             //set it's proper width
             contact.scale.x = contacts[i].width / 100; //we devide by 100, becuase we need to decimate the size
+            contactGhost.scale.x = contacts[i].width / 100; //we devide by 100, becuase we need to decimate the size
             //set it's proper height
             contact.scale.y = contacts[i].height / 100; //we devide by 100, becuase we need to decimate the size
+            contactGhost.scale.y = contacts[i].height / 100; //we devide by 100, becuase we need to decimate the size
+
+            //draw the line between the two
+
+            var newLineGeometry = new THREE.Geometry();
+            newLineGeometry.dynamic = true;
+            newLineGeometry.vertices.push(contact.position);
+            newLineGeometry.vertices.push(contactGhost.position);
+            newLineGeometry.verticesNeedUpdate = true;
+
+            line.geometry = newLineGeometry;
         }
     }
     //creates a unique*** global ID (technically, there COUUULLDLDDDD be more than contact with the same ID, but the
@@ -617,10 +664,10 @@ Interstellar.addCoreWidget("Sensors",function(){
         for(i = 0;i < CompoundContactsArray.length;i++){
             //it's bounds, then we are selecting it.
             if(
-                cursorXpercentage > CompoundContactsArray[i].xPos - (CompoundContactsArray[i].width / 2) &&
-                cursorXpercentage < CompoundContactsArray[i].xPos + (CompoundContactsArray[i].width / 2) &&
-                cursorYpercentage > CompoundContactsArray[i].yPos - (CompoundContactsArray[i].height / 2) &&
-                cursorYpercentage < CompoundContactsArray[i].yPos + (CompoundContactsArray[i].height / 2)
+                cursorXpercentage > CompoundContactsArray[i].wantedX - (CompoundContactsArray[i].width / 2) &&
+                cursorXpercentage < CompoundContactsArray[i].wantedX + (CompoundContactsArray[i].width / 2) &&
+                cursorYpercentage > CompoundContactsArray[i].wantedY - (CompoundContactsArray[i].height / 2) &&
+                cursorYpercentage < CompoundContactsArray[i].wantedY + (CompoundContactsArray[i].height / 2)
             ){
                 //set the selected contact to the GUID;
                 selectingContact = CompoundContactsArray[i].GUID;
@@ -649,8 +696,8 @@ Interstellar.addCoreWidget("Sensors",function(){
             for(i = 0;i < selectedContacts.length;i++){
                 for(j = 0;j < CompoundContactsArray.length;j++){
                     if(selectedContacts[i] == CompoundContactsArray[j].GUID){
-                        var contactOffsetX = CompoundContactsArray[j].xPos - draggingContactsMouseOffset.x;
-                        var contactOffsetY = CompoundContactsArray[j].yPos - draggingContactsMouseOffset.y;
+                        var contactOffsetX = CompoundContactsArray[j].wantedX - draggingContactsMouseOffset.x;
+                        var contactOffsetY = CompoundContactsArray[j].wantedY - draggingContactsMouseOffset.y;
                         selectedContactOffsets.splice(selectedContactOffsets.length,0,
                         {
                             "x" : contactOffsetX,
@@ -732,10 +779,10 @@ Interstellar.addCoreWidget("Sensors",function(){
                 for(i = 0;i < CompoundContactsArray.length;i++){
                     //see if it falls in the right bounds
                     if(
-                        CompoundContactsArray[i].xPos + (CompoundContactsArray[i].width / 2) >= selectionX &&
-                        CompoundContactsArray[i].xPos - (CompoundContactsArray[i].width / 2) <= selectionX + selectionWidth &&
-                        CompoundContactsArray[i].yPos + (CompoundContactsArray[i].height / 2) >= selectionY &&
-                        CompoundContactsArray[i].yPos - (CompoundContactsArray[i].height / 2) <= selectionY + selectionHeight
+                        CompoundContactsArray[i].wantedX + (CompoundContactsArray[i].width / 2) >= selectionX &&
+                        CompoundContactsArray[i].wantedX - (CompoundContactsArray[i].width / 2) <= selectionX + selectionWidth &&
+                        CompoundContactsArray[i].wantedY + (CompoundContactsArray[i].height / 2) >= selectionY &&
+                        CompoundContactsArray[i].wantedY - (CompoundContactsArray[i].height / 2) <= selectionY + selectionHeight
                     ){
                         //the item falls in the selection box
                         selectedContacts.splice(selectedContacts.length,0,CompoundContactsArray[i].GUID);
