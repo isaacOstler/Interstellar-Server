@@ -145,13 +145,28 @@ Interstellar.addCoreWidget("Sensors",function(){
         moveAllSpeeds = 
         {
             "x" : 0,
-            "y" : 0
+            "y" : -.3
         },
         CompoundContactsArray = [],
+        explsionMaterials = [],
+        materialCount = [],
+        effects = [],
+        programs = [
+            {
+                "type" : "program", //we have several different things that go on the sensors array, so we have to specify
+                "programType" : "planet",
+                "GUID" : guidGenerator(),
+                "icon" : "/resource?path=public/Planets/1Terran1.png&screen=" + thisWidgetName,
+                "xPos" : 50,
+                "size" : .5,
+                "yPos" : 90,
+                "rotation" : 0,
+                "rotationSpeed" : .0005
+            }
+        ],
         //three.js stuff
         camera, scene, renderer,
         frustumSize = 100;
-
     //DOM references
     var canvas = $("#new_sensors-core_sensorsArray_Canvas"),
         canvasContainer = $("#new_sensors-core_sensorsArray"),
@@ -170,6 +185,13 @@ Interstellar.addCoreWidget("Sensors",function(){
             return;
         }
         moveAllSpeeds = newData;
+    });
+    Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
+        if(newData == null){
+            Interstellar.setDatabaseValue("sensors.programs",programs);
+            return;
+        }
+        programs = newData;
     });
     Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
         //this entire function is plotted out in a diagram at the top of the document.
@@ -203,7 +225,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
         contacts = newData;
         //compile all the arrays into one compoundArray
-        CompoundContactsArray = newData;
+        CompoundContactsArray = newData.concat(programs);
         //forcibly update all values on the array
         //updateContactsOnArray(CompoundContactsArray);
         //if there is already an animation interval
@@ -216,26 +238,37 @@ Interstellar.addCoreWidget("Sensors",function(){
             var i;
             //cycle through every object
             for(i = 0;i < CompoundContactsArray.length;i++){
-                //are they at their target destination?
-                if(!(withinRange(CompoundContactsArray[i].xPos,CompoundContactsArray[i].wantedX,.2)) || !(withinRange(CompoundContactsArray[i].yPos,CompoundContactsArray[i].wantedY,.2))){
-                    //nope, let's move them closer
+                if(CompoundContactsArray[i].type == "contact"){
+                    //are they at their target destination?
+                    if(!(withinRange(CompoundContactsArray[i].xPos,CompoundContactsArray[i].wantedX,.2)) || !(withinRange(CompoundContactsArray[i].yPos,CompoundContactsArray[i].wantedY,.2))){
+                        //nope, let's move them closer
 
-                    //the step values are how far they should travel for every refreshRate
-                    //so we just have to divide the frameRate by the refresh rate to get a scaler
+                        //the step values are how far they should travel for every refreshRate
+                        //so we just have to divide the frameRate by the refresh rate to get a scaler
+                        var scaler = frameRate / networkRefreshRate;
+                        //now add the scaled xStep to the xPos
+                        CompoundContactsArray[i].xPos += (scaler * CompoundContactsArray[i].xStep);
+                        //same for the y
+                        CompoundContactsArray[i].yPos += (scaler * CompoundContactsArray[i].yStep);
+                    }else{
+                        //already at it's destination
+                        //console.log("Hey!  That's pretty good!");
+                    }
                     var scaler = frameRate / networkRefreshRate;
-                    //now add the scaled xStep to the xPos
-                    CompoundContactsArray[i].xPos += (scaler * CompoundContactsArray[i].xStep);
+                    //let's also factor in the move all speed
+                    CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
                     //same for the y
-                    CompoundContactsArray[i].yPos += (scaler * CompoundContactsArray[i].yStep);
-                }else{
-                    //already at it's destination
-                    //console.log("Hey!  That's pretty good!");
+                    CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
+                }else if(CompoundContactsArray[i].type == "program"){
+                    //programs are cool :)
+                    //let's factor in the move all speed
+                    var scaler = frameRate / networkRefreshRate;
+                    CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
+                    //same for the y
+                    CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
+
+                    CompoundContactsArray[i].rotation += (CompoundContactsArray[i].rotationSpeed * scaler);
                 }
-                var scaler = frameRate / networkRefreshRate;
-                //let's also factor in the move all speed
-                CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
-                //same for the y
-                CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
             }
             //now we update the array!
             updateContactsOnArray(CompoundContactsArray);
@@ -244,6 +277,19 @@ Interstellar.addCoreWidget("Sensors",function(){
         //THIS PART IS ONLY FOR CORE!!!
         var i;
         var differenceDetected = false;
+        for(i = 0;i < programs.length;i++){
+            //if the program is a planet
+            if(programs[i].programType == "planet"){
+                if(programs[i].rotationSpeed != 0 || moveAllSpeeds.x != 0 || moveAllSpeeds.y != 0){
+                    differenceDetected = true;
+                }
+                //add the rotation
+                programs[i].rotation += programs[i].rotationSpeed;
+                //add the move-all speed to the position
+                programs[i].xPos += moveAllSpeeds.x;
+                programs[i].yPos += moveAllSpeeds.y;
+            }
+        }
         for(i = 0;i < contacts.length;i++){
             //we need to apply the move all speed to these contacts, if applicable
             if(moveAllSpeeds.x != 0 || moveAllSpeeds.y != 0){
@@ -293,6 +339,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
 
         networkRefreshTimeout = setTimeout(function(){
+            Interstellar.setDatabaseValue("sensors.programs",programs);
             Interstellar.setDatabaseValue("sensors.contacts",contacts);
         },networkRefreshRate)
     });
@@ -323,6 +370,17 @@ Interstellar.addCoreWidget("Sensors",function(){
         $(renderer.domElement).height(canvas.height());
         //add the DOM.
         canvasContainer.append(renderer.domElement);
+        //now we need to preload materials that we load a lot, to save time
+        Interstellar.getFileNamesInFolder("/public/Explosion",thisWidgetName,function(files){
+            var i;
+            for(i = 0;i < files.length;i++){
+                //load that file
+                var texture = new THREE.TextureLoader().load( '/resource?path=public/Explosion/' + files[i] + '&screen=' + thisWidgetName );
+                //now we need to make a material with that texture
+                var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
+                explsionMaterials.splice(explsionMaterials.length,0,material);
+            }
+        });
         //boom.  Done.  Init-ed
     }
 
@@ -504,71 +562,107 @@ Interstellar.addCoreWidget("Sensors",function(){
         //now we need to add all the contacts
         for(i = 0;i < contacts.length;i++){
             //first, lets see if the contact can be found
-            var contact = scene.getObjectByName(contacts[i].GUID);
-            var contactGhost = scene.getObjectByName(contacts[i].GUID + "_GHOST");
-            var line = scene.getObjectByName(contacts[i].GUID + "_LINE");
-            if(contact == undefined ){
-                //this object hasn't been created!
-                //lets add it now!
-                //first we make the geometry (just a plane)
-                var geometry = new THREE.PlaneGeometry( 100, 100 );
-                //then we load the texture
-                var texture = new THREE.TextureLoader().load( '/resource?path=public/generic.png&screen=' + thisWidgetName );
-                //now we need to make a material with that texture
-                var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
-                //now make the actual mesh
-                var newContact = new THREE.Mesh(geometry, material);
-                //assign the GUID to the name of this new mesh
-                newContact.name = contacts[i].GUID;
-                //add it to the scene
-                scene.add(newContact);
-                //save a reference
-                contact = newContact;
-                //great!  Let's add his ghost too!
-                //pretty much the same exact thing
-                material = new THREE.MeshBasicMaterial( { map: texture,transparent: true,opacity : .5} );
-                var newGhost = new THREE.Mesh(geometry, material);
-                //assign the GUID to the name of this new mesh
-                newGhost.name = contacts[i].GUID + "_GHOST";
-                //add it to the scene
-                scene.add(newGhost);
-                //save a reference
-                contactGhost = newGhost;
-                //now lets create the line between the two
-                //create a blue LineBasicMaterial
-                var material = new THREE.LineBasicMaterial({ color: 0xffffff * Math.random() });
-                var geometry = new THREE.Geometry();
+            if(contacts[i].type == "contact"){
+                var contact = scene.getObjectByName(contacts[i].GUID);
+                var contactGhost = scene.getObjectByName(contacts[i].GUID + "_GHOST");
+                var line = scene.getObjectByName(contacts[i].GUID + "_LINE");
+                if(contact == undefined ){
+                    //this object hasn't been created!
+                    //lets add it now!
+                    //first we make the geometry (just a plane)
+                    var geometry = new THREE.PlaneGeometry( 100, 100 );
+                    //then we load the texture
+                    var texture = new THREE.TextureLoader().load( '/resource?path=public/generic.png&screen=' + thisWidgetName );
+                    //now we need to make a material with that texture
+                    var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
+                    //now make the actual mesh
+                    var newContact = new THREE.Mesh(geometry, material);
+                    //assign the GUID to the name of this new mesh
+                    newContact.name = contacts[i].GUID;
+                    //add it to the scene
+                    scene.add(newContact);
+                    //save a reference
+                    contact = newContact;
+                    //great!  Let's add his ghost too!
+                    //pretty much the same exact thing
+                    material = new THREE.MeshBasicMaterial( { map: texture,transparent: true,opacity : .5} );
+                    var newGhost = new THREE.Mesh(geometry, material);
+                    //assign the GUID to the name of this new mesh
+                    newGhost.name = contacts[i].GUID + "_GHOST";
+                    //add it to the scene
+                    scene.add(newGhost);
+                    //save a reference
+                    contactGhost = newGhost;
+                    //now lets create the line between the two
+                    //create a blue LineBasicMaterial
+                    var material = new THREE.LineBasicMaterial({ color: 0xffffff * Math.random() });
+                    var geometry = new THREE.Geometry();
 
-                geometry.vertices.push(contact.position);
-                geometry.vertices.push(contactGhost.position);
+                    geometry.vertices.push(contact.position);
+                    geometry.vertices.push(contactGhost.position);
 
-                var newLine = new THREE.Line(geometry, material);
-                newLine.name = contacts[i].GUID + "_LINE";
-                scene.add(newLine);
+                    var newLine = new THREE.Line(geometry, material);
+                    newLine.name = contacts[i].GUID + "_LINE";
+                    scene.add(newLine);
 
-                line = newLine;
+                    line = newLine;
+                } 
+                //now let's update it's values
+                //set it's position to the proper xPos;
+                contactGhost.position.x = contacts[i].xPos;
+                contact.position.x = contacts[i].wantedX;
+                //set it's position to the proper yPos;
+                contactGhost.position.y = contacts[i].yPos;
+                contact.position.y = contacts[i].wantedY;
+                //set it's proper width
+                contact.scale.x = contacts[i].width / 100; //we divide by 100, because we need to decimate the size
+                contactGhost.scale.x = contacts[i].width / 100; //we divide by 100, because we need to decimate the size
+                //set it's proper height
+                contact.scale.y = contacts[i].height / 100; //we divide by 100, because we need to decimate the size
+                contactGhost.scale.y = contacts[i].height / 100; //we divide by 100, because we need to decimate the size
+
+                //draw the line between the two
+
+                line.geometry.dynamic = true;
+                line.geometry.vertices.push(contact.position);
+                line.geometry.vertices.push(contactGhost.position);
+                line.geometry.verticesNeedUpdate = true;
+            }else if(contacts[i].type == "program"){
+                if(contacts[i].programType == "planet"){
+                    var contact = scene.getObjectByName(contacts[i].GUID);
+                    if(contact == undefined ){
+                        //this object hasn't been created!
+                        //lets add it now!
+                        //first we make the geometry (just a plane)
+                        var geometry = new THREE.PlaneGeometry( 100, 100 );
+                        //then we load the texture
+                        var texture = new THREE.TextureLoader().load(contacts[i].icon);
+                        //now we need to make a material with that texture
+                        var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
+                        //now make the actual mesh
+                        var newContact = new THREE.Mesh(geometry, material);
+                        //assign the GUID to the name of this new mesh
+                        newContact.name = contacts[i].GUID;
+                        //add it to the scene
+                        scene.add(newContact);
+                        //save a reference
+                        contact = newContact;
+                    }
+                    contact.scale.x = contacts[i].size;
+                    contact.scale.y = contacts[i].size;
+                    contact.position.x = contacts[i].xPos;
+                    contact.position.y = contacts[i].yPos;
+                    contact.rotation.z = contacts[i].rotation;
+                }
             }
-            //now let's update it's values
+        }
+        for(i = 0;i < effects.length;i++){
 
-            //set it's position to the proper xPos;
-            contactGhost.position.x = contacts[i].xPos;
-            contact.position.x = contacts[i].wantedX;
-            //set it's position to the proper yPos;
-            contactGhost.position.y = contacts[i].yPos;
-            contact.position.y = contacts[i].wantedY;
-            //set it's proper width
-            contact.scale.x = contacts[i].width / 100; //we devide by 100, becuase we need to decimate the size
-            contactGhost.scale.x = contacts[i].width / 100; //we devide by 100, becuase we need to decimate the size
-            //set it's proper height
-            contact.scale.y = contacts[i].height / 100; //we devide by 100, becuase we need to decimate the size
-            contactGhost.scale.y = contacts[i].height / 100; //we devide by 100, becuase we need to decimate the size
-
-            //draw the line between the two
-
-            line.geometry.dynamic = true;
-            line.geometry.vertices.push(contact.position);
-            line.geometry.vertices.push(contactGhost.position);
-            line.geometry.verticesNeedUpdate = true;
+            materialCount += .4;
+            if(materialCount > explsionMaterials.length - 1){
+                materialCount = 0;
+            }
+            contact.material = explsionMaterials[Math.floor(materialCount)];
         }
     }
     //creates a unique*** global ID (technically, there COUUULLDLDDDD be more than one GUID with the same value, but the
@@ -583,6 +677,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     function addNewContact(xPos,yPos,height,width,wantedX,wantedY,animationSpeed){
         var newContact = 
         {
+            "type" : "contact", //we have several different things that go on the sensors array, so we have to specify
             "GUID" : guidGenerator(),
             "xPos" : xPos,
             "height" : height,
@@ -729,6 +824,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                         }
                     }
                 }
+                selectedContacts = [];
                 $(document).off('mousemove.sensorsDragging');
                 $(document).off('mouseup.sensorsDraggingEnd');
                 Interstellar.setDatabaseValue("sensors.contacts",CompoundContactsArray);
@@ -804,7 +900,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
     });
     canvas.contextmenu(function(event){
-        addNewContact((event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,10,10,(event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,100);
+        addNewContact((event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,3,3,(event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,1000);
     });
     //intervals
 });
