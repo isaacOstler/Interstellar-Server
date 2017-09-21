@@ -152,21 +152,20 @@ Interstellar.addCoreWidget("Sensors",function(){
         materialCount = [],
         effects = [],
         asteroidTextures = [
-            new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid1.png&screen=" + thisWidgetName),
-            new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid2.png&screen=" + thisWidgetName),
-            new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid3.png&screen=" + thisWidgetName),
-            new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid4.png&screen=" + thisWidgetName),
-            new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid5.png&screen=" + thisWidgetName),
-            new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid6.png&screen=" + thisWidgetName),
-            new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid7.png&screen=" + thisWidgetName),
-            new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid8.png&screen=" + thisWidgetName),
-            new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid9.png&screen=" + thisWidgetName),
-            new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid10.png&screen=" + thisWidgetName),
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid1.png&screen=" + thisWidgetName),transparent: true } ),
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid2.png&screen=" + thisWidgetName),transparent: true } ),
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid3.png&screen=" + thisWidgetName),transparent: true } ),
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid4.png&screen=" + thisWidgetName),transparent: true } ),
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid5.png&screen=" + thisWidgetName),transparent: true } ),
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid6.png&screen=" + thisWidgetName),transparent: true } ),
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid7.png&screen=" + thisWidgetName),transparent: true } ),
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid8.png&screen=" + thisWidgetName),transparent: true } ),
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid9.png&screen=" + thisWidgetName),transparent: true } ),
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid10.png&screen=" + thisWidgetName),transparent: true } )
         ],
         programs = [
             {
-                "type" : "program", //we have several different things that go on the sensors array, so we have to specify
-                "programType" : "planet",
+                "type" : "planet", //we have several different things that go on the sensors array, so we have to specify
                 "GUID" : guidGenerator(),
                 "icon" : "/resource?path=public/Planets/1Terran1.png&screen=" + thisWidgetName,
                 "xPos" : 50,
@@ -176,13 +175,14 @@ Interstellar.addCoreWidget("Sensors",function(){
                 "rotationSpeed" : .0005
             },
             {
-                "type" : "program", //we have several different things that go on the sensors array, so we have to specify
-                "programType" : "asteroid",
-                "xPos" : 0,
-                "yPos" : 90,
-                "ended" : false,
-                "asteroidInfo" : [],
-                "GUID" : guidGenerator()
+                "GUID" : guidGenerator(),
+                "type" : "asteroid",
+                "xPos" : 20,
+                "yPos" : 20,
+                "size" : .02,
+                "rotation" : 2,
+                "rotationSpeed" : .02,
+                "asteroidIcon" : 1
             }
         ],
         //three.js stuff
@@ -208,10 +208,20 @@ Interstellar.addCoreWidget("Sensors",function(){
         moveAllSpeeds = newData;
     });
     Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
-        for(var i = 0;i < 5;i++){
-            programs[1].asteroidInfo.splice(programs[1].asteroidInfo.length,0,{"x" : (Math.random() * 2.2) + -1.1,"y" : (Math.random() * 1) - 1,"icon" : Math.floor(Math.random() * 10),"rotation" : (Math.random() * (Math.PI * 2)),"rotationSpeed" : Math.random() * .01,"size" : Math.random()});
-        }
         if(newData == null){
+            for(var i = 0;i < 250;i++){
+                var newAsteroid = {
+                    "GUID" : guidGenerator(),
+                    "type" : "asteroid",
+                    "xPos" : Math.random() * 100,
+                    "yPos" : Math.random() * 100,
+                    "size" : .1 * Math.random(),
+                    "rotation" : 2,
+                    "rotationSpeed" : .01 * Math.random(),
+                    "asteroidIcon" : Math.floor(Math.random() * asteroidTextures.length)
+                }
+                programs.splice(programs.length,0,newAsteroid);
+            }
             Interstellar.setDatabaseValue("sensors.programs",programs);
             return;
         }
@@ -283,7 +293,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
                     //same for the y
                     CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
-                }else if(CompoundContactsArray[i].type == "program"){
+                }else if(CompoundContactsArray[i].type != "contact"){
                     //programs are cool :)
                     //let's factor in the move all speed
                     var scaler = frameRate / networkRefreshRate;
@@ -303,10 +313,16 @@ Interstellar.addCoreWidget("Sensors",function(){
         var differenceDetected = false;
         for(i = 0;i < programs.length;i++){
             //if the program is a planet
-            if(programs[i].programType == "planet"){
+            if(programs[i].type == "planet"){
                 if(programs[i].rotationSpeed != 0 || moveAllSpeeds.x != 0 || moveAllSpeeds.y != 0){
                     differenceDetected = true;
                 }
+                //add the rotation
+                programs[i].rotation += programs[i].rotationSpeed;
+                //add the move-all speed to the position
+                programs[i].xPos += moveAllSpeeds.x;
+                programs[i].yPos += moveAllSpeeds.y;
+            }else if(programs[i].type == "asteroid"){
                 //add the rotation
                 programs[i].rotation += programs[i].rotationSpeed;
                 //add the move-all speed to the position
@@ -560,19 +576,6 @@ Interstellar.addCoreWidget("Sensors",function(){
             //cycle through each contact
             for(j = 0;j < contacts.length;j++){
                 //if the object id matches the GUID of a contact, mark found as true
-                if(contacts[j].GUID == scene.children[i].name){
-                    wasFound = true;
-                }
-                //if the object id matches the GUID of a contact's GHOST, mark found as true
-                if(contacts[j].GUID + "_GHOST" == scene.children[i].name){
-                    wasFound = true;
-                }
-                //if the object id matches the GUID of a contact's LINE, mark found as true
-                if(contacts[j].GUID + "_LINE" == scene.children[i].name){
-                    wasFound = true;
-                }
-            }
-            for(j = 0;j < contacts.length;j++){
                 if(scene.children[i].name.includes(contacts[j].GUID)){
                     wasFound = true;
                 }
@@ -655,61 +658,54 @@ Interstellar.addCoreWidget("Sensors",function(){
                 line.geometry.vertices.push(contact.position);
                 line.geometry.vertices.push(contactGhost.position);
                 line.geometry.verticesNeedUpdate = true;
-            }else if(contacts[i].type == "program"){
-                if(contacts[i].programType == "planet"){
-                    var contact = scene.getObjectByName(contacts[i].GUID);
-                    if(contact == undefined ){
-                        //this object hasn't been created!
-                        //lets add it now!
-                        //first we make the geometry (just a plane)
-                        var geometry = new THREE.PlaneGeometry( 100, 100 );
-                        //then we load the texture
-                        var texture = new THREE.TextureLoader().load(contacts[i].icon);
-                        //now we need to make a material with that texture
-                        var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
-                        //now make the actual mesh
-                        var newContact = new THREE.Mesh(geometry, material);
-                        //assign the GUID to the name of this new mesh
-                        newContact.name = contacts[i].GUID;
-                        //add it to the scene
-                        scene.add(newContact);
-                        //save a reference
-                        contact = newContact;
-                    }
-                    contact.scale.x = contacts[i].size;
-                    contact.scale.y = contacts[i].size;
-                    contact.position.x = contacts[i].xPos;
-                    contact.position.y = contacts[i].yPos;
-                    contact.rotation.z = contacts[i].rotation;
-                }else if(contacts[i].programType == "asteroid"){
-                    var j;
-                    for(j = 0;j < contacts[i].asteroidInfo.length;j++){
-                        var contact = scene.getObjectByName(contacts[i].GUID + "__" + j);
-                        if(contact == undefined ){
-                            //this object hasn't been created!
-                            //lets add it now!
-                            //first we make the geometry (just a plane)
-                            var geometry = new THREE.PlaneGeometry( 100, 100 );
-                            //then we load the texture
-                            var texture = asteroidTextures[Number(contacts[i].asteroidInfo[j].icon)];
-                            //now we need to make a material with that texture
-                            var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
-                            //now make the actual mesh
-                            var newContact = new THREE.Mesh(geometry, material);
-                            //assign the GUID to the name of this new mesh
-                            newContact.name = contacts[i].GUID + "__" + j;
-                            //add it to the scene
-                            scene.add(newContact);
-                            //save a reference
-                            contact = newContact;
-                        }
-                        contact.scale.x = contacts[i].asteroidInfo[j].size * .075;
-                        contact.scale.y = contacts[i].asteroidInfo[j].size * .075;
-                        contact.position.x = (contacts[i].asteroidInfo[j].x * 100) + contacts[i].xPos;
-                        contact.position.y = (contacts[i].asteroidInfo[j].y * 100) + contacts[i].yPos;
-                        contact.rotation.z = contacts[i].asteroidInfo[j].rotation;
-                    }
+            }else if(contacts[i].type == "planet"){
+                var contact = scene.getObjectByName(contacts[i].GUID);
+                if(contact == undefined ){
+                    //this object hasn't been created!
+                    //lets add it now!
+                    //first we make the geometry (just a plane)
+                    var geometry = new THREE.PlaneGeometry( 100, 100 );
+                    //then we load the texture
+                    var texture = new THREE.TextureLoader().load(contacts[i].icon);
+                    //now we need to make a material with that texture
+                    var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
+                    //now make the actual mesh
+                    var newContact = new THREE.Mesh(geometry, material);
+                    //assign the GUID to the name of this new mesh
+                    newContact.name = contacts[i].GUID;
+                    //add it to the scene
+                    scene.add(newContact);
+                    //save a reference
+                    contact = newContact;
                 }
+                contact.scale.x = contacts[i].size;
+                contact.scale.y = contacts[i].size;
+                contact.position.x = contacts[i].xPos;
+                contact.position.y = contacts[i].yPos;
+                contact.rotation.z = contacts[i].rotation;
+            }else if(contacts[i].type == "asteroid"){
+                var contact = scene.getObjectByName(contacts[i].GUID);
+                if(contact == undefined ){
+                    //this object hasn't been created!
+                    //lets add it now!
+                    //first we make the geometry (just a plane)
+                    var geometry = new THREE.PlaneGeometry( 100, 100 );
+                    //now we need to make a material with that texture
+                    var material = getMaterialForAsteroid(contacts[i].asteroidIcon);
+                    //now make the actual mesh
+                    var newContact = new THREE.Mesh(geometry, material);
+                    //assign the GUID to the name of this new mesh
+                    newContact.name = contacts[i].GUID;
+                    //add it to the scene
+                    scene.add(newContact);
+                    //save a reference
+                    contact = newContact;
+                }
+                contact.scale.x = contacts[i].size;
+                contact.scale.y = contacts[i].size;""
+                contact.position.x = contacts[i].xPos;
+                contact.position.y = contacts[i].yPos;
+                contact.rotation.z = contacts[i].rotation;
             }
         }
         for(i = 0;i < effects.length;i++){
@@ -751,6 +747,10 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
         contacts.splice(contacts.length,0,newContact);
         Interstellar.setDatabaseValue("sensors.contacts",contacts);
+    }
+
+    function getMaterialForAsteroid(icon){
+        return asteroidTextures[Number(icon)];
     }
 
     //three.js functions
