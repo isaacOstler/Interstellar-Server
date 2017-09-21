@@ -163,6 +163,9 @@ Interstellar.addCoreWidget("Sensors",function(){
             new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid9.png&screen=" + thisWidgetName),transparent: true } ),
             new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid10.png&screen=" + thisWidgetName),transparent: true } )
         ],
+        nebulaTextures = [
+            new THREE.TextureLoader().load("/resource?path=public/Nebula/nebula1.png&screen=" + thisWidgetName)
+        ],
         programs = [
             {
                 "type" : "planet", //we have several different things that go on the sensors array, so we have to specify
@@ -209,18 +212,21 @@ Interstellar.addCoreWidget("Sensors",function(){
     });
     Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
         if(newData == null){
-            for(var i = 0;i < 250;i++){
+            for(var i = 0;i < 100;i++){
+                
                 var newAsteroid = {
                     "GUID" : guidGenerator(),
-                    "type" : "asteroid",
-                    "xPos" : Math.random() * 100,
-                    "yPos" : Math.random() * 100,
-                    "size" : .1 * Math.random(),
-                    "rotation" : 2,
-                    "rotationSpeed" : .01 * Math.random(),
-                    "asteroidIcon" : Math.floor(Math.random() * asteroidTextures.length)
+                    "type" : "nebula",
+                    "xPos" : 200 * Math.random(),
+                    "yPos" : 200 * Math.random(),
+                    "size" : .5 * Math.random() + .5,
+                    "rotation" : 2 * Math.random(),
+                    "rotationSpeed" : .01 * Math.random() -.0075,
+                    "nebulaIcon" : 0,
+                    "color" : (0.00002 * Math.random()) + (Math.PI * 2)
                 }
                 programs.splice(programs.length,0,newAsteroid);
+                
             }
             Interstellar.setDatabaseValue("sensors.programs",programs);
             return;
@@ -323,6 +329,12 @@ Interstellar.addCoreWidget("Sensors",function(){
                 programs[i].xPos += moveAllSpeeds.x;
                 programs[i].yPos += moveAllSpeeds.y;
             }else if(programs[i].type == "asteroid"){
+                //add the rotation
+                programs[i].rotation += programs[i].rotationSpeed;
+                //add the move-all speed to the position
+                programs[i].xPos += moveAllSpeeds.x;
+                programs[i].yPos += moveAllSpeeds.y;
+            }else if(programs[i].type == "nebula"){
                 //add the rotation
                 programs[i].rotation += programs[i].rotationSpeed;
                 //add the move-all speed to the position
@@ -706,6 +718,30 @@ Interstellar.addCoreWidget("Sensors",function(){
                 contact.position.x = contacts[i].xPos;
                 contact.position.y = contacts[i].yPos;
                 contact.rotation.z = contacts[i].rotation;
+            }else if(contacts[i].type == "nebula"){
+                var contact = scene.getObjectByName(contacts[i].GUID);
+                if(contact == undefined ){
+                    //this object hasn't been created!
+                    //lets add it now!
+                    //first we make the geometry (just a plane)
+                    var geometry = new THREE.PlaneGeometry( 100, 100 );
+                    //now we need to make a material with that texture
+                    var material = new THREE.MeshBasicMaterial( { map: getMaterialForNebula(contacts[i].nebulaIcon),transparent: true } );
+                    material.color.set(0xffffff * contacts[i].color);
+                    //now make the actual mesh
+                    var newContact = new THREE.Mesh(geometry, material);
+                    //assign the GUID to the name of this new mesh
+                    newContact.name = contacts[i].GUID;
+                    //add it to the scene
+                    scene.add(newContact);
+                    //save a reference
+                    contact = newContact;
+                }
+                contact.scale.x = contacts[i].size;
+                contact.scale.y = contacts[i].size;
+                contact.position.x = contacts[i].xPos;
+                contact.position.y = contacts[i].yPos;
+                contact.rotation.z = contacts[i].rotation;
             }
         }
         for(i = 0;i < effects.length;i++){
@@ -749,6 +785,10 @@ Interstellar.addCoreWidget("Sensors",function(){
         Interstellar.setDatabaseValue("sensors.contacts",contacts);
     }
 
+    function getMaterialForNebula(icon){
+        return nebulaTextures[Number(icon)];
+    }
+
     function getMaterialForAsteroid(icon){
         return asteroidTextures[Number(icon)];
     }
@@ -769,7 +809,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         var i;
         for(i = 0;i < contacts.length;i++){
             var contactObject = scene.getObjectByName(contacts[i].GUID);
-            if(contactObject != undefined){
+            if(contactObject != undefined && contacts[i].type != "nebula"){
                 contactObject.material.color.set("#ffffff");
             }
         }
