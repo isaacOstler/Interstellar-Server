@@ -145,7 +145,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         moveAllSpeeds = 
         {
             "x" : 0,
-            "y" : -.3
+            "y" : 0
         },
         CompoundContactsArray = [],
         explsionMaterials = [],
@@ -165,6 +165,36 @@ Interstellar.addCoreWidget("Sensors",function(){
         ],
         nebulaTextures = [
             new THREE.TextureLoader().load("/resource?path=public/Nebula/nebula1.png&screen=" + thisWidgetName)
+        ],
+        weapons = [
+            {
+                "type" : "torpedo",
+                "direction" : radiansToDegrees(360 * Math.random())
+            },
+            {
+                "type" : "torpedo",
+                "direction" : radiansToDegrees(360 * Math.random())
+            },
+            {
+                "type" : "torpedo",
+                "direction" : radiansToDegrees(360 * Math.random())
+            },
+            {
+                "type" : "torpedo",
+                "direction" : radiansToDegrees(360 * Math.random())
+            },
+            {
+                "type" : "torpedo",
+                "direction" : radiansToDegrees(360 * Math.random())
+            },
+            {
+                "type" : "torpedo",
+                "direction" : radiansToDegrees(360 * Math.random())
+            },
+            {
+                "type" : "torpedo",
+                "direction" : radiansToDegrees(360 * Math.random())
+            }
         ],
         programs = [
             {
@@ -210,24 +240,35 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
         moveAllSpeeds = newData;
     });
+    Interstellar.onDatabaseValueChange("sensors.weapons",function(newData){
+        //if no weapons were found on the server
+        if(newData == null){
+            //set it to the default weapons value
+            Interstellar.setDatabaseValue("sensors.weapons",weapons);
+            //terminate execution of this function
+            return;
+        }
+        //update the weapons array with the new data
+        weapons = newData;
+    });
     Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
         if(newData == null){
-            for(var i = 0;i < 100;i++){
-                
-                var newAsteroid = {
-                    "GUID" : guidGenerator(),
-                    "type" : "nebula",
-                    "xPos" : 200 * Math.random(),
-                    "yPos" : 200 * Math.random(),
-                    "size" : .5 * Math.random() + .5,
-                    "rotation" : 2 * Math.random(),
-                    "rotationSpeed" : .01 * Math.random() -.0075,
-                    "nebulaIcon" : 0,
-                    "color" : (0.00002 * Math.random()) + (Math.PI * 2)
+            /*for(var j = 0;j < 20;j++){
+                for(var i = 0;i < 10;i++){
+                    var newAsteroid = {
+                        "GUID" : guidGenerator(),
+                        "type" : "nebula",
+                        "xPos" : 70 * Math.random() + 15,
+                        "yPos" : 20 * Math.random() + (100 + (j * 20)),
+                        "size" : .5 * Math.random() + .5,
+                        "rotation" : 2 * Math.random(),
+                        "rotationSpeed" : .01 * Math.random() -.0075,
+                        "nebulaIcon" : 0,
+                        "color" : (0.00002 * Math.random()) + (Math.PI * 2)
+                    }
+                    programs.splice(programs.length,0,newAsteroid);
                 }
-                programs.splice(programs.length,0,newAsteroid);
-                
-            }
+            }*/
             Interstellar.setDatabaseValue("sensors.programs",programs);
             return;
         }
@@ -239,8 +280,8 @@ Interstellar.addCoreWidget("Sensors",function(){
         //if there is no new data (the value hasn't been set on the database yet)
         if(newData == null){
             //for debugging purposes, I've generated a test value
-            var presetContacts =[]
-            /*
+            
+            var presetContacts =[];/*
             for(var k = 0;k < 500;k++){
                 var newContact = {
                         "GUID" : guidGenerator(),
@@ -265,7 +306,8 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
         contacts = newData;
         //compile all the arrays into one compoundArray
-        CompoundContactsArray = newData.concat(programs);
+        CompoundContactsArray = newData.concat(programs,weapons);
+        console.log(CompoundContactsArray);
         //forcibly update all values on the array
         //updateContactsOnArray(CompoundContactsArray);
         //if there is already an animation interval
@@ -297,8 +339,10 @@ Interstellar.addCoreWidget("Sensors",function(){
                     var scaler = frameRate / networkRefreshRate;
                     //let's also factor in the move all speed
                     CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
+                    CompoundContactsArray[i].wantedX += (scaler * moveAllSpeeds.x);
                     //same for the y
                     CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
+                    CompoundContactsArray[i].wantedY += (scaler * moveAllSpeeds.y);
                 }else if(CompoundContactsArray[i].type != "contact"){
                     //programs are cool :)
                     //let's factor in the move all speed
@@ -306,6 +350,13 @@ Interstellar.addCoreWidget("Sensors",function(){
                     CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
                     //same for the y
                     CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
+                    if(CompoundContactsArray[i].yPos + (CompoundContactsArray[i].size * 100) < 0){
+                        for(var l = 0;l < programs.length;l++){
+                            if(programs[l].GUID == CompoundContactsArray[i].GUID){
+                                programs.splice[l,1];
+                            }
+                        }
+                    }
                     //might as well rotate the thing too
                     CompoundContactsArray[i].rotation += (CompoundContactsArray[i].rotationSpeed * scaler);
                 }
@@ -357,7 +408,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                 //do they have animation steps?
                 if(contacts[i].xStep == undefined || contacts[i].yStep == undefined){
                     //we must first calculate their steps
-
+                    console.log(contacts[i]);
                     //what is the difference between them?
                     var differenceX = Number(contacts[i].wantedX - contacts[i].xPos);
                     var differenceY = Number(contacts[i].wantedY - contacts[i].yPos);
@@ -615,7 +666,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     //first we make the geometry (just a plane)
                     var geometry = new THREE.PlaneGeometry( 100, 100 );
                     //then we load the texture
-                    var texture = new THREE.TextureLoader().load( '/resource?path=public/generic.png&screen=' + thisWidgetName );
+                    var texture = new THREE.TextureLoader().load( '/resource?path=public/Contacts/' + contacts[i].icon + '&screen=' + thisWidgetName );
                     //now we need to make a material with that texture
                     var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                     //now make the actual mesh
@@ -762,7 +813,7 @@ Interstellar.addCoreWidget("Sensors",function(){
        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
     }
 
-    function addNewContact(xPos,yPos,height,width,wantedX,wantedY,animationSpeed){
+    function addNewContact(xPos,yPos,wantedX,wantedY,height,width,animationSpeed,icon){
         var newContact = 
         {
             "type" : "contact", //we have several different things that go on the sensors array, so we have to specify
@@ -776,6 +827,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "animationSpeed" : animationSpeed,
             "xStep" : undefined,
             "yStep" : undefined,
+            "icon" : icon,
             "attributes" :
             {
                 "isActive" : true
@@ -996,7 +1048,9 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
     });
     canvas.contextmenu(function(event){
-        addNewContact((event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,3,3,(event.offsetX / canvas.width()) * 100,(1 - (event.offsetY / canvas.height())) * 100,1000);
+        var contactX = (event.offsetX / canvas.width()) * 100,
+            contactY = (1 - (event.offsetY / canvas.height())) * 100;
+        addNewContact(contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
     });
     //intervals
 });

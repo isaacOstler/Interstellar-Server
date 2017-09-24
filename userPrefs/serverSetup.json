@@ -17,7 +17,7 @@
 		{
 			"stationInfo": {
 				"name" : "Sensors-core",
-				"cards" : ["new-sensors-core","card-controller-core"]
+				"cards" : ["card-controller-core","new-sensors-core"]
 			},
 			"stationType" : "core"
 		},
