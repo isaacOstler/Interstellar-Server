@@ -121,6 +121,7 @@ Interstellar.addCoreWidget("Sensors",function(){
 
     //variables
     var alertStatus = 5, //the ships alert status
+        phaserSpeed = .15, //how fast phasers fire
         thisWidgetName = "new-sensors-core", //the name of this widget (since for a while, it was called new-sensors-core)
         animationInterval = undefined, //the variable pointing to the animation interval
         networkRefreshTimeout = undefined, //the variable pointing to the network update timeout
@@ -151,6 +152,9 @@ Interstellar.addCoreWidget("Sensors",function(){
         explsionMaterials = [],
         materialCount = [],
         effects = [],
+        torpedoTextures = [
+            new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Weapons/Torpedo.png&screen=" + thisWidgetName),transparent: true } ),
+        ],
         asteroidTextures = [
             new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid1.png&screen=" + thisWidgetName),transparent: true } ),
             new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid2.png&screen=" + thisWidgetName),transparent: true } ),
@@ -168,32 +172,100 @@ Interstellar.addCoreWidget("Sensors",function(){
         ],
         weapons = [
             {
-                "type" : "torpedo",
-                "direction" : radiansToDegrees(360 * Math.random())
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
             },
             {
-                "type" : "torpedo",
-                "direction" : radiansToDegrees(360 * Math.random())
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
             },
             {
-                "type" : "torpedo",
-                "direction" : radiansToDegrees(360 * Math.random())
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
             },
             {
-                "type" : "torpedo",
-                "direction" : radiansToDegrees(360 * Math.random())
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
             },
             {
-                "type" : "torpedo",
-                "direction" : radiansToDegrees(360 * Math.random())
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
             },
             {
-                "type" : "torpedo",
-                "direction" : radiansToDegrees(360 * Math.random())
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
             },
             {
-                "type" : "torpedo",
-                "direction" : radiansToDegrees(360 * Math.random())
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
             }
         ],
         programs = [
@@ -307,7 +379,6 @@ Interstellar.addCoreWidget("Sensors",function(){
         contacts = newData;
         //compile all the arrays into one compoundArray
         CompoundContactsArray = newData.concat(programs,weapons);
-        console.log(CompoundContactsArray);
         //forcibly update all values on the array
         //updateContactsOnArray(CompoundContactsArray);
         //if there is already an animation interval
@@ -343,6 +414,21 @@ Interstellar.addCoreWidget("Sensors",function(){
                     //same for the y
                     CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
                     CompoundContactsArray[i].wantedY += (scaler * moveAllSpeeds.y);
+                }else if(CompoundContactsArray[i].type == "torpedo"){
+                    //so we just have to divide the frameRate by the refresh rate to get a scaler
+                    var scaler = frameRate / networkRefreshRate;
+                    //now add the scaled xStep to the xPos
+                    CompoundContactsArray[i].xPos += (getStepsFromAngle(CompoundContactsArray[i].direction).x * scaler);
+                    //same for the y
+                    CompoundContactsArray[i].yPos += (getStepsFromAngle(CompoundContactsArray[i].direction).y * scaler);
+                    //let's also factor in the move all speed
+                    CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
+                    //same for the y
+                    CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
+
+                }else if(CompoundContactsArray[i].type == "phaser"){
+                    var scaler = frameRate / networkRefreshRate;
+                    CompoundContactsArray[i].distance += scaler * phaserSpeed;
                 }else if(CompoundContactsArray[i].type != "contact"){
                     //programs are cool :)
                     //let's factor in the move all speed
@@ -393,6 +479,15 @@ Interstellar.addCoreWidget("Sensors",function(){
                 programs[i].yPos += moveAllSpeeds.y;
             }
         }
+        for(i = 0;i < weapons.length;i++){
+            if(weapons[i].type == "torpedo"){
+                var direction = getStepsFromAngle(weapons[i].direction);
+                weapons[i].xPos += direction.x;
+                weapons[i].yPos += direction.y;
+            }else if(weapons[i].type == "phaser"){
+                weapons[i].distance += phaserSpeed;
+            }
+        }
         for(i = 0;i < contacts.length;i++){
             //we need to apply the move all speed to these contacts, if applicable
             if(moveAllSpeeds.x != 0 || moveAllSpeeds.y != 0){
@@ -408,7 +503,6 @@ Interstellar.addCoreWidget("Sensors",function(){
                 //do they have animation steps?
                 if(contacts[i].xStep == undefined || contacts[i].yStep == undefined){
                     //we must first calculate their steps
-                    console.log(contacts[i]);
                     //what is the difference between them?
                     var differenceX = Number(contacts[i].wantedX - contacts[i].xPos);
                     var differenceY = Number(contacts[i].wantedY - contacts[i].yPos);
@@ -793,6 +887,64 @@ Interstellar.addCoreWidget("Sensors",function(){
                 contact.position.x = contacts[i].xPos;
                 contact.position.y = contacts[i].yPos;
                 contact.rotation.z = contacts[i].rotation;
+            }else if(contacts[i].type == "torpedo"){
+                var contact = scene.getObjectByName(contacts[i].GUID);
+                if(contact == undefined ){
+                    //this object hasn't been created!
+                    //lets add it now!
+                    //first we make the geometry (just a plane)
+                    var geometry = new THREE.PlaneGeometry( 100, 100 );
+                    //now we need to make a material with that texture
+                    var material = torpedoTextures[Math.floor(Math.random() * torpedoTextures.length)];
+                    //now make the actual mesh
+                    var newContact = new THREE.Mesh(geometry, material);
+                    //assign the GUID to the name of this new mesh
+                    newContact.name = contacts[i].GUID;
+                    //add it to the scene
+                    scene.add(newContact);
+                    //save a reference
+                    contact = newContact;
+                }
+                contact.scale.x = .03;
+                contact.scale.y = .03;
+                contact.position.x = contacts[i].xPos;
+                contact.position.y = contacts[i].yPos;
+            }else if(contacts[i].type == "phaser"){
+                var contact = scene.getObjectByName(contacts[i].GUID);
+                if(contact == undefined){
+                    //this object hasn't been created!
+                    //lets add it now!
+
+                    var material = new THREE.LineBasicMaterial({ color: 0xffee59 });
+                    var geometry = new THREE.Geometry();
+
+                    geometry.vertices.push(new THREE.Vector3(50,50,0));
+                    geometry.vertices.push(new THREE.Vector3(50,50,0));
+
+                    var newLine = new THREE.Line(geometry, material);
+                    newLine.name = contacts[i].GUID;
+                    scene.add(newLine);
+
+                    //assign the GUID to the name of this new mesh
+                    newContact.name = contacts[i].GUID;
+                    //add it to the scene
+                    scene.add(newContact);
+                    //save a reference
+                    contact = newContact;
+                }
+                contact.geometry.dynamic = true;
+                //first set the end point
+                var newPhaserPosition = polarToCartesian({"radians" : contacts[i].direction, "distance" : contacts[i].distance});
+                contact.geometry.vertices[1].set(newPhaserPosition.x + 50,newPhaserPosition.y + 50,0);
+                //now the start
+                if(contacts[i].phaserLength == undefined){
+                    //still firing, which means it needs to originate from the ship
+                    contact.geometry.vertices[0].set(50,50,0);
+                }else{
+                    var newPhaserEndPosition = polarToCartesian({"radians" : contacts[i].direction, "distance" : contacts[i].distance - contacts[i].phaserLength});
+                    contact.geometry.vertices[0].set(newPhaserEndPosition.x + 50,newPhaserEndPosition.y + 50,0);
+                }
+                contact.geometry.verticesNeedUpdate = true;
             }
         }
         for(i = 0;i < effects.length;i++){
@@ -802,6 +954,28 @@ Interstellar.addCoreWidget("Sensors",function(){
                 materialCount = 0;
             }
             contact.material = explsionMaterials[Math.floor(materialCount)];
+        }
+    }
+    //name: cartesian2Polar
+    //purpse: converts Cartesian cords to polar cords, assuming origin is x:0 y:0 (top left)
+    //takes: x cord, y cord
+    //returns: object, containing distance and radians
+
+    function cartesian2Polar(x, y){
+        //Pythagorean theorem
+        distance = Math.sqrt(x*x + y*y);
+        //trig ... yuck
+        radians = Math.atan2(y,x) //This takes y first
+        //create the polarCoor object
+        polarCoor = { distance:distance, radians:radians }
+        //return this value to the original caller
+        return polarCoor;
+    }
+
+    function polarToCartesian(polarCord){
+        return {
+            "x" : polarCord.distance * Math.cos(polarCord.radians),
+            "y" : polarCord.distance * Math.sin(polarCord.radians)
         }
     }
     //creates a unique*** global ID (technically, there COUUULLDLDDDD be more than one GUID with the same value, but the
@@ -843,6 +1017,13 @@ Interstellar.addCoreWidget("Sensors",function(){
 
     function getMaterialForAsteroid(icon){
         return asteroidTextures[Number(icon)];
+    }
+
+    function getStepsFromAngle(direction){
+        return {
+            "x" : .2 * Math.cos(direction),
+            "y" : .2 * Math.sin(direction)
+        }
     }
 
     //three.js functions
@@ -1053,4 +1234,20 @@ Interstellar.addCoreWidget("Sensors",function(){
         addNewContact(contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
     });
     //intervals
+    setInterval(function(){
+        var newWeapons = [];
+        for(var i = 0;i < 10;i++){
+            var newWeapon = {
+                "type" : "torpedo",
+                "GUID" : guidGenerator(),
+                "direction" : radiansToDegrees(360 * Math.random()),
+                "xPos" : 50,
+                "yPos" : 50,
+                "source" : "friendly"
+            }
+            newWeapons.splice(newWeapons.length,0,newWeapon);
+        }
+        weapons = weapons.concat(newWeapons);
+        Interstellar.setDatabaseValue("sensors.weapons",weapons);
+    },10000);
 });
