@@ -21,7 +21,7 @@
        I instead LERP positions (https://en.wikipedia.org/wiki/Linear_interpolation).  This allows clients to effectively
        guess what position contacts should be at until the server gets a chance to unify everyone.  This means that instead
        of updating the server at 30 FPS, I can update the server at 10 FPS (or less) and client animations will still appear
-       to be holding 30 FPS (or more!).  This puts the load on the clients instead of the network, which greatly reduces
+       to be holding 30-60 FPS (or more!).  This puts the load on the clients instead of the network, which greatly reduces
        server load, and decreases the chance of collisions when updating.
     3) Proper documentation and commenting was a priority this time.  Which means sensors will be easier to upkeep.
        IF YOU ARE EDITING THIS CODE, FOLLOW THIS RULE!!!!  OR I WILL COME BACK TO PUNISH YOU!
@@ -128,6 +128,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         frameRate = 60, //the frame rate for the sensors array (how many frames per second)
         networkRefreshRate = 360, //how many milliseconds until the network is updated on the contacts positions
         contacts = [], //sensor contacts
+        noAnimationCycleInProgress = false, //this variable helps us know if we need to restart the animation cycle (if it's been sleeping)
         selectionDragPoints = //these points are used to draw the drag selection box
         {
             "startX" : 0,
@@ -171,102 +172,14 @@ Interstellar.addCoreWidget("Sensors",function(){
             new THREE.TextureLoader().load("/resource?path=public/Nebula/nebula1.png&screen=" + thisWidgetName)
         ],
         weapons = [
-            {
+            /*{
                 "type" : "phaser",
                 "GUID" : guidGenerator(),
                 "direction" : degreesToRadians(360 * Math.random()),
                 "distance" : 0,
                 "phaserLength" : 5,
                 "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            }
+            }*/
         ],
         programs = [
             {
@@ -322,6 +235,10 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
         //update the weapons array with the new data
         weapons = newData;
+        if(noAnimationCycleInProgress){
+            animationCycle(contacts);
+        }
+        noAnimationCycleInProgress = false;
     });
     Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
         if(newData == null){
@@ -345,6 +262,10 @@ Interstellar.addCoreWidget("Sensors",function(){
             return;
         }
         programs = newData;
+        if(noAnimationCycleInProgress){
+            animationCycle(contacts);
+        }
+        noAnimationCycleInProgress = false;
     });
     Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
         //this entire function is plotted out in a diagram at the top of the document.
@@ -376,6 +297,11 @@ Interstellar.addCoreWidget("Sensors",function(){
             //terminate execution of this function
             return;
         }
+        noAnimationCycleInProgress = false;
+        animationCycle(newData);
+    })
+
+    function animationCycle(newData){
         contacts = newData;
         //compile all the arrays into one compoundArray
         CompoundContactsArray = newData.concat(programs,weapons);
@@ -392,10 +318,21 @@ Interstellar.addCoreWidget("Sensors",function(){
             //cycle through every object
             for(i = 0;i < CompoundContactsArray.length;i++){
                 if(CompoundContactsArray[i].type == "contact"){
-                    //are they at their target destination?
+                    //are they at their target destination
                     if(!(withinRange(CompoundContactsArray[i].xPos,CompoundContactsArray[i].wantedX,.2)) || !(withinRange(CompoundContactsArray[i].yPos,CompoundContactsArray[i].wantedY,.2))){
                         //nope, let's move them closer
 
+                        //do they have animation steps?
+                        if(contacts[i].xStep == undefined || contacts[i].yStep == undefined){
+                            //we must first calculate their steps
+                            //what is the difference between them?
+                            var differenceX = Number(CompoundContactsArray[i].wantedX - CompoundContactsArray[i].xPos);
+                            var differenceY = Number(CompoundContactsArray[i].wantedY - CompoundContactsArray[i].yPos);
+                            //now we divide their animation time by the distance (v=d/t...)
+                            CompoundContactsArray[i].xStep = (differenceX / Number(CompoundContactsArray[i].animationSpeed));
+                            CompoundContactsArray[i].yStep = (differenceY / Number(CompoundContactsArray[i].animationSpeed));
+                        }
+                        
                         //the step values are how far they should travel for every refreshRate
                         //so we just have to divide the frameRate by the refresh rate to get a scaler
                         var scaler = frameRate / networkRefreshRate;
@@ -414,21 +351,65 @@ Interstellar.addCoreWidget("Sensors",function(){
                     //same for the y
                     CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
                     CompoundContactsArray[i].wantedY += (scaler * moveAllSpeeds.y);
-                }else if(CompoundContactsArray[i].type == "torpedo"){
-                    //so we just have to divide the frameRate by the refresh rate to get a scaler
-                    var scaler = frameRate / networkRefreshRate;
-                    //now add the scaled xStep to the xPos
-                    CompoundContactsArray[i].xPos += (getStepsFromAngle(CompoundContactsArray[i].direction).x * scaler);
-                    //same for the y
-                    CompoundContactsArray[i].yPos += (getStepsFromAngle(CompoundContactsArray[i].direction).y * scaler);
-                    //let's also factor in the move all speed
-                    CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
-                    //same for the y
-                    CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
-
-                }else if(CompoundContactsArray[i].type == "phaser"){
-                    var scaler = frameRate / networkRefreshRate;
-                    CompoundContactsArray[i].distance += scaler * phaserSpeed;
+                }else if(CompoundContactsArray[i].type == "phaser" || CompoundContactsArray[i].type == "torpedo"){
+                    //we need to know if these weapons hit anyone
+                    var GUID_ofImpactedObject = undefined;
+                    //first we need to know our own X and our own Y
+                    var weaponCartCords = {"x" : 0,"y" : 0};
+                    if(CompoundContactsArray[i].type == "phaser"){
+                        weaponCartCords = polarToCartesian({"radians" : CompoundContactsArray[i].direction, "distance" : CompoundContactsArray[i].distance});
+                    }else{
+                        //torpedo
+                        weaponCartCords.x = CompoundContactsArray[i].xPos - 50;
+                        weaponCartCords.y = CompoundContactsArray[i].yPos - 50;
+                    }
+                    for(var l = 0;l < CompoundContactsArray.length;l++){
+                        if(CompoundContactsArray[l].type != "phaser" && CompoundContactsArray[l].type != "torpedo" && CompoundContactsArray[l].type != "nebula"){
+                            var polarCords = cartesian2Polar(CompoundContactsArray[l].xPos - (weaponCartCords.x + 50),CompoundContactsArray[l].yPos - (weaponCartCords.y + 50));
+                            var hitDistance = 1;
+                            if(CompoundContactsArray[i].type != "torpedo"){
+                                hitDistance = 3;
+                            }
+                            if(!isNaN(polarCords.distance)){
+                                /*
+                                if(CompoundContactsArray[l].name == "odyssey"){
+                                    console.log(polarCords.distance);
+                                }*/
+                                if(polarCords.distance < hitDistance){
+                                    GUID_ofImpactedObject = CompoundContactsArray[l].GUID;
+                                }
+                            }
+                        }
+                    }
+                    if(GUID_ofImpactedObject == undefined){
+                        if(CompoundContactsArray[i].type == "phaser"){
+                            CompoundContactsArray[i].distance += scaler * phaserSpeed;
+                            var scaler = frameRate / networkRefreshRate;
+                        }else{
+                            //so we just have to divide the frameRate by the refresh rate to get a scaler
+                            var scaler = frameRate / networkRefreshRate;
+                            //now add the scaled xStep to the xPos
+                            CompoundContactsArray[i].xPos += (getStepsFromAngle(CompoundContactsArray[i].direction).x * scaler);
+                            //same for the y
+                            CompoundContactsArray[i].yPos += (getStepsFromAngle(CompoundContactsArray[i].direction).y * scaler);
+                            //let's also factor in the move all speed
+                            CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
+                            //same for the y
+                            CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
+                        }
+                    }else{
+                        for(var l = 0;l < weapons.length;l++){
+                            //BOOOM!!! AAHAHAH (remove the contact and create an explosion)
+                            if(weapons[l].GUID == CompoundContactsArray[i].GUID){
+                                console.log("FoO! :)");
+                                return;
+                                //console.log(GUID_ofImpactedObject + " WAS HIT BY A " + CompoundContactsArray[i].type + "!");
+                                //remove this weapon
+                                weapons = weapons.splice(l,1);
+                                break;
+                            }
+                        }
+                    }
                 }else if(CompoundContactsArray[i].type != "contact"){
                     //programs are cool :)
                     //let's factor in the move all speed
@@ -480,6 +461,8 @@ Interstellar.addCoreWidget("Sensors",function(){
             }
         }
         for(i = 0;i < weapons.length;i++){
+            return;
+            differenceDetected = true;
             if(weapons[i].type == "torpedo"){
                 var direction = getStepsFromAngle(weapons[i].direction);
                 weapons[i].xPos += direction.x;
@@ -509,7 +492,6 @@ Interstellar.addCoreWidget("Sensors",function(){
                     //now we divide their animation time by the distance (v=d/t...)
                     contacts[i].xStep = (differenceX / Number(contacts[i].animationSpeed));
                     contacts[i].yStep = (differenceY / Number(contacts[i].animationSpeed));
-                    //console.log("Calculate!");
                 }
                 //add their velocity to their position
                 differenceDetected = true;
@@ -518,6 +500,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             }else{
                 //the contacts are already fairly close to their positions, let's remove their steps
                 //and force them to their exact position
+                console.log("forcing positions");
                 contacts[i].xPos = contacts[i].wantedX;
                 contacts[i].yPos = contacts[i].wantedY;
                 contacts[i].xStep = undefined;
@@ -527,6 +510,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         //if there was no difference detected from the last network update,
         //then there is no need to update the server again!
         if(!differenceDetected){
+            noAnimationCycleInProgress = true;
             return;
         }
         //if there is already a timeout
@@ -534,12 +518,12 @@ Interstellar.addCoreWidget("Sensors",function(){
             //clear it
             clearTimeout(networkRefreshTimeout);
         }
-
         networkRefreshTimeout = setTimeout(function(){
+            Interstellar.setDatabaseValue("sensors.weapons",weapons);
             Interstellar.setDatabaseValue("sensors.programs",programs);
             Interstellar.setDatabaseValue("sensors.contacts",contacts);
         },networkRefreshRate)
-    });
+    }
     //functions
 
     //this function returns true if these values are within the passed variance
@@ -987,13 +971,14 @@ Interstellar.addCoreWidget("Sensors",function(){
        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
     }
 
-    function addNewContact(xPos,yPos,wantedX,wantedY,height,width,animationSpeed,icon){
+    function addNewContact(name,xPos,yPos,wantedX,wantedY,height,width,animationSpeed,icon){
         var newContact = 
         {
             "type" : "contact", //we have several different things that go on the sensors array, so we have to specify
             "GUID" : guidGenerator(),
             "xPos" : xPos,
             "height" : height,
+            "name" : name,
             "width" : width,
             "yPos" : yPos,
             "wantedX" : wantedX,
@@ -1106,7 +1091,6 @@ Interstellar.addCoreWidget("Sensors",function(){
             //set the flag that we are dragging contacts to true
             isDraggingContacts = true;
             //now record the mouse position
-            console.log((event.offsetX / canvas.width()) * 100);
             draggingContactsMouseOffset.x = (event.offsetX / canvas.width()) * 100;
             draggingContactsMouseOffset.y = 100 - ((event.offsetY / canvas.height() * 100));
             //time to record the offsets
@@ -1124,7 +1108,6 @@ Interstellar.addCoreWidget("Sensors",function(){
                             "x" : contactOffsetX,
                             "y" : contactOffsetY
                         });
-                        console.log(draggingContactsMouseOffset.y);
                     }
                 }
             }
@@ -1147,7 +1130,6 @@ Interstellar.addCoreWidget("Sensors",function(){
                         if(CompoundContactsArray[j].GUID == selectedContacts[i]){
                             CompoundContactsArray[j].wantedX = draggingContactsMouseOffset.x + selectedContactOffsets[i].x;
                             CompoundContactsArray[j].wantedY = draggingContactsMouseOffset.y + selectedContactOffsets[i].y;
-                            console.log(CompoundContactsArray[j].wantedY);
                             CompoundContactsArray[j].xStep = undefined;
                             CompoundContactsArray[j].yStep = undefined;
                         }
@@ -1156,7 +1138,14 @@ Interstellar.addCoreWidget("Sensors",function(){
                 selectedContacts = [];
                 $(document).off('mousemove.sensorsDragging');
                 $(document).off('mouseup.sensorsDraggingEnd');
-                Interstellar.setDatabaseValue("sensors.contacts",CompoundContactsArray);
+                var newContactsArray = [],
+                    i;
+                for(i = 0;i < CompoundContactsArray.length;i++){
+                    if(CompoundContactsArray[i].type == "contact"){
+                        newContactsArray.splice(newContactsArray.length,0,CompoundContactsArray[i]);
+                    }
+                }
+                Interstellar.setDatabaseValue("sensors.contacts",newContactsArray);
             });
         }else{
             //we are drag selecting
@@ -1231,12 +1220,12 @@ Interstellar.addCoreWidget("Sensors",function(){
     canvas.contextmenu(function(event){
         var contactX = (event.offsetX / canvas.width()) * 100,
             contactY = (1 - (event.offsetY / canvas.height())) * 100;
-        addNewContact(contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
+        addNewContact("odyssey",contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
     });
     //intervals
     setInterval(function(){
         var newWeapons = [];
-        for(var i = 0;i < 10;i++){
+        for(var i = 0;i < 1;i++){
             var newWeapon = {
                 "type" : "torpedo",
                 "GUID" : guidGenerator(),
@@ -1247,7 +1236,6 @@ Interstellar.addCoreWidget("Sensors",function(){
             }
             newWeapons.splice(newWeapons.length,0,newWeapon);
         }
-        weapons = weapons.concat(newWeapons);
-        Interstellar.setDatabaseValue("sensors.weapons",weapons);
-    },10000);
+        Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapons));
+    },5000);
 });
