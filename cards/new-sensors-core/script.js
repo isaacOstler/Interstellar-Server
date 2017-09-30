@@ -121,7 +121,7 @@ Interstellar.addCoreWidget("Sensors",function(){
 
     //variables
     var alertStatus = 5, //the ships alert status
-        phaserSpeed = .15, //how fast phasers fire
+        phaserSpeed = .45, //how fast phasers fire
         thisWidgetName = "new-sensors-core", //the name of this widget (since for a while, it was called new-sensors-core)
         animationInterval = undefined, //the variable pointing to the animation interval
         networkRefreshTimeout = undefined, //the variable pointing to the network update timeout
@@ -172,17 +172,97 @@ Interstellar.addCoreWidget("Sensors",function(){
             new THREE.TextureLoader().load("/resource?path=public/Nebula/nebula1.png&screen=" + thisWidgetName)
         ],
         weapons = [
-            /*{
+            {
                 "type" : "phaser",
                 "GUID" : guidGenerator(),
                 "direction" : degreesToRadians(360 * Math.random()),
                 "distance" : 0,
                 "phaserLength" : 5,
                 "source" : "friendly"
-            }*/
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            },
+            {
+                "type" : "phaser",
+                "GUID" : guidGenerator(),
+                "direction" : degreesToRadians(360 * Math.random()),
+                "distance" : 0,
+                "phaserLength" : 5,
+                "source" : "friendly"
+            }
         ],
         programs = [
-            {
+            /*{
                 "type" : "planet", //we have several different things that go on the sensors array, so we have to specify
                 "GUID" : guidGenerator(),
                 "icon" : "/resource?path=public/Planets/1Terran1.png&screen=" + thisWidgetName,
@@ -201,7 +281,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                 "rotation" : 2,
                 "rotationSpeed" : .02,
                 "asteroidIcon" : 1
-            }
+            }*/
         ],
         //three.js stuff
         camera, scene, renderer,
@@ -305,8 +385,6 @@ Interstellar.addCoreWidget("Sensors",function(){
         contacts = newData;
         //compile all the arrays into one compoundArray
         CompoundContactsArray = newData.concat(programs,weapons);
-        //forcibly update all values on the array
-        //updateContactsOnArray(CompoundContactsArray);
         //if there is already an animation interval
         if(animationInterval != undefined){
             //clear it
@@ -332,7 +410,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                             CompoundContactsArray[i].xStep = (differenceX / Number(CompoundContactsArray[i].animationSpeed));
                             CompoundContactsArray[i].yStep = (differenceY / Number(CompoundContactsArray[i].animationSpeed));
                         }
-                        
+
                         //the step values are how far they should travel for every refreshRate
                         //so we just have to divide the frameRate by the refresh rate to get a scaler
                         var scaler = frameRate / networkRefreshRate;
@@ -367,9 +445,9 @@ Interstellar.addCoreWidget("Sensors",function(){
                         if(CompoundContactsArray[l].type != "phaser" && CompoundContactsArray[l].type != "torpedo" && CompoundContactsArray[l].type != "nebula"){
                             var polarCords = cartesian2Polar(CompoundContactsArray[l].xPos - (weaponCartCords.x + 50),CompoundContactsArray[l].yPos - (weaponCartCords.y + 50));
                             var hitDistance = 1;
-                            if(CompoundContactsArray[i].type != "torpedo"){
-                                hitDistance = 3;
-                            }
+                            /*if(CompoundContactsArray[i].type != "torpedo"){
+                                hitDistance = 1;
+                            }*/
                             if(!isNaN(polarCords.distance)){
                                 /*
                                 if(CompoundContactsArray[l].name == "odyssey"){
@@ -401,11 +479,10 @@ Interstellar.addCoreWidget("Sensors",function(){
                         for(var l = 0;l < weapons.length;l++){
                             //BOOOM!!! AAHAHAH (remove the contact and create an explosion)
                             if(weapons[l].GUID == CompoundContactsArray[i].GUID){
-                                console.log("FoO! :)");
-                                return;
                                 //console.log(GUID_ofImpactedObject + " WAS HIT BY A " + CompoundContactsArray[i].type + "!");
                                 //remove this weapon
-                                weapons = weapons.splice(l,1);
+                                weapons.splice(l,1);
+                                CompoundContactsArray.splice(i,1);
                                 break;
                             }
                         }
@@ -461,7 +538,6 @@ Interstellar.addCoreWidget("Sensors",function(){
             }
         }
         for(i = 0;i < weapons.length;i++){
-            return;
             differenceDetected = true;
             if(weapons[i].type == "torpedo"){
                 var direction = getStepsFromAngle(weapons[i].direction);
@@ -500,7 +576,6 @@ Interstellar.addCoreWidget("Sensors",function(){
             }else{
                 //the contacts are already fairly close to their positions, let's remove their steps
                 //and force them to their exact position
-                console.log("forcing positions");
                 contacts[i].xPos = contacts[i].wantedX;
                 contacts[i].yPos = contacts[i].wantedY;
                 contacts[i].xStep = undefined;
@@ -702,7 +777,8 @@ Interstellar.addCoreWidget("Sensors",function(){
         ctx.strokeStyle="white";
     }
 
-    function updateContactsOnArray(contacts){
+    function updateContactsOnArray(renderedContacts){
+        console.log(scene.children.length);
         //first we need to remove any contacts that shouldn't be on the array
         var i;
         var j;
@@ -712,45 +788,57 @@ Interstellar.addCoreWidget("Sensors",function(){
         //while we are looping through it, we must make another
         //array to hold the names of children to be removed.
         var childrenToBeRemoved = [];
-        var wasFound = false;
         for(i = 0;i < scene.children.length;i++){
+        var wasFound = false;
             //cycle through each contact
-            for(j = 0;j < contacts.length;j++){
-                //if the object id matches the GUID of a contact, mark found as true
-                if(scene.children[i].name.includes(contacts[j].GUID)){
+            for(j = 0;j < renderedContacts.length;j++){
+                //if the object id matches the GUID of a contact, mark found as true'
+                if(scene.children[i].name.includes(renderedContacts[j].GUID)){
                     wasFound = true;
                 }
             }
             //we didn't find this ID, remove it.
             if(!wasFound){
-                childrenToBeRemoved.splice(childrenToBeRemoved.length,0,scene.children[i].name);
+
+                //note to isaac
+                //last problem I was working on
+                //for some reason, i don't always clear
+                //old contacts from the array??  Not even sure how it's possible
+                //I've been trying to figure it out for 2 hours.  It shouldn't be possible
+                //
+                // ...
+                //
+                // bug in JavaScript????
+
+                childrenToBeRemoved.splice(childrenToBeRemoved.length,0,scene.children[i]);
             }
         }
         //now that we have all the names of the children that need to be
         //removed, we can cycle through them and delete them all
         for(i = 0;i < childrenToBeRemoved.length;i++){
-            scene.remove(scene.getObjectByName(childrenToBeRemoved[i]));
+            console.log("REMOVING " + childrenToBeRemoved[i].name);
+            scene.remove(childrenToBeRemoved[i]);
         }
         //now we need to add all the contacts
-        for(i = 0;i < contacts.length;i++){
+        for(i = 0;i < renderedContacts.length;i++){
             //first, lets see if the contact can be found
-            if(contacts[i].type == "contact"){
-                var contact = scene.getObjectByName(contacts[i].GUID);
-                var contactGhost = scene.getObjectByName(contacts[i].GUID + "_GHOST");
-                var line = scene.getObjectByName(contacts[i].GUID + "_LINE");
+            if(renderedContacts[i].type == "contact"){
+                var contact = scene.getObjectByName(renderedContacts[i].GUID);
+                var contactGhost = scene.getObjectByName(renderedContacts[i].GUID + "_GHOST");
+                var line = scene.getObjectByName(renderedContacts[i].GUID + "_LINE");
                 if(contact == undefined ){
                     //this object hasn't been created!
                     //lets add it now!
                     //first we make the geometry (just a plane)
                     var geometry = new THREE.PlaneGeometry( 100, 100 );
                     //then we load the texture
-                    var texture = new THREE.TextureLoader().load( '/resource?path=public/Contacts/' + contacts[i].icon + '&screen=' + thisWidgetName );
+                    var texture = new THREE.TextureLoader().load( '/resource?path=public/Contacts/' + renderedContacts[i].icon + '&screen=' + thisWidgetName );
                     //now we need to make a material with that texture
                     var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                     //now make the actual mesh
                     var newContact = new THREE.Mesh(geometry, material);
                     //assign the GUID to the name of this new mesh
-                    newContact.name = contacts[i].GUID;
+                    newContact.name = renderedContacts[i].GUID;
                     //add it to the scene
                     scene.add(newContact);
                     //save a reference
@@ -760,7 +848,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     material = new THREE.MeshBasicMaterial( { map: texture,transparent: true,opacity : .5} );
                     var newGhost = new THREE.Mesh(geometry, material);
                     //assign the GUID to the name of this new mesh
-                    newGhost.name = contacts[i].GUID + "_GHOST";
+                    newGhost.name = renderedContacts[i].GUID + "_GHOST";
                     //add it to the scene
                     scene.add(newGhost);
                     //save a reference
@@ -774,24 +862,24 @@ Interstellar.addCoreWidget("Sensors",function(){
                     geometry.vertices.push(contactGhost.position);
 
                     var newLine = new THREE.Line(geometry, material);
-                    newLine.name = contacts[i].GUID + "_LINE";
+                    newLine.name = renderedContacts[i].GUID + "_LINE";
                     scene.add(newLine);
 
                     line = newLine;
                 } 
                 //now let's update it's values
                 //set it's position to the proper xPos;
-                contactGhost.position.x = contacts[i].xPos;
-                contact.position.x = contacts[i].wantedX;
+                contactGhost.position.x = renderedContacts[i].xPos;
+                contact.position.x = renderedContacts[i].wantedX;
                 //set it's position to the proper yPos;
-                contactGhost.position.y = contacts[i].yPos;
-                contact.position.y = contacts[i].wantedY;
+                contactGhost.position.y = renderedContacts[i].yPos;
+                contact.position.y = renderedContacts[i].wantedY;
                 //set it's proper width
-                contact.scale.x = contacts[i].width / 100; //we divide by 100, because we need to decimate the size
-                contactGhost.scale.x = contacts[i].width / 100; //we divide by 100, because we need to decimate the size
+                contact.scale.x = renderedContacts[i].width / 100; //we divide by 100, because we need to decimate the size
+                contactGhost.scale.x = renderedContacts[i].width / 100; //we divide by 100, because we need to decimate the size
                 //set it's proper height
-                contact.scale.y = contacts[i].height / 100; //we divide by 100, because we need to decimate the size
-                contactGhost.scale.y = contacts[i].height / 100; //we divide by 100, because we need to decimate the size
+                contact.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
+                contactGhost.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
 
                 //draw the line between the two
 
@@ -799,80 +887,80 @@ Interstellar.addCoreWidget("Sensors",function(){
                 line.geometry.vertices.push(contact.position);
                 line.geometry.vertices.push(contactGhost.position);
                 line.geometry.verticesNeedUpdate = true;
-            }else if(contacts[i].type == "planet"){
-                var contact = scene.getObjectByName(contacts[i].GUID);
+            }else if(renderedContacts[i].type == "planet"){
+                var contact = scene.getObjectByName(renderedContacts[i].GUID);
                 if(contact == undefined ){
                     //this object hasn't been created!
                     //lets add it now!
                     //first we make the geometry (just a plane)
                     var geometry = new THREE.PlaneGeometry( 100, 100 );
                     //then we load the texture
-                    var texture = new THREE.TextureLoader().load(contacts[i].icon);
+                    var texture = new THREE.TextureLoader().load(renderedContacts[i].icon);
                     //now we need to make a material with that texture
                     var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                     //now make the actual mesh
                     var newContact = new THREE.Mesh(geometry, material);
                     //assign the GUID to the name of this new mesh
-                    newContact.name = contacts[i].GUID;
+                    newContact.name = renderedContacts[i].GUID;
                     //add it to the scene
                     scene.add(newContact);
                     //save a reference
                     contact = newContact;
                 }
-                contact.scale.x = contacts[i].size;
-                contact.scale.y = contacts[i].size;
-                contact.position.x = contacts[i].xPos;
-                contact.position.y = contacts[i].yPos;
-                contact.rotation.z = contacts[i].rotation;
-            }else if(contacts[i].type == "asteroid"){
-                var contact = scene.getObjectByName(contacts[i].GUID);
+                contact.scale.x = renderedContacts[i].size;
+                contact.scale.y = renderedContacts[i].size;
+                contact.position.x = renderedContacts[i].xPos;
+                contact.position.y = renderedContacts[i].yPos;
+                contact.rotation.z = renderedContacts[i].rotation;
+            }else if(renderedContacts[i].type == "asteroid"){
+                var contact = scene.getObjectByName(renderedContacts[i].GUID);
                 if(contact == undefined ){
                     //this object hasn't been created!
                     //lets add it now!
                     //first we make the geometry (just a plane)
                     var geometry = new THREE.PlaneGeometry( 100, 100 );
                     //now we need to make a material with that texture
-                    var material = getMaterialForAsteroid(contacts[i].asteroidIcon);
+                    var material = getMaterialForAsteroid(renderedContacts[i].asteroidIcon);
                     //now make the actual mesh
                     var newContact = new THREE.Mesh(geometry, material);
                     //assign the GUID to the name of this new mesh
-                    newContact.name = contacts[i].GUID;
+                    newContact.name = renderedContacts[i].GUID;
                     //add it to the scene
                     scene.add(newContact);
                     //save a reference
                     contact = newContact;
                 }
-                contact.scale.x = contacts[i].size;
-                contact.scale.y = contacts[i].size;""
-                contact.position.x = contacts[i].xPos;
-                contact.position.y = contacts[i].yPos;
-                contact.rotation.z = contacts[i].rotation;
-            }else if(contacts[i].type == "nebula"){
-                var contact = scene.getObjectByName(contacts[i].GUID);
+                contact.scale.x = renderedContacts[i].size;
+                contact.scale.y = renderedContacts[i].size;""
+                contact.position.x = renderedContacts[i].xPos;
+                contact.position.y = renderedContacts[i].yPos;
+                contact.rotation.z = renderedContacts[i].rotation;
+            }else if(renderedContacts[i].type == "nebula"){
+                var contact = scene.getObjectByName(renderedContacts[i].GUID);
                 if(contact == undefined ){
                     //this object hasn't been created!
                     //lets add it now!
                     //first we make the geometry (just a plane)
                     var geometry = new THREE.PlaneGeometry( 100, 100 );
                     //now we need to make a material with that texture
-                    var material = new THREE.MeshBasicMaterial( { map: getMaterialForNebula(contacts[i].nebulaIcon),transparent: true } );
-                    material.color.set(0xffffff * contacts[i].color);
+                    var material = new THREE.MeshBasicMaterial( { map: getMaterialForNebula(renderedContacts[i].nebulaIcon),transparent: true } );
+                    material.color.set(0xffffff * renderedContacts[i].color);
                     //now make the actual mesh
                     var newContact = new THREE.Mesh(geometry, material);
                     //assign the GUID to the name of this new mesh
-                    newContact.name = contacts[i].GUID;
+                    newContact.name = renderedContacts[i].GUID;
                     //add it to the scene
                     scene.add(newContact);
                     //save a reference
                     contact = newContact;
                 }
-                contact.scale.x = contacts[i].size;
-                contact.scale.y = contacts[i].size;
-                contact.position.x = contacts[i].xPos;
-                contact.position.y = contacts[i].yPos;
-                contact.rotation.z = contacts[i].rotation;
-            }else if(contacts[i].type == "torpedo"){
-                var contact = scene.getObjectByName(contacts[i].GUID);
+                contact.scale.x = renderedContacts[i].size;
+                contact.scale.y = renderedContacts[i].size;
+                contact.position.x = renderedContacts[i].xPos;
+                contact.position.y = renderedContacts[i].yPos;
+                contact.rotation.z = renderedContacts[i].rotation;
+            }else if(renderedContacts[i].type == "torpedo"){
+                var contact = scene.getObjectByName(renderedContacts[i].GUID);
                 if(contact == undefined ){
                     //this object hasn't been created!
                     //lets add it now!
@@ -883,7 +971,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     //now make the actual mesh
                     var newContact = new THREE.Mesh(geometry, material);
                     //assign the GUID to the name of this new mesh
-                    newContact.name = contacts[i].GUID;
+                    newContact.name = renderedContacts[i].GUID;
                     //add it to the scene
                     scene.add(newContact);
                     //save a reference
@@ -891,10 +979,10 @@ Interstellar.addCoreWidget("Sensors",function(){
                 }
                 contact.scale.x = .03;
                 contact.scale.y = .03;
-                contact.position.x = contacts[i].xPos;
-                contact.position.y = contacts[i].yPos;
-            }else if(contacts[i].type == "phaser"){
-                var contact = scene.getObjectByName(contacts[i].GUID);
+                contact.position.x = renderedContacts[i].xPos;
+                contact.position.y = renderedContacts[i].yPos;
+            }else if(renderedContacts[i].type == "phaser"){
+                var contact = scene.getObjectByName(renderedContacts[i].GUID);
                 if(contact == undefined){
                     //this object hasn't been created!
                     //lets add it now!
@@ -906,11 +994,11 @@ Interstellar.addCoreWidget("Sensors",function(){
                     geometry.vertices.push(new THREE.Vector3(50,50,0));
 
                     var newLine = new THREE.Line(geometry, material);
-                    newLine.name = contacts[i].GUID;
+                    newLine.name = renderedContacts[i].GUID;
                     scene.add(newLine);
 
                     //assign the GUID to the name of this new mesh
-                    newContact.name = contacts[i].GUID;
+                    newContact.name = renderedContacts[i].GUID;
                     //add it to the scene
                     scene.add(newContact);
                     //save a reference
@@ -918,14 +1006,14 @@ Interstellar.addCoreWidget("Sensors",function(){
                 }
                 contact.geometry.dynamic = true;
                 //first set the end point
-                var newPhaserPosition = polarToCartesian({"radians" : contacts[i].direction, "distance" : contacts[i].distance});
+                var newPhaserPosition = polarToCartesian({"radians" : renderedContacts[i].direction, "distance" : renderedContacts[i].distance});
                 contact.geometry.vertices[1].set(newPhaserPosition.x + 50,newPhaserPosition.y + 50,0);
                 //now the start
-                if(contacts[i].phaserLength == undefined){
+                if(renderedContacts[i].phaserLength == undefined){
                     //still firing, which means it needs to originate from the ship
                     contact.geometry.vertices[0].set(50,50,0);
                 }else{
-                    var newPhaserEndPosition = polarToCartesian({"radians" : contacts[i].direction, "distance" : contacts[i].distance - contacts[i].phaserLength});
+                    var newPhaserEndPosition = polarToCartesian({"radians" : renderedContacts[i].direction, "distance" : renderedContacts[i].distance - renderedContacts[i].phaserLength});
                     contact.geometry.vertices[0].set(newPhaserEndPosition.x + 50,newPhaserEndPosition.y + 50,0);
                 }
                 contact.geometry.verticesNeedUpdate = true;
@@ -941,7 +1029,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
     }
     //name: cartesian2Polar
-    //purpse: converts Cartesian cords to polar cords, assuming origin is x:0 y:0 (top left)
+    //purpose: converts Cartesian cords to polar cords, assuming origin is x:0 y:0 (top left)
     //takes: x cord, y cord
     //returns: object, containing distance and radians
 
@@ -1222,13 +1310,13 @@ Interstellar.addCoreWidget("Sensors",function(){
             contactY = (1 - (event.offsetY / canvas.height())) * 100;
         addNewContact("odyssey",contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
     });
-    //intervals
+    //interval
     setInterval(function(){
         var newWeapons = [];
         for(var i = 0;i < 1;i++){
             var newWeapon = {
                 "type" : "torpedo",
-                "GUID" : guidGenerator(),
+                "GUID" : "torpedo_" + guidGenerator(),
                 "direction" : radiansToDegrees(360 * Math.random()),
                 "xPos" : 50,
                 "yPos" : 50,
