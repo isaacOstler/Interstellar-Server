@@ -150,7 +150,64 @@ Interstellar.addCoreWidget("Sensors",function(){
             "y" : 0
         },
         CompoundContactsArray = [],
-        explsionMaterials = [],
+        explosionTextures = [
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy2.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy2.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy2.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy2.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy3.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy3.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy3.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy3.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy4.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy4.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy4.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy5.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy5.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy5.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy5.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy6.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy6.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy6.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy7.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy7.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy7.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy8.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy8.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy8.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy9.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy9.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy9.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy10.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy10.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy10.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy11.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy11.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy11.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy12.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy12.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy12.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy13.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy13.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy13.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy14.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy14.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy14.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy14.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy15.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy15.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy15.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy15.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy16.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy16.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy16.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy17.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy17.png&screen=" + thisWidgetName),
+            new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy17.png&screen=" + thisWidgetName)
+        ],
         materialCount = [],
         effects = [],
         torpedoTextures = [
@@ -347,6 +404,19 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
         noAnimationCycleInProgress = false;
     });
+    Interstellar.onDatabaseValueChange("sensors.effects",function(newData){
+        //if this value hasn't been set
+        if(newData == null){
+            //set it
+            Interstellar.setDatabaseValue("sensors.effects",effects);
+            return;
+        }
+        effects = newData;
+        if(noAnimationCycleInProgress){
+            animationCycle(contacts);
+        }
+        noAnimationCycleInProgress = false;
+    });
     Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
         //this entire function is plotted out in a diagram at the top of the document.
 
@@ -384,7 +454,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     function animationCycle(newData){
         contacts = newData;
         //compile all the arrays into one compoundArray
-        CompoundContactsArray = newData.concat(programs,weapons);
+        CompoundContactsArray = newData.concat(programs,weapons,effects);
         //if there is already an animation interval
         if(animationInterval != undefined){
             //clear it
@@ -442,7 +512,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                         weaponCartCords.y = CompoundContactsArray[i].yPos - 50;
                     }
                     for(var l = 0;l < CompoundContactsArray.length;l++){
-                        if(CompoundContactsArray[l].type != "phaser" && CompoundContactsArray[l].type != "torpedo" && CompoundContactsArray[l].type != "nebula"){
+                        if(CompoundContactsArray[l].type != "phaser" && CompoundContactsArray[l].type != "torpedo" && CompoundContactsArray[l].type != "nebula" && CompoundContactsArray[l].type != "explosion"){
                             var polarCords = cartesian2Polar(CompoundContactsArray[l].xPos - (weaponCartCords.x + 50),CompoundContactsArray[l].yPos - (weaponCartCords.y + 50));
                             var hitDistance = 1;
                             /*if(CompoundContactsArray[i].type != "torpedo"){
@@ -476,10 +546,19 @@ Interstellar.addCoreWidget("Sensors",function(){
                             CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
                         }
                     }else{
+                        var impactedObject_index = -1;
+                        for(var l = 0;l < CompoundContactsArray.length;l++){
+                            if(CompoundContactsArray[l].GUID == GUID_ofImpactedObject){
+                                impactedObject_index = l;
+                            }
+                        }
                         for(var l = 0;l < weapons.length;l++){
                             //BOOOM!!! AAHAHAH (remove the contact and create an explosion)
                             if(weapons[l].GUID == CompoundContactsArray[i].GUID){
                                 //console.log(GUID_ofImpactedObject + " WAS HIT BY A " + CompoundContactsArray[i].type + "!");
+                                createExplosionAtPoint(CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,Math.random() * .04 + .01);
+                                //addSpecialContact("debris","DEBRIS",CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,Math.random() * .04 + .01,"Debris.png");
+                                //addNewContact("DEBRIS",CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,Math.random() * .04 + .01,Math.random() * .04 + .01,0,"Debris.png");
                                 //remove this weapon
                                 weapons.splice(l,1);
                                 CompoundContactsArray.splice(i,1);
@@ -487,6 +566,13 @@ Interstellar.addCoreWidget("Sensors",function(){
                             }
                         }
                     }
+                }else if(CompoundContactsArray[i].type == "explosion"){
+
+                    //let's factor in the move all speed
+                    var scaler = frameRate / networkRefreshRate;
+                    CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
+                    //same for the y
+                    CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
                 }else if(CompoundContactsArray[i].type != "contact"){
                     //programs are cool :)
                     //let's factor in the move all speed
@@ -532,6 +618,10 @@ Interstellar.addCoreWidget("Sensors",function(){
             }else if(programs[i].type == "nebula"){
                 //add the rotation
                 programs[i].rotation += programs[i].rotationSpeed;
+                //add the move-all speed to the position
+                programs[i].xPos += moveAllSpeeds.x;
+                programs[i].yPos += moveAllSpeeds.y;
+            }else{
                 //add the move-all speed to the position
                 programs[i].xPos += moveAllSpeeds.x;
                 programs[i].yPos += moveAllSpeeds.y;
@@ -627,6 +717,8 @@ Interstellar.addCoreWidget("Sensors",function(){
         //add the DOM.
         canvasContainer.append(renderer.domElement);
         //now we need to preload materials that we load a lot, to save time
+
+        /*
         Interstellar.getFileNamesInFolder("/public/Explosion",thisWidgetName,function(files){
             var i;
             for(i = 0;i < files.length;i++){
@@ -636,7 +728,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                 var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                 explsionMaterials.splice(explsionMaterials.length,0,material);
             }
-        });
+        });*/
         //boom.  Done.  Init-ed
     }
 
@@ -778,7 +870,6 @@ Interstellar.addCoreWidget("Sensors",function(){
     }
 
     function updateContactsOnArray(renderedContacts){
-        console.log(scene.children.length);
         //first we need to remove any contacts that shouldn't be on the array
         var i;
         var j;
@@ -998,11 +1089,11 @@ Interstellar.addCoreWidget("Sensors",function(){
                     scene.add(newLine);
 
                     //assign the GUID to the name of this new mesh
-                    newContact.name = renderedContacts[i].GUID;
+                    newLine.name = renderedContacts[i].GUID;
                     //add it to the scene
-                    scene.add(newContact);
+                    scene.add(newLine);
                     //save a reference
-                    contact = newContact;
+                    contact = newLine;
                 }
                 contact.geometry.dynamic = true;
                 //first set the end point
@@ -1017,15 +1108,48 @@ Interstellar.addCoreWidget("Sensors",function(){
                     contact.geometry.vertices[0].set(newPhaserEndPosition.x + 50,newPhaserEndPosition.y + 50,0);
                 }
                 contact.geometry.verticesNeedUpdate = true;
-            }
-        }
-        for(i = 0;i < effects.length;i++){
+            }else if(renderedContacts[i].type == "explosion"){
+                var contact = scene.getObjectByName(renderedContacts[i].GUID);
+                if(contact == undefined ){
+                    //this object hasn't been created!
+                    //lets add it now!
+                    //first we make the geometry (just a plane)
+                    var geometry = new THREE.PlaneGeometry( 100, 100 );
+                    //now we need to make a material with that texture
+                    var material = new THREE.MeshBasicMaterial( { map: explosionTextures[0],transparent: true } );
+                    //now make the actual mesh
+                    var newContact = new THREE.Mesh(geometry, material);
+                    //assign the GUID to the name of this new mesh
+                    newContact.name = renderedContacts[i].GUID;
+                    //add it to the scene
+                    scene.add(newContact);
+                    //save a reference
+                    contact = newContact;
+                }
+                contact.scale.x = renderedContacts[i].size;
+                contact.scale.y = renderedContacts[i].size;
+                contact.position.x = renderedContacts[i].xPos;
+                contact.position.y = renderedContacts[i].yPos;
 
-            materialCount += .4;
-            if(materialCount > explsionMaterials.length - 1){
-                materialCount = 0;
+                var j,
+                    textureUpdated = false;
+                for(j = 0;j < explosionTextures.length;j++){
+                    if(!textureUpdated){
+                        if(contact.material.map == explosionTextures[j]){
+                            if(j == explosionTextures.length){
+                                //remove
+                            }else{
+                                textureUpdated = true;
+                                console.log("explosion_" + j);
+                                if(j + 1 < explosionTextures.length){
+                                    contact.material.map = explosionTextures[j + 1];
+                                    contact.material.needsUpdate = true;
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            contact.material = explsionMaterials[Math.floor(materialCount)];
         }
     }
     //name: cartesian2Polar
@@ -1057,6 +1181,25 @@ Interstellar.addCoreWidget("Sensors",function(){
            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
        };
        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    }
+
+    function addSpecialContact(type,name,xPos,yPos,size,icon){
+        var newContact = 
+        {
+            "type" : type, //we have several different things that go on the sensors array, so we have to specify
+            "GUID" : guidGenerator(),
+            "xPos" : xPos,
+            "size" : size,
+            "name" : name,
+            "yPos" : yPos,
+            "icon" : icon,
+            "attributes" :
+            {
+                "isActive" : true
+            }
+        }
+        programs.splice(programs.length,0,newContact);
+        Interstellar.setDatabaseValue("sensors.programs",programs);
     }
 
     function addNewContact(name,xPos,yPos,wantedX,wantedY,height,width,animationSpeed,icon){
@@ -1138,6 +1281,19 @@ Interstellar.addCoreWidget("Sensors",function(){
 
     function radiansToDegrees(radians){
         return radians * (180 / Math.PI);
+    }
+
+    function createExplosionAtPoint(xCord,yCord,size){
+        var newExplosion = 
+        {
+            "type" : "explosion",
+            "GUID" : guidGenerator(),
+            "xPos" : xCord,
+            "yPos" : yCord,
+            "size" : size
+        }
+        effects.splice(effects.length,0,newExplosion);
+        Interstellar.setDatabaseValue("sensors.effects",effects);
     }
 
     // Schedule the first frame.
