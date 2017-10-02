@@ -3,7 +3,7 @@
 		{
 			"stationInfo" : {
 				"name" : "SENSORS",
-				"cards" : ["Login","Internal-Sensors","Transporters","Alert-Status","Coolant-Control","Long-Range-Comm","Sensors"]
+				"cards" : ["Sensors"]
 			},
 			"stationType" : "station"
 		},
@@ -17,7 +17,7 @@
 		{
 			"stationInfo": {
 				"name" : "Sensors-core",
-				"cards" : ["card-controller-core","new-sensors-core"]
+				"cards" : ["card-controller-core","sensors-core"]
 			},
 			"stationType" : "core"
 		},

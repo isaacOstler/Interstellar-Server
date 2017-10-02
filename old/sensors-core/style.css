@@ -1,0 +1,845 @@
+@keyframes sensors-core-pulseButton {
+    0%   {filter: brightness(1);box-shadow:"0 0 20px red";}
+    50%  {filter: brightness(2);}
+    100% {filter: brightness(1);box-shadow:"0 0 20px red";}
+}
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+.Sensors_Core_colorType0{
+
+}
+.Sensors_Core_colorType1{
+	filter: sepia(1);
+}
+.Sensors_Core_colorType2{
+	filter: grayscale(1) brightness(1.5);
+}
+.Sensors_Core_colorType3{
+	filter: invert(1) brightness(1.5);
+}
+.Sensors_Core_colorType4{
+	filter: grayscale(1) invert(1) brightness(1.5);
+}
+.Sensors-Core-settingAdjustValue{
+	float: right;
+	background-color: #232323;
+	color:white;
+}
+.Sensors-Core-settingAdjustValueNoFloat{
+	background-color: #232323;
+	color:white;
+}
+#Sensor-Core-functionalitySettings-column1{
+    position: absolute;
+    top: 35%;
+    left: 1%;
+    width: 48%;
+    height: 65%;
+}
+#Sensor-Core-functionalitySettings-column2{
+	position: absolute;
+	top:35%;
+	right: 1%;
+	width: 48%;
+	height: 65%;
+}
+#Sensors-Core-functionalitySettings-AdvancedUpdateDropDown{
+	display: none;
+	bottom: 0px;
+	right: 1px;
+	width: 100%;
+	height: 20px;
+}
+#Sensor-Core-functionalitySettings{
+    line-height: 20px;
+    position: absolute;
+    top: 45%;
+    right: 1%;
+    border-radius: 5px;
+    border: 1px solid white;
+    height: 29.5%;
+    width: 57.5%;
+    padding: 14px;
+    font-size: 12px;
+}
+#Sensor-Core-graphicalSettings{
+	line-height: 20px;
+    position: absolute;
+    top: 45%;
+    left: 1%;
+    border-radius: 5px;
+    border: 1px solid white;
+    height: 41.5%;
+    width: 30%;
+    padding: 14px;
+    font-size: 12px;
+}
+#Sensor-Core-defaultContactSettings{
+	line-height: 20px; /* 4px +12px + 4px */
+	position: absolute;
+	top:6%;
+	right: 1%;
+	border-radius: 5px;
+	border: 1px solid white;
+	height: 30%;
+	width: 37.3%;
+	padding: 14px;
+	font-size: 12px;
+}
+#Sensor-Core-processedDataSettings{
+	line-height: 20px; /* 4px +12px + 4px */
+	position: absolute;
+	top:6%;
+	left: 1%;
+	border-radius: 5px;
+	border: 1px solid white;
+	height: 30%;
+	width: 50%;
+	padding: 14px;
+	font-size: 12px;
+}
+#Sensors-Core-Duck{
+	z-index: 4;
+	position: absolute;
+	background-image: url("/resource?path=public/dependencies/3jsLibrarys/Important Things/Vital Assets/duck.png&screen=sensors-core");
+	height: 33%;
+    width: 15%;
+    right: 0%;
+    bottom: 2%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+#Sensor-core-editPresetsButton{
+	position: absolute;
+	right: 1px;
+	width: 5%;
+	height: 90%;
+	top:5%;
+}
+#sensors-core-senorsContactsListPresetContainer{
+	position: absolute;
+	bottom: 1px;
+	left: 1%;
+	width: 98%;
+	height: 22px;
+	border-top: 1px solid white;
+}
+#sensors-core-ContactEditor-SizeLabel{
+	position: absolute;
+	top:20%;
+	left: 1px;
+	width: 19%;
+	height: 20%;
+}
+#sensors-core-ContactEditor-SizeRangeMouseCatcher{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 20;
+}
+#sensors-core-ContactEditor-SizeRangeLabel{
+	position: absolute;
+	top:20%;
+	left: 1px;
+	width: 100%;
+	color:white;
+	z-index: 3;
+	font-size:13px;
+}
+#sensors-core-ContactEditor-EditIcon{
+	position: absolute;
+	top:40%;
+	left:50%;
+}
+#sensors-core-ContactEditor-EditImage{
+	position: absolute;
+	top:40%;
+	left:1px;
+}
+#sensors-core-ContactEditor-SizeRange{
+	position: absolute;
+    top: 16.5%;
+    left: 21%;
+    width: 79%;
+    height: 17%;
+}
+.Sensors-Core-SpeedSelectionDropdownSpacer{
+	height: 5px;
+	width: 100%;
+	background-color: rgba(25,25,25,.8);
+}
+#sensors-core-ContactEditor-NameLabel{
+	position: absolute;
+	top:1px;
+	left: 1px;
+	width: 20%;
+	height: 20%;
+}
+#sensors-core-ContactEditor-NameTextbox{
+	position: absolute;
+	top:1px;
+	width: 70.5%;
+	text-transform: uppercase;
+	left:21%;
+	height: 15%;
+}
+#Sensor-core-editSettingsButton{
+	position: absolute;
+	top: 1%;
+	height: 13%;
+	width: 6%;
+	right: 1%;
+}
+#Sensors-Core-SpeedSelectionDropdown{
+	display: none;
+	z-index: 50;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100px;
+	border: 1px solid white;
+}
+.Sensors-Core-SpeedSelectionDropdownItem{
+	cursor: pointer;
+	width: 100%;
+	height: 14px;
+	font-size:12px;
+	background-color: rgba(25,25,25,.8);
+}
+.Sensors-Core-SpeedSelectionDropdownItem:hover{
+	filter: brightness(1.55);
+}
+.Sensors-Core-SpeedSelectionDropdownItem:active{
+	background-color: rgba(255,0,0,.8);
+	filter: brightness(.65);
+}
+.Sensors-Core-SensorsArrayControlButtons{
+	color:black;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	text-align: center;
+	width: 100%;
+	height: 33%;
+	border: solid 1px black;
+}
+#Sensors-Core-SensorsArrayOtherControls{
+	position: absolute;
+	bottom: 17%;
+	left: 3px;
+	width: 100%;
+	height: 17%;
+}
+#Sensors-Core-SensorsArraySpeedControl{
+	position: absolute;
+	bottom: 0px;
+	left: 3px;
+	width: 100%;
+	height: 17%;
+}
+#Sensors-Core-SensorsArrayGeneralSettings{
+	position: absolute;
+    right: 0px;
+    bottom: 7.11%;
+    width: 24.9%;
+    height: 23.5%;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+.Sensors-Core-SensorsArrayEffectProgramTabButton{
+	position: absolute;
+	bottom: 0px;
+	width: 12.3%;
+	right: 0px;
+	height: 6.75%;
+	border: solid 1px black;
+	color:black;
+}
+#Sensors-Core-SensorsArrayControlButtons{
+    position: absolute;
+   	top:0px;
+    right: .5%;
+    height: 64%;
+    width: 65%;
+}
+#Sensors-Core-PlanetEditionSizeTextbox{
+	position: absolute;
+	right: 1%;
+	width: 5%;
+	top:3%;
+}
+.Sensors-Core-ListContact{
+	position: absolute;
+	top:0px;
+	left: -20px;
+	width: 15px;
+	height: 15px;
+	background-size: contain;
+	background-position: center;
+	background-image: url("/resource?path=public/Contacts/Generic.png&screen=sensors-core");
+}
+#Sensors-Core-PlanetEditionSizeLabel{
+	position: absolute;
+	top:3%;
+	left: 1%;
+}
+.sensors-coreArrowKey{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	font-size: 30px;
+}
+#Sensor-Core-processedDataSettings-defaultbutton{
+	position: absolute;
+    bottom: 6%;
+    right: 43%;
+    border-radius: 3px;
+    border: 1px solid white;
+    color: black;
+    width: 20%;
+    font-size: 17px;
+    height: 10%;
+}
+#Sensor-Core-processedDataSettings-cancelbutton{
+	position: absolute;
+    bottom: 6%;
+    right: 22%;
+    border-radius: 3px;
+    border: 1px solid white;
+    color: black;
+    width: 20%;
+    font-size: 17px;
+    height: 10%;
+}
+#Sensor-Core-processedDataSettings-savebutton{
+	position: absolute;
+    bottom: 6%;
+    right: 1%;
+    border-radius: 3px;
+    border: 1px solid white;
+    color: black;
+    width: 20%;
+    font-size: 17px;
+    height: 10%;
+}
+#Sensors-Core-PlanetEditorCreatePlanetButton{
+	position: absolute;
+    bottom: 20%;
+    right: 1%;
+    border-radius: 3px;
+    border: 1px solid white;
+    color: black;
+    width: 48%;
+    background-color: #5edcf2;
+    font-size: 17px;
+    height: 26%;
+}
+#Sensors-Core-PlanetEditorNameLabel{
+	position: absolute;
+	top: 20%;
+	left: 1%;
+}
+#Sensors-Core-PlanetEditionNameTextbox{
+	text-transform: uppercase;
+    color: black;
+    position: absolute;
+    top: 20%;
+    left: 10.5%;
+    width: 88.2%;
+    height: 12%;
+    font-size: 16px;
+    text-align: left;
+}
+#Sensors-Core-PlanetEditorCancelButton{
+	position: absolute;
+    bottom: 20%;
+    left: 1%;
+    border-radius: 3px;
+    border: 1px solid white;
+    color: black;
+    width: 48%;
+    background-color: #d60000;
+    font-size: 17px;
+    height: 26%;
+}
+#Sensor-Core-PlanetEditorWindowPresets{
+	position: absolute;
+	bottom: 25%;
+	left: 0%;
+	height: 5%;
+	width: 100%;
+}
+.sensors_core_planetaryPresetButton{
+	width: 15%;
+}
+#Sensors-Core-PlanetEditorOptions{
+	position: absolute;
+	bottom:0%;
+	width: 100%;
+	height: 25%;
+	border-top: 1px solid white;
+	background-color: rgba(132, 132, 132,.4);
+}
+#Sensors-Core-PlanetEditionSizeRange{
+	position: absolute;
+	top:3%;
+	left: 10%;
+	width: 82%;
+}
+#Sensors-Core-PlanetEditionRotationRange{
+	position: absolute;
+	bottom:50%;
+	left: 10%;
+	width: 82%;
+}
+#Sensors-Core-PlanetEditionRotationLabel{
+	position: absolute;
+	bottom:50%;
+	left: 1%;
+}
+#Sensors-Core-PlanetEditionRotationTextbox{
+	position: absolute;
+    bottom: 50%;
+    right: 1%;
+    width: 5%;
+}
+#Sensor-Core-PlanetEditorWindowIcons{
+	position: absolute;
+	top:40px;
+	left: 0px;
+	width: 100%;
+}
+#sensors-core_arrowKeys{
+	position: absolute;
+	top: 1%;
+	left: 1%;
+}
+#sensors_core_arrowKey-upLeft{
+    z-index: 2;
+    color: grey;
+    top: -18px;
+    left: 4px;
+    font-size: 45px;
+}
+.sensors-core-programName{
+	position: absolute;
+	bottom: 2px;
+	font-size:10px;
+	width: 100%;
+	left: 0px;
+	text-align: center;
+}
+.sensors-core-programImage{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.sensors-coreProgramButton{
+	position: absolute;
+	border: 1px solid white;
+	border-radius: 5px;
+	top:2%;
+	left: 0px;
+	height: 45%;
+	width: 30%;
+}
+#Sensors-Core-ProgramsTab{
+	display: none;
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.8);
+	z-index: 6;
+}
+#sensors_core_arrowKey-up{
+	-webkit-transform:rotate(90deg);
+    top: 45px;
+    left: 27px;
+}
+#sensors_core_arrowKey-upRight{
+    color: grey;
+    top: -18px;
+    left: 51px;
+    font-size: 45px;
+}
+#sensors_core_arrowKey-left{
+	-webkit-transform:rotate(180deg);
+    top: 18px;
+    left: 2px;
+    z-index: 2;
+}
+#sensors_core_arrowKey-stop{
+    top: 18.5px;
+    left: 25px;
+    width: 30px;
+    height: 30px;
+}
+#sensors_core_arrowKey-right{
+	top: 20px;
+    z-index: 2;
+    left: 54px;
+}
+#sensors_core_arrowKey-downLeft{
+	    color: grey;
+    top: 28px;
+    left: 4px;
+    font-size: 45px;
+}
+#sensors_core_arrowKey-down{
+	-webkit-transform:rotate(270deg);
+	top: -7px;
+    left: 29px;
+}
+#sensors_core_arrowKey-downRight{
+    color: grey;
+    top: 28px;
+    left: 51px;
+    font-size: 45px;
+}
+#Sensor-Core-ImageEditorWindowIcons{
+	overflow: auto;
+	position: absolute;
+	top:10%;
+	height: 80%;
+	width: 100%;
+	left: 0px;
+}
+.Sensor-Core-IconEditorIcons:hover{
+    box-shadow: 0 0 10px #9ecaed;
+	filter: brightness(1.45);
+}
+.Sensor-Core-IconEditorIcons:active{
+	filter: brightness(.65) grayscale(1);
+}
+.Sensor-Core-IconEditorIcons{
+	position: absolute;
+	cursor: pointer;
+	border: solid 1px rgba(255,255,255,.3);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	top:0px;
+	left:0px;
+	width: 20px;
+	height: 20px;
+	background-image: url("/resource?path=public/Contacts/Generic.png&screen=sensors-core");
+}
+#sensors-coreMoveAllDirectionsDirectionAmountSlider{
+	position: absolute;
+    bottom: 68%;
+    transform: rotate(90deg);
+    width: 108%;
+    right: -62%;
+}
+#sensors-coreMoveAllDirectionsDirectionAmountLabel{
+	position: absolute;
+    bottom: 68%;
+    transform: rotate(-90deg);
+    width: 108%;
+    right: -73%;
+    text-align: center;
+}
+#sensors-coreYawAmountSlider{
+	position: absolute;
+    bottom: 7%;
+    width: 116%;
+    left: -15%;
+}
+#sensors-coreYawAmountLabel{
+	position: absolute;
+    bottom: -3%;
+    width: 116%;
+    left: -15%;
+    text-align: center;
+}
+#sensors-coreMoveAllDirectionControls{
+	position: absolute;
+    top: 35%;
+    right: 4.5%;
+    width: 27%;
+    height: 33%;
+}
+#sensors-coreMoveAllDirectionCanvasContainer{
+	position: absolute;
+	border-radius: 50%;
+	border: 1px solid white;
+	cursor: pointer;
+	bottom: 25%;
+	right: 5%;
+	height: 100%;
+	width:15%;
+}
+#sensors-coreMoveAllDirectionCanvas{
+	z-index: 3;
+}
+#coreMoveAllDirectionDegreesLabel{
+	text-align: center;
+	z-index: 1;
+	position: absolute;
+	top:15%;
+	height: 25%;
+	width: 50%;
+	left: 25%;
+	color:red;
+}
+#sensors-core-senorsContactsList{
+	position: absolute;
+	top:0px;
+	left:200px;
+	height: 100%;
+	width: 25%;
+	background-color: #212121;
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.sensors-core-senorsProgramListItem:hover{
+	filter: brightness(1.25);
+}
+.sensors-core-senorsProgramListItem:hover{
+	filter: brightness(0.65);
+}
+.sensors-core-senorsProgramListItem{
+	height: 22px;
+	cursor: pointer;
+	border-bottom: 1px solid white;
+	font-size:18px;
+}
+#sensors-core-ContactEditor-SizeRange{
+	width: 80%;
+}
+#sensors-core-sesnorsProgramsListItemsContainer{
+	position: absolute;
+	bottom: 7%;
+	height: 20%;
+	left: 0px;
+	width: 100%;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	background-color: rgba(107, 163, 255,.4);
+}
+#sensors-core-senorsContactsListItemsContainer{
+	height: 73%;
+	width: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+#sensors-core-ContactEditor{
+	background-color: #212121;
+	position: absolute;
+	top:0px;
+	width: 20%;
+	right: 20%;
+	height: 25%;
+	border-bottom: solid 1px white;
+}
+#sensors-core-senorsContactsListTools{
+	color: black;
+	position: absolute;
+	bottom:0px;
+	width: 100%;
+	height: 7%;
+}
+#sensors-core-sensorsArrayMouseDragSelectBox{
+	position: absolute;
+	top:0px;
+	left:0px;
+	border: dotted 1px lime;
+	background-color: rgba(0,255,0,.2);
+	width: 0px;
+	height: 0px;
+}
+.sensors-core-removeContactGarbageCan{
+	z-index: 5;
+	position: absolute;
+	top:0px;
+	height: 100%;
+	width: 100%;
+}
+.sensors-core-removeContactGarbageCan:hover{
+	background-color: rgba(255,0,0,.3);
+	filter: brightness(1.25);
+}
+.sensors-core-removeContactGarbageCan:hover{
+	background-color: rgba(255,0,0,.3);
+	filter: brightness(0.65);
+}
+#sensors-core-RemoveContactButton{
+	cursor: pointer;
+	color:white;
+	background: -webkit-linear-gradient(top, #ff3019 0%,#cf0404 100%);
+	position: absolute;
+	top:0px;
+	left: 80%;
+	width: 20%;
+	height: 100%;
+	text-align: center;
+	font-size: 24px;
+}
+#sensors-core-CreateEnemyContact{
+	background: -webkit-linear-gradient(top, #a90329 0%,#8f0222 44%,#6d0019 100%);
+	color:white;
+	position: absolute;
+	top:0px;
+	left: 40%;
+	width: 20%;
+	height: 100%;
+	text-align: center;
+	font-size: 24px;
+}
+#sensors-core-CreateFriendlyContact{
+	background: -webkit-linear-gradient(top, #8ed486 0%,#70ed4e 100%);
+	color:white;
+	position: absolute;
+	top:0px;
+	left: 20%;
+	width: 20%;
+	height: 100%;
+	text-align: center;
+	font-size: 24px;
+}
+#sensors-core-CopyContactButton{
+	color:white;
+	background: -webkit-linear-gradient(top, #b4d2ea 0%,#70b0e0 100%);
+	position: absolute;
+	top:0px;
+	left: 60%;
+	width: 20%;
+	height: 100%;
+	text-align: center;
+	font-size: 24px;
+}
+#sensors-core-createNewContactButton{
+	background: -webkit-linear-gradient(top, #ffffff 0%,#e1e1e1 93%);
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 20%;
+	height: 100%;
+	text-align: center;
+	font-size: 24px;
+}
+.sensors-core-senorsContactsListTrueAttribute{
+	height: 15px;
+	width: 15px;
+	border: 1px solid white;
+	position: absolute;
+	top:2.5px;
+	border-radius: 7.5px 7.5px 7.5px 7.5px;
+	background: -webkit-linear-gradient(-45deg, #72ff68 34%,#6fdb59 54%,#6dc62d 100%);
+    box-shadow: 0 0 10px lime;
+}
+.sensors-core-senorsAttribute{
+	cursor: pointer;
+}
+.sensors-core-senorsAttribute:hover{
+	filter: brightness(1.4);
+}
+.sensors-core-senorsAttribute:active{
+	filter: brightness(.5);
+}
+.sensors-core-senorsContactsListFalseAttribute{
+	height: 15px;
+	width: 15px;
+	border: 1px solid white;
+	position: absolute;
+	top:2.5px;
+	border-radius: 7.5px 7.5px 7.5px 7.5px;
+	background: linear-gradient(135deg, #f85032 0%,#f16f5c 42%,#f6290c 51%,#f02f17 71%,#e73827 100%);
+    box-shadow: 0 0 10px red;
+}
+.sensors-core-senorsContactsListTitle{
+	font-size: 18px;
+	position: absolute;
+	top:10%;
+	width: 90%;
+  	white-space: nowrap;
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+	height: 90%;
+}
+.sensors-core-senorsContactsListItem:hover{
+	background-color: rgba(128,128,128,.1);
+	filter: brightness(1.2);
+}
+.sensors-core-senorsContactsListItem:active{
+	background-color: rgba(0,0,0,.8);
+	filter: brightness(0.65);
+}
+.sensors-core-senorsContactsListItem{
+	cursor: pointer;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	border-bottom: 1px solid white;
+	background-color: rgba(0,0,0,.5);
+}
+#sensors-core-sensorsContainer{
+	position: relative;
+	top:0px;
+	height: 100%;
+	width: 200px;
+}
+#sensors-core-sensorsArrayDragSelectionLayer{
+	z-index: 3;
+	position: absolute;
+	top:0%;
+	left: 0%;
+	height: 100%;
+	width: 100%;
+}
+#sensors-core-sensorsArray{
+	overflow: hidden;
+	z-index: 10;
+	position: absolute;
+	top:0%;
+	left: 0%;
+	height: 100%;
+	width: 100%;
+}
+.sensors-core_sensorsGhost{
+	z-index: 1;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	height: 20px;
+	width: 20px;
+	background-image: url("/resource?path=public/Contacts/Generic.png&screen=sensors-core");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+#sensors-core-sensorsArrayCanvas{
+	position: absolute;
+	top:5%;
+	left: 5%;
+	height: 100%;
+	width: 100%;
+}
+.sensors-core_sensorsContact{
+	z-index: 4;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	height: 20px;
+	width: 20px;
+	background-image: url("/resource?path=public/Contacts/Generic.png&screen=sensors-core");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor: webkit-grab;
+}

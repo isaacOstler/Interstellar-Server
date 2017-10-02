@@ -13,7 +13,7 @@
 .flash{
 	filter: grayscale(1) invert(1);
 }
-#sensorsArrayCanvas{
+#sensorsArray_Canvas{
 	position: absolute;
 	top:2.5%;
 	left: 2.5%;

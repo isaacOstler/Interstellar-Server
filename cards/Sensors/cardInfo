@@ -3,6 +3,6 @@
 	"cardType":"card",
 	"author":"Isaac Ostler",
 	"copyright":"Isaac Ostler",
-	"version":"1.0.0",
-	"description":"Allows the crew to see outside of the ship, and to scan for properties/contacts"
+	"version":"2.0.0",
+	"description":"Allows crew to view the ship's sensors array.  This is version 2 (for legacy, look up old-sensors)"
 }
