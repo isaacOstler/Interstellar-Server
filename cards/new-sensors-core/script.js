@@ -557,8 +557,6 @@ Interstellar.addCoreWidget("Sensors",function(){
                             if(weapons[l].GUID == CompoundContactsArray[i].GUID){
                                 //console.log(GUID_ofImpactedObject + " WAS HIT BY A " + CompoundContactsArray[i].type + "!");
                                 createExplosionAtPoint(CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,Math.random() * .04 + .01);
-                                //addSpecialContact("debris","DEBRIS",CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,Math.random() * .04 + .01,"Debris.png");
-                                //addNewContact("DEBRIS",CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,Math.random() * .04 + .01,Math.random() * .04 + .01,0,"Debris.png");
                                 //remove this weapon
                                 weapons.splice(l,1);
                                 CompoundContactsArray.splice(i,1);
@@ -637,6 +635,11 @@ Interstellar.addCoreWidget("Sensors",function(){
                 weapons[i].distance += phaserSpeed;
             }
         }
+        for(i = 0;i < effects.length;i++){
+            if(effects[i].removeBy <= Date.now()){
+                effects.splice(i,1);
+            }
+        }
         for(i = 0;i < contacts.length;i++){
             //we need to apply the move all speed to these contacts, if applicable
             if(moveAllSpeeds.x != 0 || moveAllSpeeds.y != 0){
@@ -687,6 +690,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             Interstellar.setDatabaseValue("sensors.weapons",weapons);
             Interstellar.setDatabaseValue("sensors.programs",programs);
             Interstellar.setDatabaseValue("sensors.contacts",contacts);
+            Interstellar.setDatabaseValue("sensors.effects",effects);
         },networkRefreshRate)
     }
     //functions
@@ -1290,7 +1294,8 @@ Interstellar.addCoreWidget("Sensors",function(){
             "GUID" : guidGenerator(),
             "xPos" : xCord,
             "yPos" : yCord,
-            "size" : size
+            "size" : size,
+            "removeBy" : Date.now() + 3
         }
         effects.splice(effects.length,0,newExplosion);
         Interstellar.setDatabaseValue("sensors.effects",effects);
