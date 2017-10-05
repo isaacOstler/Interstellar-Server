@@ -258,6 +258,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     var canvas = $("#sensorsArray_Canvas"),
         canvasContainer = $("#sensorsArray"),
         maskElement = $("#myClip"),
+        maskElement_maskCircle = $("#mask_circle"),
         range = $("#range");
     //init calls
 
@@ -642,6 +643,8 @@ Interstellar.addCoreWidget("Sensors",function(){
         //set the renderer size
         renderer.setSize( canvas.width(), canvas.height() );
         //set the DOM element size
+        $(renderer.domElement).css("left",$(canvas).css("left"));
+        $(renderer.domElement).css("top",$(canvas).css("top"));
         $(renderer.domElement).width(canvas.width());
         $(renderer.domElement).height(canvas.height());
         //add the DOM.
@@ -673,15 +676,18 @@ Interstellar.addCoreWidget("Sensors",function(){
         if(canvas.width() > canvas.height()){
             //set the width to the height
             canvas.width(canvas.height());
-            canvas.css("left",(canvas.width() / canvasContainer.width()) * 100 + "px");
         //otherwise if the height is greater than the width
         }else if(canvas.height() > canvas.width()){
             //set the height to the width
             canvas.height(canvas.width());
-            canvas.css("top",(canvas.height() / canvasContainer.height()) / 2 * 100 + "px");
         }
+        canvas.css("left",(1 - (canvas.width() / canvasContainer.width())) / 2 * canvasContainer.width() + "px");
+        canvas.css("top",(1 - (canvas.height() / canvasContainer.height())) / 2 * canvasContainer.height() + "px");
         //set the mask width and height to match the canvas width and height
-        
+
+        //the math here is crazy, sorry, it just sets the size of the mask to the radius of the sensors array
+        //don't ask why the magic numbers work, I honestly have no clue.
+        maskElement_maskCircle.attr("r",(((canvas.width() / canvasContainer.width()) / 2) * 100) * 0.865 + "%");
         //html canvas elements need to be told what their working area
         //for their height and width is.  In this case we will just set
         //it to the element's width and height.
@@ -1417,5 +1423,5 @@ Interstellar.addCoreWidget("Sensors",function(){
             newWeapons.splice(newWeapons.length,0,newWeapon);
         }
         Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapons));
-    },200);
+    },1000);
 });
