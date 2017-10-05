@@ -13,20 +13,38 @@
 .flash{
 	filter: grayscale(1) invert(1);
 }
+#sensorsArrayTHREE_CANVAS{
+    position: absolute;
+    z-index: -1;
+    left: 2.5%;
+    top:2.5%;
+    height: 95%;
+    width: 95%;
+}
 #sensorsArray_Canvas{
 	position: absolute;
 	top:2.5%;
 	left: 2.5%;
-	width: 95%;
+    height: 95%;
+    width: 95%;
   	background-image: radial-gradient(16px at 60px 50% , #000000 0%, #000000 14px, rgba(0, 0, 0, 0.3) 18px, rgba(0, 0, 0, 0) 19px);
 }
 .SensorsArrayContactCanvas{
 	position: absolute;
 	top:2.5%;
 	left: 2.5%;
-  	-webkit-clip-path: url(#myClip);
+}
+#mask{
+    background-color: red;
+    opacity: .5;
+    position: absolute;
+    top:0%;
+    left: 0%;
+    height: 100%;
+    width:100%;
 }
 #sensorsArray{
+    -webkit-clip-path: url(#myClip);
     position: absolute;
     top: 0%;
     height: 90%;

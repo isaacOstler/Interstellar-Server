@@ -122,7 +122,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     //variables
     var alertStatus = 5, //the ships alert status
         phaserSpeed = .45, //how fast phasers fire
-        thisWidgetName = "sensors-core", //the name of this widget (since for a while, it was called new-sensors-core)
+        thisWidgetName = "Sensors", //the name of this widget (since for a while, it was called new-sensors-core)
         animationInterval = undefined, //the variable pointing to the animation interval
         networkRefreshTimeout = undefined, //the variable pointing to the network update timeout
         frameRate = 60, //the frame rate for the sensors array (how many frames per second)
@@ -228,96 +228,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         nebulaTextures = [
             new THREE.TextureLoader().load("/resource?path=public/Nebula/nebula1.png&screen=" + thisWidgetName)
         ],
-        weapons = [
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            },
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            }
-        ],
+        weapons = [],
         programs = [
             {
                 "type" : "planet", //we have several different things that go on the sensors array, so we have to specify
@@ -346,6 +257,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     //DOM references
     var canvas = $("#sensorsArray_Canvas"),
         canvasContainer = $("#sensorsArray"),
+        maskElement = $("#myClip"),
         range = $("#range");
     //init calls
 
@@ -733,6 +645,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         $(renderer.domElement).width(canvas.width());
         $(renderer.domElement).height(canvas.height());
         //add the DOM.
+        $(renderer.domElement).attr("id","sensorsArrayTHREE_CANVAS");
         canvasContainer.append(renderer.domElement);
         //now we need to preload materials that we load a lot, to save time
 
@@ -760,11 +673,15 @@ Interstellar.addCoreWidget("Sensors",function(){
         if(canvas.width() > canvas.height()){
             //set the width to the height
             canvas.width(canvas.height());
+            canvas.css("left",(canvas.width() / canvasContainer.width()) * 100 + "px");
         //otherwise if the height is greater than the width
         }else if(canvas.height() > canvas.width()){
             //set the height to the width
             canvas.height(canvas.width());
+            canvas.css("top",(canvas.height() / canvasContainer.height()) / 2 * 100 + "px");
         }
+        //set the mask width and height to match the canvas width and height
+        
         //html canvas elements need to be told what their working area
         //for their height and width is.  In this case we will just set
         //it to the element's width and height.
