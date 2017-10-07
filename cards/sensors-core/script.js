@@ -924,7 +924,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     //first we make the geometry (just a plane)
                     var geometry = new THREE.PlaneGeometry( 100, 100 );
                     //then we load the texture
-                    var texture = new THREE.TextureLoader().load(renderedContacts[i].icon);
+                    var texture = new THREE.TextureLoader().load(renderedContacts[i].icon + '&screen=' + thisWidgetName );
                     //now we need to make a material with that texture
                     var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                     //now make the actual mesh

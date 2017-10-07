@@ -1,0 +1,17 @@
+#dmx-core_blackout{
+	position: absolute;
+	top:1px;
+	height: calc(100% - 2px);
+	right: 1px;
+	width: calc(50% - 2px);
+	background-color: rgb(55,55,55);
+	color:white;
+}
+#dmx-core_shakeLights{
+	position: absolute;
+	top:1px;
+	height: calc(100% - 2px);
+	left: 1px;
+	width: calc(50% - 2px);
+	background-color: rgb(255,255,255);
+}
