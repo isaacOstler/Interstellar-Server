@@ -1408,7 +1408,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     //interval
     setInterval(function(){
         var newWeapons = [];
-        for(var i = 0;i < 12;i++){
+        for(var i = 0;i < 2;i++){
             var newWeapon = {
                 "type" : "torpedo",
                 "GUID" : "torpedo_" + guidGenerator(),
@@ -1420,5 +1420,5 @@ Interstellar.addCoreWidget("Sensors",function(){
             newWeapons.splice(newWeapons.length,0,newWeapon);
         }
         Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapons));
-    },1000);
+    },10000);
 });

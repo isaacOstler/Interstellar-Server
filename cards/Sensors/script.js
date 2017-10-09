@@ -287,7 +287,7 @@ Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
                 programs.splice(programs.length,0,newAsteroid);
             }
         }*/
-        for(var j = 0;j < 128;j++){
+        for(var j = 0;j < 256;j++){
             var newAsteroid = {
                 "GUID" : guidGenerator(),
                 "type" : "asteroid",
@@ -709,17 +709,6 @@ function updateContactsOnArray(renderedContacts){
         }
         //we didn't find this ID, remove it.
         if(!wasFound){
-
-            //note to isaac
-            //last problem I was working on
-            //for some reason, i don't always clear
-            //old contacts from the array??  Not even sure how it's possible
-            //I've been trying to figure it out for 2 hours.  It shouldn't be possible
-            //
-            // ...
-            //
-            // bug in JavaScript????
-
             childrenToBeRemoved.splice(childrenToBeRemoved.length,0,scene.children[i]);
         }
     }
@@ -734,8 +723,6 @@ function updateContactsOnArray(renderedContacts){
         //first, lets see if the contact can be found
         if(renderedContacts[i].type == "contact"){
             var contact = scene.getObjectByName(renderedContacts[i].GUID);
-            var contactGhost = scene.getObjectByName(renderedContacts[i].GUID + "_GHOST");
-            var line = scene.getObjectByName(renderedContacts[i].GUID + "_LINE");
             if(contact == undefined ){
                 //this object hasn't been created!
                 //lets add it now!
@@ -753,50 +740,16 @@ function updateContactsOnArray(renderedContacts){
                 scene.add(newContact);
                 //save a reference
                 contact = newContact;
-                //great!  Let's add his ghost too!
-                //pretty much the same exact thing
-                material = new THREE.MeshBasicMaterial( { map: texture,transparent: true,opacity : .5} );
-                var newGhost = new THREE.Mesh(geometry, material);
-                //assign the GUID to the name of this new mesh
-                newGhost.name = renderedContacts[i].GUID + "_GHOST";
-                //add it to the scene
-                scene.add(newGhost);
-                //save a reference
-                contactGhost = newGhost;
-                //now lets create the line between the two
-                //create a blue LineBasicMaterial
-                var material = new THREE.LineBasicMaterial({ color: 0xffffff * Math.random() });
-                var geometry = new THREE.Geometry();
-
-                geometry.vertices.push(contact.position);
-                geometry.vertices.push(contactGhost.position);
-
-                var newLine = new THREE.Line(geometry, material);
-                newLine.name = renderedContacts[i].GUID + "_LINE";
-                scene.add(newLine);
-
-                line = newLine;
             } 
             //now let's update it's values
             //set it's position to the proper xPos;
-            contactGhost.position.x = renderedContacts[i].xPos;
-            contact.position.x = renderedContacts[i].wantedX;
+            contact.position.x = renderedContacts[i].xPos;
             //set it's position to the proper yPos;
-            contactGhost.position.y = renderedContacts[i].yPos;
-            contact.position.y = renderedContacts[i].wantedY;
+            contact.position.y = renderedContacts[i].yPos;
             //set it's proper width
             contact.scale.x = renderedContacts[i].width / 100; //we divide by 100, because we need to decimate the size
-            contactGhost.scale.x = renderedContacts[i].width / 100; //we divide by 100, because we need to decimate the size
             //set it's proper height
             contact.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
-            contactGhost.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
-
-            //draw the line between the two
-
-            line.geometry.dynamic = true;
-            line.geometry.vertices.push(contact.position);
-            line.geometry.vertices.push(contactGhost.position);
-            line.geometry.verticesNeedUpdate = true;
         }else if(renderedContacts[i].type == "planet"){
             var contact = scene.getObjectByName(renderedContacts[i].GUID);
             if(contact == undefined ){
