@@ -43,6 +43,8 @@ onDatabaseValueChange("viewscreen.forceToTacticalCard",function(newData){
 });
 
         function loadCard(index){
+            velocity.x = 0;
+            velocity.y = 0;
             setDatabaseValue("viewscreen.currentCard",index);
             console.log(tacticalMaster);
             keyPressCallbacks = [];
@@ -128,26 +130,26 @@ onDatabaseValueChange("viewscreen.forceToTacticalCard",function(newData){
                                 var key = e.which || e.keyCode || 0;
                                 console.log("key " + key + " was pressed.");
                                 if(icon.commands[j].command == "up" && key == icon.commands[j].key){
-                                    velocity.y -= .5;
+                                    velocity.y -= .01;
                                     //var newPosition = $(icon.element).position().top - 2;
                                     //console.log(newPosition + "px");
                                     //$(icon.element).css("top",newPosition + "px");
                                 }
                                 if(icon.commands[j].command == "down" && key == icon.commands[j].key){
-                                    velocity.y += .5;
+                                    velocity.y += .01;
                                     //var newPosition = $(icon.element).position().top + 2;
                                     //console.log(newPosition + "px");
                                     //$(icon.element).css("top",newPosition + "px");
                                 }
                                 if(icon.commands[j].command == "left" && key == icon.commands[j].key){
-                                    velocity.x -= .5;
+                                    velocity.x -= .01;
                                     //var newPosition = $(icon.element).position().left - 2;
                                     //console.log(newPosition + "px");
                                     //$(icon.element).css("left",newPosition + "px");
                                 }
                                 if(icon.commands[j].command == "right" && key == icon.commands[j].key){
 
-                                    velocity.y -= .5;
+                                    velocity.x += .01;
                                     //var newPosition = $(icon.element).position().left + 2;
                                     //console.log(newPosition + "px");
                                     //$(icon.element).css("left",newPosition + "px");
@@ -160,7 +162,8 @@ onDatabaseValueChange("viewscreen.forceToTacticalCard",function(newData){
                             var icon = movingIconsObjects[i];
                             var newX = $(icon.element).position().left + velocity.x;
                             var newY = $(icon.element).position().top + velocity.y;
-                            $(icon.element).css("top",newPosition + "px");
+                            $(icon.element).css("top",newY + "px");
+                            $(icon.element).css("left",newX + "px");
                         }
                     },1000 / 60);
                 }
