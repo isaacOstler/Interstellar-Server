@@ -235,7 +235,7 @@ var alertStatus = 5, //the ships alert status
 //DOM references
 var canvas = $("#sensorsArray_Canvas"),
     canvasContainer = $("#sensorsArray"),
-    maskElement = $("#myClip"),
+    maskElement = $("#mask"),
     maskElement_maskCircle = $("#mask_circle"),
     range = $("#range");
 //init calls
@@ -559,13 +559,22 @@ function drawSensorsGui(){
         //set the height to the width
         canvas.height(canvas.width());
     }
+
     canvas.css("left",(1 - (canvas.width() / canvasContainer.width())) / 2 * canvasContainer.width() + "px");
     canvas.css("top",(1 - (canvas.height() / canvasContainer.height())) / 2 * canvasContainer.height() + "px");
     //set the mask width and height to match the canvas width and height
 
-    //the math here is crazy, sorry, it just sets the size of the mask to the radius of the sensors array
-    //don't ask why the magic numbers work, I honestly have no clue.
-    maskElement_maskCircle.attr("r",(((canvas.width() / canvasContainer.width()) / 2) * 100) * 0.865 + "%");
+    //set the array size to half of 80% of the sensor array width
+    var circleRadius = (canvas.width() * .8) / 2;
+        center = circleRadius + (canvas.width() * .1); //this is the absolute center of the canvas
+        
+    maskElement.width(canvas.width());
+    maskElement.height(canvas.height());
+    
+    maskElement.css("left",(1 - (canvas.width() / canvasContainer.width())) / 2 * canvasContainer.width() + "px");
+    maskElement.css("top",(1 - (canvas.height() / canvasContainer.height())) / 2 * canvasContainer.height() + "px");
+
+    maskElement_maskCircle.attr("r",(circleRadius / canvas.width()) * 100 + "%");
     //html canvas elements need to be told what their working area
     //for their height and width is.  In this case we will just set
     //it to the element's width and height.
@@ -592,9 +601,6 @@ function drawSensorsGui(){
         ctx.strokeStyle="white"; //set the color to white
         break;
     }
-    //set the array size to half of 80% of the sensor array width
-    var circleRadius = (canvas.width() * .8) / 2;
-        center = circleRadius + (canvas.width() * .1); //this is the absolute center of the canvas
     //clear the canvas (in case this isn't the first time we have drawn)
     ctx.clearRect(0, 0, canvas.width(), canvas.height());
     //set the line width to 1.5
