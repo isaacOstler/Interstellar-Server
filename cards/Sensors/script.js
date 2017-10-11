@@ -568,13 +568,16 @@ function drawSensorsGui(){
     var circleRadius = (canvas.width() * .8) / 2;
         center = circleRadius + (canvas.width() * .1); //this is the absolute center of the canvas
         
-    maskElement.width(canvas.width());
+    /*maskElement.width(canvas.width());
     maskElement.height(canvas.height());
-    
-    maskElement.css("left",(1 - (canvas.width() / canvasContainer.width())) / 2 * canvasContainer.width() + "px");
-    maskElement.css("top",(1 - (canvas.height() / canvasContainer.height())) / 2 * canvasContainer.height() + "px");
+    maskElement.css("left",canvas.position().left);
+    maskElement.css("top",canvas.position().top);
+    maskElement_maskCircle.attr("cx",50 + "%");
+    maskElement_maskCircle.attr("cy",50 + "%");*/
 
-    maskElement_maskCircle.attr("r",(circleRadius / canvas.width()) * 100 + "%");
+    document.getElementById(maskElement.attr("id")).setAttribute('width', canvas.width());
+    document.getElementById(maskElement.attr("id")).setAttribute('height', canvas.height());
+    maskElement_maskCircle.attr("r",(circleRadius / canvas.width()) * canvas.width() + 2 + "px");
     //html canvas elements need to be told what their working area
     //for their height and width is.  In this case we will just set
     //it to the element's width and height.
