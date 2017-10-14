@@ -1,7 +1,7 @@
 #dmx-core_blackout{
 	position: absolute;
 	top:1px;
-	height: calc(100% - 2px);
+	height: calc(100% - 17px);
 	right: 1px;
 	width: calc(50% - 2px);
 	background-color: rgb(55,55,55);
@@ -10,8 +10,14 @@
 #dmx-core_shakeLights{
 	position: absolute;
 	top:1px;
-	height: calc(100% - 2px);
+	height: calc(100% - 17px);
 	left: 1px;
 	width: calc(50% - 2px);
 	background-color: rgb(255,255,255);
+}
+#dmx-core_smokeMachineSlider{
+	position: absolute;
+	bottom: 0px;
+	left: 1px;
+	width: calc(100% - 2px);
 }

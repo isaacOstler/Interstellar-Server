@@ -229,6 +229,7 @@ var alertStatus = 5, //the ships alert status
             "asteroidIcon" : 1
         }
     ],
+    scanningObject,
     //three.js stuff
     camera, scene, renderer,
     frustumSize = 100;
@@ -237,7 +238,9 @@ var canvas = $("#sensorsArray_Canvas"),
     canvasContainer = $("#sensorsArray"),
     maskElement = $("#mask"),
     maskElement_maskCircle = $("#mask_circle"),
-    range = $("#range");
+    range = $("#range"),
+    scanButton = $("#scanButton"),
+    scanAnswerTextArea = $("#scanAnswerTextArea");
 //init calls
 
 drawSensorsGui();
@@ -695,6 +698,42 @@ function drawSensorsGui(){
     ctx.stroke();
     //restore the stroke style back to white
     ctx.strokeStyle="white";
+
+    ctx.setLineDash([1,.1]);
+    //Now time for scanning objects!
+    if(scanningObject != undefined){
+        console.log("FOOOOOOOOOOO");
+        scanAnswerTextArea.html("Scan Progress: " + Math.round((scanningObject.timePassed / scanningObject.timeRequired) * 100) + "%")
+        var innerRadius = circleRadius * (scanningObject.timePassed / scanningObject.timeRequired),
+        outerRadius = 0,
+        // Radius of the entire circle.
+        radius = circleRadius;
+        var segmentSize = degreesToRadians(360 / 12);
+        var position = scanningObject.direction - 3; //-3 so that 1 o'clock is actually 1 o'clock, not 3 o'clock
+
+        var oldStyle = ctx.strokeStyle;
+        var oldLineWidth = ctx.lineWidth;
+        var style = "rgba(98, 244, 66,.9)";
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = style;
+        //ctx.lineCap="round";
+        ctx.strokeStyle=style;
+        var lineWidth = 0;
+        lineWidth = (innerRadius * (1 - (innerRadius / radius))) * .5;
+        
+        ctx.lineWidth = lineWidth;
+        ctx.closePath();
+        ctx.moveTo(center,center);
+        ctx.beginPath();
+        if(scanningObject.direction == -1){
+            ctx.arc(center, center, innerRadius, 0, 2 * Math.PI);
+        }else{
+            ctx.arc(center, center, innerRadius, segmentSize * position - degreesToRadians(15), (segmentSize * position) + segmentSize- degreesToRadians(15));
+        }
+        ctx.stroke();
+        //restore the stroke style back to white
+        ctx.strokeStyle="white";
+    }
 }
 
 function updateContactsOnArray(renderedContacts){
@@ -1239,9 +1278,39 @@ canvas.mousedown(function(event){
         });
     }
 });
-canvas.contextmenu(function(event){
-    var contactX = (event.offsetX / canvas.width()) * 100,
-        contactY = (1 - (event.offsetY / canvas.height())) * 100;
-    addNewContact("odyssey",contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
+scanButton.click(function(event){
+    if(scanningObject != undefined){
+        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",undefined);
+    }else{
+        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",{
+            "query" : "SPACE COWS",
+            "timePassed" : 0,
+            "timeRequired" : 300,
+            "direction" : 1,
+            "answer" : undefined
+        });
+    }
+});
+setInterval(function(){
+    if(scanningObject != undefined){
+        scanningObject.timePassed += .1;
+        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",scanningObject);
+    }
+},0100);
+Interstellar.onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
+    scanningObject = newData;
+    if(newData == null || newData == undefined){
+        //no scan
+        scanButton.html("SCAN");
+    }else{
+        //scan in progress
+        scanButton.html("CANCEL");
+    }
+    if(scanningObject != undefined){
+        scanAnswerTextArea.html("");
+    }else{
+        scanAnswerTextArea.html("SCANNING... <br />(" + Math.round((scanningObject.timePassed / scanningObject.timeRequired) * 100) + "% COMPLETE)");
+    }
+    drawSensorsGui();
 });
 //intervals
