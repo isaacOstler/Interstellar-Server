@@ -233,9 +233,10 @@ var alertStatus = 5, //the ships alert status
     scanningObject,
     scanAnswer = null,
     averageScanTime = 120,
+    sensorsArraySizeMultipler = 1,
     //three.js stuff
     camera, scene, renderer,
-    frustumSize = 100;
+    frustumSize = 100 / sensorsArraySizeMultipler;
 //DOM references
 var canvas = $("#sensorsArray_Canvas"),
     canvasContainer = $("#sensorsArray"),
@@ -646,8 +647,8 @@ function drawSensorsGui(){
     //set the mask width and height to match the canvas width and height
 
     //set the array size to half of 80% of the sensor array width
-    var circleRadius = (canvas.width() * .8) / 2;
-        center = circleRadius + (canvas.width() * .1); //this is the absolute center of the canvas
+    var circleRadius = ((canvas.width() * .8) / 2) * sensorsArraySizeMultipler;
+        center = (circleRadius / sensorsArraySizeMultipler) + (canvas.width() * .1); //this is the absolute center of the canvas
         
     /*maskElement.width(canvas.width());
     maskElement.height(canvas.height());
@@ -658,7 +659,7 @@ function drawSensorsGui(){
 
     document.getElementById(maskElement.attr("id")).setAttribute('width', canvas.width());
     document.getElementById(maskElement.attr("id")).setAttribute('height', canvas.height());
-    maskElement_maskCircle.attr("r",(circleRadius / canvas.width()) * canvas.width() + 2 + "px");
+    maskElement_maskCircle.attr("r",((circleRadius / sensorsArraySizeMultipler) / canvas.width()) * canvas.width() + 2 + "px");
     //html canvas elements need to be told what their working area
     //for their height and width is.  In this case we will just set
     //it to the element's width and height.
