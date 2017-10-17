@@ -106,6 +106,7 @@ var alertStatus = 5, //the ships alert status
     frameRate = 60, //the frame rate for the sensors array (how many frames per second)
     networkRefreshRate = 360, //how many milliseconds until the network is updated on the contacts positions
     contacts = [], //sensor contacts
+    infraredActive = false,
     noAnimationCycleInProgress = false, //this variable helps us know if we need to restart the animation cycle (if it's been sleeping)
     selectionDragPoints = //these points are used to draw the drag selection box
     {
@@ -557,8 +558,25 @@ function animationCycle(newData){
                 CompoundContactsArray[i].rotation += (CompoundContactsArray[i].rotationSpeed * scaler);
             }
         }
-        //now we update the array!
-        updateContactsOnArray(CompoundContactsArray);
+        //now we cut out anything that shouldn't be there (if infrared is active)
+        if(infraredActive){
+            var finalContactsToRender = [];
+            for(var j = 0;j < CompoundContactsArray.length;j++){
+                if(CompoundContactsArray[j].type == "nebula" || CompoundContactsArray[j].type == "planet" || CompoundContactsArray[j].type == "phaser" || CompoundContactsArray[j].type == "torpedo"){
+                        finalContactsToRender.splice(finalContactsToRender.length,0,CompoundContactsArray[j]);
+                }else if(CompoundContactsArray[j].type == "contact"){
+                    if(CompoundContactsArray[j].attributes.infrared){
+                        finalContactsToRender.splice(finalContactsToRender.length,0,CompoundContactsArray[j]);
+                    }
+                }
+            }
+            //now we update the array!
+            updateContactsOnArray(finalContactsToRender);
+        }else{
+            //now we update the array!
+            updateContactsOnArray(CompoundContactsArray);
+
+        }
     },1000 / frameRate); //this calculates the frame rate (remember, this is in milliseconds)
 }
 //functions

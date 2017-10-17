@@ -102,6 +102,7 @@ var alertStatus = 5, //the ships alert status
     thisWidgetName = "Sensors", //the name of this widget (since for a while, it was called new-sensors-core)
     scanningObject,
     scanAnswer = null,
+    flashProcessedDataInsteadOfFullScreen = false,
     averageScanTime = 120;
     //DOM references
 var canvas = $("#sensorsArray_Canvas"),
@@ -111,8 +112,11 @@ var canvas = $("#sensorsArray_Canvas"),
     range = $("#range"),
     scanButton = $("#scanButton"),
     scanQueryTextbox = $("#scanTextbox"),
+    infraredButton = $("#infraredButton"),
+    visibleButton = $("#visibleButton"),
     scanAnswerTextArea = $("#scanAnswerTextArea"),
-    scanDirectionDropdown = $("#directionDropdown");
+    scanDirectionDropdown = $("#directionDropdown"),
+    processedDataTextArea = $("#processedDataContainer");
 //init calls
 
 drawSensorsGui();
@@ -120,6 +124,33 @@ drawSensorsGui();
 //preset observers
 
 //database observers
+Interstellar.onDatabaseValueChange("sensors.processedData.flashFullScreen",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("sensors.processedData.flashFullScreen",true);
+        return;
+    }
+    flashProcessedDataInsteadOfFullScreen = !newData;
+})
+Interstellar.onDatabaseValueChange("sensors.processedData.noFlashAndSend",function(newData){
+    if(newData == null){
+        return;
+    }
+    processedDataTextArea.html(newData);
+});
+Interstellar.onDatabaseValueChange("sensors.processedData",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("sensors.processedData","");
+        return;
+    }
+    processedDataTextArea.html(newData);
+    if(newData != ""){
+        if(flashProcessedDataInsteadOfFullScreen){
+            flashElement(processedDataTextArea,10);
+        }else{
+            flashElement($(document.body),10);
+        }
+    }
+});
 Interstellar.onDatabaseValueChange("sensors.externalScans.scanAnswer",function(newData){
     //new scan answer, woo
     scanAnswer = newData;
@@ -129,6 +160,20 @@ Interstellar.onDatabaseValueChange("sensors.externalScans.scanAnswer",function(n
         scanAnswerTextArea.html(scanAnswer);
         //and remove the old scan
         Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
+    }
+});
+Interstellar.onDatabaseValueChange("sensors.infrared",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("sensors.infrared",false);
+        return;
+    }
+    infraredActive = newData;
+    if(newData){
+        visibleButton.removeClass("selectedButton");
+        infraredButton.addClass("selectedButton");
+    }else{
+        visibleButton.addClass("selectedButton");
+        infraredButton.removeClass("selectedButton");
     }
 });
 Interstellar.onDatabaseValueChange("sensors.moveAllSpeeds",function(newData){
@@ -595,6 +640,12 @@ scanButton.click(function(event){
             "answer" : undefined
         });
     }
+});
+infraredButton.click(function(event){
+    Interstellar.setDatabaseValue("sensors.infrared",true);
+});
+visibleButton.click(function(event){
+    Interstellar.setDatabaseValue("sensors.infrared",false);
 });
 //intervals
 setInterval(function(){
