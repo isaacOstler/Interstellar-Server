@@ -99,156 +99,38 @@
 
 //variables
 var alertStatus = 5, //the ships alert status
-    phaserSpeed = .45, //how fast phasers fire
     thisWidgetName = "Sensors", //the name of this widget (since for a while, it was called new-sensors-core)
-    animationInterval = undefined, //the variable pointing to the animation interval
-    networkRefreshTimeout = undefined, //the variable pointing to the network update timeout
-    frameRate = 60, //the frame rate for the sensors array (how many frames per second)
-    networkRefreshRate = 360, //how many milliseconds until the network is updated on the contacts positions
-    contacts = [], //sensor contacts
-    noAnimationCycleInProgress = false, //this variable helps us know if we need to restart the animation cycle (if it's been sleeping)
-    selectionDragPoints = //these points are used to draw the drag selection box
-    {
-        "startX" : 0,
-        "startY" : 0,
-        "endX" : 0,
-        "endY" : 0
-    },
-    selectedContacts = [], //selected contacts by the flight director, these can be dragged around
-    selectedContactOffsets = [], //x and y offset objects from selectedContacts array;
-    draggingContactsMouseOffset = 
-    {
-        "x" : 0,
-        "y" : 0
-    },
-    isDraggingContacts = false,
-    moveAllSpeeds = 
-    {
-        "x" : 0,
-        "y" : 0
-    },
-    CompoundContactsArray = [],
-    explosionTextures = [
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy2.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy2.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy2.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy2.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy3.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy3.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy3.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy3.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy4.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy4.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy4.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy5.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy5.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy5.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy5.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy6.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy6.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy6.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy7.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy7.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy7.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy8.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy8.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy8.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy9.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy9.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy9.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy10.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy10.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy10.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy11.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy11.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy11.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy12.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy12.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy12.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy13.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy13.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy13.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy14.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy14.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy14.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy14.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy15.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy15.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy15.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy15.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy16.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy16.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy16.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy17.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy17.png&screen=" + thisWidgetName),
-        new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy17.png&screen=" + thisWidgetName)
-    ],
-    materialCount = [],
-    effects = [],
-    torpedoTextures = [
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Weapons/Torpedo.png&screen=" + thisWidgetName),transparent: true } ),
-    ],
-    asteroidTextures = [
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid1.png&screen=" + thisWidgetName),transparent: true } ),
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid2.png&screen=" + thisWidgetName),transparent: true } ),
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid3.png&screen=" + thisWidgetName),transparent: true } ),
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid4.png&screen=" + thisWidgetName),transparent: true } ),
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid5.png&screen=" + thisWidgetName),transparent: true } ),
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid6.png&screen=" + thisWidgetName),transparent: true } ),
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid7.png&screen=" + thisWidgetName),transparent: true } ),
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid8.png&screen=" + thisWidgetName),transparent: true } ),
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid9.png&screen=" + thisWidgetName),transparent: true } ),
-        new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Asteroids/Asteroid10.png&screen=" + thisWidgetName),transparent: true } )
-    ],
-    nebulaTextures = [
-        new THREE.TextureLoader().load("/resource?path=public/Nebula/nebula1.png&screen=" + thisWidgetName)
-    ],
-    weapons = [],
-    programs = [
-        {
-            "type" : "planet", //we have several different things that go on the sensors array, so we have to specify
-            "GUID" : guidGenerator(),
-            "icon" : "/resource?path=public/Planets/1Terran1.png",
-            "xPos" : 50,
-            "size" : .5,
-            "yPos" : 90,
-            "rotation" : 0,
-            "rotationSpeed" : .0005
-        },
-        {
-            "GUID" : guidGenerator(),
-            "type" : "asteroid",
-            "xPos" : 20,
-            "yPos" : 20,
-            "size" : .02,
-            "rotation" : 2,
-            "rotationSpeed" : .02,
-            "asteroidIcon" : 1
-        }
-    ],
     scanningObject,
-    //three.js stuff
-    camera, scene, renderer,
-    frustumSize = 100;
-//DOM references
+    scanAnswer = null,
+    averageScanTime = 120;
+    //DOM references
 var canvas = $("#sensorsArray_Canvas"),
     canvasContainer = $("#sensorsArray"),
     maskElement = $("#mask"),
     maskElement_maskCircle = $("#mask_circle"),
     range = $("#range"),
     scanButton = $("#scanButton"),
-    scanAnswerTextArea = $("#scanAnswerTextArea");
+    scanQueryTextbox = $("#scanTextbox"),
+    scanAnswerTextArea = $("#scanAnswerTextArea"),
+    scanDirectionDropdown = $("#directionDropdown");
 //init calls
 
 drawSensorsGui();
-initThreeJS();
 
 //preset observers
 
 //database observers
+Interstellar.onDatabaseValueChange("sensors.externalScans.scanAnswer",function(newData){
+    //new scan answer, woo
+    scanAnswer = newData;
+    //if we are making a scan, and it's past 100%, answer
+    if(scanAnswer != null && scanningObject.timePassed / scanningObject.timeRequired > 1){
+        flashElement(scanAnswerTextArea,10);
+        scanAnswerTextArea.html(scanAnswer);
+        //and remove the old scan
+        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
+    }
+});
 Interstellar.onDatabaseValueChange("sensors.moveAllSpeeds",function(newData){
     if(newData == null){
         Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
@@ -312,6 +194,32 @@ Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
     }
     noAnimationCycleInProgress = false;
 });
+
+Interstellar.onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
+    scanningObject = newData;
+    if(newData == null || newData == undefined){
+        //no scan
+        scanButton.html("SCAN");
+    }else{
+        //scan in progress
+        scanButton.html("CANCEL");
+    }
+    if(!(scanningObject == undefined || scanningObject == null)){
+        if((scanningObject.timePassed / scanningObject.timeRequired) >= 1){
+            if(scanAnswer != null){
+                flashElement(scanAnswerTextArea,10);
+                Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
+                scanAnswerTextArea.html(scanAnswer); 
+            }else{
+                scanAnswerTextArea.html("NOW ANALYZING DATA<br />PLEASE STANDBY")
+            }
+        }else{
+            scanAnswerTextArea.html("SCANNING... <br />(" + Math.round((scanningObject.timePassed / scanningObject.timeRequired) * 100) + "% COMPLETE)");
+        }
+    }
+    drawSensorsGui();
+});
+
 Interstellar.onDatabaseValueChange("sensors.effects",function(newData){
     //if this value hasn't been set
     if(newData == null){
@@ -325,6 +233,7 @@ Interstellar.onDatabaseValueChange("sensors.effects",function(newData){
     }
     noAnimationCycleInProgress = false;
 });
+
 Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
     //this entire function is plotted out in a diagram at the top of the document.
 
@@ -357,194 +266,30 @@ Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
     }
     noAnimationCycleInProgress = false;
     animationCycle(newData);
-})
-
-function animationCycle(newData){
-    contacts = newData;
-    //compile all the arrays into one compoundArray
-    CompoundContactsArray = newData.concat(programs,weapons,effects);
-    //if there is already an animation interval
-    if(animationInterval != undefined){
-        //clear it
-        clearInterval(animationInterval);
-    }
-    //define a new animation interval
-    animationInterval = setInterval(function(){
-        var i;
-        //cycle through every object
-        for(i = 0;i < CompoundContactsArray.length;i++){
-            if(CompoundContactsArray[i].type == "contact"){
-                //are they at their target destination
-                if(!(withinRange(CompoundContactsArray[i].xPos,CompoundContactsArray[i].wantedX,.2)) || !(withinRange(CompoundContactsArray[i].yPos,CompoundContactsArray[i].wantedY,.2))){
-                    //nope, let's move them closer
-
-                    //do they have animation steps?
-                    if(contacts[i].xStep == undefined || contacts[i].yStep == undefined){
-                        //we must first calculate their steps
-                        //what is the difference between them?
-                        var differenceX = Number(CompoundContactsArray[i].wantedX - CompoundContactsArray[i].xPos);
-                        var differenceY = Number(CompoundContactsArray[i].wantedY - CompoundContactsArray[i].yPos);
-                        //now we divide their animation time by the distance (v=d/t...)
-                        CompoundContactsArray[i].xStep = (differenceX / Number(CompoundContactsArray[i].animationSpeed));
-                        CompoundContactsArray[i].yStep = (differenceY / Number(CompoundContactsArray[i].animationSpeed));
-                    }
-
-                    //the step values are how far they should travel for every refreshRate
-                    //so we just have to divide the frameRate by the refresh rate to get a scaler
-                    var scaler = frameRate / networkRefreshRate;
-                    //now add the scaled xStep to the xPos
-                    CompoundContactsArray[i].xPos += (scaler * CompoundContactsArray[i].xStep);
-                    //same for the y
-                    CompoundContactsArray[i].yPos += (scaler * CompoundContactsArray[i].yStep);
-                }else{
-                    //already at it's destination
-                    //console.log("Hey!  That's pretty good!");
-                }
-                var scaler = frameRate / networkRefreshRate;
-                //let's also factor in the move all speed
-                CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
-                CompoundContactsArray[i].wantedX += (scaler * moveAllSpeeds.x);
-                //same for the y
-                CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
-                CompoundContactsArray[i].wantedY += (scaler * moveAllSpeeds.y);
-            }else if(CompoundContactsArray[i].type == "phaser" || CompoundContactsArray[i].type == "torpedo"){
-                //we need to know if these weapons hit anyone
-                var GUID_ofImpactedObject = undefined;
-                //first we need to know our own X and our own Y
-                var weaponCartCords = {"x" : 0,"y" : 0};
-                if(CompoundContactsArray[i].type == "phaser"){
-                    weaponCartCords = polarToCartesian({"radians" : CompoundContactsArray[i].direction, "distance" : CompoundContactsArray[i].distance});
-                }else{
-                    //torpedo
-                    weaponCartCords.x = CompoundContactsArray[i].xPos - 50;
-                    weaponCartCords.y = CompoundContactsArray[i].yPos - 50;
-                }
-                for(var l = 0;l < CompoundContactsArray.length;l++){
-                    if(CompoundContactsArray[l].type != "phaser" && CompoundContactsArray[l].type != "torpedo" && CompoundContactsArray[l].type != "nebula" && CompoundContactsArray[l].type != "explosion"){
-                        var polarCords = cartesian2Polar(CompoundContactsArray[l].xPos - (weaponCartCords.x + 50),CompoundContactsArray[l].yPos - (weaponCartCords.y + 50));
-                        var hitDistance = 1;
-                        /*if(CompoundContactsArray[i].type != "torpedo"){
-                            hitDistance = 1;
-                        }*/
-                        if(!isNaN(polarCords.distance)){
-                            /*
-                            if(CompoundContactsArray[l].name == "odyssey"){
-                                console.log(polarCords.distance);
-                            }*/
-                            if(polarCords.distance < hitDistance){
-                                GUID_ofImpactedObject = CompoundContactsArray[l].GUID;
-                            }
-                        }
-                    }
-                }
-                if(GUID_ofImpactedObject == undefined){
-                    if(CompoundContactsArray[i].type == "phaser"){
-                        CompoundContactsArray[i].distance += scaler * phaserSpeed;
-                        var scaler = frameRate / networkRefreshRate;
-                    }else{
-                        //so we just have to divide the frameRate by the refresh rate to get a scaler
-                        var scaler = frameRate / networkRefreshRate;
-                        //now add the scaled xStep to the xPos
-                        CompoundContactsArray[i].xPos += (getStepsFromAngle(CompoundContactsArray[i].direction).x * scaler);
-                        //same for the y
-                        CompoundContactsArray[i].yPos += (getStepsFromAngle(CompoundContactsArray[i].direction).y * scaler);
-                        //let's also factor in the move all speed
-                        CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
-                        //same for the y
-                        CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
-                    }
-                }else{
-                    var impactedObject_index = -1;
-                    for(var l = 0;l < CompoundContactsArray.length;l++){
-                        if(CompoundContactsArray[l].GUID == GUID_ofImpactedObject){
-                            impactedObject_index = l;
-                        }
-                    }
-                    for(var l = 0;l < weapons.length;l++){
-                        //BOOOM!!! AAHAHAH (remove the contact and create an explosion)
-                        if(weapons[l].GUID == CompoundContactsArray[i].GUID){
-                            //console.log(GUID_ofImpactedObject + " WAS HIT BY A " + CompoundContactsArray[i].type + "!");
-                            createExplosionAtPoint(CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,Math.random() * .04 + .01);
-                            //remove this weapon
-                            weapons.splice(l,1);
-                            CompoundContactsArray.splice(i,1);
-                            break;
-                        }
-                    }
-                }
-            }else if(CompoundContactsArray[i].type == "explosion"){
-
-                //let's factor in the move all speed
-                var scaler = frameRate / networkRefreshRate;
-                CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
-                //same for the y
-                CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
-            }else if(CompoundContactsArray[i].type != "contact"){
-                //programs are cool :)
-                //let's factor in the move all speed
-                var scaler = frameRate / networkRefreshRate;
-                CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
-                //same for the y
-                CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
-                if(CompoundContactsArray[i].yPos + (CompoundContactsArray[i].size * 100) < 0){
-                    for(var l = 0;l < programs.length;l++){
-                        if(programs[l].GUID == CompoundContactsArray[i].GUID){
-                            programs.splice[l,1];
-                        }
-                    }
-                }
-                //might as well rotate the thing too
-                CompoundContactsArray[i].rotation += (CompoundContactsArray[i].rotationSpeed * scaler);
+});
+function flashElement(element,numberOfFlashes){
+    let flashCount = 0,
+        flashState = false,
+        interval = setInterval(function(){
+            if(flashCount >= numberOfFlashes){
+                clearInterval(interval);
+                element.removeClass("flash");
+                return;
             }
-        }
-        //now we update the array!
-        updateContactsOnArray(CompoundContactsArray);
-    },1000 / frameRate); //this calculates the frame rate (remember, this is in milliseconds)
+            if(!flashState){
+                element.addClass("flash");
+                flashCount++;
+            }else{
+                element.removeClass("flash");
+            }
+            flashState = !flashState;
+    },0100);
 }
 //functions
 
 //this function returns true if these values are within the passed variance
 function withinRange(value1,value2,variance){
     return(value1 < value2 + variance && value1 > value2 - variance);
-}
-
-function initThreeJS(){
-    //set the aspect ratio for the camera
-    var aspect = canvas.width() / canvas.height();
-    //create the new orthographic camera (orthographic cameras don't show depth)
-    camera = new THREE.OrthographicCamera( frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 1, 2000 );
-    //set the camera position
-    camera.position.z = 100;
-    camera.position.x = 50;
-    camera.position.y = 50;
-    //create the scene
-    scene = new THREE.Scene();
-    //create the renderer
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    //set the renderer size
-    renderer.setSize( canvas.width(), canvas.height() );
-    //set the DOM element size
-    $(renderer.domElement).css("left",$(canvas).css("left"));
-    $(renderer.domElement).css("top",$(canvas).css("top"));
-    $(renderer.domElement).width(canvas.width());
-    $(renderer.domElement).height(canvas.height());
-    //add the DOM.
-    $(renderer.domElement).attr("id","sensorsArrayTHREE_CANVAS");
-    canvasContainer.append(renderer.domElement);
-    //now we need to preload materials that we load a lot, to save time
-
-    /*
-    Interstellar.getFileNamesInFolder("/public/Explosion",thisWidgetName,function(files){
-        var i;
-        for(i = 0;i < files.length;i++){
-            //load that file
-            var texture = new THREE.TextureLoader().load( '/resource?path=public/Explosion/' + files[i] + '&screen=' + thisWidgetName );
-            //now we need to make a material with that texture
-            var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
-            explsionMaterials.splice(explsionMaterials.length,0,material);
-        }
-    });*/
-    //boom.  Done.  Init-ed
 }
 
 function drawSensorsGui(){
@@ -702,8 +447,6 @@ function drawSensorsGui(){
     ctx.setLineDash([1,.1]);
     //Now time for scanning objects!
     if(scanningObject != undefined){
-        console.log("FOOOOOOOOOOO");
-        scanAnswerTextArea.html("Scan Progress: " + Math.round((scanningObject.timePassed / scanningObject.timeRequired) * 100) + "%")
         var innerRadius = circleRadius * (scanningObject.timePassed / scanningObject.timeRequired),
         outerRadius = 0,
         // Radius of the entire circle.
@@ -735,243 +478,6 @@ function drawSensorsGui(){
         ctx.strokeStyle="white";
     }
 }
-
-function updateContactsOnArray(renderedContacts){
-    //first we need to remove any contacts that shouldn't be on the array
-    var i;
-    var j;
-    //(declaring i outside of the for loop is faster)
-
-    //since we are can't remove children from the array
-    //while we are looping through it, we must make another
-    //array to hold the names of children to be removed.
-    var childrenToBeRemoved = [];
-    for(i = 0;i < scene.children.length;i++){
-    var wasFound = false;
-        //cycle through each contact
-        for(j = 0;j < renderedContacts.length;j++){
-            //if the object id matches the GUID of a contact, mark found as true'
-            if(scene.children[i].name.includes(renderedContacts[j].GUID)){
-                wasFound = true;
-            }
-        }
-        //we didn't find this ID, remove it.
-        if(!wasFound){
-            childrenToBeRemoved.splice(childrenToBeRemoved.length,0,scene.children[i]);
-        }
-    }
-    //now that we have all the names of the children that need to be
-    //removed, we can cycle through them and delete them all
-    for(i = 0;i < childrenToBeRemoved.length;i++){
-        console.log("REMOVING " + childrenToBeRemoved[i].name);
-        scene.remove(childrenToBeRemoved[i]);
-    }
-    //now we need to add all the contacts
-    for(i = 0;i < renderedContacts.length;i++){
-        //first, lets see if the contact can be found
-        if(renderedContacts[i].type == "contact"){
-            var contact = scene.getObjectByName(renderedContacts[i].GUID);
-            if(contact == undefined ){
-                //this object hasn't been created!
-                //lets add it now!
-                //first we make the geometry (just a plane)
-                var geometry = new THREE.PlaneGeometry( 100, 100 );
-                //then we load the texture
-                var texture = new THREE.TextureLoader().load( '/resource?path=public/Contacts/' + renderedContacts[i].icon + '&screen=' + thisWidgetName );
-                //now we need to make a material with that texture
-                var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
-                //now make the actual mesh
-                var newContact = new THREE.Mesh(geometry, material);
-                //assign the GUID to the name of this new mesh
-                newContact.name = renderedContacts[i].GUID;
-                //add it to the scene
-                scene.add(newContact);
-                //save a reference
-                contact = newContact;
-            } 
-            //now let's update it's values
-            //set it's position to the proper xPos;
-            contact.position.x = renderedContacts[i].xPos;
-            //set it's position to the proper yPos;
-            contact.position.y = renderedContacts[i].yPos;
-            //set it's proper width
-            contact.scale.x = renderedContacts[i].width / 100; //we divide by 100, because we need to decimate the size
-            //set it's proper height
-            contact.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
-        }else if(renderedContacts[i].type == "planet"){
-            var contact = scene.getObjectByName(renderedContacts[i].GUID);
-            if(contact == undefined ){
-                //this object hasn't been created!
-                //lets add it now!
-                //first we make the geometry (just a plane)
-                var geometry = new THREE.PlaneGeometry( 100, 100 );
-                //then we load the texture
-                var texture = new THREE.TextureLoader().load(renderedContacts[i].icon);
-                //now we need to make a material with that texture
-                var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
-                //now make the actual mesh
-                var newContact = new THREE.Mesh(geometry, material);
-                //assign the GUID to the name of this new mesh
-                newContact.name = renderedContacts[i].GUID;
-                //add it to the scene
-                scene.add(newContact);
-                //save a reference
-                contact = newContact;
-            }
-            contact.scale.x = renderedContacts[i].size;
-            contact.scale.y = renderedContacts[i].size;
-            contact.position.x = renderedContacts[i].xPos;
-            contact.position.y = renderedContacts[i].yPos;
-            contact.rotation.z = renderedContacts[i].rotation;
-        }else if(renderedContacts[i].type == "asteroid"){
-            var contact = scene.getObjectByName(renderedContacts[i].GUID);
-            if(contact == undefined ){
-                //this object hasn't been created!
-                //lets add it now!
-                //first we make the geometry (just a plane)
-                var geometry = new THREE.PlaneGeometry( 100, 100 );
-                //now we need to make a material with that texture
-                var material = getMaterialForAsteroid(renderedContacts[i].asteroidIcon);
-                //now make the actual mesh
-                var newContact = new THREE.Mesh(geometry, material);
-                //assign the GUID to the name of this new mesh
-                newContact.name = renderedContacts[i].GUID;
-                //add it to the scene
-                scene.add(newContact);
-                //save a reference
-                contact = newContact;
-            }
-            contact.scale.x = renderedContacts[i].size;
-            contact.scale.y = renderedContacts[i].size;""
-            contact.position.x = renderedContacts[i].xPos;
-            contact.position.y = renderedContacts[i].yPos;
-            contact.rotation.z = renderedContacts[i].rotation;
-        }else if(renderedContacts[i].type == "nebula"){
-            var contact = scene.getObjectByName(renderedContacts[i].GUID);
-            if(contact == undefined ){
-                //this object hasn't been created!
-                //lets add it now!
-                //first we make the geometry (just a plane)
-                var geometry = new THREE.PlaneGeometry( 100, 100 );
-                //now we need to make a material with that texture
-                var material = new THREE.MeshBasicMaterial( { map: getMaterialForNebula(renderedContacts[i].nebulaIcon),transparent: true } );
-                material.color.set(0xffffff * renderedContacts[i].color);
-                //now make the actual mesh
-                var newContact = new THREE.Mesh(geometry, material);
-                //assign the GUID to the name of this new mesh
-                newContact.name = renderedContacts[i].GUID;
-                //add it to the scene
-                scene.add(newContact);
-                //save a reference
-                contact = newContact;
-            }
-            contact.scale.x = renderedContacts[i].size;
-            contact.scale.y = renderedContacts[i].size;
-            contact.position.x = renderedContacts[i].xPos;
-            contact.position.y = renderedContacts[i].yPos;
-            contact.rotation.z = renderedContacts[i].rotation;
-        }else if(renderedContacts[i].type == "torpedo"){
-            var contact = scene.getObjectByName(renderedContacts[i].GUID);
-            if(contact == undefined ){
-                //this object hasn't been created!
-                //lets add it now!
-                //first we make the geometry (just a plane)
-                var geometry = new THREE.PlaneGeometry( 100, 100 );
-                //now we need to make a material with that texture
-                var material = torpedoTextures[Math.floor(Math.random() * torpedoTextures.length)];
-                //now make the actual mesh
-                var newContact = new THREE.Mesh(geometry, material);
-                //assign the GUID to the name of this new mesh
-                newContact.name = renderedContacts[i].GUID;
-                //add it to the scene
-                scene.add(newContact);
-                //save a reference
-                contact = newContact;
-            }
-            contact.scale.x = .03;
-            contact.scale.y = .03;
-            contact.position.x = renderedContacts[i].xPos;
-            contact.position.y = renderedContacts[i].yPos;
-        }else if(renderedContacts[i].type == "phaser"){
-            var contact = scene.getObjectByName(renderedContacts[i].GUID);
-            if(contact == undefined){
-                //this object hasn't been created!
-                //lets add it now!
-
-                var material = new THREE.LineBasicMaterial({ color: 0xffee59 });
-                var geometry = new THREE.Geometry();
-
-                geometry.vertices.push(new THREE.Vector3(50,50,0));
-                geometry.vertices.push(new THREE.Vector3(50,50,0));
-
-                var newLine = new THREE.Line(geometry, material);
-                newLine.name = renderedContacts[i].GUID;
-                scene.add(newLine);
-
-                //assign the GUID to the name of this new mesh
-                newLine.name = renderedContacts[i].GUID;
-                //add it to the scene
-                scene.add(newLine);
-                //save a reference
-                contact = newLine;
-            }
-            contact.geometry.dynamic = true;
-            //first set the end point
-            var newPhaserPosition = polarToCartesian({"radians" : renderedContacts[i].direction, "distance" : renderedContacts[i].distance});
-            contact.geometry.vertices[1].set(newPhaserPosition.x + 50,newPhaserPosition.y + 50,0);
-            //now the start
-            if(renderedContacts[i].phaserLength == undefined){
-                //still firing, which means it needs to originate from the ship
-                contact.geometry.vertices[0].set(50,50,0);
-            }else{
-                var newPhaserEndPosition = polarToCartesian({"radians" : renderedContacts[i].direction, "distance" : renderedContacts[i].distance - renderedContacts[i].phaserLength});
-                contact.geometry.vertices[0].set(newPhaserEndPosition.x + 50,newPhaserEndPosition.y + 50,0);
-            }
-            contact.geometry.verticesNeedUpdate = true;
-        }else if(renderedContacts[i].type == "explosion"){
-            var contact = scene.getObjectByName(renderedContacts[i].GUID);
-            if(contact == undefined ){
-                //this object hasn't been created!
-                //lets add it now!
-                //first we make the geometry (just a plane)
-                var geometry = new THREE.PlaneGeometry( 100, 100 );
-                //now we need to make a material with that texture
-                var material = new THREE.MeshBasicMaterial( { map: explosionTextures[0],transparent: true } );
-                //now make the actual mesh
-                var newContact = new THREE.Mesh(geometry, material);
-                //assign the GUID to the name of this new mesh
-                newContact.name = renderedContacts[i].GUID;
-                //add it to the scene
-                scene.add(newContact);
-                //save a reference
-                contact = newContact;
-            }
-            contact.scale.x = renderedContacts[i].size;
-            contact.scale.y = renderedContacts[i].size;
-            contact.position.x = renderedContacts[i].xPos;
-            contact.position.y = renderedContacts[i].yPos;
-
-            var j,
-                textureUpdated = false;
-            for(j = 0;j < explosionTextures.length;j++){
-                if(!textureUpdated){
-                    if(contact.material.map == explosionTextures[j]){
-                        if(j == explosionTextures.length){
-                            //remove
-                        }else{
-                            textureUpdated = true;
-                            console.log("explosion_" + j);
-                            if(j + 1 < explosionTextures.length){
-                                contact.material.map = explosionTextures[j + 1];
-                                contact.material.needsUpdate = true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 //name: cartesian2Polar
 //purpose: converts Cartesian cords to polar cords, assuming origin is x:0 y:0 (top left)
 //takes: x cord, y cord
@@ -1001,50 +507,6 @@ function guidGenerator() {
        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
    };
    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-}
-
-function addSpecialContact(type,name,xPos,yPos,size,icon){
-    var newContact = 
-    {
-        "type" : type, //we have several different things that go on the sensors array, so we have to specify
-        "GUID" : guidGenerator(),
-        "xPos" : xPos,
-        "size" : size,
-        "name" : name,
-        "yPos" : yPos,
-        "icon" : icon,
-        "attributes" :
-        {
-            "isActive" : true
-        }
-    }
-    programs.splice(programs.length,0,newContact);
-    Interstellar.setDatabaseValue("sensors.programs",programs);
-}
-
-function addNewContact(name,xPos,yPos,wantedX,wantedY,height,width,animationSpeed,icon){
-    var newContact = 
-    {
-        "type" : "contact", //we have several different things that go on the sensors array, so we have to specify
-        "GUID" : guidGenerator(),
-        "xPos" : xPos,
-        "height" : height,
-        "name" : name,
-        "width" : width,
-        "yPos" : yPos,
-        "wantedX" : wantedX,
-        "wantedY" : wantedY,
-        "animationSpeed" : animationSpeed,
-        "xStep" : undefined,
-        "yStep" : undefined,
-        "icon" : icon,
-        "attributes" :
-        {
-            "isActive" : true
-        }
-    }
-    contacts.splice(contacts.length,0,newContact);
-    Interstellar.setDatabaseValue("sensors.contacts",contacts);
 }
 
 function getMaterialForNebula(icon){
@@ -1120,197 +582,24 @@ function createExplosionAtPoint(xCord,yCord,size){
 // Schedule the first frame.
 requestAnimationFrame(animate);
 //event handlers
-canvas.mousedown(function(event){
-    //first we need to know if they are selecting one contact
-    //in particular, or if they are trying to drag select
-    var selectingContact = "";
-    //cycle through each contact, if the offset lies within
-    var i;
-    var cursorXpercentage = (event.offsetX / canvas.width()) * 100,
-        cursorYpercentage = 100 - ((event.offsetY / canvas.height() * 100));
-    for(i = 0;i < CompoundContactsArray.length;i++){
-        //it's bounds, then we are selecting it.
-        if(
-            cursorXpercentage > CompoundContactsArray[i].wantedX - (CompoundContactsArray[i].width / 2) &&
-            cursorXpercentage < CompoundContactsArray[i].wantedX + (CompoundContactsArray[i].width / 2) &&
-            cursorYpercentage > CompoundContactsArray[i].wantedY - (CompoundContactsArray[i].height / 2) &&
-            cursorYpercentage < CompoundContactsArray[i].wantedY + (CompoundContactsArray[i].height / 2)
-        ){
-            //set the selected contact to the GUID;
-            selectingContact = CompoundContactsArray[i].GUID;
-            //and stop the execution of this for loop, for the sake of speed
-            break;
-        }
-    }
-    //if there was a contact on our mouse click
-    if(selectingContact != ""){
-        //first we need to know if this contact has already been selected
-        if(jQuery.inArray(selectingContact,selectedContacts) == -1){
-            //since this contact wasn't in the array, we unselect every other contact
-            selectedContacts = [selectingContact];
-        }
-        //set the flag that we are dragging contacts to true
-        isDraggingContacts = true;
-        //now record the mouse position
-        draggingContactsMouseOffset.x = (event.offsetX / canvas.width()) * 100;
-        draggingContactsMouseOffset.y = 100 - ((event.offsetY / canvas.height() * 100));
-        //time to record the offsets
-        //let's first clear them all
-        selectedContactOffsets.splice(0,selectedContactOffsets.length);
-        var i,
-            j;
-        for(i = 0;i < selectedContacts.length;i++){
-            for(j = 0;j < CompoundContactsArray.length;j++){
-                if(selectedContacts[i] == CompoundContactsArray[j].GUID){
-                    var contactOffsetX = CompoundContactsArray[j].wantedX - draggingContactsMouseOffset.x;
-                    var contactOffsetY = CompoundContactsArray[j].wantedY - draggingContactsMouseOffset.y;
-                    selectedContactOffsets.splice(selectedContactOffsets.length,0,
-                    {
-                        "x" : contactOffsetX,
-                        "y" : contactOffsetY
-                    });
-                }
-            }
-        }
-        //clear old event listeners (so we don't leak them)
-        $(document).off('mousemove.sensorsDragging');
-        $(document).off('mouseup.sensorsDraggingEnd');
-        //tell the document what to do when the mouse moves
-        $(document).on('mousemove.sensorsDragging',function(event){
-            //record the mouse positions, so that three.js can render the contacts moving
-            draggingContactsMouseOffset.x = (event.offsetX / canvas.width()) * 100;
-            draggingContactsMouseOffset.y = 100 - ((event.offsetY / canvas.height() * 100));
-        });
-        $(document).on('mouseup.sensorsDraggingEnd',function(event){
-            isDraggingContacts = false;
-            //now we need to save these points and push to the database
-            var i,
-                j;
-            for(i = 0;i < selectedContacts.length;i++){
-                for(j = 0;j < CompoundContactsArray.length;j++){
-                    if(CompoundContactsArray[j].GUID == selectedContacts[i]){
-                        CompoundContactsArray[j].wantedX = draggingContactsMouseOffset.x + selectedContactOffsets[i].x;
-                        CompoundContactsArray[j].wantedY = draggingContactsMouseOffset.y + selectedContactOffsets[i].y;
-                        CompoundContactsArray[j].xStep = undefined;
-                        CompoundContactsArray[j].yStep = undefined;
-                    }
-                }
-            }
-            selectedContacts = [];
-            $(document).off('mousemove.sensorsDragging');
-            $(document).off('mouseup.sensorsDraggingEnd');
-            var newContactsArray = [],
-                i;
-            for(i = 0;i < CompoundContactsArray.length;i++){
-                if(CompoundContactsArray[i].type == "contact"){
-                    newContactsArray.splice(newContactsArray.length,0,CompoundContactsArray[i]);
-                }
-            }
-            Interstellar.setDatabaseValue("sensors.contacts",newContactsArray);
-        });
-    }else{
-        //we are drag selecting
-
-        //define the start x and y points for the drag selection
-        selectionDragPoints.startX = event.offsetX;
-        selectionDragPoints.startY = event.offsetY;
-        //when we click on the canvas
-        //clear old event listeners (so we don't leak them)
-        $(document).off('mousemove.sensorsSelection');
-        $(document).off('mousemove.sensorsSelectionEnd');
-        //tell the document what to do when the mouse moves
-        $(document).on('mousemove.sensorsSelection',function(event){
-            //set the current end points
-            selectionDragPoints.endX = event.offsetX;
-            selectionDragPoints.endY = event.offsetY;
-            //and redraw the GUI
-            //now that we have finalized the box, lets convert it to a simple x,y,height width to make
-            //comparisons easier
-            var selectionX,selectionY,selectionHeight,selectionWidth;
-
-            //first figure out the X
-            if(selectionDragPoints.startX > selectionDragPoints.endX){
-                selectionX = (selectionDragPoints.endX / canvas.width()) * 100;
-            }else{
-                selectionX = (selectionDragPoints.startX  / canvas.width()) * 100;
-            }
-            //set the width
-            selectionWidth = (Math.abs(selectionDragPoints.startX - selectionDragPoints.endX) / canvas.width()) * 100;
-
-            //now for the Y!
-            if(selectionDragPoints.startY < selectionDragPoints.endY){
-                selectionY = 100 - ((selectionDragPoints.endY / canvas.height()) * 100); //we have to invert y
-            }else{
-                selectionY = 100 - ((selectionDragPoints.startY / canvas.height()) * 100); //we have to invert y
-            }
-            //set the height
-            selectionHeight = (Math.abs(selectionDragPoints.startY - selectionDragPoints.endY) / canvas.height()) * 100;
-            //add all the contacts in the drag selection box to the selected contacts array
-            selectedContacts = [];
-            var i;
-            for(i = 0;i < CompoundContactsArray.length;i++){
-                //see if it falls in the right bounds
-                if(
-                    CompoundContactsArray[i].wantedX + (CompoundContactsArray[i].width / 2) >= selectionX &&
-                    CompoundContactsArray[i].wantedX - (CompoundContactsArray[i].width / 2) <= selectionX + selectionWidth &&
-                    CompoundContactsArray[i].wantedY + (CompoundContactsArray[i].height / 2) >= selectionY &&
-                    CompoundContactsArray[i].wantedY - (CompoundContactsArray[i].height / 2) <= selectionY + selectionHeight
-                ){
-                    //the item falls in the selection box
-                    selectedContacts.splice(selectedContacts.length,0,CompoundContactsArray[i].GUID);
-                }
-            }
-
-            drawSensorsGui();
-        });
-        //when we let go of the mouse
-        $(document).on('mouseup.sensorsSelectionEnd',function(event){
-            //erase the selection box (by reseting it's values back to 0)
-            selectionDragPoints.startX = 0;
-            selectionDragPoints.startY = 0;
-            selectionDragPoints.endX = 0;
-            selectionDragPoints.endY = 0;
-            //and draw the canvas again
-            drawSensorsGui();
-            //clear all the event listeners (so the drawing stops)
-            $(document).off('mousemove.sensorsSelection');
-            $(document).off('mouseup.sensorsSelectionEnd');
-        });
-    }
-});
 scanButton.click(function(event){
     if(scanningObject != undefined){
         Interstellar.setDatabaseValue("sensors.externalScans.scanObject",undefined);
     }else{
+        var direction = Number(scanDirectionDropdown.val());
         Interstellar.setDatabaseValue("sensors.externalScans.scanObject",{
-            "query" : "SPACE COWS",
+            "query" : scanQueryTextbox.val(),
             "timePassed" : 0,
-            "timeRequired" : 300,
-            "direction" : 1,
+            "timeRequired" : averageScanTime,
+            "direction" : direction,
             "answer" : undefined
         });
     }
 });
+//intervals
 setInterval(function(){
     if(scanningObject != undefined){
         scanningObject.timePassed += .1;
         Interstellar.setDatabaseValue("sensors.externalScans.scanObject",scanningObject);
     }
 },0100);
-Interstellar.onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
-    scanningObject = newData;
-    if(newData == null || newData == undefined){
-        //no scan
-        scanButton.html("SCAN");
-    }else{
-        //scan in progress
-        scanButton.html("CANCEL");
-    }
-    if(scanningObject != undefined){
-        scanAnswerTextArea.html("");
-    }else{
-        scanAnswerTextArea.html("SCANNING... <br />(" + Math.round((scanningObject.timePassed / scanningObject.timeRequired) * 100) + "% COMPLETE)");
-    }
-    drawSensorsGui();
-});
-//intervals

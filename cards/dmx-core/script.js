@@ -5,7 +5,7 @@ Interstellar.addCoreWidget("DMX Control",function(){
 	$("#dmx-core_blackout").click(function(event){
 		Interstellar.setDatabaseValue("lights.blackout",true);
 	});
-	$("#dmx-core_smokeMachineSlider").click(function(event){
+	$("#dmx-core_smokeMachineSlider").on("change",function(event){
 		Interstellar.setDatabaseValue("ship.fog",Number($(event.target).val()));
 	});
 });
