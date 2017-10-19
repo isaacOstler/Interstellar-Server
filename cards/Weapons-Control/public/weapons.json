@@ -1,0 +1,210 @@
+[
+	{
+		"type" : "phaser",
+		"weaponName" : "PORT BOW PHASER",
+		"position" :
+		{
+			"x" : 0,
+			"y" : 0
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.45,
+			"y" : 0.25
+		},
+		"angleOfFire" : 56,
+		"direction" : 303
+	},
+	{
+		"type" : "phaser",
+		"weaponName" : "STAR BOW PHASER",
+		"position" :
+		{
+			"x" : 0.6,
+			"y" : 0
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.55,
+			"y" : 0.25
+		},
+		"angleOfFire" : 56,
+		"direction" : 0
+	},
+	{
+		"type" : "phaser",
+		"weaponName" : "PORT PHASER",
+		"position" :
+		{
+			"x" : 0,
+			"y" : 0.20
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.475,
+			"y" : 0.4
+		},
+		"angleOfFire" : 56,
+		"direction" : 243
+	},
+	{
+		"type" : "phaser",
+		"weaponName" : "STARBOARD PHASER",
+		"position" :
+		{
+			"x" : 0.6,
+			"y" : 0.20
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.525,
+			"y" : 0.4
+		},
+		"angleOfFire" : 56,
+		"direction" : 64
+	},
+	{
+		"type" : "phaser",
+		"weaponName" : "PORT QUARTER PHASER",
+		"position" :
+		{
+			"x" : 0,
+			"y" : 0.85
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.45,
+			"y" : 0.75
+		},
+		"angleOfFire" : 56,
+		"direction" : 181
+	},
+	{
+		"type" : "phaser",
+		"weaponName" : "STAR QUARTER PHASER",
+		"position" :
+		{
+			"x" : 0.6,
+			"y" : 0.85
+		},
+		"size" :
+		{
+			"height" : 0.15,
+			"width" : 0.4
+		},
+		"weaponStatus" :
+		{
+			"phaserCharge" : 0,
+			"phaserHeat" : 0
+		},
+		"point" :
+		{
+			"x" : 0.55,
+			"y" : 0.75
+		},
+		"angleOfFire" : 56,
+		"direction" : 124
+	},
+	{
+		"type" : "torpedo",
+		"weaponName" : "FORWARD TORPEDO LAUNCHER",
+		"position" :
+		{
+			"x" : 0,
+			"y" : 0.4
+		},
+		"size" :
+		{
+			"height" : 0.30,
+			"width" : 0.35
+		},
+		"weaponStatus" :
+		{
+			"torpedoCount" : 2,
+			"torpedoLoaded" : false
+		},
+		"point" :
+		{
+			"x" : 0.5005,
+			"y" : 0.2
+		},
+		"angleOfFire" : 140,
+		"direction" : 290
+	},
+	{
+		"type" : "torpedo",
+		"weaponName" : "AFT TORPEDO LAUNCHER",
+		"position" :
+		{
+			"x" : 0.65,
+			"y" : 0.4
+		},
+		"size" :
+		{
+			"height" : 0.30,
+			"width" : 0.35
+		},
+		"weaponStatus" :
+		{
+			"torpedoCount" : 25,
+			"torpedoLoaded" : true
+		},
+		"point" :
+		{
+			"x" : 0.5005,
+			"y" : 0.72
+		},
+		"angleOfFire" : 140,
+		"direction" : 110
+	}
+]

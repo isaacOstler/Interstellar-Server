@@ -1406,19 +1406,4 @@ Interstellar.addCoreWidget("Sensors",function(){
         addNewContact("odyssey",contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
     });
     //interval
-    setInterval(function(){
-        var newWeapons = [];
-        for(var i = 0;i < 2;i++){
-            var newWeapon = {
-                "type" : "torpedo",
-                "GUID" : "torpedo_" + guidGenerator(),
-                "direction" : radiansToDegrees(360 * Math.random()),
-                "xPos" : 50,
-                "yPos" : 50,
-                "source" : "friendly"
-            }
-            newWeapons.splice(newWeapons.length,0,newWeapon);
-        }
-        Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapons));
-    },10000);
 });
