@@ -501,7 +501,7 @@ function animationCycle(newData){
                         //so we just have to divide the frameRate by the refresh rate to get a scaler
                         var scaler = frameRate / networkRefreshRate;
                         //now add the scaled xStep to the xPos
-                        CompoundContactsArray[i].xPos += (getStepsFromAngle(CompoundContactsArray[i].direction).x * scaler);
+                        CompoundContactsArray[i].xPos -= (getStepsFromAngle(CompoundContactsArray[i].direction).x * scaler);
                         //same for the y
                         CompoundContactsArray[i].yPos += (getStepsFromAngle(CompoundContactsArray[i].direction).y * scaler);
                         //let's also factor in the move all speed

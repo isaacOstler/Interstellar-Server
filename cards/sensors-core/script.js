@@ -471,7 +471,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                             //so we just have to divide the frameRate by the refresh rate to get a scaler
                             var scaler = frameRate / networkRefreshRate;
                             //now add the scaled xStep to the xPos
-                            CompoundContactsArray[i].xPos += (getStepsFromAngle(CompoundContactsArray[i].direction).x * scaler);
+                            CompoundContactsArray[i].xPos -= (getStepsFromAngle(CompoundContactsArray[i].direction).x * scaler);
                             //same for the y
                             CompoundContactsArray[i].yPos += (getStepsFromAngle(CompoundContactsArray[i].direction).y * scaler);
                             //let's also factor in the move all speed
@@ -563,7 +563,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             differenceDetected = true;
             if(weapons[i].type == "torpedo"){
                 var direction = getStepsFromAngle(weapons[i].direction);
-                weapons[i].xPos += direction.x;
+                weapons[i].xPos -= direction.x;
                 weapons[i].yPos += direction.y;
             }else if(weapons[i].type == "phaser"){
                 weapons[i].distance += phaserSpeed;

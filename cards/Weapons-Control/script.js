@@ -192,7 +192,7 @@ canvas.mousedown(function(event){
                             var newWeapon = {
                                 "type" : "torpedo",
                                 "GUID" : "torpedo_" + guidGenerator(),
-                                "direction" : targetPosition.degrees,
+                                "direction" : degreesToRadians(targetPosition.degrees + 90),
                                 "xPos" : 50,
                                 "yPos" : 50,
                                 "source" : "friendly"
