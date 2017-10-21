@@ -18,7 +18,7 @@ Interstellar.onDatabaseValueChange("weaponStatus.targetPosition",function(newDat
     drawSensorsGui();
 });
 
-Interstellar.onDatabaseValueChange("weaponStatus.weaponStatus",function(newData){
+Interstellar.onDatabaseValueChange("weapons.weaponStatus",function(newData){
     if(newData == null){
         $.getJSON("/resource?path=public/weapons.json", function(loadedJSON){
             Interstellar.setDatabaseValue("weaponStatus.weaponStatus",loadedJSON);
