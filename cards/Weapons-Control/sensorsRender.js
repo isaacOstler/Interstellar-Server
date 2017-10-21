@@ -1080,7 +1080,7 @@ function updateContactsOnArray(renderedContacts){
             contact.geometry.dynamic = true;
             //first set the end point
             var newPhaserPosition = polarToCartesian({"radians" : renderedContacts[i].direction, "distance" : renderedContacts[i].distance});
-            contact.geometry.vertices[1].set(newPhaserPosition.x + 50,newPhaserPosition.y + 50,0);
+            contact.geometry.vertices[1].set(-newPhaserPosition.x + 50,newPhaserPosition.y + 50,0);
             //now the start
             if(renderedContacts[i].phaserLength == undefined){
                 //still firing, which means it needs to originate from the ship
