@@ -1087,7 +1087,7 @@ function updateContactsOnArray(renderedContacts){
                 contact.geometry.vertices[0].set(50,50,0);
             }else{
                 var newPhaserEndPosition = polarToCartesian({"radians" : renderedContacts[i].direction, "distance" : renderedContacts[i].distance - renderedContacts[i].phaserLength});
-                contact.geometry.vertices[0].set(newPhaserEndPosition.x + 50,newPhaserEndPosition.y + 50,0);
+                contact.geometry.vertices[0].set(-newPhaserEndPosition.x + 50,newPhaserEndPosition.y + 50,0);
             }
             contact.geometry.verticesNeedUpdate = true;
         }else if(renderedContacts[i].type == "explosion"){

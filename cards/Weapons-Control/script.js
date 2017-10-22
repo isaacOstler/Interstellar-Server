@@ -178,9 +178,10 @@ canvas.mousedown(function(event){
                         if(weaponStatus[i].weaponStatus.phaserCharge > 0){
                             //phasers charged
                             Interstellar.playRandomBeep();
+                            var guidOfWeapon = guidGenerator();
                             var newWeapon = {
                                 "type" : "phaser",
-                                "GUID" : guidGenerator(),
+                                "GUID" : guidOfWeapon,
                                 "direction" : degreesToRadians(targetPosition.degrees + 90),
                                 "distance" : 0,
                                 "phaserLength" : null,
@@ -188,6 +189,16 @@ canvas.mousedown(function(event){
                             }
                             Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapon));
                             Interstellar.setDatabaseValue("weaponStatus.weaponNotification",weaponStatus[i].weaponName + " FIRING");
+                            let weaponID = guidOfWeapon;
+                            $(document).on("mouseup.phaserRelease",function(event){
+                                for(var i = 0;i < weapons.length;i++){
+                                    if(weapons[i].GUID == weaponID){
+                                        weapons[i].phaserLength = weapons[i].distance;
+                                    }
+                                }
+                                $(document).off("mouseup.phaserRelease");
+                                Interstellar.setDatabaseValue("sensors.weapons",weapons);
+                            });
                         }else{
                             //phasers not charged
                             Interstellar.playErrorNoise();
