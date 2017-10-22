@@ -187,7 +187,9 @@ canvas.mousedown(function(event){
                                 "phaserLength" : null,
                                 "source" : "friendly"
                             }
-                            Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapon));
+                            weapons = weapons.concat(newWeapon);
+                            updateContactsEarly();
+                            //Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapon));
                             Interstellar.setDatabaseValue("weaponStatus.weaponNotification",weaponStatus[i].weaponName + " FIRING");
                             let weaponID = guidOfWeapon;
                             $(document).on("mouseup.phaserRelease",function(event){
@@ -197,7 +199,8 @@ canvas.mousedown(function(event){
                                     }
                                 }
                                 $(document).off("mouseup.phaserRelease");
-                                Interstellar.setDatabaseValue("sensors.weapons",weapons);
+                                updateContactsEarly();
+                                //Interstellar.setDatabaseValue("sensors.weapons",weapons);
                             });
                         }else{
                             //phasers not charged
@@ -216,7 +219,9 @@ canvas.mousedown(function(event){
                                 "yPos" : 50,
                                 "source" : "friendly"
                             }
-                            Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapon));
+                            weapons = weapons.concat(newWeapon);
+                            updateContactsEarly();
+                            //Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapon));
                             Interstellar.setDatabaseValue("weaponStatus.weaponNotification",weaponStatus[i].weaponName + " FIRED");
                         }else{
                             //torpedo not loaded

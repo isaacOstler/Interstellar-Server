@@ -494,6 +494,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                                 //remove this weapon
                                 weapons.splice(l,1);
                                 CompoundContactsArray.splice(i,1);
+                                updateContactsEarly();
                                 break;
                             }
                         }
@@ -1137,7 +1138,8 @@ Interstellar.addCoreWidget("Sensors",function(){
             }
         }
         programs.splice(programs.length,0,newContact);
-        Interstellar.setDatabaseValue("sensors.programs",programs);
+        updateContactsEarly();
+        //Interstellar.setDatabaseValue("sensors.programs",programs);
     }
 
     function addNewContact(name,xPos,yPos,wantedX,wantedY,height,width,animationSpeed,icon){
@@ -1162,7 +1164,8 @@ Interstellar.addCoreWidget("Sensors",function(){
             }
         }
         contacts.splice(contacts.length,0,newContact);
-        Interstellar.setDatabaseValue("sensors.contacts",contacts);
+        updateContactsEarly();
+        //Interstellar.setDatabaseValue("sensors.contacts",contacts);
     }
 
     function getMaterialForNebula(icon){
@@ -1232,7 +1235,8 @@ Interstellar.addCoreWidget("Sensors",function(){
             "removeBy" : Date.now() + 3
         }
         effects.splice(effects.length,0,newExplosion);
-        Interstellar.setDatabaseValue("sensors.effects",effects);
+        updateContactsEarly();
+        //Interstellar.setDatabaseValue("sensors.effects",effects);
     }
 
     // Schedule the first frame.
@@ -1328,7 +1332,8 @@ Interstellar.addCoreWidget("Sensors",function(){
                         newContactsArray.splice(newContactsArray.length,0,CompoundContactsArray[i]);
                     }
                 }
-                Interstellar.setDatabaseValue("sensors.contacts",newContactsArray);
+                updateContactsEarly();
+                //Interstellar.setDatabaseValue("sensors.contacts",newContactsArray);
             });
         }else{
             //we are drag selecting
@@ -1405,5 +1410,51 @@ Interstellar.addCoreWidget("Sensors",function(){
             contactY = (1 - (event.offsetY / canvas.height())) * 100;
         addNewContact("odyssey",contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
     });
-    //interval
+
+    function updateContactsEarly(){
+        for(var l = 0;l < CompoundContactsArray.length;l++){
+            if(CompoundContactsArray.type == "planet" || CompoundContactsArray.type == "asteroid" || CompoundContactsArray.type == "nebula"){     
+                for(i = 0;i < programs.length;i++){
+                    if(programs[i].GUID == CompoundContactsArray[l].GUID){
+                        programs[i].xPos = CompoundContactsArray[l].xPos;
+                        programs[i].yPos = CompoundContactsArray[l].yPos;
+                        programs[i].rotation = CompoundContactsArray[l].rotation;
+                    }
+                }
+            }
+            if(CompoundContactsArray.type == "torpedo" || CompoundContactsArray.type == "phaser"){
+                for(i = 0;i < weapons.length;i++){
+                    if(weapons[i].GUID == CompoundContactsArray[l].GUID){
+                        if(weapons[i].type == "torpedo"){
+                            weapons[i].xPos = CompoundContactsArray[l].xPos;
+                            weapons[i].yPos = CompoundContactsArray[l].yPos;
+                        }else if(weapons[i].type == "phaser"){
+                            weapons[i].distance = CompoundContactsArray[l].distance;
+                        }
+                    }
+                }
+            }
+            if(CompoundContactsArray.type == "effect"){
+                for(i = 0;i < effects.length;i++){
+                    if(effects[i].removeBy <= Date.now()){
+                        effects.splice(i,1);
+                    }
+                }
+            }
+            if(CompoundContactsArray.type == "contact"){
+                for(i = 0;i < contacts.length;i++){
+                    if(programs[i].GUID == CompoundContactsArray[l].GUID){
+                        programs[i].xPos = CompoundContactsArray[l].xPos;
+                        programs[i].yPos = CompoundContactsArray[l].yPos;
+                        programs[i].wantedX = CompoundContactsArray[l].wantedX;
+                        programs[i].wantedY = CompoundContactsArray[l].wantedY;
+                    }
+                }
+            }
+        }
+        Interstellar.setDatabaseValue("sensors.weapons",weapons);
+        Interstellar.setDatabaseValue("sensors.programs",programs);
+        Interstellar.setDatabaseValue("sensors.contacts",contacts);
+        Interstellar.setDatabaseValue("sensors.effects",effects);
+    }
 });
