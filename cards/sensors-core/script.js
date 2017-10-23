@@ -366,13 +366,13 @@ Interstellar.addCoreWidget("Sensors",function(){
                     "name" : possibleContacts[Math.floor(possibleContacts.length * Math.random())],
                     "width" : 4,
                     "yPos" : Math.random() * 100,
-                    "wantedX" : Math.random() * 100,
+                    "wantedX" : Math.random() * 85,
                     "wantedY" : Math.random() * 100,
                     "animationSpeed" : 1000,
                     "xStep" : undefined,
                     "yStep" : undefined,
                     "icon" : possibleContacts[Math.floor(possibleContacts.length * Math.random())],
-                    "isActive" : false, //(Math.random() > .5) ? true : false,
+                    "isActive" : false,//(Math.random() > .5) ? true : false,
                     "attributes" :
                     {
                         "infrared" : true
@@ -899,6 +899,33 @@ Interstellar.addCoreWidget("Sensors",function(){
                     line = newLine;
                 }
                 if(renderedContacts[i].isActive){
+                    if(contactGhost == undefined){
+                        var geometry = new THREE.PlaneGeometry( 100, 100 );
+                        //then we load the texture
+                        var texture = new THREE.TextureLoader().load( '/resource?path=public/Contacts/' + renderedContacts[i].icon + '&screen=' + thisWidgetName );
+                        //now we need to make a material with that texture
+                        var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true,opacity : .5} );
+                        var newGhost = new THREE.Mesh(geometry, material);
+                        //assign the GUID to the name of this new mesh
+                        newGhost.name = renderedContacts[i].GUID + "_GHOST";
+                        //add it to the scene
+                        scene.add(newGhost);
+                        //save a reference
+                        contactGhost = newGhost;
+                    }
+                    if(line == undefined){
+                        var material = new THREE.LineBasicMaterial({ color: 0xffffff * Math.random() });
+                        var geometry = new THREE.Geometry();
+
+                        geometry.vertices.push(contact.position);
+                        geometry.vertices.push(contactGhost.position);
+
+                        var newLine = new THREE.Line(geometry, material);
+                        newLine.name = renderedContacts[i].GUID + "_LINE";
+                        scene.add(newLine);
+
+                        line = newLine;
+                    }
                     //contacts first
 
                     //now let's update it's values
@@ -1367,73 +1394,113 @@ Interstellar.addCoreWidget("Sensors",function(){
                 //Interstellar.setDatabaseValue("sensors.contacts",newContactsArray);
             });
         }else{
-            //we are drag selecting
+            //are we trying to select an inactive contact?
+            var isTryingToSelectInactiveContact = false;
+            var mouseXPos = (event.offsetX / canvas.width()) * 100;
+            var mouseYPos = 100 - ((event.offsetY / canvas.height()) * 100);
+            if(mouseXPos > 92 && mouseXPos < 98){
+                var realYPosition = Math.floor((100 - (mouseYPos - ((contactListScrollPosition / canvas.height()) * 100))) / (100 * (sizeOfElementInContactList / canvas.height())));
+                isTryingToSelectInactiveContact = !contacts[realYPosition].isActive;
+            }
+            if(!isTryingToSelectInactiveContact){
+                //we are drag selecting
 
-            //define the start x and y points for the drag selection
-            selectionDragPoints.startX = event.offsetX;
-            selectionDragPoints.startY = event.offsetY;
-            //when we click on the canvas
-            //clear old event listeners (so we don't leak them)
-            $(document).off('mousemove.sensorsSelection');
-            $(document).off('mousemove.sensorsSelectionEnd');
-            //tell the document what to do when the mouse moves
-            $(document).on('mousemove.sensorsSelection',function(event){
-                //set the current end points
-                selectionDragPoints.endX = event.offsetX;
-                selectionDragPoints.endY = event.offsetY;
-                //and redraw the GUI
-                //now that we have finalized the box, lets convert it to a simple x,y,height width to make
-                //comparisons easier
-                var selectionX,selectionY,selectionHeight,selectionWidth;
-
-                //first figure out the X
-                if(selectionDragPoints.startX > selectionDragPoints.endX){
-                    selectionX = (selectionDragPoints.endX / canvas.width()) * 100;
-                }else{
-                    selectionX = (selectionDragPoints.startX  / canvas.width()) * 100;
-                }
-                //set the width
-                selectionWidth = (Math.abs(selectionDragPoints.startX - selectionDragPoints.endX) / canvas.width()) * 100;
-
-                //now for the Y!
-                if(selectionDragPoints.startY < selectionDragPoints.endY){
-                    selectionY = 100 - ((selectionDragPoints.endY / canvas.height()) * 100); //we have to invert y
-                }else{
-                    selectionY = 100 - ((selectionDragPoints.startY / canvas.height()) * 100); //we have to invert y
-                }
-                //set the height
-                selectionHeight = (Math.abs(selectionDragPoints.startY - selectionDragPoints.endY) / canvas.height()) * 100;
-                //add all the contacts in the drag selection box to the selected contacts array
-                selectedContacts = [];
-                var i;
-                for(i = 0;i < CompoundContactsArray.length;i++){
-                    //see if it falls in the right bounds
-                    if(
-                        CompoundContactsArray[i].wantedX + (CompoundContactsArray[i].width / 2) >= selectionX &&
-                        CompoundContactsArray[i].wantedX - (CompoundContactsArray[i].width / 2) <= selectionX + selectionWidth &&
-                        CompoundContactsArray[i].wantedY + (CompoundContactsArray[i].height / 2) >= selectionY &&
-                        CompoundContactsArray[i].wantedY - (CompoundContactsArray[i].height / 2) <= selectionY + selectionHeight
-                    ){
-                        //the item falls in the selection box
-                        selectedContacts.splice(selectedContacts.length,0,CompoundContactsArray[i].GUID);
-                    }
-                }
-
-                drawSensorsGui();
-            });
-            //when we let go of the mouse
-            $(document).on('mouseup.sensorsSelectionEnd',function(event){
-                //erase the selection box (by reseting it's values back to 0)
-                selectionDragPoints.startX = 0;
-                selectionDragPoints.startY = 0;
-                selectionDragPoints.endX = 0;
-                selectionDragPoints.endY = 0;
-                //and draw the canvas again
-                drawSensorsGui();
-                //clear all the event listeners (so the drawing stops)
+                //define the start x and y points for the drag selection
+                selectionDragPoints.startX = event.offsetX;
+                selectionDragPoints.startY = event.offsetY;
+                //when we click on the canvas
+                //clear old event listeners (so we don't leak them)
                 $(document).off('mousemove.sensorsSelection');
-                $(document).off('mouseup.sensorsSelectionEnd');
-            });
+                $(document).off('mousemove.sensorsSelectionEnd');
+                //tell the document what to do when the mouse moves
+                $(document).on('mousemove.sensorsSelection',function(event){
+                    //set the current end points
+                    selectionDragPoints.endX = event.offsetX;
+                    selectionDragPoints.endY = event.offsetY;
+                    //and redraw the GUI
+                    //now that we have finalized the box, lets convert it to a simple x,y,height width to make
+                    //comparisons easier
+                    var selectionX,selectionY,selectionHeight,selectionWidth;
+
+                    //first figure out the X
+                    if(selectionDragPoints.startX > selectionDragPoints.endX){
+                        selectionX = (selectionDragPoints.endX / canvas.width()) * 100;
+                    }else{
+                        selectionX = (selectionDragPoints.startX  / canvas.width()) * 100;
+                    }
+                    //set the width
+                    selectionWidth = (Math.abs(selectionDragPoints.startX - selectionDragPoints.endX) / canvas.width()) * 100;
+
+                    //now for the Y!
+                    if(selectionDragPoints.startY < selectionDragPoints.endY){
+                        selectionY = 100 - ((selectionDragPoints.endY / canvas.height()) * 100); //we have to invert y
+                    }else{
+                        selectionY = 100 - ((selectionDragPoints.startY / canvas.height()) * 100); //we have to invert y
+                    }
+                    //set the height
+                    selectionHeight = (Math.abs(selectionDragPoints.startY - selectionDragPoints.endY) / canvas.height()) * 100;
+                    //add all the contacts in the drag selection box to the selected contacts array
+                    selectedContacts = [];
+                    var i;
+                    for(i = 0;i < CompoundContactsArray.length;i++){
+                        //see if it falls in the right bounds
+                        if(
+                            CompoundContactsArray[i].wantedX + (CompoundContactsArray[i].width / 2) >= selectionX &&
+                            CompoundContactsArray[i].wantedX - (CompoundContactsArray[i].width / 2) <= selectionX + selectionWidth &&
+                            CompoundContactsArray[i].wantedY + (CompoundContactsArray[i].height / 2) >= selectionY &&
+                            CompoundContactsArray[i].wantedY - (CompoundContactsArray[i].height / 2) <= selectionY + selectionHeight
+                        ){
+                            //the item falls in the selection box
+                            selectedContacts.splice(selectedContacts.length,0,CompoundContactsArray[i].GUID);
+                        }
+                    }
+
+                    drawSensorsGui();
+                });
+                //when we let go of the mouse
+                $(document).on('mouseup.sensorsSelectionEnd',function(event){
+                    //erase the selection box (by reseting it's values back to 0)
+                    selectionDragPoints.startX = 0;
+                    selectionDragPoints.startY = 0;
+                    selectionDragPoints.endX = 0;
+                    selectionDragPoints.endY = 0;
+                    //and draw the canvas again
+                    drawSensorsGui();
+                    //clear all the event listeners (so the drawing stops)
+                    $(document).off('mousemove.sensorsSelection');
+                    $(document).off('mouseup.sensorsSelectionEnd');
+                });
+            }else{
+                //we ARE selecting an inactive target
+                //lets set the dragging contacts flag to true
+                isDraggingContacts = true;
+                draggingContactsMouseOffset = {"x" : 100 * (event.offsetX / canvas.width()),"y" : 100 - (100 * (event.offsetY / canvas.height()))};
+                selectedContacts = [contacts[realYPosition].GUID];
+                selectedContactOffsets = [{"x" : 0,"y" : 0}];
+                $(document.body).on("mouseup.dropInactiveContact",function(event){
+                    for(var n = 0;n < contacts.length;n++){
+                        if(contacts[n].GUID == selectedContacts[0]){
+                            contacts[n].xPos = draggingContactsMouseOffset.x;
+                            contacts[n].yPos = draggingContactsMouseOffset.y;
+                            contacts[n].wantedX = draggingContactsMouseOffset.x;
+                            contacts[n].wantedY = draggingContactsMouseOffset.y;
+                            contacts[n].isActive = true;
+
+                            isDraggingContacts = false;
+                            selectedContactOffsets = [];
+                            selectedContacts = [];
+
+                            updateContactsEarly();
+
+                        }
+                    }
+                    $(document.body).off("mouseup.dropInactiveContact");
+                    $(document.body).off("mousemove.dragInactiveContact");
+                });
+                $(document.body).on("mousemove.dragInactiveContact",function(event){
+                    draggingContactsMouseOffset = {"x" : 100 * (event.offsetX / canvas.width()),"y" : 100 - (100 * (event.offsetY / canvas.height()))};
+                });
+            }
         }
     });
     canvas.contextmenu(function(event){
@@ -1446,7 +1513,6 @@ Interstellar.addCoreWidget("Sensors",function(){
 
     contactList_container.scroll(function(event){
         contactListScrollPosition = event.target.scrollTop;
-        console.log(contactListScrollPosition);
     });
     function updateContactsEarly(){
         for(var l = 0;l < CompoundContactsArray.length;l++){
@@ -1480,11 +1546,11 @@ Interstellar.addCoreWidget("Sensors",function(){
             }
             if(CompoundContactsArray[l].type == "contact"){
                 for(i = 0;i < contacts.length;i++){
-                    if(programs[i].GUID == CompoundContactsArray[l].GUID){
-                        programs[i].xPos = CompoundContactsArray[l].xPos;
-                        programs[i].yPos = CompoundContactsArray[l].yPos;
-                        programs[i].wantedX = CompoundContactsArray[l].wantedX;
-                        programs[i].wantedY = CompoundContactsArray[l].wantedY;
+                    if(contacts[i].GUID == CompoundContactsArray[l].GUID){
+                        contacts[i].xPos = CompoundContactsArray[l].xPos;
+                        contacts[i].yPos = CompoundContactsArray[l].yPos;
+                        contacts[i].wantedX = CompoundContactsArray[l].wantedX;
+                        contacts[i].wantedY = CompoundContactsArray[l].wantedY;
                     }
                 }
             }
