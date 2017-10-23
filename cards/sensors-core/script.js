@@ -1290,7 +1290,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     function updateContactList(){
         var html = "";
         for(var i = 0;i < contacts.length;i++){
-            html += "<div class='sensors_core_contactListElement'>";
+            html += "<div class='sensors_core_contactListElement noselect'>";
             html += contacts[i].name;
             html += "</div>";
         }
@@ -1320,10 +1320,13 @@ Interstellar.addCoreWidget("Sensors",function(){
                 cursorYpercentage > CompoundContactsArray[i].wantedY - (CompoundContactsArray[i].height / 2) &&
                 cursorYpercentage < CompoundContactsArray[i].wantedY + (CompoundContactsArray[i].height / 2)
             ){
-                //set the selected contact to the GUID;
-                selectingContact = CompoundContactsArray[i].GUID;
-                //and stop the execution of this for loop, for the sake of speed
-                break;
+                //lastly, check to see if the contact is actually active
+                if(CompoundContactsArray[i].isActive){
+                    //set the selected contact to the GUID;
+                    selectingContact = CompoundContactsArray[i].GUID;
+                    //and stop the execution of this for loop, for the sake of speed
+                    break;
+                }
             }
         }
         //if there was a contact on our mouse click
@@ -1450,8 +1453,11 @@ Interstellar.addCoreWidget("Sensors",function(){
                             CompoundContactsArray[i].wantedY + (CompoundContactsArray[i].height / 2) >= selectionY &&
                             CompoundContactsArray[i].wantedY - (CompoundContactsArray[i].height / 2) <= selectionY + selectionHeight
                         ){
-                            //the item falls in the selection box
-                            selectedContacts.splice(selectedContacts.length,0,CompoundContactsArray[i].GUID);
+                            //lastly, is the contact active?
+                            if(CompoundContactsArray[i].isActive){
+                                //the item falls in the selection box
+                                selectedContacts.splice(selectedContacts.length,0,CompoundContactsArray[i].GUID);
+                            }
                         }
                     }
 
