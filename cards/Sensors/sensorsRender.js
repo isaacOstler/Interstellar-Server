@@ -483,7 +483,7 @@ function animationCycle(newData){
                 }
                 for(var l = 0;l < CompoundContactsArray.length;l++){
                     if(CompoundContactsArray[l].type != "phaser" && CompoundContactsArray[l].type != "torpedo" && CompoundContactsArray[l].type != "nebula" && CompoundContactsArray[l].type != "explosion"){
-                        var polarCords = cartesian2Polar(CompoundContactsArray[l].xPos - (weaponCartCords.x + 50),CompoundContactsArray[l].yPos - (weaponCartCords.y + 50));
+                        var polarCords = cartesian2Polar(CompoundContactsArray[l].xPos - (-weaponCartCords.x + 50),CompoundContactsArray[l].yPos - (weaponCartCords.y + 50));
                         var hitDistance = 1;
                         /*if(CompoundContactsArray[i].type != "torpedo"){
                             hitDistance = 1;
