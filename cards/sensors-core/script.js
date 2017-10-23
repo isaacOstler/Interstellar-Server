@@ -570,11 +570,6 @@ Interstellar.addCoreWidget("Sensors",function(){
                 weapons[i].distance += phaserSpeed;
             }
         }
-        for(i = 0;i < effects.length;i++){
-            if(effects[i].removeBy <= Date.now()){
-                effects.splice(i,1);
-            }
-        }
         for(i = 0;i < contacts.length;i++){
             //we need to apply the move all speed to these contacts, if applicable
             if(moveAllSpeeds.x != 0 || moveAllSpeeds.y != 0){
@@ -622,6 +617,11 @@ Interstellar.addCoreWidget("Sensors",function(){
             clearTimeout(networkRefreshTimeout);
         }
         networkRefreshTimeout = setTimeout(function(){
+            for(i = 0;i < effects.length;i++){
+                if(effects[i].removeBy <= Date.now()){
+                    effects.splice(i,1);
+                }
+            }
             Interstellar.setDatabaseValue("sensors.weapons",weapons);
             Interstellar.setDatabaseValue("sensors.programs",programs);
             Interstellar.setDatabaseValue("sensors.contacts",contacts);
@@ -1079,7 +1079,6 @@ Interstellar.addCoreWidget("Sensors",function(){
                                 //remove
                             }else{
                                 textureUpdated = true;
-                                console.log("explosion_" + j);
                                 if(j + 1 < explosionTextures.length){
                                     contact.material.map = explosionTextures[j + 1];
                                     contact.material.needsUpdate = true;
@@ -1232,7 +1231,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "xPos" : xCord,
             "yPos" : yCord,
             "size" : size,
-            "removeBy" : Date.now() + 3
+            "removeBy" : Date.now() + 3000
         }
         effects.splice(effects.length,0,newExplosion);
         updateContactsEarly();
@@ -1408,12 +1407,14 @@ Interstellar.addCoreWidget("Sensors",function(){
     canvas.contextmenu(function(event){
         var contactX = (event.offsetX / canvas.width()) * 100,
             contactY = (1 - (event.offsetY / canvas.height())) * 100;
-        addNewContact("odyssey",contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
+
+        createExplosionAtPoint(contactX,contactY,.05);
+        //addNewContact("odyssey",contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
     });
 
     function updateContactsEarly(){
         for(var l = 0;l < CompoundContactsArray.length;l++){
-            if(CompoundContactsArray.type == "planet" || CompoundContactsArray.type == "asteroid" || CompoundContactsArray.type == "nebula"){     
+            if(CompoundContactsArray[l].type == "planet" || CompoundContactsArray[l].type == "asteroid" || CompoundContactsArray[l].type == "nebula"){     
                 for(i = 0;i < programs.length;i++){
                     if(programs[i].GUID == CompoundContactsArray[l].GUID){
                         programs[i].xPos = CompoundContactsArray[l].xPos;
@@ -1422,7 +1423,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     }
                 }
             }
-            if(CompoundContactsArray.type == "torpedo" || CompoundContactsArray.type == "phaser"){
+            if(CompoundContactsArray[l].type == "torpedo" || CompoundContactsArray[l].type == "phaser"){
                 for(i = 0;i < weapons.length;i++){
                     if(weapons[i].GUID == CompoundContactsArray[l].GUID){
                         if(weapons[i].type == "torpedo"){
@@ -1434,14 +1435,14 @@ Interstellar.addCoreWidget("Sensors",function(){
                     }
                 }
             }
-            if(CompoundContactsArray.type == "effect"){
+            if(CompoundContactsArray[l].type == "explosion"){
                 for(i = 0;i < effects.length;i++){
                     if(effects[i].removeBy <= Date.now()){
                         effects.splice(i,1);
                     }
                 }
             }
-            if(CompoundContactsArray.type == "contact"){
+            if(CompoundContactsArray[l].type == "contact"){
                 for(i = 0;i < contacts.length;i++){
                     if(programs[i].GUID == CompoundContactsArray[l].GUID){
                         programs[i].xPos = CompoundContactsArray[l].xPos;

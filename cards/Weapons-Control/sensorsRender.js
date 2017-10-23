@@ -1274,16 +1274,15 @@ function createExplosionAtPoint(xCord,yCord,size){
         "xPos" : xCord,
         "yPos" : yCord,
         "size" : size,
-        "removeBy" : Date.now() + 3
+        "removeBy" : Date.now() + 3000
     }
     effects.splice(effects.length,0,newExplosion);
     updateContactsEarly();
     //Interstellar.setDatabaseValue("sensors.effects",effects);
 }
-
 function updateContactsEarly(){
     for(var l = 0;l < CompoundContactsArray.length;l++){
-        if(CompoundContactsArray.type == "planet" || CompoundContactsArray.type == "asteroid" || CompoundContactsArray.type == "nebula"){     
+        if(CompoundContactsArray[l].type == "planet" || CompoundContactsArray[l].type == "asteroid" || CompoundContactsArray[l].type == "nebula"){     
             for(i = 0;i < programs.length;i++){
                 if(programs[i].GUID == CompoundContactsArray[l].GUID){
                     programs[i].xPos = CompoundContactsArray[l].xPos;
@@ -1292,7 +1291,7 @@ function updateContactsEarly(){
                 }
             }
         }
-        if(CompoundContactsArray.type == "torpedo" || CompoundContactsArray.type == "phaser"){
+        if(CompoundContactsArray[l].type == "torpedo" || CompoundContactsArray[l].type == "phaser"){
             for(i = 0;i < weapons.length;i++){
                 if(weapons[i].GUID == CompoundContactsArray[l].GUID){
                     if(weapons[i].type == "torpedo"){
@@ -1304,14 +1303,14 @@ function updateContactsEarly(){
                 }
             }
         }
-        if(CompoundContactsArray.type == "effect"){
+        if(CompoundContactsArray[l].type == "explosion"){
             for(i = 0;i < effects.length;i++){
                 if(effects[i].removeBy <= Date.now()){
                     effects.splice(i,1);
                 }
             }
         }
-        if(CompoundContactsArray.type == "contact"){
+        if(CompoundContactsArray[l].type == "contact"){
             for(i = 0;i < contacts.length;i++){
                 if(programs[i].GUID == CompoundContactsArray[l].GUID){
                     programs[i].xPos = CompoundContactsArray[l].xPos;
