@@ -560,24 +560,29 @@ function animationCycle(newData){
             }
         }
         //now we cut out anything that shouldn't be there (if infrared is active)
+        var finalContactsToRender = [];
+        for(var j = 0;j < CompoundContactsArray.length;j++){
+            if(CompoundContactsArray[j].type == "contact"){
+                if(CompoundContactsArray[j].isActive){
+                    finalContactsToRender.splice(finalContactsToRender.length,0,CompoundContactsArray[j]);
+                }
+            }else{
+                finalContactsToRender.splice(finalContactsToRender.length,0,CompoundContactsArray[j]);
+            }
+        }
         if(infraredActive){
-            var finalContactsToRender = [];
-            for(var j = 0;j < CompoundContactsArray.length;j++){
-                if(CompoundContactsArray[j].type == "nebula" || CompoundContactsArray[j].type == "planet" || CompoundContactsArray[j].type == "phaser" || CompoundContactsArray[j].type == "torpedo"){
-                        finalContactsToRender.splice(finalContactsToRender.length,0,CompoundContactsArray[j]);
-                }else if(CompoundContactsArray[j].type == "contact"){
-                    if(CompoundContactsArray[j].attributes.infrared){
-                        finalContactsToRender.splice(finalContactsToRender.length,0,CompoundContactsArray[j]);
+            for(var j = 0;j < finalContactsToRender.length;j++){
+                if(finalContactsToRender[j].type == "nebula" || finalContactsToRender[j].type == "planet" || finalContactsToRender[j].type == "phaser" || finalContactsToRender[j].type == "torpedo"){
+                        finalContactsToRender.splice(finalContactsToRender.length,0,finalContactsToRender[j]);
+                }else if(finalContactsToRender[j].type == "contact"){
+                    if(finalContactsToRender[j].attributes.infrared){
+                        finalContactsToRender.splice(finalContactsToRender.length,0,finalContactsToRender[j]);
                     }
                 }
             }
-            //now we update the array!
-            updateContactsOnArray(finalContactsToRender);
-        }else{
-            //now we update the array!
-            updateContactsOnArray(CompoundContactsArray);
-
         }
+        //now we update the array!
+        updateContactsOnArray(finalContactsToRender);
     },1000 / frameRate); //this calculates the frame rate (remember, this is in milliseconds)
 }
 //functions
