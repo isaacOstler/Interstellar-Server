@@ -26,7 +26,6 @@ Interstellar.onDatabaseValueChange("weapons.weaponStatus",function(newData){
         return;
     }
     weaponStatus = newData;
-    console.log(JSON.stringify(newData));
     drawSensorsGui();
 });
 
@@ -192,10 +191,31 @@ canvas.mousedown(function(event){
                             //Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapon));
                             Interstellar.setDatabaseValue("weaponStatus.weaponNotification",weaponStatus[i].weaponName + " FIRING");
                             let weaponID = guidOfWeapon;
+                            let indexOfWeapon = i;
+                            let chargeInterval = setInterval(function(){
+                                weaponStatus[indexOfWeapon].weaponStatus.phaserCharge -= 0.09;
+                                weaponStatus[indexOfWeapon].weaponStatus.phaserHeat += .07 + (Math.random() * 0.02);
+                                if(weaponStatus[indexOfWeapon].weaponStatus.phaserCharge < 0){
+                                    weaponStatus[indexOfWeapon].weaponStatus.phaserCharge = 0;
+                                    clearInterval(chargeInterval);
+                                    for(var m = 0;m < weapons.length;m++){
+                                        if(weapons[m].GUID == weaponID){
+                                            weapons[m].phaserLength = weapons[m].distance;
+                                        }
+                                    }
+                                    $(document).off("mouseup.phaserRelease");
+                                    updateContactsEarly();
+                                }
+                                if(weaponStatus[indexOfWeapon].weaponStatus.phaserHeat > 1){
+                                    weaponStatus[indexOfWeapon].weaponStatus.phaserHeat = 1;
+                                }
+                                Interstellar.setDatabaseValue("weapons.weaponStatus",weaponStatus);
+                            },0100);
                             $(document).on("mouseup.phaserRelease",function(event){
-                                for(var i = 0;i < weapons.length;i++){
-                                    if(weapons[i].GUID == weaponID){
-                                        weapons[i].phaserLength = weapons[i].distance;
+                                clearInterval(chargeInterval);
+                                for(var m = 0;m < weapons.length;m++){
+                                    if(weapons[m].GUID == weaponID){
+                                        weapons[m].phaserLength = weapons[m].distance;
                                     }
                                 }
                                 $(document).off("mouseup.phaserRelease");
@@ -209,6 +229,7 @@ canvas.mousedown(function(event){
                         }
                     }else{
                         if(weaponStatus[i].weaponStatus.torpedoLoaded){
+                            weaponStatus[i].weaponStatus.torpedoLoaded = false;
                             //torpedo loaded
                             Interstellar.playRandomBeep();
                             var newWeapon = {
@@ -222,6 +243,7 @@ canvas.mousedown(function(event){
                             weapons = weapons.concat(newWeapon);
                             updateContactsEarly();
                             //Interstellar.setDatabaseValue("sensors.weapons",weapons.concat(newWeapon));
+                            Interstellar.setDatabaseValue("weapons.weaponStatus",weaponStatus);
                             Interstellar.setDatabaseValue("weaponStatus.weaponNotification",weaponStatus[i].weaponName + " FIRED");
                         }else{
                             //torpedo not loaded
