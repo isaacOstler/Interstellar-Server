@@ -10,7 +10,7 @@
     the proper documentation and framework to support safe and effective expansion as time goes on!
 
     The old sensors was going to be a pain to fix bugs with that it was unrealistic to keep the old system.
-    Even while I was designing it, I secretly new in my heart that it was going to have to be redone.
+    Even while I was designing it, I secretly knew in my heart that it was going to have to be redone.
 
     I've learned from my mistakes.  Done research, and actually followed good standards with this version.
 

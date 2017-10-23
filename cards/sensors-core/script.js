@@ -10,7 +10,7 @@
     the proper documentation and framework to support safe and effective expansion as time goes on!
 
     The old sensors was going to be a pain to fix bugs with that it was unrealistic to keep the old system.
-    Even while I was designing it, I secretly new in my heart that it was going to have to be redone.
+    Even while I was designing it, I secretly knew in my heart that it was going to have to be redone.
 
     I've learned from my mistakes.  Done research, and actually followed good standards with this version.
 
@@ -149,6 +149,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "x" : 0,
             "y" : 0
         },
+        possibleContacts = [],
         CompoundContactsArray = [],
         explosionTextures = [
             new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
@@ -228,16 +229,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         nebulaTextures = [
             new THREE.TextureLoader().load("/resource?path=public/Nebula/nebula1.png&screen=" + thisWidgetName)
         ],
-        weapons = [
-            {
-                "type" : "phaser",
-                "GUID" : guidGenerator(),
-                "direction" : degreesToRadians(360 * Math.random()),
-                "distance" : 0,
-                "phaserLength" : 5,
-                "source" : "friendly"
-            }
-        ],
+        weapons = [],
         programs = [
             {
                 "type" : "planet", //we have several different things that go on the sensors array, so we have to specify
@@ -260,17 +252,21 @@ Interstellar.addCoreWidget("Sensors",function(){
                 "asteroidIcon" : 1
             }
         ],
+        sizeOfElementInContactList = 21,
+        contactListScrollPosition = 0,
         //three.js stuff
         camera, scene, renderer,
         frustumSize = 100;
     //DOM references
     var canvas = $("#new_sensors-core_sensorsArray_Canvas"),
         canvasContainer = $("#new_sensors-core_sensorsArray"),
+        contactList_container = $("#sensors_core_contactList_container"),
         range = $("#range");
     //init calls
 
     drawSensorsGui();
     initThreeJS();
+    init();
     
     //preset observers
 
@@ -316,6 +312,8 @@ Interstellar.addCoreWidget("Sensors",function(){
                     programs.splice(programs.length,0,newAsteroid);
                 }
             }*/
+
+            /*
             for(var j = 0;j < 128;j++){
                 var newAsteroid = {
                     "GUID" : guidGenerator(),
@@ -328,7 +326,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     "asteroidIcon" : Math.floor(Math.random() * asteroidTextures.length)
                 }
                 programs.splice(programs.length,0,newAsteroid);
-            }
+            }*/
             Interstellar.setDatabaseValue("sensors.programs",programs);
             return;
         }
@@ -357,32 +355,40 @@ Interstellar.addCoreWidget("Sensors",function(){
         //if there is no new data (the value hasn't been set on the database yet)
         if(newData == null){
             //for debugging purposes, I've generated a test value
-            
-            var presetContacts =[];/*
-            for(var k = 0;k < 500;k++){
+            setTimeout(function(){
+            var presetContacts =[];
+            for(var k = 0;k < 100;k++){
                 var newContact = {
-                        "GUID" : guidGenerator(),
-                        "xPos" : Math.random() * 100,
-                        "yPos" : Math.random() * 100,
-                        "wantedX" : Math.random() * 100,
-                        "wantedY" : Math.random() * 100,
-                        "animationSpeed" : Math.random() * 3000,
-                        "xStep" : undefined,
-                        "yStep" : undefined,
-                        "attributes" :
-                        {
-                            "isActive" : true
-                        }
+                    "type" : "contact", //we have several different things that go on the sensors array, so we have to specify
+                    "GUID" : guidGenerator(),
+                    "xPos" : Math.random() * 100,
+                    "height" : 4,
+                    "name" : possibleContacts[Math.floor(possibleContacts.length * Math.random())],
+                    "width" : 4,
+                    "yPos" : Math.random() * 100,
+                    "wantedX" : Math.random() * 100,
+                    "wantedY" : Math.random() * 100,
+                    "animationSpeed" : 1000,
+                    "xStep" : undefined,
+                    "yStep" : undefined,
+                    "icon" : possibleContacts[Math.floor(possibleContacts.length * Math.random())],
+                    "isActive" : false, //(Math.random() > .5) ? true : false,
+                    "attributes" :
+                    {
+                        "infrared" : true
                     }
+                }
                 presetContacts.splice(presetContacts.length,0,newContact);
-            }*/
+            }
             //set the default value
             Interstellar.setDatabaseValue("sensors.contacts",presetContacts);
+            },0100);
             //terminate execution of this function
             return;
         }
         noAnimationCycleInProgress = false;
         animationCycle(newData);
+        updateContactList();
     })
 
     function animationCycle(newData){
@@ -825,21 +831,16 @@ Interstellar.addCoreWidget("Sensors",function(){
                 //if the object id matches the GUID of a contact, mark found as true'
                 if(scene.children[i].name.includes(renderedContacts[j].GUID)){
                     wasFound = true;
+                    if(renderedContacts[j].type == "contact"){
+                        if(!renderedContacts[j].isActive && scene.children[i].name != renderedContacts[j].GUID){
+                            //if the contact isn't active, we don't want it's ghost and stuff
+                            wasFound = false;
+                        }
+                    }
                 }
             }
             //we didn't find this ID, remove it.
             if(!wasFound){
-
-                //note to isaac
-                //last problem I was working on
-                //for some reason, i don't always clear
-                //old contacts from the array??  Not even sure how it's possible
-                //I've been trying to figure it out for 2 hours.  It shouldn't be possible
-                //
-                // ...
-                //
-                // bug in JavaScript????
-
                 childrenToBeRemoved.splice(childrenToBeRemoved.length,0,scene.children[i]);
             }
         }
@@ -896,27 +897,45 @@ Interstellar.addCoreWidget("Sensors",function(){
                     scene.add(newLine);
 
                     line = newLine;
-                } 
-                //now let's update it's values
-                //set it's position to the proper xPos;
-                contactGhost.position.x = renderedContacts[i].xPos;
-                contact.position.x = renderedContacts[i].wantedX;
-                //set it's position to the proper yPos;
-                contactGhost.position.y = renderedContacts[i].yPos;
-                contact.position.y = renderedContacts[i].wantedY;
-                //set it's proper width
-                contact.scale.x = renderedContacts[i].width / 100; //we divide by 100, because we need to decimate the size
-                contactGhost.scale.x = renderedContacts[i].width / 100; //we divide by 100, because we need to decimate the size
-                //set it's proper height
-                contact.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
-                contactGhost.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
+                }
+                if(renderedContacts[i].isActive){
+                    //contacts first
 
-                //draw the line between the two
+                    //now let's update it's values
+                    //set it's position to the proper xPos;
+                    contact.position.x = renderedContacts[i].wantedX;
+                    //set it's position to the proper yPos;
+                    contact.position.y = renderedContacts[i].wantedY;
+                    //set it's proper width
+                    contact.scale.x = renderedContacts[i].width / 100; //we divide by 100, because we need to decimate the size
+                    //set it's proper height
+                    contact.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
 
-                line.geometry.dynamic = true;
-                line.geometry.vertices.push(contact.position);
-                line.geometry.vertices.push(contactGhost.position);
-                line.geometry.verticesNeedUpdate = true;
+                    //now ghosts              
+                    //set it's position to the proper xPos;
+                    contactGhost.position.x = renderedContacts[i].xPos;
+                    //set it's position to the proper yPos;
+                    contactGhost.position.y = renderedContacts[i].yPos;
+                    //set it's proper width
+                    contactGhost.scale.x = renderedContacts[i].width / 100; //we divide by 100, because we need to decimate the size
+                    //set it's proper height
+                    contactGhost.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
+
+                    //draw the line between the two
+
+                    line.geometry.dynamic = true;
+                    line.geometry.vertices.push(contact.position);
+                    line.geometry.vertices.push(contactGhost.position);
+                    line.geometry.verticesNeedUpdate = true;
+                }else{
+                    //force to the side
+                    contact.position.x = 95;
+                    //force to the side
+                    contact.position.y = (100 - ((100 * (sizeOfElementInContactList / contactList_container.height())) * (i + 1))) + (100 * (contactListScrollPosition / contactList_container.height())) + (100 * (sizeOfElementInContactList / contactList_container.height()) / 2);
+                    //make them smaller
+                    contact.scale.x = 3 / 100;
+                    contact.scale.y = 3 / 100;
+                }
             }else if(renderedContacts[i].type == "planet"){
                 var contact = scene.getObjectByName(renderedContacts[i].GUID);
                 if(contact == undefined ){
@@ -961,7 +980,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     contact = newContact;
                 }
                 contact.scale.x = renderedContacts[i].size;
-                contact.scale.y = renderedContacts[i].size;""
+                contact.scale.y = renderedContacts[i].size;
                 contact.position.x = renderedContacts[i].xPos;
                 contact.position.y = renderedContacts[i].yPos;
                 contact.rotation.z = renderedContacts[i].rotation;
@@ -1094,6 +1113,11 @@ Interstellar.addCoreWidget("Sensors",function(){
     //purpose: converts Cartesian cords to polar cords, assuming origin is x:0 y:0 (top left)
     //takes: x cord, y cord
     //returns: object, containing distance and radians
+    function init(){
+        getFileNamesInFolder("/public/Contacts","sensors-core",function(files){
+            possibleContacts = files;
+        });
+    }
 
     function cartesian2Polar(x, y){
         //Pythagorean theorem
@@ -1131,10 +1155,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "name" : name,
             "yPos" : yPos,
             "icon" : icon,
-            "attributes" :
-            {
-                "isActive" : true
-            }
+            "isActive" : true
         }
         programs.splice(programs.length,0,newContact);
         updateContactsEarly();
@@ -1157,9 +1178,10 @@ Interstellar.addCoreWidget("Sensors",function(){
             "xStep" : undefined,
             "yStep" : undefined,
             "icon" : icon,
+            "isActive" : true,
             "attributes" :
             {
-                "isActive" : true
+                "infrared" : true,
             }
         }
         contacts.splice(contacts.length,0,newContact);
@@ -1236,6 +1258,16 @@ Interstellar.addCoreWidget("Sensors",function(){
         effects.splice(effects.length,0,newExplosion);
         updateContactsEarly();
         //Interstellar.setDatabaseValue("sensors.effects",effects);
+    }
+
+    function updateContactList(){
+        var html = "";
+        for(var i = 0;i < contacts.length;i++){
+            html += "<div class='sensors_core_contactListElement'>";
+            html += contacts[i].name;
+            html += "</div>";
+        }
+        contactList_container.html(html);
     }
 
     // Schedule the first frame.
@@ -1412,6 +1444,10 @@ Interstellar.addCoreWidget("Sensors",function(){
         //addNewContact("odyssey",contactX,contactY,contactX,contactY,3,3,100,"Odyssey.png");
     });
 
+    contactList_container.scroll(function(event){
+        contactListScrollPosition = event.target.scrollTop;
+        console.log(contactListScrollPosition);
+    });
     function updateContactsEarly(){
         for(var l = 0;l < CompoundContactsArray.length;l++){
             if(CompoundContactsArray[l].type == "planet" || CompoundContactsArray[l].type == "asteroid" || CompoundContactsArray[l].type == "nebula"){     
