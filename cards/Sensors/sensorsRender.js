@@ -476,6 +476,7 @@ function animationCycle(newData){
                 var weaponCartCords = {"x" : 0,"y" : 0};
                 if(CompoundContactsArray[i].type == "phaser"){
                     weaponCartCords = polarToCartesian({"radians" : CompoundContactsArray[i].direction, "distance" : CompoundContactsArray[i].distance});
+                    weaponCartCords.x = -weaponCartCords.x;
                 }else{
                     //torpedo
                     weaponCartCords.x = CompoundContactsArray[i].xPos - 50;
