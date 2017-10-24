@@ -477,7 +477,7 @@ function animationCycle(newData){
                 }
                 for(var l = 0;l < CompoundContactsArray.length;l++){
                     if(CompoundContactsArray[l].type != "phaser" && CompoundContactsArray[l].type != "torpedo" && CompoundContactsArray[l].type != "nebula" && CompoundContactsArray[l].type != "explosion"){
-                        var polarCords = cartesian2Polar(CompoundContactsArray[l].xPos - (-weaponCartCords.x + 50),CompoundContactsArray[l].yPos - (weaponCartCords.y + 50));
+                        var polarCords = cartesian2Polar(CompoundContactsArray[l].xPos - (weaponCartCords.x + 50),CompoundContactsArray[l].yPos - (weaponCartCords.y + 50));
                         var hitDistance = 1;
                         /*if(CompoundContactsArray[i].type != "torpedo"){
                             hitDistance = 1;
@@ -488,7 +488,9 @@ function animationCycle(newData){
                                 console.log(polarCords.distance);
                             }*/
                             if(polarCords.distance < hitDistance){
-                                GUID_ofImpactedObject = CompoundContactsArray[l].GUID;
+                                if(CompoundContactsArray[l].isActive){
+                                    GUID_ofImpactedObject = CompoundContactsArray[l].GUID;
+                                }
                             }
                         }
                     }
@@ -1305,11 +1307,11 @@ function updateContactsEarly(){
         }
         if(CompoundContactsArray[l].type == "contact"){
             for(i = 0;i < contacts.length;i++){
-                if(programs[i].GUID == CompoundContactsArray[l].GUID){
-                    programs[i].xPos = CompoundContactsArray[l].xPos;
-                    programs[i].yPos = CompoundContactsArray[l].yPos;
-                    programs[i].wantedX = CompoundContactsArray[l].wantedX;
-                    programs[i].wantedY = CompoundContactsArray[l].wantedY;
+                if(contacts[i].GUID == CompoundContactsArray[l].GUID){
+                    contacts[i].xPos = CompoundContactsArray[l].xPos;
+                    contacts[i].yPos = CompoundContactsArray[l].yPos;
+                    contacts[i].wantedX = CompoundContactsArray[l].wantedX;
+                    contacts[i].wantedY = CompoundContactsArray[l].wantedY;
                 }
             }
         }

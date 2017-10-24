@@ -453,7 +453,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     }
                     for(var l = 0;l < CompoundContactsArray.length;l++){
                         if(CompoundContactsArray[l].type != "phaser" && CompoundContactsArray[l].type != "torpedo" && CompoundContactsArray[l].type != "nebula" && CompoundContactsArray[l].type != "explosion"){
-                            var polarCords = cartesian2Polar(CompoundContactsArray[l].xPos - (-weaponCartCords.x + 50),CompoundContactsArray[l].yPos - (weaponCartCords.y + 50));
+                            var polarCords = cartesian2Polar(CompoundContactsArray[l].xPos - (weaponCartCords.x + 50),CompoundContactsArray[l].yPos - (weaponCartCords.y + 50));
                             var hitDistance = 1;
                             /*if(CompoundContactsArray[i].type != "torpedo"){
                                 hitDistance = 1;
@@ -464,7 +464,9 @@ Interstellar.addCoreWidget("Sensors",function(){
                                     console.log(polarCords.distance);
                                 }*/
                                 if(polarCords.distance < hitDistance){
-                                    GUID_ofImpactedObject = CompoundContactsArray[l].GUID;
+                                    if(CompoundContactsArray[l].isActive){
+                                        GUID_ofImpactedObject = CompoundContactsArray[l].GUID;
+                                    }
                                 }
                             }
                         }
