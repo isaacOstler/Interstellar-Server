@@ -254,6 +254,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         ],
         sizeOfElementInContactList = 21,
         contactListScrollPosition = 0,
+        contactListSelectedContact = undefined,
         //three.js stuff
         camera, scene, renderer,
         frustumSize = 100;
@@ -386,9 +387,15 @@ Interstellar.addCoreWidget("Sensors",function(){
             //terminate execution of this function
             return;
         }
+        if(contacts.length == newData.length){
+            contacts = newData;
+            updateContactList();
+        }else{
+            contacts = newData;
+            drawContactList();
+        }
         noAnimationCycleInProgress = false;
         animationCycle(newData);
-        updateContactList();
     })
 
     function animationCycle(newData){
@@ -1289,15 +1296,75 @@ Interstellar.addCoreWidget("Sensors",function(){
         updateContactsEarly();
         //Interstellar.setDatabaseValue("sensors.effects",effects);
     }
+    function updateContactsEarly(){
+        for(var l = 0;l < CompoundContactsArray.length;l++){
+            if(CompoundContactsArray[l].type == "planet" || CompoundContactsArray[l].type == "asteroid" || CompoundContactsArray[l].type == "nebula"){     
+                for(i = 0;i < programs.length;i++){
+                    if(programs[i].GUID == CompoundContactsArray[l].GUID){
+                        programs[i].xPos = CompoundContactsArray[l].xPos;
+                        programs[i].yPos = CompoundContactsArray[l].yPos;
+                        programs[i].rotation = CompoundContactsArray[l].rotation;
+                    }
+                }
+            }
+            if(CompoundContactsArray[l].type == "torpedo" || CompoundContactsArray[l].type == "phaser"){
+                for(i = 0;i < weapons.length;i++){
+                    if(weapons[i].GUID == CompoundContactsArray[l].GUID){
+                        if(weapons[i].type == "torpedo"){
+                            weapons[i].xPos = CompoundContactsArray[l].xPos;
+                            weapons[i].yPos = CompoundContactsArray[l].yPos;
+                        }else if(weapons[i].type == "phaser"){
+                            weapons[i].distance = CompoundContactsArray[l].distance;
+                        }
+                    }
+                }
+            }
+            if(CompoundContactsArray[l].type == "explosion"){
+                for(i = 0;i < effects.length;i++){
+                    if(effects[i].removeBy <= Date.now()){
+                        effects.splice(i,1);
+                    }
+                }
+            }
+            if(CompoundContactsArray[l].type == "contact"){
+                for(i = 0;i < contacts.length;i++){
+                    if(contacts[i].GUID == CompoundContactsArray[l].GUID){
+                        contacts[i].xPos = CompoundContactsArray[l].xPos;
+                        contacts[i].yPos = CompoundContactsArray[l].yPos;
+                        contacts[i].wantedX = CompoundContactsArray[l].wantedX;
+                        contacts[i].wantedY = CompoundContactsArray[l].wantedY;
+                    }
+                }
+            }
+        }
+        Interstellar.setDatabaseValue("sensors.weapons",weapons);
+        Interstellar.setDatabaseValue("sensors.programs",programs);
+        Interstellar.setDatabaseValue("sensors.contacts",contacts);
+        Interstellar.setDatabaseValue("sensors.effects",effects);
+    }
+    function updateContactEditor(){
+        
+    }
 
     function updateContactList(){
+        for(var i = 0;i < contacts.length;i++){
+            $("#sensors_core_contactListElement_" + i).html(contacts[i].name);
+        }
+    }
+
+    function drawContactList(){
         var html = "";
         for(var i = 0;i < contacts.length;i++){
-            html += "<div class='sensors_core_contactListElement noselect'>";
+            html += "<div class='sensors_core_contactListElement noselect' id='sensors_core_contactListElement_" + i + "' index='" + i + "'>";
             html += contacts[i].name;
             html += "</div>";
         }
         contactList_container.html(html);
+        $(".sensors_core_contactListElement").off();
+        $(".sensors_core_contactListElement").click(function(event){
+            contactListSelectedContact = contacts[Number($(event.target).attr("index"))].GUID;
+            updateContactEditor();
+        });
     }
 
     // Schedule the first frame.
@@ -1523,50 +1590,4 @@ Interstellar.addCoreWidget("Sensors",function(){
     contactList_container.scroll(function(event){
         contactListScrollPosition = event.target.scrollTop;
     });
-    function updateContactsEarly(){
-        for(var l = 0;l < CompoundContactsArray.length;l++){
-            if(CompoundContactsArray[l].type == "planet" || CompoundContactsArray[l].type == "asteroid" || CompoundContactsArray[l].type == "nebula"){     
-                for(i = 0;i < programs.length;i++){
-                    if(programs[i].GUID == CompoundContactsArray[l].GUID){
-                        programs[i].xPos = CompoundContactsArray[l].xPos;
-                        programs[i].yPos = CompoundContactsArray[l].yPos;
-                        programs[i].rotation = CompoundContactsArray[l].rotation;
-                    }
-                }
-            }
-            if(CompoundContactsArray[l].type == "torpedo" || CompoundContactsArray[l].type == "phaser"){
-                for(i = 0;i < weapons.length;i++){
-                    if(weapons[i].GUID == CompoundContactsArray[l].GUID){
-                        if(weapons[i].type == "torpedo"){
-                            weapons[i].xPos = CompoundContactsArray[l].xPos;
-                            weapons[i].yPos = CompoundContactsArray[l].yPos;
-                        }else if(weapons[i].type == "phaser"){
-                            weapons[i].distance = CompoundContactsArray[l].distance;
-                        }
-                    }
-                }
-            }
-            if(CompoundContactsArray[l].type == "explosion"){
-                for(i = 0;i < effects.length;i++){
-                    if(effects[i].removeBy <= Date.now()){
-                        effects.splice(i,1);
-                    }
-                }
-            }
-            if(CompoundContactsArray[l].type == "contact"){
-                for(i = 0;i < contacts.length;i++){
-                    if(contacts[i].GUID == CompoundContactsArray[l].GUID){
-                        contacts[i].xPos = CompoundContactsArray[l].xPos;
-                        contacts[i].yPos = CompoundContactsArray[l].yPos;
-                        contacts[i].wantedX = CompoundContactsArray[l].wantedX;
-                        contacts[i].wantedY = CompoundContactsArray[l].wantedY;
-                    }
-                }
-            }
-        }
-        Interstellar.setDatabaseValue("sensors.weapons",weapons);
-        Interstellar.setDatabaseValue("sensors.programs",programs);
-        Interstellar.setDatabaseValue("sensors.contacts",contacts);
-        Interstellar.setDatabaseValue("sensors.effects",effects);
-    }
 });

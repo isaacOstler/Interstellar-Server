@@ -27,13 +27,39 @@
 	overflow: hidden;
 	top:0px;
 }
+#sensors_core_contactEditor_nameLabel{
+	position: absolute;
+	top:2px;
+	left: 2px;
+}
+#sensors_core_contactEditor_nameTextbox{
+	position: absolute;
+	top:1px;
+	right: 1px;
+	width: calc(100% - 54px);
+}
 .sensors_core_contactListElement{
 	position: relative;
 	width: 100%;
 	height: 20px;
 	left: 0px;
-	background-color: rgba(255,255,255,.2);
+	background-color: rgba(255,255,255,.1);
 	color: white;
 	overflow: hidden;
 	border-bottom: 1px solid white;
+	cursor: pointer;
+}
+#sensors_core_contactEditor_container{
+	position: absolute;
+	bottom:3px;
+	right: 2px;
+	width:calc(50% - 7px);
+	border: 1px solid white;
+	height: calc(50% - 2px);
+}
+.sensors_core_contactListElement:active{
+	background-color: red;
+}
+.sensors_core_contactListElement:hover{
+	filter: brightness(1.25);
 }
