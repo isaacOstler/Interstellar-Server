@@ -27,6 +27,29 @@
 	overflow: hidden;
 	top:0px;
 }
+#sensors_core_contactEditor_imageLabel{
+	position: absolute;
+	top:22px;
+	left: 2px;
+}
+#sensors_core_contactEditor_iconLabel{
+	top:39px;
+	position: absolute;
+	left: 2px;
+}
+#sensors_core_contactEditor_iconDropdown{
+	position: absolute;
+	top:39px;
+	right: 2px;
+	width: calc(100% - 52px);
+}
+#sensors_core_contactEditor_imageDropdown{
+	position: absolute;
+	top:22px;
+	right: 2px;
+	width: calc(100% - 52px);
+	cursor: not-allowed;
+}
 #sensors_core_contactEditor_nameLabel{
 	position: absolute;
 	top:2px;
@@ -35,8 +58,8 @@
 #sensors_core_contactEditor_nameTextbox{
 	position: absolute;
 	top:1px;
-	right: 1px;
-	width: calc(100% - 54px);
+	right: 2px;
+	width: calc(100% - 58px);
 }
 .sensors_core_contactListElement{
 	position: relative;

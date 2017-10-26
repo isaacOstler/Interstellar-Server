@@ -262,6 +262,9 @@ Interstellar.addCoreWidget("Sensors",function(){
     var canvas = $("#new_sensors-core_sensorsArray_Canvas"),
         canvasContainer = $("#new_sensors-core_sensorsArray"),
         contactList_container = $("#sensors_core_contactList_container"),
+        nameTextbox = $("#sensors_core_contactEditor_nameTextbox"),
+        imageDropdown = $("#sensors_core_contactEditor_imageDropdown"),
+        iconDropdown = $("#sensors_core_contactEditor_iconDropdown"),
         range = $("#range");
     //init calls
 
@@ -1153,6 +1156,11 @@ Interstellar.addCoreWidget("Sensors",function(){
     function init(){
         getFileNamesInFolder("/public/Contacts","sensors-core",function(files){
             possibleContacts = files;
+            var option = '';
+            for (var i=0;i<possibleContacts.length;i++){
+               option += '<option value="'+ possibleContacts[i] + '">' + possibleContacts[i] + '</option>';
+            }
+            iconDropdown.html(option);
         });
     }
 
@@ -1333,6 +1341,8 @@ Interstellar.addCoreWidget("Sensors",function(){
                         contacts[i].yPos = CompoundContactsArray[l].yPos;
                         contacts[i].wantedX = CompoundContactsArray[l].wantedX;
                         contacts[i].wantedY = CompoundContactsArray[l].wantedY;
+                        contacts[i].icon = CompoundContactsArray[l].icon;
+                        contacts[i].name = CompoundContactsArray[l].name;
                     }
                 }
             }
@@ -1343,7 +1353,13 @@ Interstellar.addCoreWidget("Sensors",function(){
         Interstellar.setDatabaseValue("sensors.effects",effects);
     }
     function updateContactEditor(){
-        
+        var selectedContactObject = {};
+        for(var i = 0;i < CompoundContactsArray.length;i++){
+            if(CompoundContactsArray[i].GUID == contactListSelectedContact){
+                selectedContactObject = CompoundContactsArray[i];
+            }
+        }
+        nameTextbox.val(selectedContactObject.name);
     }
 
     function updateContactList(){
@@ -1576,6 +1592,26 @@ Interstellar.addCoreWidget("Sensors",function(){
                 $(document.body).on("mousemove.dragInactiveContact",function(event){
                     draggingContactsMouseOffset = {"x" : 100 * (event.offsetX / canvas.width()),"y" : 100 - (100 * (event.offsetY / canvas.height()))};
                 });
+            }
+        }
+    });
+    iconDropdown.change(function(event){
+        if(contactListSelectedContact != undefined){
+            for(var i = 0;i < CompoundContactsArray.length;i++){
+                if(CompoundContactsArray[i].GUID == contactListSelectedContact){
+                    CompoundContactsArray[i].icon = event.target.value;
+                    updateContactsEarly();
+                }
+            }
+        }
+    });
+    nameTextbox.change(function(event){
+        if(contactListSelectedContact != undefined){
+            for(var i = 0;i < CompoundContactsArray.length;i++){
+                if(CompoundContactsArray[i].GUID == contactListSelectedContact){
+                    CompoundContactsArray[i].name = event.target.value;
+                    updateContactsEarly();
+                }
             }
         }
     });
