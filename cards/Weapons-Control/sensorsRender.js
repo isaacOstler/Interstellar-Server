@@ -135,6 +135,7 @@ var alertStatus = 5, //the ships alert status
         "y" : 0
     },
     CompoundContactsArray = [],
+    contactTextures = [],
     explosionTextures = [
         new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
         new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
@@ -939,7 +940,7 @@ function updateContactsOnArray(renderedContacts){
                 //now we need to make a material with that texture
                 var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                 //now make the actual mesh
-                var newContact = new THREE.Mesh(geometry, material);
+                var newContact = new THREE.Mesh(geometry, material)
                 //assign the GUID to the name of this new mesh
                 newContact.name = renderedContacts[i].GUID;
                 //add it to the scene
@@ -947,6 +948,25 @@ function updateContactsOnArray(renderedContacts){
                 //save a reference
                 contact = newContact;
             } 
+            var textureFound = false;
+            var texture;
+            for(var o = 0;o < contactTextures.length;o++){
+                if(contactTextures[o].texture == renderedContacts[i].icon){
+                    textureFound = true;
+                    texture = contactTextures[o].map;
+                }
+            }
+            if(!textureFound){
+                var newTextureCache = 
+                {
+                    "texture" : renderedContacts[i].icon,
+                    "map" : new THREE.TextureLoader().load("/resource?path=public/Contacts/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
+                }
+                contactTextures.splice(contactTextures.length,0,newTextureCache);
+                texture = newTextureCache.map;
+            }
+            //now we need to make a material with that texture
+            contact.material.map = texture;
             //now let's update it's values
             //set it's position to the proper xPos;
             contact.position.x = renderedContacts[i].xPos;

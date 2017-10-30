@@ -117,6 +117,7 @@ var alertStatus = 5, //the ships alert status
     },
     selectedContacts = [], //selected contacts by the flight director, these can be dragged around
     selectedContactOffsets = [], //x and y offset objects from selectedContacts array;
+    contactTextures = [],
     draggingContactsMouseOffset = 
     {
         "x" : 0,
@@ -860,8 +861,23 @@ function updateContactsOnArray(renderedContacts){
                 //lets add it now!
                 //first we make the geometry (just a plane)
                 var geometry = new THREE.PlaneGeometry( 100, 100 );
-                //then we load the texture
-                var texture = new THREE.TextureLoader().load( '/resource?path=public/Contacts/' + renderedContacts[i].icon + '&screen=' + thisWidgetName );
+                var textureFound = false;
+                var texture;
+                for(var o = 0;o < contactTextures.length;o++){
+                    if(contactTextures[o].texture == renderedContacts[i].icon){
+                        textureFound = true;
+                        texture = contactTextures[o].map;
+                    }
+                }
+                if(!textureFound){
+                    var newTextureCache = 
+                    {
+                        "texture" : renderedContacts[i].icon,
+                        "map" : new THREE.TextureLoader().load("/resource?path=public/Contacts/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
+                    }
+                    contactTextures.splice(contactTextures.length,0,newTextureCache);
+                    texture = newTextureCache.map;
+                }
                 //now we need to make a material with that texture
                 var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                 //now make the actual mesh
@@ -872,7 +888,26 @@ function updateContactsOnArray(renderedContacts){
                 scene.add(newContact);
                 //save a reference
                 contact = newContact;
-            } 
+            }
+            var textureFound = false;
+            var texture;
+            for(var o = 0;o < contactTextures.length;o++){
+                if(contactTextures[o].texture == renderedContacts[i].icon){
+                    textureFound = true;
+                    texture = contactTextures[o].map;
+                }
+            }
+            if(!textureFound){
+                var newTextureCache = 
+                {
+                    "texture" : renderedContacts[i].icon,
+                    "map" : new THREE.TextureLoader().load("/resource?path=public/Contacts/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
+                }
+                contactTextures.splice(contactTextures.length,0,newTextureCache);
+                texture = newTextureCache.map;
+            }
+            //now we need to make a material with that texture
+            contact.material.map = texture;
             //now let's update it's values
             //set it's position to the proper xPos;
             contact.position.x = renderedContacts[i].xPos;

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LOGIN</title>
+	<link rel="stylesheet" type="text/css" href="/stationThemes">
+	<link rel="stylesheet" type="text/css" href="/resource?path=style.css">
+</head>
+<body>
+	<div id="contentArea" style="position: absolute; left: 5%">
+		<div id="pulseRate" style="position: absolute;top:10%;left: 10%;width:70%;">
+			<div class="topCurve" style="background-color:#fdc13b"></div>
+			<div id="cardiacArrestWarning">CARDIAC ARREST</div>
+			<canvas id="heartEKG" width="626" height="150" style="border:1px solid #d3d3d3;z-index: 2"></canvas>
+			<div id="pulseInformationBox" style="position: absolute;right: 0%;width:20%;height: 150px;top:20px;border-color:white;border-style: solid;border-width: 1px;">
+				<span style="font-size: 72px;position:absolute;left:0px;top:0px;width: 100%;text-align: center;height: 20%;">	PULSE
+				</span>
+				<span id="pulseRatePerMinute" style="font-size: 72px;position:absolute;top:70px;left:0px;width: 100%;text-align: center;height: 20%;">
+					UNKNOWN
+				</span>
+			</div>
+			<div class="bottomCurve" style="position: relative;bottom: 10px;left:0px; background-color:#fdc13b"></div>
+		</div>
+
+		<div id="respRate" style="position: absolute;top:40%;left: 10%;width:70%;">
+			<div class="topCurve"></div>
+			<div id="respArrestWarning" style="display: none;position: absolute;">RESPIRATORY ARREST</div>
+			<canvas id="respEKG" width="626" height="150" style="border:1px solid #d3d3d3;z-index: 2"></canvas>
+			<div id="respInformationBox" style="position: absolute;right: 0%;width:20%;height: 150px;top:20px;border-color:white;border-style: solid;border-width: 1px;">
+				<span style="font-size: 48px;position:absolute;left:0px;top:0px;width: 100%;text-align: center;height: 20%;">RESPIRATIONS
+				</span>
+				<span id="respRatePerMinute" style="font-size: 72px;position:absolute;top:70px;left:0px;width: 100%;text-align: center;height: 20%;">
+					22
+				</span>
+			</div>
+			<div class="bottomCurve" style="position: relative;bottom: 10px;left:0px"></div>
+		</div>
+
+		<div id="S02Rate" style="position: absolute;top:70%;left: 10%">
+			<span style="font-size: 128px">SO2</span><Br />
+			<span style="font-size: 64px">96%</span>
+		</div>
+		<div id="number"></div>
+		<!-- 
+		<div id="patientBody">
+			<audio autoplay="autoplay" loop="loop" id="heartSounds">
+				<source src="/resource?path=public/heart.mp3" type="audio/mpeg">
+				</audio>	
+				<audio autoplay="autoplay" loop="loop" id="stomachSounds">
+					<source src="/resource?path=public/stomach.mp3" type="audio/mpeg">
+					</audio>
+					<audio autoplay="autoplay" loop="loop" id="lungSounds">
+						<source src="/resource?path=public/lungs.mp3" type="audio/mpeg">
+						</audio>
+					</div>
+				</div>
+			--></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript"></script>
+			<script src="/InterstellarLibraries" type="text/javascript"></script>
+			<script src="/resource?path=script.js" type="text/javascript"></script>
+		</body>
+		</html>

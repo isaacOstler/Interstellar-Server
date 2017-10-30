@@ -41,6 +41,13 @@
 				"cards" : ["Security-Monitor","Short-Range-Comm","Internal-Communications","Damage-Control","Shields","Engine-Control","Power-Distribution","Course-Calculation","Login","Internal-Sensors","Transporters","Alert-Status","Coolant-Control","Long-Range-Comm"]
 			},
 			"stationType" : "station"
+		},
+		{
+			"stationInfo" : {
+				"name" : "HEART LEADS",
+				"cards" : ["Medical-Auscultation"]
+			},
+			"stationType" : "station"
 		}
 	],
 	"port" : 3000

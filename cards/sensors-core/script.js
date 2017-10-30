@@ -151,6 +151,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         },
         possibleContacts = [],
         CompoundContactsArray = [],
+        contactTextures = [], //these are loaded as needed
         explosionTextures = [
             new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
             new THREE.TextureLoader().load("/resource?path=public/Explosion/Destroy1.png&screen=" + thisWidgetName),
@@ -939,8 +940,26 @@ Interstellar.addCoreWidget("Sensors",function(){
 
                         line = newLine;
                     }
+                    var textureFound = false;
+                    var texture;
+                    for(var o = 0;o < contactTextures.length;o++){
+                        if(contactTextures[o].texture == renderedContacts[i].icon){
+                            textureFound = true;
+                            texture = contactTextures[o].map;
+                        }
+                    }
+                    if(!textureFound){
+                        var newTextureCache = 
+                        {
+                            "texture" : renderedContacts[i].icon,
+                            "map" : new THREE.TextureLoader().load("/resource?path=public/Contacts/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
+                        }
+                        contactTextures.splice(contactTextures.length,0,newTextureCache);
+                        texture = newTextureCache.map;
+                    }
+                    contact.material.map = texture;
+                    contactGhost.material.map = texture;
                     //contacts first
-
                     //now let's update it's values
                     //set it's position to the proper xPos;
                     contact.position.x = renderedContacts[i].wantedX;
@@ -951,7 +970,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     //set it's proper height
                     contact.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
 
-                    //now ghosts              
+                    //now ghosts
                     //set it's position to the proper xPos;
                     contactGhost.position.x = renderedContacts[i].xPos;
                     //set it's position to the proper yPos;
@@ -960,7 +979,6 @@ Interstellar.addCoreWidget("Sensors",function(){
                     contactGhost.scale.x = renderedContacts[i].width / 100; //we divide by 100, because we need to decimate the size
                     //set it's proper height
                     contactGhost.scale.y = renderedContacts[i].height / 100; //we divide by 100, because we need to decimate the size
-
                     //draw the line between the two
 
                     line.geometry.dynamic = true;
@@ -984,7 +1002,23 @@ Interstellar.addCoreWidget("Sensors",function(){
                     //first we make the geometry (just a plane)
                     var geometry = new THREE.PlaneGeometry( 100, 100 );
                     //then we load the texture
-                    var texture = new THREE.TextureLoader().load(renderedContacts[i].icon + '&screen=' + thisWidgetName );
+                    var textureFound = false;
+                    var texture;
+                    for(var o = 0;o < contactTextures.length;o++){
+                        if(contactTextures[o].texture == renderedContacts[i].icon){
+                            textureFound = true;
+                            texture = contactTextures[o].map;
+                        }
+                    }
+                    if(!textureFound){
+                        var newTextureCache = 
+                        {
+                            "texture" : renderedContacts[i].icon,
+                            "map" : new THREE.TextureLoader().load("/resource?path=public/Contacts/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
+                        }
+                        contactTextures.splice(contactTextures.length,0,newTextureCache);
+                        texture = newTextureCache.map;
+                    }
                     //now we need to make a material with that texture
                     var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                     //now make the actual mesh

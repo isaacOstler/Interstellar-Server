@@ -1,0 +1,8 @@
+{
+	"cardName":"Medical-Auscultation",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows crew members to listen to the patients interal organs."
+}
