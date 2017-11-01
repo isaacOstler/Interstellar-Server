@@ -11,7 +11,14 @@
 		<div id="sensors_core_contactList_container">
 			
 		</div>
+		<div id="sensors_core_contactControls_addRemoveDuplicateButtons">
+			<!-- Yes these ID's are incorrect, ignore it -->
+			<button id="sensors_core_contactEditor_addNewContactButton">ADD NEW CONTACT</button>
+			<button id="sensors_core_contactEditor_duplicateContactButton">DUPLICATE CONTACT</button>
+			<button id="sensors_core_contactEditor_removeContactButton">REMOVE CONTACT</button>
+		</div>
 		<div id="sensors_core_contactEditor_container">
+
 			<div id="sensors_core_contactEditor_nameLabel">
 				Name
 			</div>
@@ -24,6 +31,10 @@
 				Icon
 			</div>
 			<select id="sensors_core_contactEditor_iconDropdown"></select>
+			<div id="sensors_core_contactEditor_sizeLabel">
+				Size
+			</div>
+			<input type="range" id="sensors_core_contactEditor_sizeRange" min="1" max= "100" step=".1">
 		</div>
 	</div>
 	<div id="new_sensors-core_sensorsArray">

@@ -121,6 +121,11 @@ Interstellar.addCoreWidget("Sensors",function(){
 
     //variables
     var alertStatus = 5, //the ships alert status
+        defaultContactName = "UNKNOWN CONTACT", //the defualt contact name for new contacts
+        defaultContactIcon = "Generic.png", //defualt contact icon
+        duplicateMode = false,
+        deleteMode = false,
+        defaultContactSize = 3, //default height and width of new icons
         phaserSpeed = .45, //how fast phasers fire
         thisWidgetName = "sensors-core", //the name of this widget (since for a while, it was called new-sensors-core)
         animationInterval = undefined, //the variable pointing to the animation interval
@@ -266,6 +271,10 @@ Interstellar.addCoreWidget("Sensors",function(){
         nameTextbox = $("#sensors_core_contactEditor_nameTextbox"),
         imageDropdown = $("#sensors_core_contactEditor_imageDropdown"),
         iconDropdown = $("#sensors_core_contactEditor_iconDropdown"),
+        sizeSlider = $("#sensors_core_contactEditor_sizeRange"),
+        duplicateContactButton = $("#sensors_core_contactEditor_duplicateContactButton"),
+        deleteContactButton = $("#sensors_core_contactEditor_removeContactButton"),
+        addContactButton = $("#sensors_core_contactEditor_addNewContactButton"),
         range = $("#range");
     //init calls
 
@@ -362,7 +371,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             //for debugging purposes, I've generated a test value
             setTimeout(function(){
             var presetContacts =[];
-            for(var k = 0;k < 100;k++){
+            for(var k = 0;k < 0;k++){
                 var newContact = {
                     "type" : "contact", //we have several different things that go on the sensors array, so we have to specify
                     "GUID" : guidGenerator(),
@@ -1241,7 +1250,10 @@ Interstellar.addCoreWidget("Sensors",function(){
         //Interstellar.setDatabaseValue("sensors.programs",programs);
     }
 
-    function addNewContact(name,xPos,yPos,wantedX,wantedY,height,width,animationSpeed,icon){
+    function addNewContact(name,xPos,yPos,wantedX,wantedY,height,width,animationSpeed,icon,isActive){
+        if(isActive == undefined){
+            isActive = true;
+        }
         var newContact = 
         {
             "type" : "contact", //we have several different things that go on the sensors array, so we have to specify
@@ -1257,13 +1269,14 @@ Interstellar.addCoreWidget("Sensors",function(){
             "xStep" : undefined,
             "yStep" : undefined,
             "icon" : icon,
-            "isActive" : true,
+            "isActive" : isActive,
             "attributes" :
             {
                 "infrared" : true,
             }
         }
         contacts.splice(contacts.length,0,newContact);
+        drawContactList();
         updateContactsEarly();
         //Interstellar.setDatabaseValue("sensors.contacts",contacts);
     }
@@ -1412,8 +1425,22 @@ Interstellar.addCoreWidget("Sensors",function(){
         contactList_container.html(html);
         $(".sensors_core_contactListElement").off();
         $(".sensors_core_contactListElement").click(function(event){
-            contactListSelectedContact = contacts[Number($(event.target).attr("index"))].GUID;
-            updateContactEditor();
+            if(duplicateMode){
+                var name = contacts[Number($(event.target).attr("index"))].name,
+                    width = contacts[Number($(event.target).attr("index"))].width,
+                    height = contacts[Number($(event.target).attr("index"))].height,
+                    icon = contacts[Number($(event.target).attr("index"))].icon,
+                    image = contacts[Number($(event.target).attr("index"))].image,
+                    animationSpeed = contacts[Number($(event.target).attr("index"))].animationSpeed
+
+                addNewContact(name,0,0,0,0,height,width,animationSpeed,icon,false);
+            }else if(deleteMode){
+                contacts.splice(Number($(event.target).attr("index")),1);
+                updateContactsEarly();
+            }else{
+                contactListSelectedContact = contacts[Number($(event.target).attr("index"))].GUID;
+                updateContactEditor();
+            }
         });
     }
 
@@ -1629,6 +1656,16 @@ Interstellar.addCoreWidget("Sensors",function(){
             }
         }
     });
+    sizeSlider.on("input",function(event){
+        if(contactListSelectedContact != undefined){
+            for(var i = 0;i < contacts.length;i++){
+                if(contacts[i].GUID == contactListSelectedContact){
+                    contacts[i].width = event.target.value;
+                    contacts[i].height = event.target.value;
+                }
+            }
+        }
+    });
     iconDropdown.change(function(event){
         if(contactListSelectedContact != undefined){
             for(var i = 0;i < CompoundContactsArray.length;i++){
@@ -1659,5 +1696,21 @@ Interstellar.addCoreWidget("Sensors",function(){
 
     contactList_container.scroll(function(event){
         contactListScrollPosition = event.target.scrollTop;
+    });
+
+    duplicateContactButton.click(function(event){
+        duplicateMode = true;
+        deleteMode = false;
+    });
+
+    deleteContactButton.click(function(event){
+        duplicateMode = false;
+        deleteMode = true;
+    });
+
+    addContactButton.click(function(event){
+        duplicateMode = false;
+        deleteMode = false;
+        addNewContact(defaultContactName,150,50,150,50,defaultContactSize,defaultContactSize,3000,defaultContactIcon,false)
     });
 });

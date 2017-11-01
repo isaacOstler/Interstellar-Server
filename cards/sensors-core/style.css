@@ -1,3 +1,57 @@
+button:active{
+	filter: brightness(.65);
+}
+#sensors_core_contactEditor_removeContactButton{
+	position: absolute;
+	bottom: 22px;
+	right: 1px;
+	border: 1px solid white;
+	color: white;
+	cursor: pointer;
+	width: calc(50% - 2px);
+	height: 23px;
+	background-color: #ff0000;
+}
+#sensors_core_contactControls_addRemoveDuplicateButtons{
+	position: absolute;
+	bottom: 1px;
+	right: 1px;
+	width: calc(50% - 3px);
+	height: 23px;
+}
+#sensors_core_contactEditor_duplicateContactButton{
+	position: absolute;
+	font-size: 10px;
+	bottom: 22px;
+	left: 1px;
+	width: calc(50% - 2px);
+	background-color: #5ccbff;
+	color: white;
+	cursor: pointer;
+	height: 23px;
+	border: 1px solid white;
+}
+#sensors_core_contactEditor_addNewContactButton{
+	position: absolute;
+	bottom: 1px;
+	left: 1px;
+	width: calc(100% - 2px);
+	height: 20px;
+	z-index: 3;
+	cursor: pointer;
+	border: 1px solid white;
+}
+#sensors_core_contactEditor_sizeRange{
+	position: absolute;
+	top:56px;
+	right: 2px;
+	width: calc(100% - 56px);
+}
+#sensors_core_contactEditor_sizeLabel{
+	position: absolute;
+	left: 2px;
+	top: 58px;
+}
 #new_sensors-core_sensorsArray{
 	position: absolute;
 	top:0px;
@@ -74,11 +128,11 @@
 }
 #sensors_core_contactEditor_container{
 	position: absolute;
-	bottom:3px;
+	bottom:47px;
+	height: calc(50% - 48px);
 	right: 2px;
 	width:calc(50% - 7px);
 	border: 1px solid white;
-	height: calc(50% - 2px);
 }
 .sensors_core_contactListElement:active{
 	background-color: red;
