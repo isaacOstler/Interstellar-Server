@@ -1,5 +1,46 @@
+/* The animation code */
+@keyframes glowBlue {
+    0%   {filter: drop-shadow(0px 0px 10px #5ccbff) brightness(.7);color:white;}
+    50%  {filter: drop-shadow(0px 0px 30px #5ccbff) brightness(2);color:black;}
+    100% {filter: drop-shadow(0px 0px 10px #5ccbff) brightness(.7);color:white;}
+}
+/* The animation code */
+@keyframes glowRed {
+    0%   {filter: drop-shadow(0px 0px 30px #ff0000) brightness(.7);color:white;}
+    50%  {filter: drop-shadow(0px 0px 30px #ff0000) brightness(2);color:black;}
+    100% {filter: drop-shadow(0px 0px 30px #ff0000) brightness(.7);color:white;}
+}
+
+.sensors_core_contactEditor_deleteContactModeActive{
+	z-index: 5;
+    animation-name: glowRed;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+.sensors_core_contactEditor_duplicateContactModeActive{
+	z-index: 5;
+    animation-name: glowBlue;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
 button:active{
 	filter: brightness(.65);
+}
+#sensors_core_contactControls_moveAllControls_canvas{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+#sensors_core_contactControls_moveAllControls{
+	position: absolute;
+	top:2px;
+	right: 2px;
+	width: calc(50% - 7px);
+	border: 1px solid white;
+	height: calc(50% - 6px);
 }
 #sensors_core_contactEditor_removeContactButton{
 	position: absolute;

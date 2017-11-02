@@ -275,12 +275,14 @@ Interstellar.addCoreWidget("Sensors",function(){
         duplicateContactButton = $("#sensors_core_contactEditor_duplicateContactButton"),
         deleteContactButton = $("#sensors_core_contactEditor_removeContactButton"),
         addContactButton = $("#sensors_core_contactEditor_addNewContactButton"),
+        moveAllCanvas = $("#sensors_core_contactControls_moveAllControls_canvas"),
         range = $("#range");
     //init calls
 
     drawSensorsGui();
     initThreeJS();
     init();
+    drawGUI();
     
     //preset observers
 
@@ -1332,7 +1334,19 @@ Interstellar.addCoreWidget("Sensors",function(){
     function degreesToRadians(degrees){
         return degrees * (Math.PI / 180);
     }
-
+    function drawGUI(){
+        var radius = (moveAllCanvas.width() / 2) * .85;
+        var c = document.getElementById(moveAllCanvas.attr("id"));
+        c.width = moveAllCanvas.width();
+        c.height = moveAllCanvas.height();
+        var ctx = c.getContext("2d");
+        ctx.beginPath();
+        ctx.strokeStyle="#FFFFFF";
+        ctx.arc(radius + 4,radius + 4,radius,0,2*Math.PI);
+        ctx.moveTo(radius + 4,radius + 4);
+        ctx.lineTo(radius + 4,4);
+        ctx.stroke();
+    }
     function radiansToDegrees(radians){
         return radians * (180 / Math.PI);
     }
@@ -1399,6 +1413,21 @@ Interstellar.addCoreWidget("Sensors",function(){
         Interstellar.setDatabaseValue("sensors.contacts",contacts);
         Interstellar.setDatabaseValue("sensors.effects",effects);
     }
+    function updateContactEditorMode(){
+        deleteContactButton.removeClass("sensors_core_contactEditor_deleteContactModeActive");
+        duplicateContactButton.removeClass("sensors_core_contactEditor_duplicateContactModeActive");
+        contactList_container.removeClass("sensors_core_contactEditor_deleteContactModeActive");
+        contactList_container.removeClass("sensors_core_contactEditor_duplicateContactModeActive");
+        if(deleteMode){
+            deleteContactButton.addClass("sensors_core_contactEditor_deleteContactModeActive");
+            contactList_container.addClass("sensors_core_contactEditor_deleteContactModeActive");
+        }
+        if(duplicateMode){
+            duplicateContactButton.addClass("sensors_core_contactEditor_duplicateContactModeActive");
+            contactList_container.addClass("sensors_core_contactEditor_duplicateContactModeActive");
+        }
+    }
+
     function updateContactEditor(){
         var selectedContactObject = {};
         for(var i = 0;i < CompoundContactsArray.length;i++){
@@ -1437,8 +1466,13 @@ Interstellar.addCoreWidget("Sensors",function(){
             }else if(deleteMode){
                 contacts.splice(Number($(event.target).attr("index")),1);
                 updateContactsEarly();
+                drawContactList();
+                contactListSelectedContact = undefined;
+                updateContactEditor();
             }else{
                 contactListSelectedContact = contacts[Number($(event.target).attr("index"))].GUID;
+                updateContactEditor();
+                contactListSelectedContact = undefined;
                 updateContactEditor();
             }
         });
@@ -1699,18 +1733,20 @@ Interstellar.addCoreWidget("Sensors",function(){
     });
 
     duplicateContactButton.click(function(event){
-        duplicateMode = true;
+        duplicateMode = !duplicateMode;
         deleteMode = false;
+        updateContactEditorMode();
     });
 
     deleteContactButton.click(function(event){
         duplicateMode = false;
-        deleteMode = true;
+        deleteMode = !deleteMode;
+        updateContactEditorMode();
     });
-
     addContactButton.click(function(event){
         duplicateMode = false;
         deleteMode = false;
-        addNewContact(defaultContactName,150,50,150,50,defaultContactSize,defaultContactSize,3000,defaultContactIcon,false)
+        addNewContact(defaultContactName,150,50,150,50,defaultContactSize,defaultContactSize,3000,defaultContactIcon,false);
+        updateContactEditorMode();
     });
 });
