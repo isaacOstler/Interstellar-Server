@@ -154,6 +154,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "x" : 0,
             "y" : 0
         },
+        moveAllPower = 1,
         moveAllDirection = degreesToRadians(180),
         possibleContacts = [],
         CompoundContactsArray = [],
@@ -1355,10 +1356,6 @@ Interstellar.addCoreWidget("Sensors",function(){
         ctx.lineTo(polarCords.x + radius + 4,polarCords.y + radius + 4);
         ctx.stroke();
     }
-    setInterval(function(event){
-        moveAllDirection += degreesToRadians(.1);
-        drawGUI();
-    },0010);
     function radiansToDegrees(radians){
         return radians * (180 / Math.PI);
     }
@@ -1760,5 +1757,40 @@ Interstellar.addCoreWidget("Sensors",function(){
         deleteMode = false;
         addNewContact(defaultContactName,150,50,150,50,defaultContactSize,defaultContactSize,3000,defaultContactIcon,false);
         updateContactEditorMode();
+    });
+    moveAllCanvas.on("mousedown.moveAllCanvasDrag",function(event){
+        let updateInterval = setInterval(function(){
+            Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
+        },0100);
+        var radius = (moveAllCanvas.width() / 2) * .9;
+        console.log(event.offsetX + radius,event.offsetY + radius);
+        var mousePolarCords = cartesian2Polar(event.offsetX - radius,event.offsetY - radius);
+        moveAllDirection = mousePolarCords.radians + degreesToRadians(90);
+        drawGUI();
+        moveAllCanvas.on("mousemove.moveAllCanvasMouseMove",function(event){
+            var radius = (moveAllCanvas.width() / 2) * .9;
+            console.log(event.offsetX + radius,event.offsetY + radius);
+            var mousePolarCords = cartesian2Polar(event.offsetX - radius,event.offsetY - radius);
+            moveAllDirection = mousePolarCords.radians + degreesToRadians(90);
+            drawGUI();
+            var polarToCart = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(180),"distance" : moveAllPower});
+            moveAllSpeeds =
+            {
+                "x" : polarToCart.x,
+                "y" : polarToCart.y
+            }
+        });
+        moveAllCanvas.on("mouseup.endMoveAllCanvasDrag",function(event){
+            moveAllCanvas.off("mousemove.moveAllCanvasMouseMove");
+            moveAllCanvas.off("mouseup.endMoveAllCanvasDrag");
+            var polarToCart = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(180),"distance" : moveAllPower});
+            moveAllSpeeds =
+            {
+                "x" : polarToCart.x,
+                "y" : polarToCart.y
+            }
+            Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
+            clearInterval(updateInterval);
+        });
     });
 });
