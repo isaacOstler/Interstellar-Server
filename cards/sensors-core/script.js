@@ -154,6 +154,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "x" : 0,
             "y" : 0
         },
+        moveAllDirection = degreesToRadians(180),
         possibleContacts = [],
         CompoundContactsArray = [],
         contactTextures = [], //these are loaded as needed
@@ -1340,13 +1341,24 @@ Interstellar.addCoreWidget("Sensors",function(){
         c.width = moveAllCanvas.width();
         c.height = moveAllCanvas.height();
         var ctx = c.getContext("2d");
+        ctx.clearRect(0,0,moveAllCanvas.width(),moveAllCanvas.height());
         ctx.beginPath();
         ctx.strokeStyle="#FFFFFF";
+        ctx.lineWidth = 1;
+        var polarCords = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(90),"distance" : radius});
         ctx.arc(radius + 4,radius + 4,radius,0,2*Math.PI);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.strokeStyle="#FF0000";
+        ctx.lineWidth = 3;
         ctx.moveTo(radius + 4,radius + 4);
-        ctx.lineTo(radius + 4,4);
+        ctx.lineTo(polarCords.x + radius + 4,polarCords.y + radius + 4);
         ctx.stroke();
     }
+    setInterval(function(event){
+        moveAllDirection += degreesToRadians(.1);
+        drawGUI();
+    },0010);
     function radiansToDegrees(radians){
         return radians * (180 / Math.PI);
     }
