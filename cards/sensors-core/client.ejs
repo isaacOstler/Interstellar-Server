@@ -3,13 +3,13 @@
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=sensors-core">
 <div id="new_Sensor-Array-Core-Widget" widgetName="Sensors" class="Core_Theme-CoreWidget" style="width:1000px;height:500px;top:150px;left:255px">
 <div class="hardContainer">
-	<input type="range" id='range' style="position: absolute;right: 20px;top:5px"  min='0' max='10' step='.1' list="my-detents">
 	<datalist id="my-detents">
-  		<option value="5">
+  		<option value="0">
 	</datalist>
 	<div id="sensors_core_contactControls">
 		<div id="sensors_core_contactControls_moveAllControls">
 			<canvas id="sensors_core_contactControls_moveAllControls_canvas"></canvas>
+			<input type="range" id='sensors_core_moveAllPowerSlider'  min='-1' max='1' value="0" step='.01' list="my-detents">
 		</div>
 		<div id="sensors_core_contactList_container">
 			

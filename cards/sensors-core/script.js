@@ -278,7 +278,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         deleteContactButton = $("#sensors_core_contactEditor_removeContactButton"),
         addContactButton = $("#sensors_core_contactEditor_addNewContactButton"),
         moveAllCanvas = $("#sensors_core_contactControls_moveAllControls_canvas"),
-        range = $("#range");
+        moveAllPowerSlider = $("#sensors_core_moveAllPowerSlider");
     //init calls
 
     drawSensorsGui();
@@ -999,6 +999,24 @@ Interstellar.addCoreWidget("Sensors",function(){
                     line.geometry.vertices.push(contactGhost.position);
                     line.geometry.verticesNeedUpdate = true;
                 }else{
+                    var textureFound = false;
+                    var texture;
+                    for(var o = 0;o < contactTextures.length;o++){
+                        if(contactTextures[o].texture == renderedContacts[i].icon){
+                            textureFound = true;
+                            texture = contactTextures[o].map;
+                        }
+                    }
+                    if(!textureFound){
+                        var newTextureCache = 
+                        {
+                            "texture" : renderedContacts[i].icon,
+                            "map" : new THREE.TextureLoader().load("/resource?path=public/Contacts/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
+                        }
+                        contactTextures.splice(contactTextures.length,0,newTextureCache);
+                        texture = newTextureCache.map;
+                    }
+                    contact.material.map = texture;
                     //force to the side
                     contact.position.x = 95;
                     //force to the side
@@ -1438,13 +1456,13 @@ Interstellar.addCoreWidget("Sensors",function(){
     }
 
     function updateContactEditor(){
-        var selectedContactObject = {};
         for(var i = 0;i < CompoundContactsArray.length;i++){
             if(CompoundContactsArray[i].GUID == contactListSelectedContact){
-                selectedContactObject = CompoundContactsArray[i];
+                nameTextbox.val(CompoundContactsArray[i].name);
+                iconDropdown.val(CompoundContactsArray[i].icon);
+                sizeSlider.val(CompoundContactsArray[i].width);
             }
         }
-        nameTextbox.val(selectedContactObject.name);
     }
 
     function updateContactList(){
@@ -1472,6 +1490,8 @@ Interstellar.addCoreWidget("Sensors",function(){
                     animationSpeed = contacts[Number($(event.target).attr("index"))].animationSpeed
 
                 addNewContact(name,0,0,0,0,height,width,animationSpeed,icon,false);
+                contactListSelectedContact = undefined;
+                updateContactEditor();
             }else if(deleteMode){
                 contacts.splice(Number($(event.target).attr("index")),1);
                 updateContactsEarly();
@@ -1481,8 +1501,6 @@ Interstellar.addCoreWidget("Sensors",function(){
             }else{
                 contactListSelectedContact = contacts[Number($(event.target).attr("index"))].GUID;
                 updateContactEditor();
-                contactListSelectedContact = undefined;
-                updateContactEditor();
             }
         });
     }
@@ -1490,8 +1508,14 @@ Interstellar.addCoreWidget("Sensors",function(){
     // Schedule the first frame.
     requestAnimationFrame(animate);
     //event handlers
-    range.on("input",function(event){
-        moveAllSpeeds.y = ($(event.target).val() - 5) * .1;
+    moveAllPowerSlider.on("input",function(event){
+        moveAllPower = event.target.value;
+        var polarToCart = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(90),"distance" : moveAllPower});
+        moveAllSpeeds =
+        {
+            "x" : -polarToCart.x,
+            "y" : polarToCart.y
+        }
         Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
     });
     canvas.mousedown(function(event){

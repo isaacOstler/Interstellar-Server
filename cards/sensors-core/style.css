@@ -27,6 +27,13 @@
 button:active{
 	filter: brightness(.65);
 }
+#sensors_core_moveAllPowerSlider{
+	position: absolute;
+	top:calc(100% - 20px);
+	left: 2px;
+	width:calc(100% - 4px);
+    z-index: 2;
+}
 #sensors_core_contactControls_moveAllControls_canvas{
 	position: absolute;
 	top:0px;
