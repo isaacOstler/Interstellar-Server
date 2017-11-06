@@ -1763,30 +1763,28 @@ Interstellar.addCoreWidget("Sensors",function(){
             Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
         },0100);
         var radius = (moveAllCanvas.width() / 2) * .9;
-        console.log(event.offsetX + radius,event.offsetY + radius);
         var mousePolarCords = cartesian2Polar(event.offsetX - radius,event.offsetY - radius);
         moveAllDirection = mousePolarCords.radians + degreesToRadians(90);
         drawGUI();
         moveAllCanvas.on("mousemove.moveAllCanvasMouseMove",function(event){
             var radius = (moveAllCanvas.width() / 2) * .9;
-            console.log(event.offsetX + radius,event.offsetY + radius);
             var mousePolarCords = cartesian2Polar(event.offsetX - radius,event.offsetY - radius);
             moveAllDirection = mousePolarCords.radians + degreesToRadians(90);
             drawGUI();
-            var polarToCart = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(180),"distance" : moveAllPower});
+            var polarToCart = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(90),"distance" : moveAllPower});
             moveAllSpeeds =
             {
-                "x" : polarToCart.x,
+                "x" : -polarToCart.x,
                 "y" : polarToCart.y
             }
         });
         moveAllCanvas.on("mouseup.endMoveAllCanvasDrag",function(event){
             moveAllCanvas.off("mousemove.moveAllCanvasMouseMove");
             moveAllCanvas.off("mouseup.endMoveAllCanvasDrag");
-            var polarToCart = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(180),"distance" : moveAllPower});
+            var polarToCart = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(90),"distance" : moveAllPower});
             moveAllSpeeds =
             {
-                "x" : polarToCart.x,
+                "x" : -polarToCart.x,
                 "y" : polarToCart.y
             }
             Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
