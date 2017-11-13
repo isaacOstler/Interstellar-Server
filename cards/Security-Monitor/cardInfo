@@ -4,5 +4,5 @@
 	"author":"Isaac Ostler",
 	"copyright":"Isaac Ostler",
 	"version":"1.0.0",
-	"description":"The ship's security mainframe.  The user can view all the rooms in the ship, and see any alarms that have been set for that room.  They can also lock doors, and release tranxene gas"
+	"description":"The ship's security dispatch center.  From here officers can dispatch officers to any location in the ship, and keep track of security teams."
 }
