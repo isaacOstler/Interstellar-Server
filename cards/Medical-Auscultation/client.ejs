@@ -7,6 +7,12 @@
 </head>
 <body>
 	<div id="contentArea" style="position: absolute; left: 5%">
+	<div id="medications" class="container4">
+		<select id="medications_dropdown">
+			<option></option>
+		</select>
+	</div>
+
 		<div id="pulseRate" style="position: absolute;top:10%;left: 10%;width:70%;">
 			<div class="topCurve" style="background-color:#fdc13b"></div>
 			<div id="cardiacArrestWarning">CARDIAC ARREST</div>
@@ -21,7 +27,7 @@
 			<div class="bottomCurve" style="position: relative;bottom: 10px;left:0px; background-color:#fdc13b"></div>
 		</div>
 
-		<div id="respRate" style="position: absolute;top:40%;left: 10%;width:70%;">
+		<div id="respRate" style="position: absolute;top:40%;left: 10%;width:70%;display: none">
 			<div class="topCurve"></div>
 			<div id="respArrestWarning" style="display: none;position: absolute;">RESPIRATORY ARREST</div>
 			<canvas id="respEKG" width="626" height="150" style="border:1px solid #d3d3d3;z-index: 2"></canvas>
@@ -35,7 +41,7 @@
 			<div class="bottomCurve" style="position: relative;bottom: 10px;left:0px"></div>
 		</div>
 
-		<div id="S02Rate" style="position: absolute;top:70%;left: 10%">
+		<div id="S02Rate" style="position: absolute;top:70%;left: 10%;display: none">
 			<span style="font-size: 128px">SO2</span><Br />
 			<span style="font-size: 64px">96%</span>
 		</div>

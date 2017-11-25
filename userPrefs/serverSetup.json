@@ -24,7 +24,7 @@
 		{
 			"stationInfo": {
 				"name" : "AUX-CORE",
-				"cards" : ["dmx-core","security-monitor-core","engine-control-core","course-calculation-core","Power-Distribution-Core","Coolant-Core","sensor-scans-core","Transporters-Core","alert-status-core","viewscreen-control-core","processed-data-core","card-controller-core","login-core","ship-control-core","shields-core"]
+				"cards" : ["short-range-comm-core","dmx-core","security-monitor-core","engine-control-core","course-calculation-core","Power-Distribution-Core","Coolant-Core","sensor-scans-core","Transporters-Core","alert-status-core","viewscreen-control-core","processed-data-core","card-controller-core","login-core","ship-control-core","shields-core"]
 			},
 			"stationType" : "core"
 		},

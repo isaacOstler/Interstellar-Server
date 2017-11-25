@@ -27,7 +27,7 @@ Interstellar.onDatabaseValueChange("security.officers",function(newData){
 					"deck" : Math.floor(Math.random() * 15), //main security station, by default
 					"room" : 1
 				},
-				"status" : 2, //0 free, 1 enroute, 2 on scene, 3 recalled
+				"status" : Math.floor(Math.random() * 3), //0 free, 1 enroute, 2 on scene, 3 recalled
 				"timeUntilArrival" : -1,
 				"orders" :
 				{
@@ -36,7 +36,8 @@ Interstellar.onDatabaseValueChange("security.officers",function(newData){
 				},
 				"equipment" : [],
 				"isDead" : false,
-				"isSOS" : false
+				"isSOS" : false,
+				"isQued" : false
 			}
 			securityOfficers.splice(securityOfficers.length,0,newSecurityOfficer);
 		}
@@ -66,6 +67,7 @@ function addNumberPadding(number){
 }
 
 function drawList(officers){
+	dispatchQueOfficerList.html("");
 	avaliableOfficersList.html("");
 	enRouteOfficersList.html("");
 	onSceneOfficersList.html("");
@@ -75,14 +77,17 @@ function drawList(officers){
 		var html = "<div class='listItem' index='" + i + "' id='security_" + i + "' draggable='true' ondragstart='drag(event)'>";
 		html += officers[i].name;
 		html += "</div>"
-		if(officers[i].status == 0){ //avaliable
+		if(officers[i].isQued){
+			dispatchQueOfficerList.append(html);
+		}else if(officers[i].status == 0){ //avaliable
 			avaliableOfficersList.append(html);
 		}else if(officers[i].status == 1){ //en route
 			enRouteOfficersList.append(html);
 		}else if(officers[i].status == 2){ //at scene
 			var deck = officers[i].currentLocation.deck,
 				room = officers[i].currentLocation.room;
-			if(rooms != undefined){
+
+			if(rooms.length > 0){
 				if(document.getElementById("room" + deck + "" + room) != null){
 					console.log("reuse");
 					//use an old one
@@ -107,6 +112,7 @@ function drawList(officers){
 			console.warn("WARN: " + officers[i].name + " has an unknown status of " + officers[i].status);
 		}
 	}
+	dispatchQueOfficerList.append("<div style='color:#929292;width:100%;position:relative;text-align:center;font-size:18px'>DRAG AND DROP OFFICERS</div>")
 
 	$(".listItem").off();
 	return;
@@ -138,10 +144,22 @@ function drop(ev) {
     	if(securityOfficers[index].status != 0){
     		//recall this officer
     		securityOfficers[index].status = 3;
+    		securityOfficers[index].isQued = false;
+    		Interstellar.setDatabaseValue("security.officers",securityOfficers);
+    	}else{
+    		//set to avaliable
+    		securityOfficers[index].isQued = false;
     		Interstellar.setDatabaseValue("security.officers",securityOfficers);
     	}
-    }else if($(element).attr("id")  == dispatchQueOfficerList.attr("id") ){
+    }else if($(element).attr("id")  == dispatchQueOfficerList.attr("id")){
     	console.log("Qued!")
+    	securityOfficers[index].isQued = true;
+    	Interstellar.setDatabaseValue("security.officers",securityOfficers);
+    }else if($(element).attr("id") == enRouteOfficersList.attr("id")){
+    	console.log("Recalled");
+    	securityOfficers[index].status = 3;
+    	securityOfficers[index].isQued = false;
+    	Interstellar.setDatabaseValue("security.officers",securityOfficers);
     }
 }
 

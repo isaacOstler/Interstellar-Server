@@ -54,6 +54,8 @@ var trueBeatsASecond = 0;
 var firstTime = true;
 //heartEKG.width(($(window).width() / 2)).height($(window).height() / 10);
 
+document.getElementById("heartEKG").width = $("#pulseRate").width() * .8;
+
 function drawGrid(graph){
 	switch(graph){
 		case 1:

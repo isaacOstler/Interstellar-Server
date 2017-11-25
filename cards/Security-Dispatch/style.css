@@ -1,9 +1,45 @@
+#dispatchControls_location_roomLabel{
+	position: absolute;
+	font-size: 32px;
+	bottom: 4px;
+}
+#dispatchControls_location_room{
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	width: calc(100% - 60px);
+	zoom: 1.25;
+}
+#dispatchControls_location_deck{
+	position: absolute;
+	right: 0px;
+	zoom: 1.25;
+}
+#dispatchControls_location{
+	position: absolute;
+	top:5%;
+	left: 37%;
+	width: 60%;
+	height: 20%;
+}
+#dispatchControls_location_deckLabel{
+	position: absolute;
+	font-size: 32px;
+	left: 0px;
+	top:4px;
+	height: 0px;
+}
 #dispatchControls_officerList{
 	position: absolute;
 	top:45px;
 	left: 15px;
 	height: calc(100% - 60px);
 	width: calc(35% - 15px);
+}
+#dispatchControls_officerList_label{
+	position: absolute;
+	width: calc(35% - 15px);
+	text-align: center;
 }
 .list{
 	position: absolute;

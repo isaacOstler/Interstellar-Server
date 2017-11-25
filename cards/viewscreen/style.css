@@ -9,6 +9,44 @@ body{
     30%  {opacity: 0.4}
     100% {opacity: 1}
 }
+#progressBarTitle{
+	position: absolute;
+	background-color: rgba(0,0,0,.9);
+	z-index: 3;
+	border: 1px solid white;
+	padding: 2px;
+	bottom: 20px;
+	font-size: 4vw;
+	left: 35%;
+	top:20%;
+	height: 40%;
+	width: 30%;
+	text-align: center;
+}
+#progressBar{
+	z-index: 2;
+	position: absolute;
+	top:20px;
+	height: 60%;
+	width: calc(100% - 50px);
+	left: 25px;
+	border: 1px solid white;
+}
+#progressBarFill{
+	background-color: rgba(255,128,0,.5);
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width:50px;
+	height: 100%;
+}
+#progressElement{
+	position: absolute;
+	top:10px;
+	width: calc(100% - 20px);
+	height: calc(100% - 20px);
+	left: 10px;
+}
 #shipView{
 	position: absolute;
 	top:1%;
@@ -38,6 +76,7 @@ body{
     height: 20.5%;
     left: 21.5%;
     width: 78%;
+    font-family: 'Swiss911 XCm BT';
 	border-style: solid;
 	border-image-source: url('/resource?path=public/o_container.png');
 /* border-image-slice: top right bottom left */
@@ -46,6 +85,11 @@ body{
 }
 #auxHeader{
 	font-size: 64px;
+	position: absolute;
+	left: 0px;
+	top: 30px;
+	width:100%;
+	text-align: center;
 }
 #shipTopDown{
 	position: absolute;
