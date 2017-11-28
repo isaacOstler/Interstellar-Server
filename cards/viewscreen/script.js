@@ -10,7 +10,8 @@ var progressBarFill = $("#progressBarFill"),
     contentArea = $("#contentArea"),
     gui = $("#GUI"),
     viewscreenArea = $("#viewscreenArea"),
-    auxMedia = $("#auxMedia");
+    auxMedia = $("#auxMedia"),
+    blackoutArea = $("#blackoutArea");
 
 var binaryHTML = binaryElement.html();
 
@@ -43,7 +44,9 @@ var velocity = {
         "left" : 0,
         "width" : 0,
         "height" : 0
-    }
+    },
+    typeInterval = undefined;
+
 $(document).ready(function(event) {
     setDatabaseValue("viewscreen.tacticalMaster", tacticalMaster);
     loadCard(0); //load the first card
@@ -64,6 +67,7 @@ defaultContentAreaStyle.height = contentArea.height();
 defaultContentAreaStyle.width = contentArea.width();
 
 function loadCard(index) {
+    movingIconsObjects = [];
     velocity.x = 0;
     velocity.y = 0;
     setDatabaseValue("viewscreen.currentCard", index);
@@ -82,9 +86,13 @@ function loadCard(index) {
         //tacticalMaster.cards[index].auxMedia);
         let letterIndex = 0;
         let currentHTML = "";
-        let typeInterval = setInterval(function() {
+        if(typeInterval != undefined){
+            clearInterval(typeInterval);
+        }
+        typeInterval = setInterval(function() {
             if (letterIndex > tacticalMaster.cards[index].auxMedia.length - 1) {
                 clearInterval(typeInterval);
+                typeInterval = undefined;
                 return;
             }
             var isTag = false;
@@ -201,7 +209,10 @@ function loadCard(index) {
                 var icon = movingIconsObjects[i];
                 for (var j = 0; j < icon.commands.length; j++) {
                     var key = e.which || e.keyCode || 0;
-                    console.log("key " + key + " was pressed.");
+                    if(icon.commands[j].command == "stop" && key == icon.commands[j].key){
+                        velocity.y = 0;
+                        velocity.x = 0;
+                    }
                     if (icon.commands[j].command == "up" && key == icon.commands[j].key) {
                         velocity.y -= .01;
                         //var newPosition = $(icon.element).position().top - 2;
@@ -230,15 +241,21 @@ function loadCard(index) {
                 }
             }
         });
-        setInterval(function() {
-            for (var i = 0; i < movingIconsObjects.length; i++) {
-                var icon = movingIconsObjects[i];
-                var newX = $(icon.element).position().left + velocity.x;
-                var newY = $(icon.element).position().top + velocity.y;
-                $(icon.element).css("top", newY + "px");
-                $(icon.element).css("left", newX + "px");
-            }
-        }, 1000 / 60);
+        if(moveInterval != undefined){
+            clearInterval(moveInterval);
+        }
+        if(movingIconsObjects.length > 0){
+            moveInterval = setInterval(function() {
+                for (var i = 0; i < movingIconsObjects.length; i++) {
+                    console.log("Woo");
+                    var icon = movingIconsObjects[i];
+                    var newX = $(icon.element).position().left + velocity.x;
+                    var newY = $(icon.element).position().top + velocity.y;
+                    $(icon.element).css("top", newY + "px");
+                    $(icon.element).css("left", newX + "px");
+                }
+            }, 1000 / 60);
+        }
     }
 }
 
@@ -281,10 +298,10 @@ document.onkeydown = function(event) {
         for (var i = 0; i < cardNumbersEntered.length; i++) {
             number += cardNumbersEntered[i].toString();
         }
-        cardNumber = (parseInt(number) - 1); //card 0 is 1, so we always minus one number
+        cardNumber = (parseInt(number) - 1); //card 0 is 1, so we always subtract one number
         cardNumbersEntered = [];
         loadCard(cardNumber);
-    } else if(event.keyCode == 70){
+    } else if(event.keyCode == 70){ //press the f key
         if(contentArea.position().left == defaultContentAreaStyle.left){
             viewscreenArea.fadeOut(1000,function(){
                 contentArea.animate({left : 0},function(){
@@ -308,7 +325,19 @@ document.onkeydown = function(event) {
             });
         }
         return;
-    } else {
+    }else if(event.keyCode == 66){
+        if(blackoutArea.css("display") == "none"){
+            blackoutArea.css("display","block");
+        }else{
+            blackoutArea.css("display","none");
+        }
+    }else if(event.keyCode == 86){
+        if(blackoutArea.css("display") == "none"){
+            blackoutArea.css("display","block");
+        }else{
+            blackoutArea.css("display","none");
+        }
+    }else {
         return;
     }
     loadCard(cardNumber)
