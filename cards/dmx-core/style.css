@@ -1,16 +1,40 @@
+#dmx-core_keepShaking{
+	position: absolute;
+	bottom: 10px;
+	left: 1px;
+	width: calc(100% - 2px);
+}
 #dmx-core_blackout{
 	position: absolute;
 	top:1px;
-	height: calc(100% - 17px);
+	height: calc(50% - 17px);
 	right: 1px;
 	width: calc(50% - 2px);
 	background-color: rgb(55,55,55);
 	color:white;
 }
+#dmx-core_uv{
+	position: absolute;
+	top:calc(50% - 16px);
+	height: calc(50% - 17px);
+	right: 1px;
+	width: calc(50% - 2px);
+	background-color: rgb(255,0,158);
+	color:white;
+}
+#dmx-core_disco{
+	position: absolute;
+	top:calc(50% - 16px);
+	height: calc(50% - 17px);
+	left: 1px;
+	width: calc(50% - 2px);
+	background-color: rgb(255,55,128);
+	color:white;
+}
 #dmx-core_shakeLights{
 	position: absolute;
 	top:1px;
-	height: calc(100% - 17px);
+	height: calc(50% - 17px);
 	left: 1px;
 	width: calc(50% - 2px);
 	background-color: rgb(255,255,255);
@@ -19,5 +43,5 @@
 	position: absolute;
 	bottom: 0px;
 	left: 1px;
-	width: calc(100% - 2px);
+	width: calc(100% - 4px);
 }

@@ -55,7 +55,7 @@
     cursor: pointer;
 	height: 16px;
 	color:black;
-	background-color: rgba(255,255,255,.2);
+	background-color: rgba(255,255,255,.05);
 }
 .Viewscreen-Control-Core_CardsListCard:hover{
     filter: brightness(1.25);
