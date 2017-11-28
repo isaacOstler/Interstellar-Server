@@ -1,8 +1,0 @@
-{
-	"cardName":"dmx",
-	"cardType":"dmx",
-	"author":"Isaac Ostler",
-	"copyright":"Isaac Ostler",
-	"version":"1.0.0",
-	"description":"DMX controller for the ship, DO NOT USE THIS CARD ON STATIONS, THIS CARD IS ONLY TO BE USED FOR THE DMX APP"
-}

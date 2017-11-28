@@ -1,10 +1,16 @@
 <div id="Viewscreen-Control-Core-Widget" class="Core_Theme-CoreWidget" style="width:250px;height:426px;top:470px;left:0px">
 	<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=viewscreen-control-core">
-	current Tactical: <input type='input' onClick='this.select();' id="Viewscreen-Control-Core_taticalNameTextbox" style="width:50%" class="coreTextbox">
-	current card: <input type="button" class="coreButton" value="<<" id="Viewscreen-Control-Core_lastCardButton"><input type='input' onClick='this.select();' id="Viewscreen-Control-Core_currentCardTextbox" class="coreTextbox"><input type="button" class="coreButton" value=">>" id="Viewscreen-Control-Core_nextCardButton">
+	<div id="Viewscreen-Control-Core_taticalNameTextbox_label">
+		TACTICAL
+	</div>
+	<input type='input' onClick='this.select();' id="Viewscreen-Control-Core_taticalNameTextbox" class="coreTextbox">
+	<div id="Viewscreen-Control-Core_taticalCard_label">
+		CARD
+	</div>
+	<input type="button" class="coreButton" value="<<" id="Viewscreen-Control-Core_lastCardButton"><input type='input' onClick='this.select();' id="Viewscreen-Control-Core_currentCardTextbox" class="coreTextbox"><input type="button" class="coreButton" value=">>" id="Viewscreen-Control-Core_nextCardButton">
 
 	<div id="Viewscreen-Control-Core_CardsList">
-	No cards Loaded
+		No cards Loaded
 	</div>
 
 	<script src="/resource?path=script.js&screen=viewscreen-control-core" type="text/javascript"></script>
