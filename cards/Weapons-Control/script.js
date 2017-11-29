@@ -193,7 +193,7 @@ canvas.mousedown(function(event){
                             let weaponID = guidOfWeapon;
                             let indexOfWeapon = i;
                             let chargeInterval = setInterval(function(){
-                                weaponStatus[indexOfWeapon].weaponStatus.phaserCharge -= 0.09;
+                                weaponStatus[indexOfWeapon].weaponStatus.phaserCharge -= 0.02;
                                 weaponStatus[indexOfWeapon].weaponStatus.phaserHeat += .07 + (Math.random() * 0.02);
                                 if(weaponStatus[indexOfWeapon].weaponStatus.phaserCharge < 0){
                                     weaponStatus[indexOfWeapon].weaponStatus.phaserCharge = 0;
@@ -203,13 +203,13 @@ canvas.mousedown(function(event){
                                             weapons[m].phaserLength = weapons[m].distance;
                                         }
                                     }
+                                    Interstellar.setDatabaseValue("weapons.weaponStatus",weaponStatus);
                                     $(document).off("mouseup.phaserRelease");
                                     updateContactsEarly();
                                 }
                                 if(weaponStatus[indexOfWeapon].weaponStatus.phaserHeat > 1){
                                     weaponStatus[indexOfWeapon].weaponStatus.phaserHeat = 1;
                                 }
-                                Interstellar.setDatabaseValue("weapons.weaponStatus",weaponStatus);
                             },0100);
                             $(document).on("mouseup.phaserRelease",function(event){
                                 clearInterval(chargeInterval);
@@ -218,6 +218,7 @@ canvas.mousedown(function(event){
                                         weapons[m].phaserLength = weapons[m].distance;
                                     }
                                 }
+                                Interstellar.setDatabaseValue("weapons.weaponStatus",weaponStatus);
                                 $(document).off("mouseup.phaserRelease");
                                 updateContactsEarly();
                                 //Interstellar.setDatabaseValue("sensors.weapons",weapons);

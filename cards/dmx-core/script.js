@@ -12,7 +12,7 @@ Interstellar.addCoreWidget("DMX Control",function(){
 		setTimeout(function(){
 			stopShakeTimeout = undefined;
 			if(!continuousShake){
-				Interstellar.setDatabaseValue("lights.isShaking",false);
+				Interstellar.setDatabaseValue("ship.alertStatus",Interstellar.getDatabaseValue("ship.alertStatus"));
 			}
 		},10000);
 	});

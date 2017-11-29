@@ -99,7 +99,7 @@
 
 //variables
 var alertStatus = 5, //the ships alert status
-    phaserSpeed = .45, //how fast phasers fire
+    phaserSpeed = .15, //how fast phasers fire
     thisWidgetName = "Sensors", //the name of this widget (since for a while, it was called new-sensors-core)
     animationInterval = undefined, //the variable pointing to the animation interval
     networkRefreshTimeout = undefined, //the variable pointing to the network update timeout
