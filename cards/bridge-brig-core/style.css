@@ -1,0 +1,16 @@
+#brig-bridge-core_bridgeState{
+	position: absolute;
+	top:1px;
+	left: 1px;
+	width: calc(100% - 77px);
+	height: calc(100% - 5px);
+	border: 1px solid white;
+	background-color: grey;
+}
+#brig-bridge-core_toggleButton{
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 71px;
+    height: calc(100% - 3px);
+}
