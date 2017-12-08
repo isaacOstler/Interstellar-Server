@@ -105,7 +105,7 @@ var alertStatus = 5, //the ships alert status
         "degrees" : 0,
         "distance" : 50
     },
-    phaserSpeed = .45, //how fast phasers fire
+    phaserSpeed = .15, //how fast phasers fire
     thisWidgetName = "Weapons-Control", //the name of this widget (since for a while, it was called new-sensors-core)
     animationInterval = undefined, //the variable pointing to the animation interval
     networkRefreshTimeout = undefined, //the variable pointing to the network update timeout
