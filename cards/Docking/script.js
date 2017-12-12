@@ -6,6 +6,7 @@ var disembarkationViewButton = $("#disembarkationViewButton"),
 	clampsViewButton = $("#clampsViewButton"),
 	airlockView = $("#airlockView"),
 	fuelView = $("#fuelView"),
+	rampsView = $("#rampsView"),
 	disembarkationView = $("#disembarkationView");
 
 //variables
@@ -28,9 +29,13 @@ function openView(view){
 	if(airlockView != view){
 		airlockView.fadeOut();
 	}
+	if(rampsView != view){
+		rampsView.fadeOut();
+	}
 }
 //event handlers
-disembarkationViewButton.click(function(event){openView(disembarkationView)});
-fuelViewButton.click(function(event){openView(fuelView)});
-airlockViewButton.click(function(event){openView(airlockView)});
+disembarkationViewButton.click(function(){openView(disembarkationView)});
+fuelViewButton.click(function(){openView(fuelView)});
+airlockViewButton.click(function(){openView(airlockView)});
+rampsViewButton.click(function(){openView(rampsView)});
 //intervals
