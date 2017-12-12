@@ -1,0 +1,119 @@
+<link rel="stylesheet" type="text/css" href="/stationThemes">
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css">
+<div id="contentArea" class="noselect">
+	<div id="ship"></div>
+	<div id="viewSelect" class="">
+		<div class="dockingView beepOnClick" id="disembarkationViewButton">DISEMBARKATION ALARM</div>
+		<div id="disembarkationViewStatus" class="statusLight"></div>
+		<div class="dockingView beepOnClick" id="fuelViewButton">FUEL LINES</div>
+		<div id="fuelViewStatus" class="statusLight"></div>
+		<div class="dockingView beepOnClick" id="airlockViewButton">AIRLOCK DOORS</div>
+		<div id="airlockViewStatus" class="statusLight"></div>
+		<div class="dockingView beepOnClick" id="rampsViewButton">BOARDING RAMPS</div>
+		<div id="rampsViewStatus" class="statusLight"></div>
+		<div class="dockingView beepOnClick" id="clampsViewButton">DOCKING CLAMPS</div>
+		<div id="clampsViewStatus" class="statusLight"></div>
+	</div>
+	<div id="airlockView" style="display: none" class='view'>
+		<div class='airlock' style="left: 0%;top: 0%;">
+			<div class='airlock_door' doorIndex='0'>
+				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
+				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>001</div></div>
+			</div>
+			<div class='airlock_controls'>
+				<div class='airlock_controls_open gradientButton beepOnClick' doorIndex='0'>OPEN</div>
+				<div class='airlock_controls_close gradientButton beepOnClick' doorIndex='0'>CLOSE</div>
+			</div>
+		</div>
+		<div class='airlock' style="left: 33%;top: 0%;">
+			<div class='airlock_door' doorIndex='1'>
+				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
+				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>002</div></div>
+			</div>
+			<div class='airlock_controls'>
+				<div class='airlock_controls_open gradientButton beepOnClick' doorIndex='1'>OPEN</div>
+				<div class='airlock_controls_close gradientButton beepOnClick' doorIndex='1'>CLOSE</div>
+			</div>
+		</div>
+		<div class='airlock' style="left: 66%;top: 0%;">
+			<div class='airlock_door' doorIndex='2'>
+				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
+				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>003</div></div>
+			</div>
+			<div class='airlock_controls'>
+				<div class='airlock_controls_open gradientButton beepOnClick' doorIndex='2'>OPEN</div>
+				<div class='airlock_controls_close gradientButton beepOnClick' doorIndex='2'>CLOSE</div>
+			</div>
+		</div>
+		<div class='airlock' style="left: 0%;top: calc(50% + 2px);">
+			<div class='airlock_door' doorIndex='3'>
+				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
+				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>004</div></div>
+			</div>
+			<div class='airlock_controls'>
+				<div class='airlock_controls_open gradientButton beepOnClick' doorIndex='3'>OPEN</div>
+				<div class='airlock_controls_close gradientButton beepOnClick' doorIndex='3'>CLOSE</div>
+			</div>
+		</div>
+		<div class='airlock' style="left: 33%;top: calc(50% + 2px);">
+			<div class='airlock_door' doorIndex='4'>
+				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
+				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>005</div></div>
+			</div>
+			<div class='airlock_controls'>
+				<div class='airlock_controls_open gradientButton beepOnClick' doorIndex='4'>OPEN</div>
+				<div class='airlock_controls_close gradientButton beepOnClick' doorIndex='4'>CLOSE</div>
+			</div>
+		</div>
+		<div class='airlock' style="left: 66%;top: calc(50% + 2px);">
+			<div class='airlock_door' doorIndex='5'>
+				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
+				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>006</div></div>
+			</div>
+			<div class='airlock_controls'>
+				<div class='airlock_controls_open gradientButton beepOnClick' doorIndex='5'>OPEN</div>
+				<div class='airlock_controls_close gradientButton beepOnClick' doorIndex='5'>CLOSE</div>
+			</div>
+		</div>
+	</div>
+	<div id="fuelView" class="view" style="display: none">
+		<div class="fuelContainer">
+			<div class="fuelContainer_header">PLASMA</div>
+			<div class="fuelContainer_disconnectButton gradientButton beepOnClick" system='0'>DISCONNECT</div>
+			<div class="fuelContainer_flow" id="fuelContainer_plasmaArrowFlow"><div class="fuelContainer_flow_inside movingRightArrows" style="filter:hue-rotate(376deg) brightness(1.25);"></div></div>
+		</div>
+		<div class="fuelContainer">
+			<div class="fuelContainer_header">DETERIUM FUEL</div>
+			<div class="fuelContainer_disconnectButton gradientButton beepOnClick" system='1'>DISCONNECT</div>
+			<div class="fuelContainer_flow" id="fuelContainer_deteriumArrowFlow"><div class="fuelContainer_flow_inside movingRightArrows" style="filter:hue-rotate(326deg) brightness(1.25);"></div></div>
+		</div>
+		<div class="fuelContainer">
+			<div class="fuelContainer_header">COOLANT</div>
+			<div class="fuelContainer_disconnectButton gradientButton beepOnClick" system='2'>DISCONNECT</div>
+			<div class="fuelContainer_flow" id="fuelContainer_coolantArrowFlow"><div class="fuelContainer_flow_inside movingRightArrows" style="filter:hue-rotate(166deg) brightness(1.25);"></div></div>
+		</div>
+		<div class="fuelContainer">
+			<div class="fuelContainer_header">RCS THRUSTER FUEL</div>
+			<div class="fuelContainer_disconnectButton gradientButton beepOnClick" system='3'>DISCONNECT</div>
+			<div class="fuelContainer_flow" id="fuelContainer_thrusterArrowFlow"><div class="fuelContainer_flow_inside movingRightArrows" style="filter:hue-rotate(270deg) brightness(1.25);"></div></div>
+		</div>
+		<div class="fuelContainer">
+			<div class="fuelContainer_header">WASTE</div>
+			<div class="fuelContainer_disconnectButton gradientButton beepOnClick" system='4'>DISCONNECT</div>
+			<div class="fuelContainer_flow" id="fuelContainer_wasteArrowFlow"><div class="fuelContainer_flow_inside movingLeftArrows" style="filter:hue-rotate(30deg) brightness(0.75);"></div></div>
+		</div>
+	</div>
+	<div id="disembarkationView" class="view" style="display: none">
+		<div id="disembarkationView_disembarkationState">NO ALARM ACTIVE</div>
+		<div id="disembarkationView_soundAlarm" class='gradientButton beepOnClick'>
+			<div class="disembarkationAlarm_header">SOUND DISEMBARKATION ALARM</div>
+			<div class="disembarkationAlarm_text">sound to order all unauthorized personnel to leave the ship at this time.  This usually takes a few minutes to hours, depending on the amount of visitors aboard.</div>
+		</div>
+		<div id="disembarkationView_silenceAlarm" class='gradientButton beepOnClick'>
+			<div class="disembarkationAlarm_header">SILENCE DISEMBARKATION ALARM</div>
+			<div class="disembarkationAlarm_text">stop sounding the disembarkation alarm.  silencing the alarm is not an invitation for others to board the ship, simply a way of ending the disembarkation state.</div>
+		</div>
+	</div>
+</div>
+<script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+<script src="/resource?path=script.js" type="text/javascript"></script>

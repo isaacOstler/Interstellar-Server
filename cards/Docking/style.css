@@ -1,0 +1,321 @@
+@keyframes animatedBackground {
+	from { background-position: 0 0; }
+	to { background-position: 100% 0; }
+}
+.airlock_door_door1{
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(/resource?path=public/door1.png);
+}
+.airlock_door_door2{
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(/resource?path=public/door2.png);
+}
+.airlock_door_door1_label{
+    position: absolute;
+    top: 38%;
+    left: 23%;
+    font-size: 2.2vw;
+    color:black;
+}
+.airlock_door_door2_label{
+    position: absolute;
+    top: 38%;
+    right: 18%;
+    font-size: 2.2vw;
+    color:black;
+}
+.airlock_door{    
+	background-size: 200%;
+    background-image: url(/resource?path=public/space.jpg);
+	overflow: hidden;
+	position: absolute;
+	height: 50%;
+	width: 100%;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	border: 1px solid white;
+}
+.airlock_controls{
+	position: absolute;
+	top:50%;
+	left: 0%;
+	width: 100%;
+	height: 50%;
+}
+.airlock_controls_open{
+	cursor: pointer;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 50%;
+	border: 1px solid white;
+	border-top: 0px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+  	background: linear-gradient(-90deg, rgba(0,255,0,.8), rgba(0,255,20,.45)); /* Standard syntax */
+}
+.airlock_controls_close{
+	cursor: pointer;
+	position: absolute;
+	bottom:0px;
+	left: 0px;
+	width: 100%;
+	height: 50%;
+	border: 1px solid white;
+	border-top: 0px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+  	background: linear-gradient(-90deg, rgba(255,0,0,.8), rgba(255,20,0,.45)); /* Standard syntax */
+}
+.airlock{
+	position: absolute;
+	width: 30%;
+	height: 50%;
+}
+#fuelContainer_wasteArrowFlow{
+  	background: linear-gradient(-90deg, rgba(0,0,255,.4), rgba(0,20,255,.05)); /* Standard syntax */
+}
+.fuelContainer_header{
+	position: absolute;
+	top:5px;
+	left: 0px;
+	font-size: 3.8vh;
+}
+.fuelContainer_flow_inside{
+	position: absolute;
+	top:5%;
+	height: 90%;
+	left: 0px;
+	width: 100%;
+}
+.fuelContainer_disconnectButton{
+    border: 1px solid white;
+    position: absolute;
+    border-bottom: 0px;
+    right: 10%;
+    bottom: 40%;
+    height: 45%;
+    border-radius: 10px 10px 0px 0px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    width: 33%;
+    cursor: pointer;
+  	background: linear-gradient(90deg, rgba(255,0,0,.7), rgba(255,20,0,.4)); /* Standard syntax */
+}
+.fuelContainer_flow{
+  	background: linear-gradient(90deg, rgba(255,0,0,.4), rgba(255,20,0,.05)); /* Standard syntax */
+	position: absolute;
+	top:calc(4vh + 4px);
+	width: 90%;
+	left: 5%;
+	left: 0px;
+	height: 50%;
+	bottom: 0px;
+	filter: grayscale(1);
+	border:1px solid white;
+}
+.fuelContainer{
+	position: relative;
+	left: 5%;
+	width: 100%;
+	height: 20%;
+}
+.movingRightArrows{
+	background-size: contain;
+	background-image: url('/resource?path=public/movingArrows.gif');
+	background-position: 0px 0px;
+	background-repeat: repeat-x;
+	animation: animatedBackground 30s linear infinite;
+}
+
+.movingLeftArrows{
+	background-size: contain;
+	background-image: url('/resource?path=public/movingArrows.gif');
+	background-position: 0px 0px;
+	background-repeat: repeat-x;
+	animation: animatedBackground 30s linear infinite;
+	transform: rotate(180deg);
+}
+
+#ship{
+	position: absolute;
+	top:5%;
+	height: 40%;
+	width: 100%;
+	left: 0%;
+	background-image: url('/ship?file=starboard.png');
+	background-position: center;
+	background-repeat: none;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+.gradientButton:hover{
+	filter: brightness(0.75);
+}
+.gradientButton:active{
+	filter: brightness(0.55) grayscale(.5);
+}
+#disembarkationView_disembarkationState{
+	position: absolute;
+	top:5%;
+	left: 5%;
+	width: 90%;
+	height: 50%;
+	font-size: 6vw;
+}
+#disembarkationView_soundAlarm{
+	cursor: pointer;
+	position: absolute;
+	bottom: 32%;
+	height: 30%;
+	border: 1px solid white;
+	width: 95%;
+	left: 2.5%;
+  	background: linear-gradient(90deg, rgba(255,179,0,.7), rgba(255,200,0,.4)); /* Standard syntax */
+}
+#disembarkationView_silenceAlarm{
+	cursor: pointer;
+	position: absolute;
+	bottom: 0%;
+	height: 30%;
+	border: 1px solid white;
+	width: 95%;
+	left: 2.5%;
+  	background: linear-gradient(90deg, rgba(0,120,255,.7), rgba(0,170,255,.4)); /* Standard syntax */
+}
+.disembarkationAlarm_text{
+	position: absolute;
+	top:calc(10px + 3vw);
+	font-size: 18px;
+	width: 90%;
+	left: 5%;
+	height: calc(100% - calc(10px + 3vw));
+	text-transform: uppercase;
+}
+.disembarkationAlarm_header{
+	font-size: 3vw;
+	position: absolute;
+	top:5px;
+	left: 5%;
+}
+.view{
+	position: absolute;
+    top: 43%;
+    left: 35%;
+    height: 41%;
+    width: 65%;
+}
+#viewSelect{
+	position: absolute;
+	top:40%;
+	left: 0%;
+	width: 35%;
+	height: 70%;
+}
+#dockingLabel{
+	position: absolute;
+    top: calc(16% - 4vw);
+	left: 0%;
+	font-size: 4vw;
+	width: 35%;
+	text-align: center;
+}
+#fuelViewStatus{
+	position: absolute;
+	right: 15%;
+	top: calc(17% + calc(5% - 12.5px));
+}
+#fuelViewButton{
+	position: absolute;
+	top: 17%;
+	left: 10%;
+}
+#clampsViewStatus{
+	position: absolute;
+	right: 15%;
+	top: calc(53% + calc(5% - 12.5px));
+}
+#clampsViewButton{
+	position: absolute;
+	top: 53%;
+	left: 10%;
+}
+#rampsViewStatus{
+	position: absolute;
+	right: 15%;
+	top: calc(41% + calc(5% - 12.5px));
+}
+#rampsViewButton{
+	position: absolute;
+	top: 41%;
+	left: 10%;
+}
+#airlockViewStatus{
+	position: absolute;
+	right: 15%;
+	top: calc(29% + calc(5% - 12.5px));
+}
+#airlockViewButton{
+	position: absolute;
+	top: 29%;
+	left: 10%;
+}
+#disembarkationViewStatus{
+	position: absolute;
+	top:calc(5% + calc(5% - 12.5px));
+	right: 15%;
+}
+#disembarkationViewButton{
+	position: absolute;
+	top:5%;
+	left: 10%;
+}
+.statusLight{
+	border-radius: 50%;
+	height: 25px;
+	width: 25px;
+	border:1px solid white;
+	background-color: rgba(65,255,0,.9);
+    box-shadow: 0px 0px 20px rgb(65,255,0);
+}
+.dockingView{
+	border: 1px solid white;
+	background-color: rgba(255,255,255,.3);
+    align-items: center; /* Vertical center alignment */
+    justify-content: center; /* Horizontal center alignment */
+    display: flex;
+	font-size: 1.5vw;
+	border-radius: 5px;
+	width: 60%;
+	height: 10%;
+	cursor: pointer;
+}
+.dockingView:hover{
+	background-color: rgba(255,255,255,.1);
+    box-shadow: 0px 0px 10px #fff;
+}
+.dockingView:active{
+	background-color: rgba(255,255,255,.05);
+}

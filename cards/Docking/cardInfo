@@ -1,0 +1,8 @@
+{
+	"cardName":"Docking",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the user to dock and undock the ship"
+}
