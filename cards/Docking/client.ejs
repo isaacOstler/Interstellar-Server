@@ -14,7 +14,18 @@
 		<div class="dockingView beepOnClick" id="clampsViewButton">DOCKING CLAMPS</div>
 		<div id="clampsViewStatus" class="statusLight"></div>
 	</div>
-	<div id="rampsView" class='view'>
+	<div id="clampsView" class="view" style="display: none">
+		<div class='clamp'>
+			<canvas class='clampVisual' clampId="0">
+		</div>
+		<div class='clamp' style="left: 30%;">
+			<canvas class='clampVisual' clampId="1">
+		</div>
+		<div class='clamp' style="left: 60%;">
+			<canvas class='clampVisual' clampId="2">
+		</div>
+	</div>
+	<div id="rampsView" class='view' style="display: none">
 		<div class='ramp' style="left: 0%;top: 0%;">
 			<div class='ramp_header'>PORT BOW RAMP</div>
 			<div class='ramp_status'>EXTENDED</div>
@@ -66,7 +77,7 @@
 	</div>
 	<div id="airlockView" style="display: none" class='view'>
 		<div class='airlock' style="left: 0%;top: 0%;">
-			<div class='airlock_door' doorIndex='0'>
+			<div class='airlock_door' doorID='0'>
 				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
 				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>001</div></div>
 			</div>
@@ -76,7 +87,7 @@
 			</div>
 		</div>
 		<div class='airlock' style="left: 33%;top: 0%;">
-			<div class='airlock_door' doorIndex='1'>
+			<div class='airlock_door' doorID='1'>
 				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
 				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>002</div></div>
 			</div>
@@ -86,7 +97,7 @@
 			</div>
 		</div>
 		<div class='airlock' style="left: 66%;top: 0%;">
-			<div class='airlock_door' doorIndex='2'>
+			<div class='airlock_door' doorID='2'>
 				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
 				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>003</div></div>
 			</div>
@@ -96,7 +107,7 @@
 			</div>
 		</div>
 		<div class='airlock' style="left: 0%;top: calc(50% + 2px);">
-			<div class='airlock_door' doorIndex='3'>
+			<div class='airlock_door' doorID='3'>
 				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
 				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>004</div></div>
 			</div>
@@ -106,7 +117,7 @@
 			</div>
 		</div>
 		<div class='airlock' style="left: 33%;top: calc(50% + 2px);">
-			<div class='airlock_door' doorIndex='4'>
+			<div class='airlock_door' doorID='4'>
 				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
 				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>005</div></div>
 			</div>
@@ -116,7 +127,7 @@
 			</div>
 		</div>
 		<div class='airlock' style="left: 66%;top: calc(50% + 2px);">
-			<div class='airlock_door' doorIndex='5'>
+			<div class='airlock_door' doorID='5'>
 				<div class='airlock_door_door1'><div class='airlock_door_door1_label'>AIRLOCK</div></div>
 				<div class='airlock_door_door2'><div class='airlock_door_door2_label'>006</div></div>
 			</div>
@@ -153,7 +164,7 @@
 			<div class="fuelContainer_flow" id="fuelContainer_wasteArrowFlow"><div class="fuelContainer_flow_inside movingLeftArrows" style="filter:hue-rotate(30deg) brightness(0.75);"></div></div>
 		</div>
 	</div>
-	<div id="disembarkationView" class="view" style="display: none">
+	<div id="disembarkationView" class="view" style="display: block;">
 		<div id="disembarkationView_disembarkationState">NO ALARM ACTIVE</div>
 		<div id="disembarkationView_soundAlarm" class='gradientButton beepOnClick'>
 			<div class="disembarkationAlarm_header">SOUND DISEMBARKATION ALARM</div>
