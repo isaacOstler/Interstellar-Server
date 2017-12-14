@@ -15,6 +15,19 @@
     20%   {background-color: rgba(255,255,0,1);box-shadow: 0px 0px 50px rgb(255,255,0);filter: drop-shadow(0px 0px 20px rgb(255,255,0));}
     100%   {background-color: rgba(255,180,0,.3);box-shadow: 0px 0px 0px rgb(255,180,0);}
 }
+.fuelDisconnected{
+	display: none;
+	background-color: rgba(0,0,0,.7);
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	color:red;
+	text-align: center;
+	font-size: 2vw;
+	z-index: 2;
+}
 .clampVisual_clamp1{
 	position: absolute;
 	top: -110%;
@@ -144,7 +157,6 @@
 	width: 100%;
 	font-size: 4vw;
 	text-align: center;
-	color:lime;
 }
 .airlock{
 	position: absolute;
@@ -173,9 +185,16 @@
 .fuelContainer_flow_inside{
 	position: absolute;
 	top:5%;
+	filter: grayscale(1);
 	height: 90%;
 	left: 0px;
 	width: 100%;
+}
+.fuelDisconnect{
+  	background: linear-gradient(90deg, rgba(255,0,0,.7), rgba(255,20,0,.4)); /* Standard syntax */
+}
+.fuelConnect{
+  	background: linear-gradient(90deg, rgba(0,60,255,.7), rgba(0,60,255,.4)); /* Standard syntax */
 }
 .fuelContainer_disconnectButton{
     border: 1px solid white;
@@ -191,7 +210,6 @@
     display: flex;
     width: 33%;
     cursor: pointer;
-  	background: linear-gradient(90deg, rgba(255,0,0,.7), rgba(255,20,0,.4)); /* Standard syntax */
 }
 .fuelContainer_flow{
   	background: linear-gradient(90deg, rgba(255,0,0,.4), rgba(255,20,0,.05)); /* Standard syntax */
@@ -202,7 +220,6 @@
 	left: 0px;
 	height: 50%;
 	bottom: 0px;
-	filter: grayscale(1);
 	border:1px solid white;
 }
 .fuelContainer{
@@ -217,6 +234,7 @@
 	background-position: 0px 0px;
 	background-repeat: repeat-x;
 	animation: animatedBackground 30s linear infinite;
+	filter: grayscale(1);
 }
 
 .movingLeftArrows{
@@ -226,6 +244,7 @@
 	background-repeat: repeat-x;
 	animation: animatedBackground 30s linear infinite;
 	transform: rotate(180deg);
+	filter: grayscale(1);
 }
 
 #ship{

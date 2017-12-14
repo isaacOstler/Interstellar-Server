@@ -40,7 +40,7 @@
 	<div id="rampsView" class='view' style="display: none">
 		<div class='ramp' style="left: 0%;top: 0%;">
 			<div class='ramp_header'>PORT BOW RAMP</div>
-			<div class='ramp_status' rampIndex='0'>EXTENDED</div>
+			<div class='ramp_status' rampID='0'>EXTENDED</div>
 			<div class='airlock_controls' style='border-top: 1px solid white;top: 40%;'>
 				<div class='closeRampButton airlock_controls_open gradientButton beepOnClick' rampIndex='0'>EXTEND</div>
 				<div class='openRampButton airlock_controls_close gradientButton beepOnClick' rampIndex='0'>RETRACT</div>
@@ -48,7 +48,7 @@
 		</div>
 		<div class='ramp' style="left: 33%;top: 0%;">
 			<div class='ramp_header'>PORT RAMP</div>
-			<div class='ramp_status' rampIndex='1'>EXTENDED</div>
+			<div class='ramp_status' rampID='1'>EXTENDED</div>
 			<div class='airlock_controls' style='border-top: 1px solid white;top: 40%;'>
 				<div class='closeRampButton airlock_controls_open gradientButton beepOnClick' rampIndex='1'>EXTEND</div>
 				<div class='openRampButton airlock_controls_close gradientButton beepOnClick' rampIndex='1'>RETRACT</div>
@@ -56,7 +56,7 @@
 		</div>
 		<div class='ramp' style="left: 66%;top: 0%;">
 			<div class='ramp_header'>PORT QUARTER RAMP</div>
-			<div class='ramp_status' rampIndex='2'>EXTENDED</div>
+			<div class='ramp_status' rampID='2'>EXTENDED</div>
 			<div class='airlock_controls' style='border-top: 1px solid white;top: 40%;'>
 				<div class='closeRampButton airlock_controls_open gradientButton beepOnClick' rampIndex='2'>EXTEND</div>
 				<div class='openRampButton airlock_controls_close gradientButton beepOnClick' rampIndex='2'>RETRACT</div>
@@ -64,7 +64,7 @@
 		</div>
 		<div class='ramp' style="left: 0%;top: calc(50% + 2px);">
 			<div class='ramp_header'>STARBOARD BOW RAMP</div>
-			<div class='ramp_status' rampIndex='3'>EXTENDED</div>
+			<div class='ramp_status' rampID='3'>EXTENDED</div>
 			<div class='airlock_controls' style='border-top: 1px solid white;top: 40%;'>
 				<div class='closeRampButton airlock_controls_open gradientButton beepOnClick' rampIndex='3'>EXTEND</div>
 				<div class='openRampButton airlock_controls_close gradientButton beepOnClick' rampIndex='3'>RETRACT</div>
@@ -72,7 +72,7 @@
 		</div>
 		<div class='ramp' style="left: 33%;top: calc(50% + 2px);">
 			<div class='ramp_header'>STARBOARD RAMP</div>
-			<div class='ramp_status' rampIndex='4'>EXTENDED</div>
+			<div class='ramp_status' rampID='4'>EXTENDED</div>
 			<div class='airlock_controls' style='border-top: 1px solid white;top: 40%;'>
 				<div class='closeRampButton airlock_controls_open gradientButton beepOnClick' rampIndex='4'>EXTEND</div>
 				<div class='openRampButton airlock_controls_close gradientButton beepOnClick' rampIndex='4'>RETRACT</div>
@@ -80,7 +80,7 @@
 		</div>
 		<div class='ramp' style="left: 66%;top: calc(50% + 2px);">
 			<div class='ramp_header'>STARBOARD QUARTER RAMP</div>
-			<div class='ramp_status' rampIndex='5'>EXTENDED</div>
+			<div class='ramp_status' rampID='5'>EXTENDED</div>
 			<div class='airlock_controls' style='border-top: 1px solid white;top: 40%;'>
 				<div class='closeRampButton airlock_controls_open gradientButton beepOnClick' rampIndex='5'>EXTEND</div>
 				<div class='openRampButton airlock_controls_close gradientButton beepOnClick' rampIndex='5'>RETRACT</div>
@@ -152,28 +152,39 @@
 	<div id="fuelView" class="view" style="display: none">
 		<div class="fuelContainer">
 			<div class="fuelContainer_header">PLASMA</div>
-			<div class="fuelContainer_disconnectButton gradientButton beepOnClick" system='0'>DISCONNECT</div>
-			<div class="fuelContainer_flow" id="fuelContainer_plasmaArrowFlow"><div class="fuelContainer_flow_inside movingRightArrows" style="filter:hue-rotate(376deg) brightness(1.25);"></div></div>
+			<div class="fuelContainer_disconnectButton fuelDisconnect gradientButton beepOnClick" system='0'>DISCONNECT</div>
+			<div class="fuelContainer_flow" id="fuelContainer_plasmaArrowFlow">
+				<div class="fuelDisconnected" fuelIndex="0">FUEL LINE DISCONNECTED</div>
+				<div class="fuelContainer_flow_inside movingRightArrows"></div>
+			</div>
 		</div>
 		<div class="fuelContainer">
 			<div class="fuelContainer_header">DETERIUM FUEL</div>
-			<div class="fuelContainer_disconnectButton gradientButton beepOnClick" system='1'>DISCONNECT</div>
-			<div class="fuelContainer_flow" id="fuelContainer_deteriumArrowFlow"><div class="fuelContainer_flow_inside movingRightArrows" style="filter:hue-rotate(326deg) brightness(1.25);"></div></div>
+			<div class="fuelContainer_disconnectButton fuelDisconnect gradientButton beepOnClick" system='1'>DISCONNECT</div>
+			<div class="fuelContainer_flow" id="fuelContainer_deteriumArrowFlow">
+				<div class="fuelDisconnected" fuelIndex="1">FUEL LINE DISCONNECTED</div>
+				<div class="fuelContainer_flow_inside movingRightArrows"></div></div>
 		</div>
 		<div class="fuelContainer">
 			<div class="fuelContainer_header">COOLANT</div>
-			<div class="fuelContainer_disconnectButton gradientButton beepOnClick" system='2'>DISCONNECT</div>
-			<div class="fuelContainer_flow" id="fuelContainer_coolantArrowFlow"><div class="fuelContainer_flow_inside movingRightArrows" style="filter:hue-rotate(166deg) brightness(1.25);"></div></div>
+			<div class="fuelContainer_disconnectButton fuelDisconnect gradientButton beepOnClick" system='2'>DISCONNECT</div>
+			<div class="fuelContainer_flow" id="fuelContainer_coolantArrowFlow">
+				<div class="fuelDisconnected" fuelIndex="2">FUEL LINE DISCONNECTED</div>
+				<div class="fuelContainer_flow_inside movingRightArrows"></div></div>
 		</div>
 		<div class="fuelContainer">
 			<div class="fuelContainer_header">RCS THRUSTER FUEL</div>
-			<div class="fuelContainer_disconnectButton gradientButton beepOnClick" system='3'>DISCONNECT</div>
-			<div class="fuelContainer_flow" id="fuelContainer_thrusterArrowFlow"><div class="fuelContainer_flow_inside movingRightArrows" style="filter:hue-rotate(270deg) brightness(1.25);"></div></div>
+			<div class="fuelContainer_disconnectButton fuelDisconnect gradientButton beepOnClick" system='3'>DISCONNECT</div>
+			<div class="fuelContainer_flow" id="fuelContainer_thrusterArrowFlow">
+				<div class="fuelDisconnected" fuelIndex="3">FUEL LINE DISCONNECTED</div>
+				<div class="fuelContainer_flow_inside movingRightArrows"></div></div>
 		</div>
 		<div class="fuelContainer">
 			<div class="fuelContainer_header">WASTE</div>
-			<div class="fuelContainer_disconnectButton gradientButton beepOnClick" system='4'>DISCONNECT</div>
-			<div class="fuelContainer_flow" id="fuelContainer_wasteArrowFlow"><div class="fuelContainer_flow_inside movingLeftArrows" style="filter:hue-rotate(30deg) brightness(0.75);"></div></div>
+			<div class="fuelContainer_disconnectButton fuelDisconnect gradientButton beepOnClick" system='4'>DISCONNECT</div>
+			<div class="fuelContainer_flow" id="fuelContainer_wasteArrowFlow">
+				<div class="fuelDisconnected" fuelIndex="4">FUEL LINE DISCONNECTED</div>
+				<div class="fuelContainer_flow_inside movingLeftArrows"></div></div>
 		</div>
 	</div>
 	<div id="disembarkationView" class="view" style="display: block;">

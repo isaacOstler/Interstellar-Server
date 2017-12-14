@@ -23,10 +23,14 @@ var disembarkationViewButton = $("#disembarkationViewButton"),
 
 //variables
 var disembarkationAlarmInterval = undefined,
-	airlockStatus = [0,0,0,0,0,0],
-	airlockDirections = [0,0,0,0,0,0],
-	clampStatus = [0,0,0],
-	clampDirections = [0,0,0],
+	dockedState = 0, //the initial docking state... 0 is undocked, 1 is docked
+	airlockStatus = [dockedState,dockedState,dockedState,dockedState,dockedState,dockedState],
+	airlockDirections = [dockedState,dockedState,dockedState,dockedState,dockedState,dockedState],
+	clampStatus = [dockedState,dockedState,dockedState],
+	clampDirections = [dockedState,dockedState,dockedState],
+	fuelStatus = [dockedState,dockedState,dockedState,dockedState,dockedState],
+	rampsStatus = [dockedState,dockedState,dockedState,dockedState,dockedState,dockedState],
+	rampDirections = [dockedState,dockedState,dockedState,dockedState,dockedState,dockedState],
 	needsDisembarkation = false,
 	disembarkationActive = false;
 
@@ -35,6 +39,85 @@ var disembarkationAlarmInterval = undefined,
 //preset observers
 
 //database observers
+
+Interstellar.onDatabaseValueChange("docking.rampsStatus",function(newData){
+	if(newData == null){
+		Interstellar.setDatabaseValue("docking.rampsStatus",rampsStatus);
+		return;
+	}
+	rampsStatus = newData;
+	var currentState = 0,
+		isFluxing = false;
+	for(var i = 0;i < rampsStatus.length;i++){
+		if(rampsStatus[i] == 0){
+			$("[rampID=" + i + "]").html("RETRACTED");
+			$("[rampID=" + i + "]").css("color","red");
+		}else if(rampsStatus[i] == 1){
+			currentState = 1;
+			$("[rampID=" + i + "]").html("EXTENDED");
+			$("[rampID=" + i + "]").css("color","lime");
+		}else if(rampsStatus[i] != 1 && rampsStatus[i] != 0){
+			isFluxing = true;
+			$("[rampID=" + i + "]").html("MOVING");
+			$("[rampID=" + i + "]").css("color","yellow");
+		}
+	}
+	if(isFluxing){
+		setLightToStatus(rampsStatusLight,"yellow")
+	}else{
+		if(currentState){
+			setLightToStatus(rampsStatusLight,"red")
+		}else{
+			setLightToStatus(rampsStatusLight,"green")
+		}
+	}
+});
+
+
+Interstellar.onDatabaseValueChange("docking.rampDirections",function(newData){
+	if(newData == null){
+		Interstellar.setDatabaseValue("docking.rampDirections",rampDirections)
+		return;
+	}
+	rampDirections = newData;
+});
+Interstellar.onDatabaseValueChange("docking.fuelLines",function(newData){
+	if(newData == null){
+		Interstellar.setDatabaseValue("docking.fuelLines",fuelStatus);
+		return;
+	}
+	fuelStatus = newData;
+	var currentState = -1,
+		isFluxing = false;
+	for(var i = 0;i < fuelStatus.length;i++){
+		if(currentState != -1){
+			if(currentState != fuelStatus[i]){
+				isFluxing = true
+			}
+		}
+		currentState = fuelStatus[i];
+		if(fuelStatus[i] == 1){
+			$('[fuelIndex=' + i + ']').fadeOut();
+			$('[system=' + i + ']').html("DISCONNECT");
+			$('[system=' + i + ']').addClass("fuelDisconnect");
+			$('[system=' + i + ']').removeClass("fuelConnect");
+		}else{
+			$('[fuelIndex=' + i + ']').fadeIn();
+			$('[system=' + i + ']').html("CONNECT");
+			$('[system=' + i + ']').removeClass("fuelDisconnect");
+			$('[system=' + i + ']').addClass("fuelConnect");
+		}
+	}
+	if(isFluxing){
+		setLightToStatus(fuelStatusLight,"yellow")
+	}else{
+		if(currentState){
+			setLightToStatus(fuelStatusLight,"red")
+		}else{
+			setLightToStatus(fuelStatusLight,"green")
+		}
+	}
+});
 
 Interstellar.onDatabaseValueChange("docking.needsDisembarkation",function(newData){
 	if(newData == null){
@@ -323,6 +406,27 @@ $(".clampControls_release").click(function(event){
 	}
 	Interstellar.setDatabaseValue("docking.clampsDirection",modifiedArray);
 });
+$(".fuelContainer_disconnectButton").click(function(event){
+	var index = Number($(event.target).attr("system"));
+	if(fuelStatus[index]){
+		fuelStatus[index] = 0;
+	}else{
+		fuelStatus[index] = 1;
+	}
+	Interstellar.setDatabaseValue("docking.fuelLines",fuelStatus);
+});
+
+$(".closeRampButton").click(function(event){
+	var index = Number($(event.target).attr("rampIndex"));
+	rampDirections[index] = 1;
+	Interstellar.setDatabaseValue("docking.rampDirections",rampDirections);
+});
+
+$(".openRampButton").click(function(event){
+	var index = Number($(event.target).attr("rampIndex"));
+	rampDirections[index] = 0;
+	Interstellar.setDatabaseValue("docking.rampDirections",rampDirections);
+});
 //intervals
 
 //REMOVE THESE!  THESE ARE FOR CORE ONLY!
@@ -363,3 +467,22 @@ setInterval(function(event){
 		Interstellar.setDatabaseValue("docking.airlockStatus",airlockStatus);
 	}
 },0030);
+
+setInterval(function(event){
+	var differenceDetected = false;
+	for(var i = 0;i < rampDirections.length;i++){
+		if(rampsStatus[i] < rampDirections[i]){
+			rampsStatus[i] += .01;
+			differenceDetected = true;
+		}else if(rampsStatus[i] > rampDirections[i]){
+			rampsStatus[i] -= .01;
+			differenceDetected = true;
+		}
+		if(Math.abs(rampsStatus[i] - rampDirections[i]) < .01){
+			rampsStatus[i] = rampDirections[i]; //if the difference between the two is minimal, just clamp it
+		}
+	}
+	if(differenceDetected){
+		Interstellar.setDatabaseValue("docking.rampsStatus",rampsStatus);
+	}
+},0080);
