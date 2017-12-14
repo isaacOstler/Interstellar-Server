@@ -10,6 +10,11 @@
     visibility: hidden;
   }
 }
+@keyframes blinkFade {
+    0%   {background-color: rgba(255,180,0,.3);box-shadow: 0px 0px 0px rgb(255,180,0);}
+    20%   {background-color: rgba(255,255,0,1);box-shadow: 0px 0px 50px rgb(255,255,0);filter: drop-shadow(0px 0px 20px rgb(255,255,0));}
+    100%   {background-color: rgba(255,180,0,.3);box-shadow: 0px 0px 0px rgb(255,180,0);}
+}
 .clampVisual_clamp1{
 	position: absolute;
 	top: -110%;
@@ -43,7 +48,6 @@
 	height: 100%;
 	width: 30%;
 	left: 0px;
-	border: 1px solid white;
 }
 .airlock_door_door1{
 	position: absolute;
@@ -365,6 +369,25 @@
 	background-color: rgba(65,255,0,.9);
     box-shadow: 0px 0px 20px rgb(65,255,0);
 }
+.redStatusLight{
+	border-radius: 50%;
+	height: 25px;
+	width: 25px;
+	border:1px solid white;
+	background-color: rgba(255,0,0,.9);
+    box-shadow: 0px 0px 20px rgb(255,0,0);
+}
+.yellowStatusLight{
+	border-radius: 50%;
+	height: 25px;
+	width: 25px;
+	border:1px solid white;
+	background-color: rgba(255,180,0,.9);
+    box-shadow: 0px 0px 20px rgb(255,180,0);
+    animation-name: blinkFade;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
 .dockingView{
 	border: 1px solid white;
 	background-color: rgba(255,255,255,.3);
@@ -376,6 +399,11 @@
 	width: 60%;
 	height: 10%;
 	cursor: pointer;
+}
+.clampControls{
+	position: absolute;
+	top: 50%;
+	height: 20%;
 }
 .dockingView:hover{
 	background-color: rgba(255,255,255,.1);
