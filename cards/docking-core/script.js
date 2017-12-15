@@ -49,6 +49,14 @@ Interstellar.addCoreWidget("Docking",function(){
 			disembarkationAlarmElement.css("filter" , "grayscale(1)");
 		}
 	});
+
+	Interstellar.onDatabaseValueChange("docking.airlockDirection",function(newData){
+		if(newData == null){
+			Interstellar.setDatabaseValue("docking.airlockDirection",airlockDirections);
+			return;
+		}
+		airlockDirections = newData;
+	});
 	Interstellar.onDatabaseValueChange("docking.clampsStatus",function(newData){
 		if(newData == null){
 			Interstellar.setDatabaseValue("docking.clampsStatus",clampStatus);
@@ -79,11 +87,11 @@ Interstellar.addCoreWidget("Docking",function(){
 			Interstellar.setDatabaseValue("docking.rampDirections",rampDirections)
 			return;
 		}
+		Interstellar.say("Ramps Changed");
 		rampDirections = newData;
 	});
 
 	Interstellar.onDatabaseValueChange("docking.rampsStatus",function(newData){
-		Interstellar.say("Ramps Changed");
 		if(newData == null){
 			Interstellar.setDatabaseValue("docking.rampsStatus",rampsStatus);
 			return;
