@@ -6,7 +6,8 @@ Interstellar.addCoreWidget("Docking",function(){
 	dockingWidgetHasInit = true;
 
 	//DOM references
-
+	disembarkationAlarmElement = $("#docking-core_disembarkationAlarm"),
+	disembarkationAlarmCheckbox = $("#docking-core_disembarkationNeededCheckbox");
 	//variables
 	var dockedState = 0, //the initial docking state... 0 is undocked, 1 is docked
 		airlockStatus = [dockedState,dockedState,dockedState,dockedState,dockedState,dockedState],
@@ -31,6 +32,23 @@ Interstellar.addCoreWidget("Docking",function(){
 		clampDirections = newData;
 	});
 
+	Interstellar.onDatabaseValueChange("docking.disembarkationAlarm",function(newData){
+		if(newData == null){
+			Interstellar.setDatabaseValue("docking.disembarkationAlarm",false);
+			return;
+		}
+		if(newData){
+			Interstellar.say("DISEMBARKATION ALARM SOUNDED!");
+			disembarkationAlarmElement.addClass("docking-core_disembarkationAlarm_active");
+			disembarkationAlarmElement.css("opacity" , "1");
+			disembarkationAlarmElement.css("filter" , "grayscale(0)");
+		}else{
+			Interstellar.say("DISEMBARKATION ALARM SILENCED!");
+			disembarkationAlarmElement.removeClass("docking-core_disembarkationAlarm_active");
+			disembarkationAlarmElement.css("opacity" , ".5");
+			disembarkationAlarmElement.css("filter" , "grayscale(1)");
+		}
+	});
 	Interstellar.onDatabaseValueChange("docking.clampsStatus",function(newData){
 		if(newData == null){
 			Interstellar.setDatabaseValue("docking.clampsStatus",clampStatus);
@@ -137,7 +155,9 @@ Interstellar.addCoreWidget("Docking",function(){
 	//functions
 
 	//event handlers
-
+	disembarkationAlarmCheckbox.on("change",function(event){
+		Interstellar.setDatabaseValue("docking.needsDisembarkation",$(event.target).is(":checked"));
+	});
 	//intervals
 	setInterval(function(event){
 		var differenceDetected = false;
