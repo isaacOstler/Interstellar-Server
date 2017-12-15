@@ -1,0 +1,105 @@
+.docking-core_dockingInfo_dataCell_fuelTitle{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 80px;
+	height: 100%;
+	text-align: center;
+	border-right: 1px solid white;
+}
+.docking-core_dockingInfo_dataCell_title{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 20px;
+	height: 100%;
+	text-align: center;
+	border-right: 1px solid white;
+}
+.docking-core_dockingInfo_dataCell_fuelData{
+	position: absolute;
+	left: 81px;
+	width: calc(100% - 81px);
+	color: black;
+	height: 100%;
+	text-align: center;
+	text-overflow: hidden;
+	/* Required for text-overflow to do anything */
+	white-space: nowrap;
+	overflow: hidden;
+
+}
+.docking-core_dockingInfo_fuelDataCell{
+	background-color: rgb(0,0,0);
+	position: relative;
+	width: 100%;
+	font-size: 14px;
+	border-bottom: 1px solid white;
+	height: 16.6666%;
+}
+.docking-core_dockingInfo_dataCell_data{
+	position: absolute;
+	left: 21px;
+	width: calc(100% - 21px);
+	color: black;
+	height: 100%;
+	text-align: center;
+	text-overflow: hidden;
+	/* Required for text-overflow to do anything */
+	white-space: nowrap;
+	overflow: hidden;
+}
+.docking-core_dockingInfo{
+	border: 1px solid white;
+	height: calc(100% - 40px);
+	width: 25%;
+	overflow: hidden;
+}
+#docking-core_airlocks{
+	position: absolute;
+	top:2px;
+	left: 2px;
+}
+#docking-core_ramps{
+	position: absolute;
+	top:2px;
+	left: calc(6px + 25%);
+}
+#docking-core_fuel{
+	position: absolute;
+	top:2px;
+	height: 60%;
+	left: calc(10px + 50%);
+	width: calc(50% - 14px);
+}
+#docking-core_clamps{
+    position: absolute;
+    top: calc(60% + 5px);
+    left: calc(10px + 50%);
+    height: calc(40% - 8px);
+    width: calc(50% - 14px);
+}
+.docking-core_dockingInfo_header{
+	position: relative;
+	border-bottom: 1px solid white;
+	width: 100%;
+	height: 14%;
+	text-align: center;
+	font-size: 14px;
+}
+.docking-core_dockingInfo_dataCell{
+	background-color: rgb(0,0,0);
+	position: relative;
+	width: 100%;
+	font-size: 14px;
+	border-bottom: 1px solid white;
+	height: 14%;
+}
+.docking-core_dockingInfo_clampDataCell{
+	background-color: rgb(0,0,0);
+	position: relative;
+	width: 100%;
+	font-size: 14px;
+	border-bottom: 1px solid white;
+	height: 22%;
+}

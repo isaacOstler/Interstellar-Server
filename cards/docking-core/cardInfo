@@ -1,0 +1,8 @@
+{
+	"cardName":"docking-core",
+	"cardType":"coreWidget",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the FD control over the docking status of the ship"
+}
