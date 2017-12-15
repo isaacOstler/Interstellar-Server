@@ -23,6 +23,38 @@ Interstellar.addCoreWidget("Docking",function(){
 	//preset observers
 
 	//database observers
+	Interstellar.onDatabaseValueChange("docking.clampsDirection",function(newData){
+		if(newData == null){
+			Interstellar.setDatabaseValue("docking.clampsDirection",clampDirections);
+			return;
+		}
+		clampDirections = newData;
+	});
+
+	Interstellar.onDatabaseValueChange("docking.clampsStatus",function(newData){
+		if(newData == null){
+			Interstellar.setDatabaseValue("docking.clampsStatus",clampStatus);
+			return;
+		}
+		clampStatus = newData;
+		for(var i = 0;i < clampStatus.length;i++){
+			if(clampStatus[i] == 0){
+				$("[docking_clampID=" + i + "]").html("RELEASED");
+				$("[docking_clampID=" + i + "]").css("background-color","lime");
+			}else if(clampStatus[i] == 1){
+				$("[docking_clampID=" + i + "]").html("ATTATCHED");
+				$("[docking_clampID=" + i + "]").css("background-color","red");
+			}else{
+				if(clampDirections[i] == 0){
+					$("[docking_clampID=" + i + "]").html(Math.round(100 * (1 - clampStatus[i])) + "% - RELEASING");
+					$("[docking_clampID=" + i + "]").css("background-color","yellow");
+				}else{
+					$("[docking_clampID=" + i + "]").html(Math.round(100 * clampStatus[i]) + "% - ATTATCHING");
+					$("[docking_clampID=" + i + "]").css("background-color","yellow");
+				}
+			}
+		}
+	});
 
 	Interstellar.onDatabaseValueChange("docking.rampDirections",function(newData){
 		if(newData == null){
@@ -111,13 +143,13 @@ Interstellar.addCoreWidget("Docking",function(){
 		var differenceDetected = false;
 		for(var i = 0;i < clampDirections.length;i++){
 			if(clampStatus[i] < clampDirections[i]){
-				clampStatus[i] += .001;
+				clampStatus[i] += .003;
 				differenceDetected = true;
 			}else if(clampStatus[i] > clampDirections[i]){
-				clampStatus[i] -= .001;
+				clampStatus[i] -= .003;
 				differenceDetected = true;
 			}
-			if(Math.abs(clampStatus[i] - clampDirections[i]) < .001){
+			if(Math.abs(clampStatus[i] - clampDirections[i]) < .003){
 				clampStatus[i] = clampDirections[i]; //if the difference between the two is minimal, just clamp it
 			}
 		}
@@ -162,5 +194,5 @@ Interstellar.addCoreWidget("Docking",function(){
 		if(differenceDetected){
 			Interstellar.setDatabaseValue("docking.rampsStatus",rampsStatus);
 		}
-	},0080);
+	},0100);
 });
