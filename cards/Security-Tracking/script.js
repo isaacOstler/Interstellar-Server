@@ -7,7 +7,7 @@ var gridWidth = 30,
 	worldMap = [],
 	cellWidth,
 	cellHeight,
-	devDrawMode = true
+	devDrawMode = false;
 
 //type of world tiles 
 /*
@@ -39,6 +39,11 @@ function drawPath(startX,startY,endX,endY){
 	cellWidth = width / gridWidth,
 	cellHeight = height / gridHeight;
 
+	//clear the canvas
+	ctx.clearRect(0,0,height,width);
+
+	drawCanvas();
+
 	ctx.beginPath();
 
 
@@ -55,11 +60,42 @@ function drawPath(startX,startY,endX,endY){
 			var g,h;
 			g = Math.abs(i - startX) + Math.abs(j - startY);
 			h = Math.abs(endX - i) + Math.abs(endY - j);
-
-			ctx.fillText(Math.round(diagonalHeuristic(i,j,endX,endY)),i * cellHeight,j * cellWidth);
+			var f = diagonalHeuristic(i,j,endX,endY) * diagonalHeuristic(startX,startY,j,i);
+			ctx.fillText(Math.round(f),i * cellHeight,j * cellWidth);
 		}
 	}
 	ctx.stroke();
+}
+
+function startPathfindingTest(){
+	canvas.off();
+	canvas.on("mousedown",function(event){
+		var width = canvas.width(),
+			height = canvas.height(),
+
+			cellWidth = width / gridWidth,
+			cellHeight = height / gridHeight;
+			x = Math.floor(Math.min(Math.max(event.offsetX / height,0),1) * gridWidth),
+			y = Math.floor(Math.min(Math.max(event.offsetY / width,0),1) * gridHeight);
+
+		drawPath(1,1,x,y);
+		canvas.on("mousemove.draw",function(event){
+			var width = canvas.width(),
+				height = canvas.height(),
+
+			cellWidth = width / gridWidth,
+			cellHeight = height / gridHeight;
+			x = Math.floor(Math.min(Math.max(event.offsetX / height,0),1) * gridWidth),
+			y = Math.floor(Math.min(Math.max(event.offsetY / width,0),1) * gridHeight);
+
+			drawPath(1,1,x,y);
+			
+		});
+		canvas.on("mouseup.end",function(event){
+			canvas.off("mouseup.end");
+			canvas.off("mousemove.draw");
+		});
+	});
 }
 
 function getPathForPoints(startY,startX,endY,endX){
@@ -111,8 +147,10 @@ function getPathForPoints(startY,startX,endY,endX){
 				var detected = false;
 				for(var j = 0;j < openList.length;j++){
 					if(adjacentSquares[i].x == openList[j].x && adjacentSquares[i].y == openList[j].y){
-						//can't backtrack
-						detected = true;
+						//can't backtrack (unless we have no option)
+						if(adjacentSquares.length > 1){
+							detected = true;
+						}
 					}
 				}
 				if(!detected){
@@ -121,7 +159,6 @@ function getPathForPoints(startY,startX,endY,endX){
 			}
 		}
 		adjacentSquares = refinedPathOptions;
-		console.log(adjacentSquares);
 		//now we need to compute the f and g and h score for each one
 		//f = g + h
 		//g = cost from start
@@ -129,7 +166,7 @@ function getPathForPoints(startY,startX,endY,endX){
 		var lowestFScore = undefined,
 			nextSquare = {"x" : -1, "y" : -1};
 		for(var i = 0;i < adjacentSquares.length;i++){
-			var f = diagonalHeuristic(adjacentSquares[i].x,adjacentSquares[i].y,endX,endY)
+			var f = diagonalHeuristic(adjacentSquares[i].x,adjacentSquares[i].y,endX,endY) + diagonalHeuristic(startX,startY,adjacentSquares[i].y,adjacentSquares[i].x);
 			//g = Math.abs(adjacentSquares[i].x - openList[0].x) + Math.abs(adjacentSquares[i].y - openList[0].y);
 			//h = Math.abs(adjacentSquares[i].x - endX) + Math.abs(adjacentSquares[i].y - endY);
 
@@ -138,6 +175,8 @@ function getPathForPoints(startY,startX,endY,endX){
 				nextSquare = {"x" : adjacentSquares[i].x,"y" : adjacentSquares[i].y}
 			}else if(lowestFScore == f){
 				//tie!
+				lowestFScore = f;
+				nextSquare = {"x" : adjacentSquares[i].x,"y" : adjacentSquares[i].y}
 			}
 		}
 		openList.splice(openList.length,0,nextSquare);
@@ -207,7 +246,7 @@ function initWorld(callback){
 		for(var j = 0;j < gridWidth;j++){
 			worldMap[i][j] = 
 			{
-				"state" : Math.random() > .35 ? "open" : "closed"
+				"state" : Math.random() > .15 ? "open" : "closed"
 			}
 		}
 	}
@@ -222,6 +261,9 @@ function drawCanvas(){
 
 	cellWidth = width / gridWidth,
 	cellHeight = height / gridHeight;
+
+	//clear the canvas
+	ctx.clearRect(0,0,height,width);
 
 	canvas.attr("width",width);
 	canvas.attr("height",height);
