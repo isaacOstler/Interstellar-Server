@@ -7,7 +7,10 @@ Interstellar.addCoreWidget("Docking",function(){
 
 	//DOM references
 	disembarkationAlarmElement = $("#docking-core_disembarkationAlarm"),
-	disembarkationAlarmCheckbox = $("#docking-core_disembarkationNeededCheckbox");
+	disembarkationAlarmCheckbox = $("#docking-core_disembarkationNeededCheckbox"),
+	forceDockButton = $("#docking-core_forceDockingControls_forceDock"),
+	forceUndockButton = $("#docking-core_forceDockingControls_forceUndock");
+
 	//variables
 	var dockedState = 0, //the initial docking state... 0 is undocked, 1 is docked
 		airlockStatus = [dockedState,dockedState,dockedState,dockedState,dockedState,dockedState],
@@ -165,6 +168,61 @@ Interstellar.addCoreWidget("Docking",function(){
 	//event handlers
 	disembarkationAlarmCheckbox.on("change",function(event){
 		Interstellar.setDatabaseValue("docking.needsDisembarkation",$(event.target).is(":checked"));
+	});
+	forceDockButton.click(function(event){
+		for(var i = 0;i < airlockDirections.length;i++){
+			airlockDirections[i] = 1;
+			airlockStatus[i] = 1;
+		}
+		for(var i = 0;i < clampDirections.length;i++){
+			clampDirections[i] = 1;
+			clampStatus[i] = 1;
+		}
+		for(var i = 0;i < rampDirections.length;i++){
+			rampDirections[i] = 1;
+			rampsStatus[i] = 1;
+		}
+		for(var i = 0;i < fuelStatus.length;i++){
+			fuelStatus[i] = 1;
+		}
+		Interstellar.setDatabaseValue("docking.airlockStatus",airlockDirections);
+		Interstellar.setDatabaseValue("docking.clampsStatus",clampDirections);
+		Interstellar.setDatabaseValue("docking.rampsStatus",rampDirections);
+
+		setTimeout(function(){
+			Interstellar.setDatabaseValue("docking.airlockDirections",airlockDirections);
+			Interstellar.setDatabaseValue("docking.rampDirections",rampDirections);
+			Interstellar.setDatabaseValue("docking.clampsDirection",clampDirections);
+		},0500)
+
+		Interstellar.setDatabaseValue("docking.fuelLines",fuelStatus);
+	});
+	forceUndockButton.click(function(event){
+		for(var i = 0;i < airlockDirections.length;i++){
+			airlockDirections[i] = 0;
+			airlockStatus[i] = 0;
+		}
+		for(var i = 0;i < clampDirections.length;i++){
+			clampDirections[i] = 0;
+			clampStatus[i] = 0;
+		}
+		for(var i = 0;i < rampDirections.length;i++){
+			rampDirections[i] = 0;
+			rampsStatus[i] = 0;
+		}
+		for(var i = 0;i < fuelStatus.length;i++){
+			fuelStatus[i] = 0;
+		}
+		Interstellar.setDatabaseValue("docking.airlockDirections",airlockDirections);
+		Interstellar.setDatabaseValue("docking.rampDirections",rampDirections);
+		Interstellar.setDatabaseValue("docking.clampsDirection",clampDirections);
+
+		Interstellar.setDatabaseValue("docking.airlockStatus",airlockDirections);
+		Interstellar.setDatabaseValue("docking.clampsStatus",clampDirections);
+		Interstellar.setDatabaseValue("docking.rampsStatus",rampDirections);
+
+		Interstellar.setDatabaseValue("docking.fuelLines",fuelStatus);
+		
 	});
 	//intervals
 	setInterval(function(event){
