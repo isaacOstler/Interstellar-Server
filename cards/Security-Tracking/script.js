@@ -7,7 +7,8 @@ var gridWidth = 30,
 	worldMap = [],
 	cellWidth,
 	cellHeight,
-	devDrawMode = false;
+	devDrawMode = true,
+	allowDiangle = false;
 
 //type of world tiles 
 /*
@@ -99,7 +100,8 @@ function startPathfindingTest(){
 }
 
 function getPathForPoints(startY,startX,endY,endX){
-	var openList = [{"x" : startX,"y" : startY}];
+	var openList = [{"x" : startX,"y" : startY}],
+		blacklist = [];
 	do{
 		var x = openList[openList.length - 1].x,
 			y = openList[openList.length - 1].y;
@@ -108,11 +110,11 @@ function getPathForPoints(startY,startX,endY,endX){
 		if(y - 1 >= 0){
 			//top good
 			adjacentSquares.splice(adjacentSquares.length,0,{"x" : x,"y" : y - 1});
-			if(x - 1 >= 0){
+			if(x - 1 >= 0 && allowDiangle){
 				//top left good
 				adjacentSquares.splice(adjacentSquares.length,0,{"x" : x - 1,"y" : y - 1});
 			}
-			if(x + 1 <= gridWidth){
+			if(x + 1 <= gridWidth && allowDiangle){
 				//top right good
 				adjacentSquares.splice(adjacentSquares.length,0,{"x" : x + 1,"y" : y - 1});
 				
@@ -129,11 +131,11 @@ function getPathForPoints(startY,startX,endY,endX){
 		if(y + 1 <= gridHeight){
 			//bottom good
 			adjacentSquares.splice(adjacentSquares.length,0,{"x" : x,"y" : y + 1});
-			if(x + 1 <= gridHeight){
+			if(x + 1 <= gridHeight && allowDiangle){
 				//bottom right good
 				adjacentSquares.splice(adjacentSquares.length,0,{"x" : x + 1,"y" : y + 1});
 			}
-			if(x - 1 >= 0){
+			if(x - 1 >= 0 && allowDiangle){
 				//bottom left good
 				adjacentSquares.splice(adjacentSquares.length,0,{"x" : x - 1,"y" : y + 1});
 			}
@@ -142,6 +144,14 @@ function getPathForPoints(startY,startX,endY,endX){
 		var refinedPathOptions = [];
 		//now we need to remove any that aren't suitable
 		for(var i = 0;i < adjacentSquares.length;i++){
+			if(worldMap.length < adjacentSquares[i].y){
+				//error checking
+				continue;
+			}
+			if(worldMap[adjacentSquares[i].y].length < adjacentSquares[i].x){
+				//error checking
+				continue;
+			}
 			if(worldMap[adjacentSquares[i].y][adjacentSquares[i].x].state != "closed"){
 					//can't walk through walls
 				var detected = false;
@@ -151,6 +161,11 @@ function getPathForPoints(startY,startX,endY,endX){
 						if(adjacentSquares.length > 1){
 							detected = true;
 						}
+					}
+				}
+				for(var j = 0;j < blacklist.length;j++){
+					if(adjacentSquares[i].x == blacklist[j].x && adjacentSquares[i].y == blacklist[j].y){
+						detected = true;
 					}
 				}
 				if(!detected){
@@ -166,7 +181,7 @@ function getPathForPoints(startY,startX,endY,endX){
 		var lowestFScore = undefined,
 			nextSquare = {"x" : -1, "y" : -1};
 		for(var i = 0;i < adjacentSquares.length;i++){
-			var f = diagonalHeuristic(adjacentSquares[i].x,adjacentSquares[i].y,endX,endY) + diagonalHeuristic(startX,startY,adjacentSquares[i].y,adjacentSquares[i].x);
+			var f = diagonalHeuristic(adjacentSquares[i].x,adjacentSquares[i].y,endX,endY);// + diagonalHeuristic(startX,startY,adjacentSquares[i].y,adjacentSquares[i].x);
 			//g = Math.abs(adjacentSquares[i].x - openList[0].x) + Math.abs(adjacentSquares[i].y - openList[0].y);
 			//h = Math.abs(adjacentSquares[i].x - endX) + Math.abs(adjacentSquares[i].y - endY);
 
@@ -179,7 +194,15 @@ function getPathForPoints(startY,startX,endY,endX){
 				nextSquare = {"x" : adjacentSquares[i].x,"y" : adjacentSquares[i].y}
 			}
 		}
-		openList.splice(openList.length,0,nextSquare);
+		if(nextSquare.x != -1 && nextSquare.y != -1){
+			openList.splice(openList.length,0,nextSquare);
+		}else{
+			//we are stuck, backtrack, and blacklist this block
+			if(openList.length > 0){
+				//blacklist.splice(blacklist.length,0,{"x" : openList[openList.length - 1].x,"y" : openList[openList.length - 1].y});
+				openList.splice(openList.length,1);
+			}
+		}
 	}while((openList[openList.length - 1].x != endX || openList[openList.length - 1].y != endY));
 	return openList;
 }
@@ -188,7 +211,7 @@ function diagonalHeuristic(startX,startY,endX,endY){
 	var D2 = Math.sqrt(2); //cost of moving diagonally
     dx = Math.abs(startX - endX)
     dy = Math.abs(startY - endY)
-    return D * (dx + dy) + (D2 - 2 * D) * Math.min(dx, dy)
+    return D * (dx + dy) + (D2 - 1 * D) * Math.min(dx, dy)
 }
 function initWorld(callback){
 	if(devDrawMode){
@@ -246,7 +269,7 @@ function initWorld(callback){
 		for(var j = 0;j < gridWidth;j++){
 			worldMap[i][j] = 
 			{
-				"state" : Math.random() > .15 ? "open" : "closed"
+				"state" : Math.random() > .25 ? "open" : "closed"
 			}
 		}
 	}
