@@ -97,8 +97,10 @@ function updateOfficerPosition(index){
 			//if they had a path, set the x and y pos to the last step
 			//officerPositions[index].positioning.xPos = officerPositions[index].positioning.path[officerPositions[index].positioning.length - 1].x;
 			//officerPositions[index].positioning.yPos = officerPositions[index].positioning.path[officerPositions[index].positioning.length - 1].y;
-			var wanderPoint = safeWanderPoints[Math.floor(Math.random() * safeWanderPoints.length)];
-			changeOfficerPath(index,wanderPoint.x,wanderPoint.y);
+			if(!officerPositions[index].state.dead && !officerPositions[index].state.frozen){
+				var wanderPoint = safeWanderPoints[Math.floor(Math.random() * safeWanderPoints.length)];
+				changeOfficerPath(index,wanderPoint.x,wanderPoint.y);
+			}
 		}
 		return;
 	}
@@ -296,14 +298,28 @@ function initWorld(callback){
 }
 
 function setState(index,state,status){
-	if(state == "frozen" || state == "dead"){
-		if(status){
-			//changeOfficerPath
-		}else{
-
+	if(index == -1){
+		for(var i = 0;i < officerPositions.length;i++){
+			if(state == "frozen" || state == "dead"){
+				if(state == "frozen"){
+					officerPositions[i].state.frozen = status;
+				}else{
+					officerPositions[i].state.dead = status;
+				}
+				changeOfficerPath(i,officerPositions[i].positioning.xPos,officerPositions[i].positioning.yPos);
+			}
 		}
 	}else{
-
+		if(state == "frozen" || state == "dead"){
+			if(state == "frozen"){
+				officerPositions[index].state.frozen = status;
+			}else{
+				officerPositions[index].state.dead = status;
+			}
+			if(status){
+				changeOfficerPath(index,officerPositions[index].positioning.xPos,officerPositions[index].positioning.yPos);
+			}
+		}
 	}
 }
 
@@ -353,7 +369,7 @@ function drawCanvas(){
 //intervals
 setInterval(function(){
 	var type = Math.random() > .95 ? "intruder" : "officer";
-	officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,0,17,1,Math.random() * 550 + 1000));
+	officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,0,17,1,Math.random() * 550 + 100));
 	var wanderPoint = safeWanderPoints[Math.floor(Math.random() * safeWanderPoints.length)];
 	changeOfficerPath(officerPositions.length - 1,wanderPoint.x,wanderPoint.y);
 },750);
