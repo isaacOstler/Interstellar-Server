@@ -2,14 +2,40 @@
 var canvas = $("#canvas");
 
 //variables
-var gridWidth = 30,
-	gridHeight = 30,
-	worldMap = [],
+var gridWidth = 60,
+	gridHeight = 60,
+	worldMap = [[{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}],[{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"closed"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"},{"state":"open"}]],
 	cellWidth,
 	cellHeight,
 	devDrawMode = false,
-	devDiagnostics = false,
-	allowDiangle = false;
+	drawBounds = false,
+	currentDeck = 0,
+
+	safeWanderPoints = [{"x" : 43,"y" : 5},{"x" : 33,"y" : 8},{"x" : 34,"y" : 37},{"x" : 30,"y" : 29},{"x" : 55,"y" : 36},{"x" : 6,"y" : 33},{"x" : 18,"y" : 27},{"x" : 18,"y" : 7},{"x" : 1,"y" : 17},{"x" : 3,"y" : 43},{"x" : 50,"y" : 30},{"x" : 40,"y" : 40},{"x" : 50,"y" : 34},{"x" : 51,"y" : 8}];
+	officerPositions = [generateNewOfficer("Victor","Williamson","officer",0,17,1,500)];
+
+//Class instances
+var pathfinder = new Pathfinder();
+
+/*officer position array is as follows:
+
+	{
+		"firstName" : "Isaac",
+		"lastName" : "Ostler",
+		"id" : GUID,
+		"type" : "officer", //security, officer, intruder, other
+		"positioning" :
+		{
+			"deck" : 0,
+			"xPos" : 0,
+			"yPos" : 0,
+			"path" : [...], //pathfinding result
+			"startTime" : x,
+			"finishTime" : y
+		} 
+	}
+
+*/
 
 //type of world tiles 
 /*
@@ -23,6 +49,9 @@ var gridWidth = 30,
 initWorld(function(){
 	drawCanvas();
 });
+drawCanvas()
+startPathfindingTest();
+
 
 //preset observers
 
@@ -30,8 +59,105 @@ initWorld(function(){
 
 //functions
 
-function drawPath(startX,startY,endX,endY){
-	var path = getPathForPoints(startX,startY,endX,endY);
+function drawOfficerPositions(deck){
+
+	var ctx = canvas[0].getContext('2d');
+	var width = canvas.width(),
+		height = canvas.height();
+	
+
+	cellWidth = width / gridWidth,
+	cellHeight = height / gridHeight;
+
+	if(!drawBounds){
+		ctx.clearRect(0,0,width,height);
+	}
+
+	for(var i = 0;i < officerPositions.length;i++){
+		if(officerPositions[i].positioning.deck == deck){
+			ctx.beginPath();
+			//this officer is on this deck, lets draw their position
+			var xPos = officerPositions[i].positioning.xPos,
+				yPos = officerPositions[i].positioning.yPos;
+			ctx.moveTo(yPos * cellHeight + (cellHeight / 2),xPos * cellWidth + (cellWidth / 2),(cellWidth / cellWidth) * cellWidth * .25 + (cellWidth / 2));
+			ctx.arc(yPos * cellHeight + (cellHeight / 2),xPos * cellWidth  + (cellWidth / 2),(cellWidth / cellWidth) * cellWidth * .25,0,2*Math.PI);
+			ctx.fillStyle = officerPositions[i].type == "intruder" ? "red" : "white";
+			ctx.fill();
+		}
+	}
+	ctx.stroke();
+}
+
+function updateOfficerPosition(index){
+	var totalTime = Math.max(officerPositions[index].positioning.finishTime - officerPositions[index].positioning.startTime,0);
+	var timePassed = Date.now() - officerPositions[index].positioning.startTime;
+	if(timePassed >= totalTime || officerPositions[index].positioning.path == "NO PATH" || officerPositions[index].positioning.path.length == 0){
+		//this person is already at the destination
+		if(!(officerPositions[index].positioning.path == "NO PATH" || officerPositions[index].positioning.path.length == 0)){
+			//if they had a path, set the x and y pos to the last step
+			//officerPositions[index].positioning.xPos = officerPositions[index].positioning.path[officerPositions[index].positioning.length - 1].x;
+			//officerPositions[index].positioning.yPos = officerPositions[index].positioning.path[officerPositions[index].positioning.length - 1].y;
+			var wanderPoint = safeWanderPoints[Math.floor(Math.random() * safeWanderPoints.length)];
+			changeOfficerPath(index,wanderPoint.x,wanderPoint.y);
+		}
+		return;
+	}
+	var timePerStep = officerPositions[index].positioning.path.length / totalTime;
+	var currentStep = Math.floor(timePassed / officerPositions[index].positioning.moveSpeed);
+	var progress = 1 - ((currentStep + 1) - (timePassed / officerPositions[index].positioning.moveSpeed));
+
+	var currentXStep = officerPositions[index].positioning.path[currentStep].x;
+	var currentYStep = officerPositions[index].positioning.path[currentStep].y;
+
+	if(currentStep > 0){
+		var lastXStep = officerPositions[index].positioning.path[currentStep - 1].x
+		var lastYStep = officerPositions[index].positioning.path[currentStep - 1].y
+		var differenceX = currentXStep - lastXStep;
+		var differenceY = currentYStep - lastYStep;
+		officerPositions[index].positioning.xPos = lastXStep + (differenceX * progress);
+		officerPositions[index].positioning.yPos = lastYStep + (differenceY * progress);
+	}else{
+		officerPositions[index].positioning.xPos = currentXStep;
+		officerPositions[index].positioning.yPos = currentYStep;
+	}
+}
+
+function generateNewOfficer(firstName,lastName,type,deck,positionX,positionY,moveSpeed){
+	var newOfficer = 	
+	{
+		"firstName" : firstName,
+		"lastName" : lastName,
+		"id" : guidGenerator(),
+		"type" : type, //security, officer, intruder, other
+		"positioning" :
+		{
+			"deck" : 0,
+			"moveSpeed" : moveSpeed,
+			"xPos" : positionX,
+			"yPos" : positionY,
+			"path" : [], //pathfinding result
+			"startTime" : null,
+			"finishTime" : null
+		},
+		"state" :
+		{
+			"dead" : false,
+			"frozen" : false,
+			"injuried" : false
+		}
+	}
+	return newOfficer;
+}
+
+function changeOfficerPath(index,newX,newY){
+
+	officerPositions[index].positioning.path = pathfinder.getPathForPoints(worldMap,Math.floor(officerPositions[index].positioning.yPos),Math.floor(officerPositions[index].positioning.xPos),newX,newY);
+	var totalTime = officerPositions[index].positioning.path.length * officerPositions[index].positioning.moveSpeed;
+	officerPositions[index].positioning.startTime = Date.now();
+	officerPositions[index].positioning.finishTime = Date.now() + totalTime;
+}
+
+function drawPath(path){
 	if(path == null){
 		return;
 	}
@@ -45,32 +171,22 @@ function drawPath(startX,startY,endX,endY){
 	cellHeight = height / gridHeight;
 
 	//clear the canvas
-	ctx.clearRect(0,0,height,width);
+	ctx.clearRect(0,0,width,height);
 
-	drawCanvas();
+	if(drawBounds){
+		drawCanvas();
+	}
 
 	ctx.beginPath();
 
+	ctx.fillStyle = "rgba(255,0,0,.5)";
 
 	for(var i = 0;i < path.length;i++){
 		ctx.rect(path[i].y * cellHeight,path[i].x * cellWidth,cellHeight,cellWidth);
 	}
 
-	ctx.fillStyle = "rgba(255,0,0,.5)";
 	ctx.fill();
 	ctx.stroke();
-
-	for(var i = 0;i < gridWidth;i++){
-		for(var j = 0;j < gridHeight;j++){
-			var g = manhattenHeuristic(startX,startY,i,j),
-				h = manhattenHeuristic(i,j,endX,endY) * 1.5;
-				f = g + h;
-			ctx.beginPath();
-			ctx.fillStyle = Interstellar.rotateHue("#00ff00",(f / 50) * -360);
-			ctx.fillText(Math.round(f),i * cellHeight,j * cellWidth);
-			ctx.stroke();
-		}
-	}
 }
 
 function startPathfindingTest(){
@@ -84,7 +200,9 @@ function startPathfindingTest(){
 			x = Math.floor(Math.min(Math.max(event.offsetX / height,0),1) * gridWidth),
 			y = Math.floor(Math.min(Math.max(event.offsetY / width,0),1) * gridHeight);
 
-		drawPath(10,10,x,y);
+		//drawPath(pathfinder.getPathForPoints(worldMap,1,17,x,y));
+		console.log(x,y);
+		changeOfficerPath(0,x,y);
 		canvas.on("mousemove.draw",function(event){
 			var width = canvas.width(),
 				height = canvas.height(),
@@ -94,8 +212,8 @@ function startPathfindingTest(){
 			x = Math.floor(Math.min(Math.max(event.offsetX / height,0),1) * gridWidth),
 			y = Math.floor(Math.min(Math.max(event.offsetY / width,0),1) * gridHeight);
 
-			drawPath(1,1,x,y);
-			
+			changeOfficerPath(0,x,y);
+			//drawPath(pathfinder.getPathForPoints(worldMap,1,17,x,y));
 		});
 		canvas.on("mouseup.end",function(event){
 			canvas.off("mouseup.end");
@@ -104,220 +222,13 @@ function startPathfindingTest(){
 	});
 }
 
-function getPathForPoints(startY,startX,endY,endX){
-	var openList = [], //places we have explored
-		closedList = [{"x" : startX,"y" : startY,"breadcrumb" : {"x" : startX, "y" : startY}}], //border
-		detectedPath = false,
-		path = [],
-		lastX = 0,
-		lastY = 0;
-	while(!detectedPath){
-		if(closedList.length == 0){
-			//AAAA!  It's not possible to reach this position!
-			return null;
-		}
-		for(var n = 0;closedList.length > 0;n = 0){
-			if(detectedPath){
-				break;
-			}
-
-			if(devDiagnostics){
-				var ctx = canvas[0].getContext('2d');
-				var width = canvas.width(),
-					height = canvas.height();
-				
-
-				cellWidth = width / gridWidth,
-				cellHeight = height / gridHeight;
-
-				//clear the canvas
-				ctx.clearRect(0,0,height,width);
-
-				drawCanvas();
-
-				ctx.beginPath();
-
-
-				for(var i = 0;i < closedList.length;i++){
-					ctx.rect(closedList[i].y * cellHeight,closedList[i].x * cellWidth,cellHeight,cellWidth);
-				}
-
-				ctx.fillStyle = "rgba(255,0,0,.5)";
-				ctx.fill();
-				ctx.stroke();
-
-				ctx.beginPath();
-
-
-				for(var i = 0;i < openList.length;i++){
-					ctx.rect(openList[i].y * cellHeight,openList[i].x * cellWidth,cellHeight,cellWidth);
-					var xDirection = openList[i].x - openList[i].breadcrumb.x;
-						yDirection = openList[i].y - openList[i].breadcrumb.y;
-
-					console.log(xDirection,yDirection)
-					ctx.moveTo(openList[i].y * cellHeight + (cellHeight / 2),openList[i].x * cellWidth + (cellWidth / 2));
-					if(xDirection != 0){
-						if(xDirection == -1){
-							//moving left
-							ctx.lineTo(openList[i].y * cellHeight + (cellHeight / 2),openList[i].x * cellWidth);
-						}else{
-							//moving right
-							ctx.lineTo(openList[i].y * cellHeight + (cellHeight / 2),openList[i].x * cellWidth + cellWidth);
-						}
-					}else if(yDirection != 0){
-						if(yDirection == -1){
-							//moving down
-							ctx.lineTo(openList[i].y * cellHeight + cellHeight,openList[i].x * cellWidth + (cellWidth / 2));
-						}else{
-							//moving up
-							ctx.lineTo(openList[i].y * cellHeight,openList[i].x * cellWidth + (cellWidth / 2));
-						}
-					}
-				}
-
-				ctx.fillStyle = "rgba(0,255,0,.5)";
-				ctx.fill();
-				ctx.stroke();
-			}
-
-
-			var x = closedList[n].x,
-			y = closedList[n].y,
-			breadcrumb = {"x" : x,"y" : y};
-			var adjacentSquares = [];
-
-			if(devDiagnostics){
-				ctx.beginPath();
-
-
-				for(var i = 0;i < openList.length;i++){
-					ctx.rect(y * cellHeight,x * cellWidth,cellHeight,cellWidth);
-				}
-
-				ctx.fillStyle = "rgba(255,255,255,.5)";
-				ctx.fill();
-				ctx.stroke();
-			}
-
-			if(y - 1 > 0){
-				//top good
-				adjacentSquares.splice(adjacentSquares.length,0,{"x" : x,"y" : y - 1});
-				if(x - 1 >=0 && allowDiangle){
-					//top left good
-					adjacentSquares.splice(adjacentSquares.length,0,{"x" : x - 1,"y" : y - 1});
-				}
-				if(x + 1 < gridWidth && allowDiangle){
-					//top right good
-					adjacentSquares.splice(adjacentSquares.length,0,{"x" : x + 1,"y" : y - 1});
-					
-				}
-			}
-			if(x + 1 < gridWidth){
-				//right good
-				adjacentSquares.splice(adjacentSquares.length,0,{"x" : x + 1,"y" : y});
-			}
-			if(x - 1 > 0){
-				//left good
-				adjacentSquares.splice(adjacentSquares.length,0,{"x" : x - 1,"y" : y});
-			}
-			if(y + 1 < gridHeight){
-				//bottom good
-				adjacentSquares.splice(adjacentSquares.length,0,{"x" : x,"y" : y + 1});
-				if(x + 1 <= gridHeight && allowDiangle){
-					//bottom right good
-					adjacentSquares.splice(adjacentSquares.length,0,{"x" : x + 1,"y" : y + 1});
-				}
-				if(x - 1 >= 0 && allowDiangle){
-					//bottom left good
-					adjacentSquares.splice(adjacentSquares.length,0,{"x" : x - 1,"y" : y + 1});
-				}
-			}
-
-			var refinedPathOptions = [];
-			//now we need to remove any that aren't suitable
-			for(var i = 0;i < adjacentSquares.length;i++){
-				if(worldMap[adjacentSquares[i].y][adjacentSquares[i].x].state != "closed"){
-					var wasDetected = false;
-					for(var j = 0;j < openList.length;j++){
-						if(adjacentSquares[i].x == openList[j].x && adjacentSquares[i].y == openList[j].y){
-							wasDetected = true;
-						}
-					}
-					for(var j = 0;j < closedList.length;j++){
-						if(adjacentSquares[i].x == closedList[j].x && adjacentSquares[i].y == closedList[j].y){
-							wasDetected = true;
-						}
-					}
-					if(!wasDetected){
-						refinedPathOptions.splice(refinedPathOptions.length,0,{"x" : adjacentSquares[i].x,"y" : adjacentSquares[i].y,"breadcrumb" : breadcrumb});
-					}
-				}
-			}
-			adjacentSquares = refinedPathOptions;
-			//now we need to compute the f and g and h score for each one
-			//add to openList
-			openList.splice(openList.length,0,closedList[n]);
-			//remove this from the border (closed list)
-			closedList.splice(n,1);
-			//add the new borders
-			for(var i = 0;i < adjacentSquares.length;i++){
-				closedList.splice(closedList.length,0,adjacentSquares[i])
-			}
-			for(var i = 0;i < openList.length;i++){
-				if(openList[i].x == endX && openList[i].y == endY){
-					//WE DID IT!!!!!!!!!  YESSSS
-					detectedPath = true;
-					path[0] = {"x" : lastX, "y" : lastY};
-					lastX = openList[i].x;
-					lastY = openList[i].y;
-					closedList = [];
-				}
-			}
-		}
-	}
-	while(path[0].x != startX || path[0].y != startY){
-		//clear the canvas
-		if(devDiagnostics){
-			ctx.clearRect(0,0,height,width);
-
-			drawCanvas();
-
-			ctx.beginPath();
-
-
-			for(var i = 0;i < path.length;i++){
-				ctx.rect(path[i].y * cellHeight,path[i].x * cellWidth,cellHeight,cellWidth);
-			}
-
-			ctx.fillStyle = "rgba(255,0,0,.5)";
-			ctx.fill();
-			ctx.stroke();
-		}
-
-		for(var i = openList.length;i > 0;i--){
-			//work backwards through breadcrumbs
-			if(openList[i - 1].x == lastX && openList[i - 1].y == lastY){
-				path.unshift({"x" : openList[i - 1].x,"y" : openList[i - 1].y});
-				lastX = openList[i - 1].breadcrumb.x;
-				lastY = openList[i - 1].breadcrumb.y;
-				break;
-			}
-		}
-	}
-	return path;
+function guidGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+   };
+   return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
-function manhattenHeuristic(startX,startY,endX,endY){
-	return Math.abs(startX - endX) + Math.abs(startY - endY);
-}
-
-function diagonalHeuristic(startX,startY,endX,endY){
-	var D = 1;
-	var D2 = Math.sqrt(2); //cost of moving diagonally
-    dx = Math.abs(startX - endX)
-    dy = Math.abs(startY - endY)
-    return D * (dx + dy) + (D2 - 1 * D) * Math.min(dx, dy)
-}
 function initWorld(callback){
 	if(devDrawMode){
 		worldMap = [];
@@ -368,7 +279,9 @@ function initWorld(callback){
 		callback();
 		return;
 	}
-	worldMap = [];
+	//worldMap = [];
+
+	/*
 	for(var i = 0;i < gridHeight;i++){
 		worldMap[i] = [];
 		for(var j = 0;j < gridWidth;j++){
@@ -377,9 +290,21 @@ function initWorld(callback){
 				"state" : Math.random() > .25 ? "open" : "closed"
 			}
 		}
-	}
+	}*/
 
 	callback();
+}
+
+function setState(index,state,status){
+	if(state == "frozen" || state == "dead"){
+		if(status){
+			//changeOfficerPath
+		}else{
+
+		}
+	}else{
+
+	}
 }
 
 function drawCanvas(){
@@ -391,7 +316,7 @@ function drawCanvas(){
 	cellHeight = height / gridHeight;
 
 	//clear the canvas
-	ctx.clearRect(0,0,height,width);
+	ctx.clearRect(0,0,width,height);
 
 	canvas.attr("width",width);
 	canvas.attr("height",height);
@@ -426,3 +351,19 @@ function drawCanvas(){
 //event handlers
 
 //intervals
+setInterval(function(){
+	var type = Math.random() > .95 ? "intruder" : "officer";
+	officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,0,17,1,Math.random() * 550 + 1000));
+	var wanderPoint = safeWanderPoints[Math.floor(Math.random() * safeWanderPoints.length)];
+	changeOfficerPath(officerPositions.length - 1,wanderPoint.x,wanderPoint.y);
+},750);
+
+setInterval(function(){
+	for(var i = 0;i < officerPositions.length;i++){
+		updateOfficerPosition(i);
+	}
+	if(drawBounds){
+		drawCanvas();
+	}
+	drawOfficerPositions(currentDeck);
+},0050);
