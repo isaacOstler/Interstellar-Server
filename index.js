@@ -92,7 +92,7 @@ app.on('ready', function() {
             stations = newData;
             console.log("stations set to " + stations);
         });
-        cardManager.init(rebuildCards, function() {
+        cardManager.init(rebuildCards,rebuildThemes, function() {
             http.listen(portNumberFromUserPrefs, function(socket) {
                 console.log('=====[' + 'listening on port '.bold + portNumberFromUserPrefs.toString().bold + ']=====');
 
@@ -147,11 +147,12 @@ app.on('ready', function() {
                             }
                         });
                     });
-                    socket.on('getPublicFolder', function(data) {
-                        cardManager.servePublicFolder(data, function(bufferStream) {
+                    socket.on('getThemeFiles', function(data) {
+                        cardManager.getThemeFiles(data, function(bufferStream) {
                             if (bufferStream) {
-                                socket.emit('recievePublicFolder', {
+                                socket.emit('recieveThemeFiles', {
                                     "themeName": data,
+                                    "folderName" : cardManager.getThemeFolderName(),
                                     "bufferStream": bufferStream
                                 });
                             }
