@@ -17,6 +17,32 @@ colors.setTheme({
   error: 'red'
 });
 
+var cards = [],
+	themes = []; //themes are compressed public folders
+
+module.exports.servePublicFolder = function(themeName,callback){
+	var path;
+	for(var i = 0; i < cards.length;i++){
+		if(cards[i].cardInfo.cardName == cardName){
+			path = "./" + cards[i].compressedPath;
+			break;
+		}
+	}
+	if(cardName == "viewscreen"){
+			path = "./compressedCards/viewscreen";
+	}
+	if(!path){
+		console.log("Widget " + cardName + " couldn't be found!");
+		return;
+	}
+	fs.readFile(path, function read(err, data) {
+		if (err) {
+			throw err;
+		}
+		callbackFunction(data);
+	});
+}
+
 module.exports.serveCard = function(cardName,callbackFunction){
 	var path;
 	for(var i = 0; i < cards.length;i++){
@@ -39,7 +65,6 @@ module.exports.serveCard = function(cardName,callbackFunction){
 		callbackFunction(data);
 	});
 }
-var cards = [];
 module.exports.cards = cards;
 module.exports.getCards = function(){
 	return cards;
