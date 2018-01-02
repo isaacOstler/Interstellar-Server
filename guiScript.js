@@ -21,17 +21,25 @@ ipcRenderer.send('setStations', [{
 }
 ]);*/
 
+function getLocalPortNumber(callback){
+	let functionCallback = callback;
+	ipcRenderer.send('getLocalPortNumber');
+	ipcRenderer.on('recieveLocalPortNumber', (event, arg) => {
+		functionCallback(arg);
+	})
+}
+
 function openDatabaseWindow(){
 	if(databaseWindow == null){
-		databaseWindow = new BrowserWindow({ width: 800, height: 600 });
+		databaseWindow = new BrowserWindow({ title : "Interstellar - Database Manager", width: 400, height: 600, minWidth : 300, minHeight : 200, maxWidth : 500, maxHeight : 800,skipTaskbar : true,maximizable : false, fullscreenable : false });
 		databaseWindow.once('ready-to-show', () => {
 			databaseWindow.show();
 		});
-		
-		databaseWindow.off();
-		databaseWindow.on('close',function(event){
+		getLocalPortNumber(function(port){
+			databaseWindow.loadURL('http://localhost:' + port + '/databaseWindow');
+		});
+		databaseWindow.on('closed', () => {
 			databaseWindow = null;
-			console.log("Database window closed");
 		});
 	}else{
 		databaseWindow.focus();

@@ -39,6 +39,7 @@ var stations,
     rebuildThemes = false,
     overidePort = false,
     overrideingPortNumber = 3000,
+    portNumberFromUserPrefs = overrideingPortNumber,
     saveDatabase = false;
 
 app.on('ready', function() {
@@ -77,10 +78,10 @@ app.on('ready', function() {
     if (saveDatabase == true) {
         console.log("-[WARNING]-\nWARNING!!!  THE SAVE DATABASE OPTION FOR IFDATABASE CURRENTLY DOESN'T WORK!\n(it won't crash anything, it just won't work)\n-[WARNING]-".error.bold);
     }
-    guiManager.init(ipcMain, databaseManager, function(portNumberFromUserPrefs, loadedStations) {
-        if (overidePort == true) {
-            portNumberFromUserPrefs = overrideingPortNumber;
-        }
+    if (overidePort == true) {
+        portNumberFromUserPrefs = overrideingPortNumber;
+    }
+    guiManager.init(ipcMain, databaseManager, portNumberFromUserPrefs, function(portNumberFromUserPrefs, loadedStations) {
         stations = loadedStations;
         guiManager.onStationChange(function(newData) {
             stations = newData;
@@ -92,6 +93,13 @@ app.on('ready', function() {
 
                 express.get('/', function(req, res) {
                     res.sendFile(__dirname + '/grabStations.html');
+                });
+                express.get('/databaseWindow', function(req, res) {
+                    res.render('databaseView', {
+                        'port': portNumberFromUserPrefs,
+                        'cards': cardManager.getCards(),
+                        'stations': stations
+                    });
                 });
                 express.get('/stationServerSelect', function(req, res) {
                     res.sendFile(__dirname + '/stationServerSelect.html');
