@@ -18,10 +18,12 @@ colors.setTheme({
 
 var guiManagerHeaderText = "[" + "GUI MANAGER".verbose + "] ";
 var ipcMain;
-var stationChangeCallback;
+var stationChangeCallback,
+	databaseManager;
 
-module.exports.init = function(ipc, callback){
+module.exports.init = function(ipc, databaseManagerRef, callback){
 	ipcMain = ipc;
+	databaseManager = databaseManagerRef;
 	console.log(guiManagerHeaderText + "Reading last server setups from saveFile.json......");
 	jsonfile.readFile("./userPrefs/serverSetup.json", function(err, obj) {
 		console.log(guiManagerHeaderText + "Done!".info);
@@ -51,6 +53,11 @@ module.exports.init = function(ipc, callback){
 
 	ipcMain.on('setStations', (event, arg) => {
 		stationChangeCallback(arg);
-	})
+	});
+
+	ipcMain.on('getDatabase',(event, arg) => {
+		console.log(databaseManager.getDatabase());
+		event.sender.send('recieveDatabase',databaseManager.getDatabase());
+	});
 
 }

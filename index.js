@@ -25,20 +25,14 @@ var cardManager = require('./cardManager');
 var databaseManager = require('./databaseManager.js');
 express.set("view engine", "ejs");
 
-/* fairly certain this is useless
-require("jsdom").env("", function(err, window) {
-	if (err) {
-		console.error(err);
-		return;
-	}
-	
-	var $ = require("jquery")(window);
-});
-*/
-
 const electron = require('electron'),
     { ipcMain } = require('electron'),
     { app, BrowserWindow, webContents } = electron;
+
+//do NOT let this application be throttled, the server always needs
+//to be ready to respond to a client, regardless if it is the foremost
+//application or not.  This may disable sleeping on the client's computer, however.
+electron.powerSaveBlocker.start('prevent-app-suspension');
 
 var stations,
     rebuildCards = false,
@@ -83,7 +77,7 @@ app.on('ready', function() {
     if (saveDatabase == true) {
         console.log("-[WARNING]-\nWARNING!!!  THE SAVE DATABASE OPTION FOR IFDATABASE CURRENTLY DOESN'T WORK!\n(it won't crash anything, it just won't work)\n-[WARNING]-".error.bold);
     }
-    guiManager.init(ipcMain, function(portNumberFromUserPrefs, loadedStations) {
+    guiManager.init(ipcMain, databaseManager, function(portNumberFromUserPrefs, loadedStations) {
         if (overidePort == true) {
             portNumberFromUserPrefs = overrideingPortNumber;
         }

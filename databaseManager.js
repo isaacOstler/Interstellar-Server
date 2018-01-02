@@ -45,6 +45,11 @@ db.once('open', function() {
    console.log("[" + "DATABASE MANAGER".yellow + "] " + "Connected to database".bold);
 });
 
+//returns all database values
+module.exports.getDatabase = function(){
+	return ifDatabase;
+}
+
 module.exports.setDatabaseValue = function(dataKey,passedValue){
 	//
 	// IF DATABASE
