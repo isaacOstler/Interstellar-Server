@@ -31,7 +31,7 @@ function getLocalPortNumber(callback){
 
 function openDatabaseWindow(){
 	if(databaseWindow == null){
-		databaseWindow = new BrowserWindow({ title : "Interstellar - Database Manager", width: 400, height: 600, minWidth : 300, minHeight : 200, maxWidth : 500, maxHeight : 800,skipTaskbar : true,maximizable : false, fullscreenable : false });
+		databaseWindow = new BrowserWindow({ title : "Interstellar - Database Manager", width: 400, height: 600, minWidth : 300, minHeight : 500, maxWidth : 800, maxHeight : 800,skipTaskbar : true,maximizable : false, fullscreenable : false });
 		databaseWindow.once('ready-to-show', () => {
 			databaseWindow.show();
 		});
@@ -40,6 +40,7 @@ function openDatabaseWindow(){
 		});
 		databaseWindow.on('closed', () => {
 			databaseWindow = null;
+			ipcRenderer.send('endDatabaseInfoWatch');
 		});
 	}else{
 		databaseWindow.focus();

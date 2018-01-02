@@ -133,10 +133,12 @@ app.on('ready', function() {
 
                 io.on('connect', function(socket) {
                     let socketID = socket.id;
+                    databaseManager.setClientCount(Object.keys(io.sockets.sockets));
                     console.log("[+] STATION CONNECTED (" + socketID + ")");
                     console.log("sending " + stations + " for client");
                     socket.emit('stationsSent', stations);
                     socket.on('disconnect', function(socket) {
+                        databaseManager.setClientCount(Object.keys(io.sockets.sockets));
                         console.log("[!] STATION DISCONNECTED");
                     });
                     socket.on('getCardFiles', function(data) {

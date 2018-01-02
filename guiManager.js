@@ -53,6 +53,16 @@ module.exports.init = function(ipc, databaseManagerRef, port, callback){
 		stationChangeCallback = callback;
 	}
 
+	ipcMain.on('watchDatabaseInfo', (event, arg) => {
+		databaseManager.updateDatabaseInfoOnChange(function(newData){
+			event.sender.send('databaseInfoDidChange',newData);
+		});
+	});
+
+	ipcMain.on('endDatabaseInfoWatch', (event, arg) => {
+		databaseManager.updateDatabaseInfoOnChange(undefined);
+	});
+
 	ipcMain.on('setStations', (event, arg) => {
 		stationChangeCallback(arg);
 	});

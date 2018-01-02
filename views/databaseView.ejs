@@ -4,7 +4,6 @@
 	<title>Interstellar - Database Manager</title>
 	<link rel="stylesheet" type="text/css" href="/resource?path=viewScripts/databaseWindow.css">
 	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-	<script src='/resource?path=viewScripts/databaseWindow.js'></script>
 	<script src="/jquery"></script>
 	<script>if (window.module) module = window.module;</script>
 </head>
@@ -19,6 +18,11 @@
 			Number Of Connected Clients : <span class='databaseInfoValue' id="frame_databaseInfo_clientCoint">Calculating...</span><br />
 			Save Mode : <span class='databaseInfoValue' id="frame_databaseInfo_saveMode">Checking...</span><br />
 		</div>
+		<div id="frame_databaseValues">
+			
+		</div>
+		<canvas id="frame_dataCanvas"></canvas>
 	</div>
+	<script src='/resource?path=viewScripts/databaseWindow.js'></script>
 </body>
 </html>
