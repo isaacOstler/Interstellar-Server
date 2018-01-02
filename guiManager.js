@@ -20,6 +20,7 @@ var guiManagerHeaderText = "[" + "GUI MANAGER".verbose + "] ";
 var ipcMain;
 var stationChangeCallback,
 	localPortNumber = 3000,
+	stations = [],
 	databaseManager;
 
 module.exports.init = function(ipc, databaseManagerRef, port, callback){
@@ -35,6 +36,7 @@ module.exports.init = function(ipc, databaseManagerRef, port, callback){
 			return;
 		}
   		//event.sender.send('asynchronous-reply', 'pong')
+  		stations = obj.stations;
 		callback(obj.port,obj.stations);
 	});
 
@@ -63,8 +65,16 @@ module.exports.init = function(ipc, databaseManagerRef, port, callback){
 		databaseManager.updateDatabaseInfoOnChange(undefined);
 	});
 
+	ipcMain.on('resetDatabase', (event, arg) => {
+		databaseManager.clearDatabase();
+	});
+
 	ipcMain.on('setStations', (event, arg) => {
 		stationChangeCallback(arg);
+	});
+
+	ipcMain.on('getStations', (event, arg) => {
+		event.sender.send('recieveStations',stations);
 	});
 
 	ipcMain.on('getDatabase',(event, arg) => {

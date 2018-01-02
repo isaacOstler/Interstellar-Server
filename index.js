@@ -249,6 +249,7 @@ app.on('ready', function() {
 				var mainWindow = new BrowserWindow({
 					width: 1100,
 					height: 650,
+                    center : true,
 					minWidth: 1000,
 					minHeight: 550
 				});
