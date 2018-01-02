@@ -21,6 +21,8 @@ var ipcMain;
 var stationChangeCallback,
 	localPortNumber = 3000,
 	stations = [],
+	userPrefs = {},
+	stationLayouts = [],
 	databaseManager;
 
 module.exports.init = function(ipc, databaseManagerRef, port, callback){
@@ -29,15 +31,22 @@ module.exports.init = function(ipc, databaseManagerRef, port, callback){
 	localPortNumber = port;
 	console.log(guiManagerHeaderText + "Reading last server setups from saveFile.json......");
 	jsonfile.readFile("./userPrefs/serverSetup.json", function(err, obj) {
+		userPrefs = obj;
 		console.log(guiManagerHeaderText + "Done!".info);
 		if(err){
 			console.log(guiManagerHeaderText + err.toString().error);
 			console.log(guiManagerHeaderText + "CANCELING STARTUP DUE TO ERROR".bold);
 			return;
 		}
-  		//event.sender.send('asynchronous-reply', 'pong')
-  		stations = obj.stations;
-		callback(obj.port,obj.stations);
+		stationLayouts = obj;
+  		stations = obj.stationLayouts[0].stations;
+		for(var i = 0;i < obj.stationLayouts.length;i++){
+			if(obj.stationLayouts[i].isDefault){
+  				stations = obj.stationLayouts[i].stations;
+				break;
+			}
+		}
+		callback(obj.port,stations);
 	});
 
 /*
@@ -73,8 +82,17 @@ module.exports.init = function(ipc, databaseManagerRef, port, callback){
 		stationChangeCallback(arg);
 	});
 
+	ipcMain.on('setStationLayouts', (event, arg) => {
+		userPrefs.stationLayouts = arg;
+		jsonfile.writeFile("./userPrefs/serverSetup.json",userPrefs);
+	});
+
 	ipcMain.on('getStations', (event, arg) => {
 		event.sender.send('recieveStations',stations);
+	});
+
+	ipcMain.on('getLayouts', (event, arg) => {
+		event.sender.send('recieveLayouts',stationLayouts);
 	});
 
 	ipcMain.on('getDatabase',(event, arg) => {
@@ -84,5 +102,4 @@ module.exports.init = function(ipc, databaseManagerRef, port, callback){
 	ipcMain.on('getLocalPortNumber',(event, arg) => {
 		event.sender.send('recieveLocalPortNumber',localPortNumber);
 	});
-
 }

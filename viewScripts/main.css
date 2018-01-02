@@ -193,6 +193,84 @@ body{
 	left: 5px;
 	font-size: 26px;
 }
+.layout:hover{
+	background-color: rgba(60,60,60,.8);
+}
+.layout:active{
+	filter: brightness(0.65);
+}
+.layout{
+	cursor: pointer;
+	position: relative;
+	width: 100%;
+	height: 18px;
+	font-size: 16px;
+	border-bottom: 1px solid white;
+}
+#stationConfig_stationCards{
+	position: absolute;
+	overflow: auto;
+	top:20px;
+	left: 5px;
+	width: calc(100% - 10px);
+	height: calc(50% - 20px);
+	border-radius: 5px;
+	background-color: rgba(0,0,0,.3);
+	border: 1px solid white
+}
+.stationConfig_cardContainer{
+	cursor: move;
+    width: 130px;
+    height: 120px;
+    position: relative;
+    float: left;
+}
+.stationConfig_cardTitle{
+	position: absolute;
+	bottom: 0%;
+	left: 0px;
+	text-overflow: ellipsis;
+	height: 16px;
+	font-size: 11px;
+	width: 100%;
+	text-align: center;
+}
+.stationConfig_cardImage{
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-image: url("/resource?path=cards/Power-Distribution/preview.png");
+	position: absolute;
+	top:10%;
+	left: 15%;
+	border-radius: 10px;
+	border: 1px solid white;
+	height: 70%;
+	width: 70%;
+}
+#stationConfig_possibleCards{
+	position: absolute;
+	overflow: auto;
+	bottom:10px;
+	background-color: rgba(0,0,0,.3);
+	left: 5px;
+	width: calc(100% - 10px);
+	height: calc(50% - 20px);
+	border-radius: 5px;
+	border: 1px solid white
+}
+.createNewStationButton:hover{
+	filter: brightness(1.25);
+	background-color: rgba(60,255,0,.7);
+}
+.createNewStationButton:active{
+	filter: brightness(0.65);
+}
+.createNewStationButton{
+	cursor: pointer;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	background-color: rgba(60,255,0,.4);
+}
 #stations_list{
 	overflow: auto;
 	position: absolute;

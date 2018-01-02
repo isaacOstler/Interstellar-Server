@@ -35,6 +35,7 @@ const electron = require('electron'),
 electron.powerSaveBlocker.start('prevent-app-suspension');
 
 var stations,
+    cardFolderLocation = __dirname + "/cards";
     rebuildCards = false,
     rebuildThemes = false,
     overidePort = false,
@@ -119,6 +120,10 @@ app.on('ready', function() {
                     //useless get request?
                     console.log(req.url);
                 });
+                express.get('/cardImage', function(req, res) {
+                    console.log("LOADING CARD IMAGE " + req.query.card.toString());
+                    res.sendFile(cardFolderLocation + "/" + req.query.card.toString() + "/preview.png");
+                });
                 express.get('/views/client', function(req, res) {
                     res.render('client', {
                         'port': portNumberFromUserPrefs,
@@ -127,7 +132,7 @@ app.on('ready', function() {
                     });
                 });
                 express.get('/resource', function(req, res) {
-                    console.log("LOADING RESOURCE " + __dirname + "/" + req.query.path.toString);
+                    console.log("LOADING RESOURCE " + __dirname + "/" + req.query.path.toString());
                     res.sendFile(__dirname + "/" + req.query.path);
                 });
 

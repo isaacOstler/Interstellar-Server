@@ -58,6 +58,7 @@ Interstellar.addCoreWidget("Docking",function(){
 			Interstellar.setDatabaseValue("docking.airlockDirection",airlockDirections);
 			return;
 		}
+		Interstellar.say("Airlocks Changed");
 		airlockDirections = newData;
 	});
 	Interstellar.onDatabaseValueChange("docking.clampsStatus",function(newData){
@@ -120,7 +121,7 @@ Interstellar.addCoreWidget("Docking",function(){
 	});
 
 	Interstellar.onDatabaseValueChange("docking.airlockStatus",function(newData){
-		Interstellar.say("Airlocks Changed");
+		
 		if(newData == null){
 			Interstellar.setDatabaseValue("docking.airlockStatus",airlockStatus);
 			return;

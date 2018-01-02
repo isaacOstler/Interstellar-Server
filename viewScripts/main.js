@@ -12,12 +12,21 @@ var openDatabaseButton = $("#databaseManagerButton"),
 	serverControlsContainer = $("#serverControls"),
 	stationList = $("#stations_list"),
 	openDatabaseButton = $("#openDatabaseManagerButton"),
-	resetDatabaseButton = $("#resetDatabaseButton");
+	resetDatabaseButton = $("#resetDatabaseButton"),
+	exportDatabaseButton = $("#exportDatabaseButton"),
+	importDatabaseButton = $("#importDatabaseButton"),
+	stationLayoutList = $("#serverControls_setups_list"),
+	loadStationLayoutButton = $("#loadStationLayoutButton"),
+	setDefaultLayoutButton = $("#setDefaultLayoutButton"),
+	allCards = $("#stationConfig_possibleCards"),
+	stationCards = $("#stationConfig_stationCards");
 
 //variables
 var databaseWindow = null,
 	numberOfBackgroundImages = 1,
-	stations = [];
+	stations = [],
+	selectedStationLayout = -1,
+	stationLayouts = [];
 
 /*
 ipcRenderer.send('setStations', [{
@@ -46,13 +55,30 @@ function init(){
 		stations = loadedStations;
 		listStations(stations);
 	});
+	getStationLayouts(function(obj){
+		stationLayouts = obj.stationLayouts;
+		listStationLayouts(stationLayouts);
+	});
+}
+
+function getStationLayouts(callback){
+	ipcRenderer.send("getLayouts");
+	ipcRenderer.on('recieveLayouts', (event, arg) => {
+		callback(arg);
+	});
 }
 
 function getStations(callback){
 	ipcRenderer.send("getStations");
 	ipcRenderer.on('recieveStations', (event, arg) => {
 		callback(arg);
-	})
+	});
+}
+
+function setStations(newStations){
+	ipcRenderer.send('setStations', newStations);
+	stations = newStations;
+	listStations(newStations);
 }
 
 function listStations(stations){
@@ -84,6 +110,8 @@ function listStations(stations){
 			}
 		}
 	}
+	html += "<div class='spacer' style='height:10px'></div>";
+	html += "<div class='createNewStationButton noselect'>Create New...</div>"
 	stationList.html(html);
 	$(".stationClass").off();
 	$(".stationClass").click(function(event){
@@ -92,8 +120,26 @@ function listStations(stations){
 	});
 }
 
-function loadStationInfoForStation(index){
+function listStationLayouts(layouts){
+	var html = "<div class='stationHeader'>";
+	html += "<div class='stationHeader_title'>STATION LAYOUTS</div>";
+	html += "</div>"
+	for(var i = 0;i < layouts.length;i++){
+		html += "<div class='layout' index='" + i + "'>";
+		html += layouts[i].name;
+		html += "</div>";
+	}
+	stationLayoutList.html(html);
+	$(".layout").off();
+	$(".layout").click(function(event){
+		selectedStationLayout = Number($(event.target).attr("index"));
+		$(".layout").css("background-color","");
+		$(event.target).css("background-color","red");
+	});
+}
 
+function loadStationInfoForStation(index){
+	listCardsInContainer(stationCards,stations[index].stationInfo.cards);
 }
 
 function getLocalPortNumber(callback){
@@ -122,12 +168,27 @@ function openDatabaseWindow(){
 	}
 }
 
+function listCardsInContainer(container,cards){
+	var html = "";
+	for(var i = 0;i < cards.length;i++){
+		html += '<div class="stationConfig_cardContainer">';
+			html += '<div class="stationConfig_cardImage" style="background-image:url(/cardImage?card=' + cards[i] + ')"></div>';
+			html += '<div class="stationConfig_cardTitle">' + cards[i] + "</div>";
+		html += '</div>';
+	}
+	container.html(html);
+}
+
+function setStationLayouts(newLayout){
+	ipcRenderer.send('setStationLayouts',newLayout);
+}
+
 function getDatabase(callback){
 	let functionCallback = callback;
 	ipcRenderer.send('getDatabase');
 	ipcRenderer.on('recieveDatabase', (event, arg) => {
 		functionCallback(arg);
-	})
+	});
 }
 
 //event handlers
@@ -138,6 +199,23 @@ openDatabaseButton.click(function(event){
 resetDatabaseButton.click(function(event){
 	ipcRenderer.send('resetDatabase');
 	alert("Database cleared!\n\n(This is different from a database reset)");
+});
+
+exportDatabaseButton.click(function(event){
+	alert("This feature is not supported yet!\n\nSorry!\n\n(If you want it to be a high priority, let Isaac know)");
+});
+importDatabaseButton.click(function(event){
+	alert("This feature is not supported yet!\n\nSorry!\n\n(If you want it to be a high priority, let Isaac know)");
+});
+loadStationLayoutButton.click(function(event){
+	setStations(stationLayouts[selectedStationLayout].stations);
+});
+setDefaultLayoutButton.click(function(event){
+	for(var i = 0;i < stationLayouts.length;i++){
+		stationLayouts[i].isDefault = false;
+	}
+	stationLayouts[selectedStationLayout].isDefault = true;
+	setStationLayouts(stationLayouts);
 });
 //intervals
 
