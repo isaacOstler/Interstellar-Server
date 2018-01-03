@@ -13,16 +13,16 @@ var openDatabaseButton = $("#databaseManagerButton"),
 	stationList = $("#stations_list"),
 	openDatabaseButton = $("#openDatabaseManagerButton"),
 	resetDatabaseButton = $("#resetDatabaseButton"),
-	exportDatabaseButton = $("#exportDatabaseButton"),
-	importDatabaseButton = $("#importDatabaseButton"),
 	stationLayoutList = $("#serverControls_setups_list"),
 	loadStationLayoutButton = $("#loadStationLayoutButton"),
 	setDefaultLayoutButton = $("#setDefaultLayoutButton"),
 	allCards = $("#stationConfig_possibleCards"),
+	openCardWindowButton = $("#openCardManagerButton"),
 	stationCards = $("#stationConfig_stationCards");
 
 //variables
 var databaseWindow = null,
+	cardWindow = null,
 	numberOfBackgroundImages = 1,
 	stations = [],
 	selectedStationLayout = -1,
@@ -30,7 +30,6 @@ var databaseWindow = null,
 
 /*
 ipcRenderer.send('setStations', [{
-
 	"stationInfo" : {
 		"name" : "core",
 		"cards" : ["engineering-reactor_CORE"]
@@ -168,6 +167,23 @@ function openDatabaseWindow(){
 	}
 }
 
+function openCardWindow(){
+	if(cardWindow == null){
+		cardWindow = new BrowserWindow({ title : "Interstellar - Card Manager", width: 400, height: 110, minWidth : 400, minHeight : 110, maxWidth : 400, maxHeight : 110,skipTaskbar : true,maximizable : false, fullscreenable : false });
+		cardWindow.once('ready-to-show', () => {
+			cardWindow.show();
+		});
+		getLocalPortNumber(function(port){
+			cardWindow.loadURL('http://localhost:' + port + '/cardWindow');
+		});
+		cardWindow.on('closed', () => {
+			cardWindow = null;
+		});
+	}else{
+		cardWindow.focus();
+	}
+}
+
 function listCardsInContainer(container,cards){
 	var html = "";
 	for(var i = 0;i < cards.length;i++){
@@ -196,17 +212,15 @@ openDatabaseButton.click(function(event){
 	openDatabaseWindow();
 });
 
+openCardWindowButton.click(function(event){
+	openCardWindow();
+});
+
 resetDatabaseButton.click(function(event){
 	ipcRenderer.send('resetDatabase');
 	alert("Database cleared!\n\n(This is different from a database reset)");
 });
 
-exportDatabaseButton.click(function(event){
-	alert("This feature is not supported yet!\n\nSorry!\n\n(If you want it to be a high priority, let Isaac know)");
-});
-importDatabaseButton.click(function(event){
-	alert("This feature is not supported yet!\n\nSorry!\n\n(If you want it to be a high priority, let Isaac know)");
-});
 loadStationLayoutButton.click(function(event){
 	setStations(stationLayouts[selectedStationLayout].stations);
 });

@@ -158,10 +158,10 @@ function indexThemes(rebuildThemes, callback) {
                 var themePath = themesFolder + file;
                 if (fs.lstatSync(themePath).isDirectory()) {
                     jsonfile.readFile(themePath + "/theme.json", function(err, obj) {
-                        console.log("[" + "CARD MANAGER".blue + "] [" + "INDEXED".green + "] " + obj.themeName.toString().bold + " at path '" + cardPath + "'");
+                        console.log("[" + "CARD MANAGER".blue + "] [" + "INDEXED".green + "] " + obj.themeName.toString().bold + " at path '" + themePath + "'");
                         themes.splice(themes.length, 0, {
                             "themeName": obj.themeName,
-                            "path": cardPath,
+                            "path": themePath,
                             "compressedPath": "compressedThemes/" + file,
                             "themeInfo": obj
                         });

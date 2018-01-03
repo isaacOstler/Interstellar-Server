@@ -7,6 +7,21 @@ body{
 	color:white;
 	font-family: 'Arial';
 }
+.frame_databaseControls_button{
+	cursor: pointer;
+	width:50%;
+	position: relative;
+	float: left;
+}
+#frame_databaseControls{
+	position: absolute;
+	top:10px;
+	width: calc(100% - 27px);
+	left: 15px;
+	float: left;
+	height: 20px;
+	/* overflow: hidden; */
+}
 #frame{
 	position: absolute;
 	top:10px;
@@ -19,7 +34,7 @@ body{
 }
 #frame_databaseInfo{
     position: absolute;
-    top: 10px;
+    top: 30px;
     left: 15px;
     padding: 5px;
     width: calc(100% - 40px);
@@ -30,9 +45,9 @@ body{
 }
 #frame_databaseValues{
 	position: absolute;
-	top:calc(15% + 10px);
+	top: calc(15% + 30px);
 	background-color: rgba(0,0,0,.7);
-	height: calc(50% - 10px);
+	height: calc(50% - 27px);
 	width: calc(100% - 30px);
 	left: 15px;
 	overflow: auto;

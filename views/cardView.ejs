@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Interstellar - Card Manager</title>
+	<link rel="stylesheet" type="text/css" href="/resource?path=viewScripts/cardView.css">
+	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+	<script src="/jquery"></script>
+	<script>if (window.module) module = window.module;</script>
+</head>
+<body>
+	<input type="button" value="Rebuild Cards" id="rebuildCardsButton">
+	<input type="button" value="Rebuild Themes" id="rebuildThemesButton">
+	<div id="buildWarning"><b style="color:red">WARNING:</b> Rebuilding cards or themes requires RELAUNCHING the server.  Unless your database has save mode active, this will wipe your database!  If you are in the middle
+	of a flight, it is highly recommended you wait until <u>after your mission is over</u>, unless you
+	are okay with reseting.</div>
+	<script src='/resource?path=viewScripts/cardView.js'></script>
+</body>
+</html>

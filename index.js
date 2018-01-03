@@ -82,7 +82,7 @@ app.on('ready', function() {
     if (overidePort == true) {
         portNumberFromUserPrefs = overrideingPortNumber;
     }
-    guiManager.init(ipcMain, databaseManager, portNumberFromUserPrefs, function(portNumberFromUserPrefs, loadedStations) {
+    guiManager.init(ipcMain, app, databaseManager, portNumberFromUserPrefs, function(portNumberFromUserPrefs, loadedStations) {
         stations = loadedStations;
         guiManager.onStationChange(function(newData) {
             stations = newData;
@@ -101,6 +101,9 @@ app.on('ready', function() {
                         'cards': cardManager.getCards(),
                         'stations': stations
                     });
+                });
+                express.get('/cardWindow', function(req, res) {
+                    res.render('cardView');
                 });
                 express.get('/stationServerSelect', function(req, res) {
                     res.sendFile(__dirname + '/stationServerSelect.html');

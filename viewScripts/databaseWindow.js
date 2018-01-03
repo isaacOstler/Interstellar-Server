@@ -145,6 +145,10 @@ function drawGraph(values){
   	ctx.fillText(Math.round(average), 10, (1 - (average - lowestPoint) / (highestValue - lowestPoint)) * height);
 	ctx.stroke();
 }
+
+$(".frame_databaseControls_button").click(function(event){
+	alert("This feature is not yet supported.\n\nSorry!\n\nIf you want this to be a high priority, let Isaac know");
+});
 //event handlers
 setInterval(function(){
 	databaseChangeHistory.unshift(databaseChangesInTime);

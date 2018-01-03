@@ -20,13 +20,15 @@ var guiManagerHeaderText = "[" + "GUI MANAGER".verbose + "] ";
 var ipcMain;
 var stationChangeCallback,
 	localPortNumber = 3000,
+	app = undefined,
 	stations = [],
 	userPrefs = {},
 	stationLayouts = [],
 	databaseManager;
 
-module.exports.init = function(ipc, databaseManagerRef, port, callback){
+module.exports.init = function(ipc, passedApp, databaseManagerRef, port, callback){
 	ipcMain = ipc;
+	app = passedApp;
 	databaseManager = databaseManagerRef;
 	localPortNumber = port;
 	console.log(guiManagerHeaderText + "Reading last server setups from saveFile.json......");
@@ -101,5 +103,17 @@ module.exports.init = function(ipc, databaseManagerRef, port, callback){
 
 	ipcMain.on('getLocalPortNumber',(event, arg) => {
 		event.sender.send('recieveLocalPortNumber',localPortNumber);
+	});
+
+	ipcMain.on('restartAndRebuildCards',(event, arg) => {
+        var exec = require('child_process').exec
+        exec(process.argv.join(' ') + " --buildCards") // execute the command that was used to run the app
+        app.quit() // quit the current app
+	});
+
+	ipcMain.on('restartAndRebuildThemes',(event, arg) => {
+        var exec = require('child_process').exec
+        exec(process.argv.join(' ') + " --buildThemes") // execute the command that was used to run the app
+        app.quit() // quit the current app
 	});
 }
