@@ -82,7 +82,7 @@ app.on('ready', function() {
     if (overidePort == true) {
         portNumberFromUserPrefs = overrideingPortNumber;
     }
-    guiManager.init(ipcMain, app, databaseManager, portNumberFromUserPrefs, function(portNumberFromUserPrefs, loadedStations) {
+    guiManager.init(ipcMain, app, databaseManager, cardManager.getCards(),cardManager.getThemes(),portNumberFromUserPrefs, function(portNumberFromUserPrefs, loadedStations) {
         stations = loadedStations;
         guiManager.onStationChange(function(newData) {
             stations = newData;
@@ -225,6 +225,12 @@ app.on('ready', function() {
                         });
                     });
 
+                    socket.on('getResourceFiles',function() {
+                        cardManager.getResourceFiles(function(bufferStream) {
+                            socket.emit('recieveResourceFiles', bufferStream);
+                        });
+                    });
+
                     socket.on('getMenu', function() {
                         cardManager.getMenu(function(bufferStream) {
                             if (bufferStream) {
@@ -245,7 +251,14 @@ app.on('ready', function() {
                             if (stationNames[i] == data) {
                                 //station found
                                 console.log('sending cards for station ' + data);
-                                var cards = stations[i].stationInfo.cards;
+                                var cards = [];
+                                for(var possibleCards = 0;possibleCards < cardManager.cards.length;possibleCards++){
+                                    for(var clientCards = 0;clientCards < stations[i].stationInfo.cards.length;clientCards++){
+                                        if(cardManager.cards[possibleCards].cardInfo.cardName == stations[i].stationInfo.cards[clientCards]){
+                                            cards.splice(cards.length,0,cardManager.cards[possibleCards]);
+                                        }
+                                    }
+                                }
                                 socket.emit('recieveCards', cards);
                                 return;
                             }

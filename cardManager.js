@@ -18,14 +18,11 @@ colors.setTheme({
 });
 
 const themesFolder = './themes/',
-    cardsFolder = './cards/'
+    cardsFolder = './cards/',
+    resourceFilePath = "./resource";
 
 var cards = [],
     themes = []; //themes are compressed public folders
-
-module.exports.getThemeFolderName = function(){
-	return themesFolder;
-}
 
 module.exports.getThemeFiles = function(themeName, callback) {
     var path;
@@ -46,6 +43,14 @@ module.exports.getThemeFiles = function(themeName, callback) {
             throw err;
         }
         callback(data);
+    });
+}
+module.exports.init = function(rebuildCards,rebuildThemes,callback){
+    compressDirectory(resourceFilePath,"compressedResources",function(){
+
+    });
+    indexCards(rebuildCards,function(){
+        indexThemes(rebuildThemes,callback);
     });
 }
 
@@ -75,10 +80,15 @@ module.exports.cards = cards;
 module.exports.getCards = function() {
     return cards;
 }
-module.exports.init = function(rebuildCards,rebuildThemes,callback){
-	indexCards(rebuildCards,function(){
-		indexThemes(rebuildThemes,callback);
-	});
+module.exports.themes = themes;
+module.exports.getThemes = function() {
+    return themes;
+}
+module.exports.getResourceFiles = function(callback){
+    getResourceFiles(callback);
+}
+module.exports.getThemeFolderName = function(){
+    return themesFolder;
 }
 
 module.exports.getMenu = function(callback) {
@@ -94,6 +104,15 @@ module.exports.getMenu = function(callback) {
         return;
     }
     fs.readFile(path, function read(err, data) {
+        if (err) {
+            throw err;
+        }
+        callback(data);
+    });
+}
+
+function getResourceFiles(callback){
+    fs.readFile(__dirname + "/compressedResources", function read(err, data) {
         if (err) {
             throw err;
         }

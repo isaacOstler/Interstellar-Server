@@ -8,6 +8,13 @@
 	<script>if (window.module) module = window.module;</script>
 </head>
 <body>
+	<div id="setLayoutNamePopup">
+		<div id="setLayoutNamePopup_header">What would you like to name this layout?</div>
+		<input type="text" placeholder="MY LAYOUT" id="setLayoutNamePopup_textbox">
+		<div id="setLayoutNamePopup_saveLayout" class="customButton">SAVE</div>
+		<div id="setLayoutNamePopup_cancelLayout" class="customButton">CANCEL</div>
+	</div>
+	<div id="mask"></div>
 	<div id="background"></div>
 	<div id="stations">
 		<div id="stations_header">STATIONS</div>
@@ -15,17 +22,38 @@
 
 		</div>
 	</div>
+	<div id="interstellarTitle">INTERSTELLAR</div>
 	<div id="stationConfig">
-		<div id="stationConfig_stationCards">
+		<div id="stationConfig_stationInfo">
+			<div id="stationConfig_stationInfo_header">STATION CONFIG</div>
+			<div id="stationConfig_stationInfo_stationNameLabel">STATION NAME </div>
+			<input type="text" id="stationConfig_stationInfo_stationNameText" placeholder="STATION">
+			<div id="stationConfig_stationInfo_stationTypeLabel">STATION TYPE</div>
+			<select id="stationConfig_stationInfo_stationType">
+				<option>bridge station</option>
+				<option>core station</option>
+			</select>
+			<div id="stationConfig_stationInfo_stationThemeLabel">STATION THEME</div>
+			<select id="stationConfig_stationInfo_stationTheme">
+			</select>
+		</div>
+		<input type="range" id="stationConfig_cardIconSize" value="110" min="60" max="300">
+		<div id="stationConfig_stationCardsLabel">
+			STATION CARDS
+		</div>
+		<div id="stationConfig_stationCards" ondrop="drop(event)" ondragover="allowDrop(event)">
 			
 		</div>
-		<div id="stationConfig_possibleCards"></div>
+		<div id="stationConfig_possibleCardsLabel">
+			POSSIBLE CARDS
+		</div>
+		<div id="stationConfig_possibleCards" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 	</div>
 	<div id="serverControls">
 		<div id="serverControls_commandButtons">
 			<div class="customButton serverControls_commandButton" id="resetDatabaseButton">CLEAR DATABASE</div>
 			<div class="spacer"></div>
-			<div class="customButton serverControls_commandButton" id="forceRelaunchButton">FORCE RELAUNCH STATIONS</div>
+			<div class="customButton serverControls_commandButton" id="forceRelaunchButton">DISCONNECT STATIONS</div>
 			<div class="spacer"></div>
 			<div class="customButton serverControls_commandButton" id="shutdownButton">SHUTDOWN ALL STATIONS</div>
 			<div class="spacer"></div>

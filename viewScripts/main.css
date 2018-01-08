@@ -81,7 +81,52 @@ body{
 	width: calc(66.6% - 15px);
 	height: calc(100% - 10px);
 }
-#
+#setLayoutNamePopup{
+	display: none;
+	position: absolute;
+	top:calc(50% - 100px);
+	height: 180px;
+	width: 60%;
+	left: 20%;
+	border-radius: 25px;
+	border: 1px solid white;
+	background-color: rgba(0,0,0,.9);
+	z-index: 10;
+}
+#setLayoutNamePopup_header{
+	position: absolute;
+	top: 26px;
+	left: 10px;
+	width: calc(100% - 20px);
+	text-align: center;
+	font-size: 30px;
+}
+#setLayoutNamePopup_textbox{
+	zoom: 2.3;
+	position: absolute;
+	left: 33px;
+	width: calc(100% - 75px);
+	top: 33px;
+	background-color: black;
+	color:white;
+	border: .1px solid white;
+}
+#setLayoutNamePopup_saveLayout{
+	background: linear-gradient(to bottom, rgba(150,240,150,1) 0%,rgba(93,110,117,1) 100%);
+	position: absolute;
+	bottom: 20px;
+	width: 40%;
+	left: 10%;
+	height: 25px;
+}
+#setLayoutNamePopup_cancelLayout{
+	background: linear-gradient(to bottom, rgba(255,150,150,1) 0%,rgba(93,110,117,1) 100%);
+	position: absolute;
+	bottom: 20px;
+	width: 40%;
+	right: 10%;
+	height: 25px;
+}
 #resetDatabaseButton{
 	background: linear-gradient(to bottom, rgba(150,215,224,1) 0%,rgba(93,110,117,1) 100%);
 }
@@ -104,6 +149,15 @@ body{
 	width: calc(66.6% - 10px);
 	height: calc(33.3% - 10px);
 	border: 1px solid white;
+}
+#interstellarTitle{
+	display: none;
+	position: absolute;
+	top:30px;
+	left: 30px;
+	opacity: .2;
+	font-size: 128px;
+	font-family: 'Impact';
 }
 #stationConfig{
 	display: none;
@@ -207,21 +261,95 @@ body{
 	font-size: 16px;
 	border-bottom: 1px solid white;
 }
+#stationConfig_stationInfo{
+	position: absolute;
+	right: 5px;
+    top: 30px;
+    width: 280px;
+    height: calc(50% - 60px);
+	border: 1px solid white;
+	border-radius: 5px;
+}
+#stationConfig_stationInfo_stationNameLabel{
+	position: absolute;
+	top:34px;
+	left: 5px;
+}
+#stationConfig_stationInfo_header{
+	position: absolute;
+	top:5px;
+	left: 5px;
+	font-size: 22px;
+}
+#stationConfig_stationInfo_stationThemeLabel {
+    position: absolute;
+    top: 71px;
+    left: 5px;
+}
+
+#stationConfig_stationInfo_stationNameText{
+	position: absolute;
+	top:33px;
+	right: 5px;
+	width:130px;
+	background-color: black;
+	color:white;
+	border: 1px solid white;
+	border-radius: 0px 4px 0px 0px;
+}
+#stationConfig_stationInfo_stationTypeLabel{
+	position: absolute;
+	top: 53px;
+	left: 5px;
+}
+#stationConfig_stationInfo_stationTheme{
+	position: absolute;
+	top: 71px;
+	right: 5px;
+	background-color: black;
+	color:white;
+	width:135px;
+}
+#stationConfig_stationInfo_stationType{
+	position: absolute;
+	top: 53px;
+	background-color: black;
+	color:white;
+	right: 5px;
+	width:135px;
+}
+#stationConfig_stationCardsLabel{
+	position: absolute;
+	top:5px;
+	left: 5px;
+	font-size: 25px;
+}
+#stationConfig_possibleCardsLabel{
+	position: absolute;
+    top: calc(50% - 20px);
+	left: 5px;
+	font-size: 25px;
+}
 #stationConfig_stationCards{
 	position: absolute;
 	overflow: auto;
-	top:20px;
+	top:30px;
 	left: 5px;
-	width: calc(100% - 10px);
-	height: calc(50% - 20px);
+	width: calc(100% - 300px);
+	height: calc(50% - 60px);
 	border-radius: 5px;
 	background-color: rgba(0,0,0,.3);
-	border: 1px solid white
+	border: 1px solid white;
+}
+#stationConfig_cardIconSize{
+	position: absolute;
+    top: calc(50% - 20px);
+	right: 5px;
+	width:280px;
 }
 .stationConfig_cardContainer{
-	cursor: move;
-    width: 130px;
-    height: 120px;
+    width: 120px;
+    height: 110px;
     position: relative;
     float: left;
 }
@@ -236,6 +364,8 @@ body{
 	text-align: center;
 }
 .stationConfig_cardImage{
+	background-color: rgba(0,0,0,.7);
+	cursor: move;
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-image: url("/resource?path=cards/Power-Distribution/preview.png");
@@ -280,4 +410,14 @@ body{
 	width: calc(100% - 11px);
 	left: 5px;
 	border: 1px solid white;
+}
+#mask{
+	display: none;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.5);
+	z-index: 6;
 }

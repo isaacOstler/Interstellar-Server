@@ -1,0 +1,115 @@
+#card-controller_blackout{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 99999999999999999;
+	background-color: black;
+	cursor: none;
+	display: none;
+}
+.card-controller_invert{
+	filter: grayscale(1) invert(1);
+}
+#card-controller_spark{
+	position: absolute;
+	display: none;
+	z-index: 99999999999;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+}
+#card-controller_stationOffline{
+	display: none;
+	position: absolute;
+	top:0px;left: 0px;
+	height: 100%;width: 100%;
+	z-index: 999999;
+	background-color: black;
+  	animation: test;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@keyframes rotate-animation {
+  0% {background: linear-gradient(-90deg, rgba(125,0,0,.8), rgba(0,0,0,.45));}
+  50% {background: linear-gradient(90deg, rgba(125,0,0,.8), rgba(0,0,0,.45));}
+  100% {background: linear-gradient(-90deg, rgba(125,0,0,.8), rgba(0,0,0,.45));}
+}
+@keyframes backgroundSize-animation {
+  0% {background-position-x: 50px}
+  100% {background-position-x: 100px}
+}
+@keyframes inverseBackgroundSize-animation {
+  0% {background-position-x: 80px}
+  100% {background-position-x: 50px}
+}
+@keyframes textColor-animation {
+  0% {color: black;}
+  20% {color: red;}
+  50% {color: red;}
+  100% {color: black;}
+}
+#card-controller_stationOffline_body{
+	text-transform: uppercase;
+	position: absolute;
+	bottom: -3px;
+	left: 20%;
+	width: 60%;
+	height: 68px;
+	border: 1px solid white;
+	padding: 5px;
+	border-radius: 3px;
+	background-color: rgba(0,0,0,.5);
+	color: white;
+}
+#card-controller_stationOffline_header{
+    position: absolute;
+    top: calc(50% - 150px);
+    left: 20%;
+    width: 60%;
+    height: 200px;
+    border: 1px solid white;
+    border-radius: 25px;
+    background-color: rgba(0,0,0,.5);
+    color: red;
+    font-size: 188px;
+    text-align: center;
+    animation: textColor-animation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier();
+}
+#card-controller_stationOfflineBackground{
+	position: absolute;
+	opacity: .6;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: -1;
+	height: 100%;
+	background-size: 50px;
+	background-image: url(/resource?path=public/background1.png&screen=card-controller);
+  	animation: backgroundSize-animation;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+#card-controller_stationOfflineMinorBackground{
+	position: absolute;
+	opacity: .3;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: -1;
+	height: 100%;
+	background-size: 40px;
+	background-image: url(/resource?path=public/background1.png&screen=card-controller);
+  	animation: inverseBackgroundSize-animation;
+    animation-duration: 5;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}

@@ -4,6 +4,7 @@ Interstellar.addCoreWidget("Card Controller",function(){
 	var thisWidget = this,
 		currentCommand = "Flash",
 		currentStation = "All Stations",
+		stations = [],
 		presetButtons = [
 			{
 				"symbol" : "O",
@@ -66,6 +67,13 @@ Interstellar.addCoreWidget("Card Controller",function(){
 	//preset observers
 
 	//database observers
+	Interstellar.onDatabaseValueChange("cardController.state",function(newData){
+		if(newData == null){
+			Interstellar.setDatabaseValue("cardController.state",[]);
+			return;
+		}
+		stations = newData;
+	});
 
 	//event handlers
 	$("#card-controller-core_commandSelect_command").change(function(event){
@@ -85,6 +93,19 @@ Interstellar.addCoreWidget("Card Controller",function(){
 			Interstellar.clearDatabase();
 			return;
 		}
-		Interstellar.setDatabaseValue("ship.cardController.command",{"command" : currentCommand, "station" : currentStation});
+		var station = currentStation;
+		if(currentStation == "random"){
+			station = stations[Math.floor(Math.random() * stations.length)].station;
+		}
+		if(currentCommand.toLowerCase() == "flash" || currentCommand.toLowerCase() == "spark" ){
+			Interstellar.setDatabaseValue("cardController." + currentCommand.toLowerCase(),station.toLowerCase());
+			return;
+		}
+		for(var i = 0;i < stations.length;i++){
+			if(stations[i].station == station.toLowerCase() || station.toLowerCase() == "all stations"){
+				stations[i].state = currentCommand.toLowerCase();
+				Interstellar.setDatabaseValue("cardController.state",stations);
+			}
+		}
 	});
 });

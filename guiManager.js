@@ -22,11 +22,12 @@ var stationChangeCallback,
 	localPortNumber = 3000,
 	app = undefined,
 	stations = [],
+	cards = [],
 	userPrefs = {},
 	stationLayouts = [],
 	databaseManager;
 
-module.exports.init = function(ipc, passedApp, databaseManagerRef, port, callback){
+module.exports.init = function(ipc, passedApp, databaseManagerRef,cards,themes, port, callback){
 	ipcMain = ipc;
 	app = passedApp;
 	databaseManager = databaseManagerRef;
@@ -65,7 +66,6 @@ module.exports.init = function(ipc, passedApp, databaseManagerRef, port, callbac
 	module.exports.onStationChange = function(callback){
 		stationChangeCallback = callback;
 	}
-
 	ipcMain.on('watchDatabaseInfo', (event, arg) => {
 		databaseManager.updateDatabaseInfoOnChange(function(newData){
 			event.sender.send('databaseInfoDidChange',newData);
@@ -83,7 +83,7 @@ module.exports.init = function(ipc, passedApp, databaseManagerRef, port, callbac
 	ipcMain.on('setStations', (event, arg) => {
 		stationChangeCallback(arg);
 	});
-
+	
 	ipcMain.on('setStationLayouts', (event, arg) => {
 		userPrefs.stationLayouts = arg;
 		jsonfile.writeFile("./userPrefs/serverSetup.json",userPrefs);
@@ -91,6 +91,14 @@ module.exports.init = function(ipc, passedApp, databaseManagerRef, port, callbac
 
 	ipcMain.on('getStations', (event, arg) => {
 		event.sender.send('recieveStations',stations);
+	});
+
+	ipcMain.on('getThemes', (event, arg) => {
+		event.sender.send('recieveThemes',themes);
+	});
+
+	ipcMain.on('getCards', (event, arg) => {
+		event.sender.send('recieveCards',cards);
 	});
 
 	ipcMain.on('getLayouts', (event, arg) => {

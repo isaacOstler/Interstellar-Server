@@ -1,0 +1,8 @@
+{
+	"cardName":"card-controller",
+	"cardType":"card controller",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the flight director control over this stations screen, with effects such as flash, offline, black, etc"
+}
