@@ -43,6 +43,14 @@ var PowerDistributionDisplay = function(passedCanvas,passedSystems){
 		return classGUID;
 	}
 
+	this.refresh = function(){
+		drawCanvas(systems);
+	}
+
+	this.setFontSize = function(size){
+		setFontSize(size)
+	}
+
 	this.on = function(event,callback){
 		if(event == "dragStart"){
 			onDragStartCallback = callback;
@@ -61,6 +69,7 @@ var PowerDistributionDisplay = function(passedCanvas,passedSystems){
 	var canvas = passedCanvas,
 		systems = passedSystems,
 		charWidth = 7,
+		maxFontSize = 14,
 		powerBoxPosition,
 		cellWidth,
 		classGUID = uuidv4(),
@@ -75,6 +84,11 @@ var PowerDistributionDisplay = function(passedCanvas,passedSystems){
 	//database observers
 
 	//functions
+	function setFontSize(newSize){
+		maxFontSize = newSize;
+		drawCanvas(systems);
+	}
+
 	function drawCanvas(displayedSystems){
 		var ctx = canvas[0].getContext('2d');
 		var height = canvas.height();
@@ -103,8 +117,9 @@ var PowerDistributionDisplay = function(passedCanvas,passedSystems){
 			if(displayedSystems[i].isDamaged){
 				ctx.fillStyle = "red";
 			}
-			ctx.font = (lineHeight * .7) + "px Arial";
-			charWidth = (lineHeight * .5);
+			var fontSize = Math.min(maxFontSize,lineHeight * .7);
+			ctx.font = fontSize + "px Arial";
+			charWidth = (fontSize * .7);
 			ctx.fillText(displayedSystems[i].systemName.toUpperCase(),2,lineHeight * (i + 1) - (lineHeight * .2));
 			ctx.fill();
 		}

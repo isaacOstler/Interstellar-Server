@@ -6,40 +6,26 @@
 			<div class="messageLabelBar">
 				<div class="messageLabelBar_from">FROM</div>
 				<div class="messageLabelBar_frequency">FREQUENCY</div>
-				<div class="messageLabelBar_progress">DOWNLOAD PROGRESS</div>
 			</div>
 			<div class="message">
 				<div class="message_name">USS WASHINGTION</div>
 				<div class="message_frequency">FEDERATION</div>
-				<div class="message_download"><div class="message_download_fill" style="width:40%"></div>10% Complete</div>
+				<div class="message_download"><div class="message_download_fill" style="width:40%"></div><div class="message_download_progress">10% Complete</div></div>
 			</div>
 		</div>
 	</div>
 	<canvas id="powerDist" class="noselect"></canvas>
-	<div id="powerDistInfo"></div>
+	<div id="powerDistInfo">
+		<div id="powerDistInfo_powerInUseLabel">POWER IN USE</div>
+		<div id="powerDistInfo_powerInUse">40</div>
+		<div id="powerDistInfo_totalPowerLabel">POWER AVAILABLE</div>
+		<div id="powerDistInfo_totalPower">40</div>
+		<div id="powerDistInfo_powerDrawLabel">POWER DRAW</div>
+		<div id="powerDistInfo_powerDraw">0</div>
+	</div>
 	<div id="outgoingMessages" class="noselect messageContainer">
 		<div class="boxHeader">OUTGOING</div>
-		<div class="messageList" id="incomingMessages_messageList">
-			<div class="messageLabelBar">
-				<div class="messageLabelBar_from">TO</div>
-				<div class="messageLabelBar_frequency">FREQUENCY</div>
-				<div class="messageLabelBar_progress">UPLOAD PROGRESS</div>
-			</div>
-			<div class="message">
-				<div class="message_name">STARFLEET COMMAND</div>
-				<div class="message_frequency">FEDERATION</div>
-				<div class="message_download"><div class="message_download_fill" style="width:40%"></div>65% Complete</div>
-			</div>
-			<div class="message">
-				<div class="message_name">STARFLEET COMMAND</div>
-				<div class="message_frequency">FEDERATION</div>
-				<div class="message_download"><div class="message_download_fill" style="width:40%"></div>15% Complete</div>
-			</div>
-			<div class="message">
-				<div class="message_name">KLINGON HIGH COMMAND</div>
-				<div class="message_frequency">KLINGON</div>
-				<div class="message_download"><div class="message_download_fill" style="width:40%"></div>5% Complete</div>
-			</div>
+		<div class="messageList" id="outgoingMessages_messageList">
 		</div>
 	</div>
 </div>
