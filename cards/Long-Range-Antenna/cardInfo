@@ -1,0 +1,8 @@
+{
+	"cardName":"Long-Range-Antenna",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the user to download and send messages through the long range antenna.  This screen is to be used WITH the Long-Range-Comm screen"
+}

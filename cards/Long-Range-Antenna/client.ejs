@@ -1,0 +1,48 @@
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css">
+<div id="contentArea">
+	<div id="incomingMessages" class="noselect messageContainer">
+		<div class="boxHeader">INCOMING</div>
+		<div class="messageList" id="incomingMessages_messageList">
+			<div class="messageLabelBar">
+				<div class="messageLabelBar_from">FROM</div>
+				<div class="messageLabelBar_frequency">FREQUENCY</div>
+				<div class="messageLabelBar_progress">DOWNLOAD PROGRESS</div>
+			</div>
+			<div class="message">
+				<div class="message_name">USS WASHINGTION</div>
+				<div class="message_frequency">FEDERATION</div>
+				<div class="message_download"><div class="message_download_fill" style="width:40%"></div>10% Complete</div>
+			</div>
+		</div>
+	</div>
+	<canvas id="powerDist" class="noselect"></canvas>
+	<div id="powerDistInfo"></div>
+	<div id="outgoingMessages" class="noselect messageContainer">
+		<div class="boxHeader">OUTGOING</div>
+		<div class="messageList" id="incomingMessages_messageList">
+			<div class="messageLabelBar">
+				<div class="messageLabelBar_from">TO</div>
+				<div class="messageLabelBar_frequency">FREQUENCY</div>
+				<div class="messageLabelBar_progress">UPLOAD PROGRESS</div>
+			</div>
+			<div class="message">
+				<div class="message_name">STARFLEET COMMAND</div>
+				<div class="message_frequency">FEDERATION</div>
+				<div class="message_download"><div class="message_download_fill" style="width:40%"></div>65% Complete</div>
+			</div>
+			<div class="message">
+				<div class="message_name">STARFLEET COMMAND</div>
+				<div class="message_frequency">FEDERATION</div>
+				<div class="message_download"><div class="message_download_fill" style="width:40%"></div>15% Complete</div>
+			</div>
+			<div class="message">
+				<div class="message_name">KLINGON HIGH COMMAND</div>
+				<div class="message_frequency">KLINGON</div>
+				<div class="message_download"><div class="message_download_fill" style="width:40%"></div>5% Complete</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/jquery"></script>
+<script src="/resource?path=powerDist.js"></script>
+<script src="/resource?path=script.js"></script>
