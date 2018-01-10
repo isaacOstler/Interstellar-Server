@@ -1,4 +1,4 @@
-var encryption = function(){
+var Encryption = function(){
 	//the code below is freaking awesome, and was made 100% by Isaac Ostler!!
 
 	//seriously though, it's probably crap, don't use it for anything secure.  Just a fun

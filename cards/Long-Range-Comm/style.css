@@ -141,7 +141,7 @@
 	left: 2px;
 	color:rgb(255,0,0);
 }
-#messageDecoder_selectAMessage{
+#messageDecoder_message{
 	display: none;
 }
 #messageDecoder_selectAMessage_Header{
