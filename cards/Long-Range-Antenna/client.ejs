@@ -1,21 +1,18 @@
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css">
 <div id="contentArea">
 	<div id="incomingMessages" class="noselect messageContainer">
+		<div class="noPower"><div class="nopower_title">INSUFFICIENT POWER</div><div class="nopower_subtitle">THIS SYSTEM HAS INSUFFICIENT POWER TO OPERATE</div></div>
+		<div class="damaged"><div class="nopower_title">SYSTEM OFFLINE</div><div class="nopower_subtitle">LONG RANGE ANTENNA DAMAGED</div></div>
 		<div class="boxHeader">INCOMING</div>
 		<div class="messageList" id="incomingMessages_messageList">
 			<div class="messageLabelBar">
 				<div class="messageLabelBar_from">FROM</div>
 				<div class="messageLabelBar_frequency">FREQUENCY</div>
 			</div>
-			<div class="message">
-				<div class="message_name">USS WASHINGTION</div>
-				<div class="message_frequency">FEDERATION</div>
-				<div class="message_download"><div class="message_download_fill" style="width:40%"></div><div class="message_download_progress">10% Complete</div></div>
-			</div>
 		</div>
 	</div>
 	<canvas id="powerDist" class="noselect"></canvas>
-	<div id="powerDistInfo">
+	<div id="powerDistInfo" class="noselect">
 		<div id="powerDistInfo_powerInUseLabel">POWER IN USE</div>
 		<div id="powerDistInfo_powerInUse">40</div>
 		<div id="powerDistInfo_totalPowerLabel">POWER AVAILABLE</div>
@@ -24,6 +21,8 @@
 		<div id="powerDistInfo_powerDraw">0</div>
 	</div>
 	<div id="outgoingMessages" class="noselect messageContainer">
+		<div class="noPower"><div class="nopower_title">INSUFFICIENT POWER</div><div class="nopower_subtitle">THIS SYSTEM HAS INSUFFICIENT POWER TO OPERATE</div></div>
+		<div class="damaged"><div class="nopower_title">SYSTEM OFFLINE</div><div class="nopower_subtitle">LONG RANGE ANTENNA DAMAGED</div></div>
 		<div class="boxHeader">OUTGOING</div>
 		<div class="messageList" id="outgoingMessages_messageList">
 		</div>

@@ -48,14 +48,8 @@
 	font-size: 19px;
 	left: 50%;
 }
-.message:hover{
-	background-color: rgba(255,255,255,.5);
-}
-.message:active{
-	background-color: rgba(255,255,255,.7);
-}
 .message{
-	background-color: rgba(255,255,255,.15);
+	background-color: rgba(0,0,0,.15);
 	position: relative;
 	width: 100%;
 	height: 50px;
@@ -104,6 +98,46 @@
 	height: 100%;
 	background-color: rgba(0,255,0,.7);
 }
+.noPower{
+	display: none;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	z-index: 10;
+	background-color: rgba(0,0,0,.7);
+	width: 100%;
+	height: 100%;
+	color: red;
+	border: 1px solid white;
+}
+.damaged{
+	display: none;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	z-index: 10;
+	background-color: rgba(0,0,0,.7);
+	width: 100%;
+	height: 100%;
+	color: red;
+	border: 1px solid white;
+}
+.nopower_title{
+	position: absolute;
+	top:calc(50% - 72px);
+	left: 0px;
+	font-size: 72px;
+	text-align: center;
+	width: 100%;
+}
+.nopower_subtitle{
+	position: absolute;
+	top:calc(50% + 4px);
+	left: 0px;
+	font-size: 24px;
+	text-align: center;
+	width: 100%;
+}
 #powerDist{
 	position: absolute;
 	right: 20px;
@@ -119,8 +153,9 @@
 }
 #powerDistInfo_powerInUse{
 	position: absolute;
-	top: 40px;
+	top: 7px;
 	left: 177px;
+	border-bottom: 1px solid white;
 }
 #powerDistInfo_totalPowerLabel{
 	position: absolute;
@@ -129,9 +164,8 @@
 }
 #powerDistInfo_totalPower{
 	position: absolute;
-	top: 7px;
+	top: 40px;
 	left: 177px;
-	border-bottom: 1px solid white;
 }
 #powerDistInfo_powerDraw{
 	position: absolute;

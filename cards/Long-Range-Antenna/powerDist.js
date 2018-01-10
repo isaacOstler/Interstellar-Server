@@ -180,7 +180,7 @@ var PowerDistributionDisplay = function(passedCanvas,passedSystems){
 
 				let	newPowerLevel = Math.floor((relativeMouseX - powerBoxPosition) / cellWidth);
 
-				systems[selectedSystem].systemPower = newPowerLevel;
+				systems[selectedSystem].systemPower = Math.min(Math.max(0,newPowerLevel),systems[selectedSystem].systemRequiredPowerLevels[systems[selectedSystem].systemRequiredPowerLevels.length - 1] + 6);
 
 				drawCanvas(systems);
 			}

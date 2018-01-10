@@ -63,11 +63,11 @@
 		"quickTooltip" : "SENSORS SHOWS WHAT IS HAPPENING OUTSIDE THE SHIP"
 	},
 	{
-		"systemName" : "LONG RANGE COMM",
+		"systemName" : "LONG RANGE ANTENNA",
 		"systemPower" : 4,
-		"requiredPower" : [4],
+		"requiredPower" : [4,8,12,16,20],
 		"isDamaged" : false,
-		"quickTooltip" : "LONG RANGE COMM SENDS TEXT MESSAGES TO OTHER SHIPS"
+		"quickTooltip" : "LONG RANGE ANTENNA SENDS AND RECIEVES MESSAGES TO SHIPS FAR FROM OUR POSITION"
 	},
 	{
 		"systemName" : "SHORT RANGE COMM",
