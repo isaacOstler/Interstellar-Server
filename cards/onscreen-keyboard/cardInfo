@@ -1,0 +1,8 @@
+{
+	"cardName":"onscreen-keyboard",
+	"cardType":"card controller",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"While it is always recommended to use a real keyboard, this on-screen keyboard can emulate basic keyboard functionality"
+}
