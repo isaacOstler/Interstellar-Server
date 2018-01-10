@@ -76,6 +76,16 @@ body{
   cursor: pointer;
   filter:brightness(0.75);
 }
+.Container0{
+  border-image-source: url(/themeResource?path=public/box0.png);
+  border-image-slice: fill 18 18 18 18;
+  border-image-width: 1em;
+}
+.Container0_top{
+  border-image-source: url(/themeResource?path=public/box0_top.png);
+  border-image-slice: fill 21 18 18 18;
+  border-image-width: 1em;
+}
 .button{   
 	width: 200px;
 	height: 55px;

@@ -13,19 +13,19 @@ var onScreenKeyboardClass = function(){
         $(".onscreen-keyboard_key").off();
         $("input[type=text]").click(function(event){
             lastKnownElement = event.target;
-            console.log(lastKnownElement);
         });
         $(".onscreen-keyboard_key").click(function(event){
-          var key = $(event.target).attr("key");
-          if(key == undefined){
-            key = $(event.target).html();
-          }
-          if(shiftActive){
-            key.toUpperCase();
-          }else{
-            key.toLowerCase();
-          }
-          insertAtCaret(lastKnownElement,key);
+            Interstellar.playRandomBeep();
+            var key = $(event.target).attr("key");
+            if(key == undefined){
+              key = $(event.target).html();
+            }
+            if(shiftActive){
+              key.toUpperCase();
+            }else{
+              key.toLowerCase();
+            }
+            insertAtCaret(lastKnownElement,key);
         });
 
     }
