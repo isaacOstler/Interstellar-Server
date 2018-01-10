@@ -21,10 +21,10 @@ var frequencies = [],
 		{
 			"messageGUID" : uuidv4(),
 			"timeSent" : new Date(),
-			"downloadProgress" : 0,
+			"downloadProgress" : Math.random(),
 			"sentByCore" : true, //control room sent this message, not the crew
 			"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-			"frequency" : "federation frequency",
+			"frequency" : "romulan frequency",
 			"from" : "USS Washington",
 			"key" : "key",
 			"text" : "asdfasdffda"
@@ -32,9 +32,75 @@ var frequencies = [],
 		{
 			"messageGUID" : uuidv4(),
 			"timeSent" : new Date(),
-			"downloadProgress" : .6,
-			"sentByCore" : false, //control room sent this message, not the crew
+			"downloadProgress" : Math.random(),
+			"sentByCore" : true, //control room sent this message, not the crew
 			"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
+			"frequency" : "romulan frequency",
+			"from" : "USS Washington",
+			"key" : "key",
+			"text" : "asdfasdffda"
+		},
+		{
+			"messageGUID" : uuidv4(),
+			"timeSent" : new Date(),
+			"downloadProgress" : Math.random(),
+			"sentByCore" : true, //control room sent this message, not the crew
+			"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
+			"frequency" : "general use frequency",
+			"from" : "USS Washington",
+			"key" : "key",
+			"text" : "asdfasdffda"
+		},
+		{
+			"messageGUID" : uuidv4(),
+			"timeSent" : new Date(),
+			"downloadProgress" : Math.random(),
+			"sentByCore" : true, //control room sent this message, not the crew
+			"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
+			"frequency" : "romulan frequency",
+			"from" : "USS Washington",
+			"key" : "key",
+			"text" : "asdfasdffda"
+		},
+		{
+			"messageGUID" : uuidv4(),
+			"timeSent" : new Date(),
+			"downloadProgress" : Math.random(),
+			"sentByCore" : true, //control room sent this message, not the crew
+			"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
+			"frequency" : "romulan frequency",
+			"from" : "USS Washington",
+			"key" : "key",
+			"text" : "asdfasdffda"
+		},
+		{
+			"messageGUID" : uuidv4(),
+			"timeSent" : new Date(),
+			"downloadProgress" : Math.random(),
+			"sentByCore" : true, //control room sent this message, not the crew
+			"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
+			"frequency" : "romulan frequency",
+			"from" : "USS Washington",
+			"key" : "key",
+			"text" : "asdfasdffda"
+		},
+		{
+			"messageGUID" : uuidv4(),
+			"timeSent" : new Date(),
+			"downloadProgress" : Math.random(),
+			"sentByCore" : true, //control room sent this message, not the crew
+			"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
+			"frequency" : "romulan frequency",
+			"from" : "USS Washington",
+			"key" : "key",
+			"text" : "asdfasdffda"
+		},
+		{
+			"messageGUID" : uuidv4(),
+			"timeSent" : new Date(),
+			"downloadProgress" : Math.random(),
+			"sentByCore" : false, //control room sent this message, not the crew
+			"wasReceived" : true, //has the crew received this message yet? (not possible when the system is damaged)
 			"frequency" : "federation frequency",
 			"from" : "USS Washington",
 			"key" : "key",
@@ -43,7 +109,7 @@ var frequencies = [],
 		{
 			"messageGUID" : uuidv4(),
 			"timeSent" : new Date(),
-			"downloadProgress" : .3,
+			"downloadProgress" : Math.random(),
 			"sentByCore" : true, //control room sent this message, not the crew
 			"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
 			"frequency" : "federation frequency",
@@ -151,7 +217,7 @@ function listMessages(){
 			html += '<div class="message">';
 			html += '<div class="message_name">' + messages[i].from.toUpperCase() + '</div>';
 			html += '<div class="message_frequency">' + messages[i].frequency.toUpperCase() + '</div>';
-			html += '<div class="message_download"><div class="message_download_fill" style="width:' + (100 * messages[i].downloadProgress) + '%"></div><div class="message_download_progress">' + (100 * messages[i].downloadProgress) + '% Complete</div></div>'
+			html += '<div class="message_download"><div class="message_download_fill" style="width:' + (100 * messages[i].downloadProgress) + '%"></div><div class="message_download_progress">' + Math.floor(100 * messages[i].downloadProgress) + '% Complete</div></div>'
 			html += '</div>';
 		}
 		if(messages[i].sentByCore){
@@ -231,13 +297,16 @@ frequencyPowerLevels.on("dragFinish",function(newFrequencies){
 
 //CORE ONLY
 setInterval(function(){
+	if(systemIsDamaged || systemHasNoPower){
+		return;
+	}
 	var detectedChange = false;
 	for(var i = 0;i < messages.length;i++){
 		if(messages[i].downloadProgress < 1 && messages[i].wasReceived){
 			var progressAmountPerFrequency = .00;
 			for(var j = 0;j < frequencies.length;j++){
-				if(!frequencies[i].isDamaged && frequencies[i].systemName == messages[i].systemName){
-					progressAmountPerFrequency = frequencies[i].systemPower / 2;
+				if(!frequencies[j].isDamaged && frequencies[j].systemName == messages[i].frequency){
+					progressAmountPerFrequency = (frequencies[j].systemPower / 4) / 1000;
 				}
 			}
 			if(progressAmountPerFrequency != 0){
