@@ -19,7 +19,7 @@ var Encryption = function(){
 				keyIndex = -1;
 			}
 			keyIndex++;
-			cypherMessage += String.fromCharCode(modifyToBounds(message[i].charCodeAt(0) + key[keyIndex].charCodeAt(0),32,128,-1));
+			cypherMessage += String.fromCharCode(modifyToBounds(message[i].charCodeAt(0) + key[keyIndex].charCodeAt(0),0,128,13));
 		}
 		return cypherMessage;
 	}
@@ -32,7 +32,7 @@ var Encryption = function(){
 				keyIndex = -1;
 			}
 			keyIndex++;
-			cypherMessage += String.fromCharCode(modifyToBounds(message[i].charCodeAt(0) - key[keyIndex].charCodeAt(0),32,128,-1));
+			cypherMessage += String.fromCharCode(modifyToBounds(message[i].charCodeAt(0) - key[keyIndex].charCodeAt(0),0,128,13));
 		}
 		return cypherMessage;
 	}

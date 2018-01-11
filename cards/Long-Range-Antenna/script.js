@@ -191,10 +191,11 @@ setInterval(function(){
 	}
 	var detectedChange = false;
 	for(var i = 0;i < messages.length;i++){
-		if(messages[i].downloadProgress < 1 && messages[i].wasReceived){
+		if(messages[i].downloadProgress < 1 && (messages[i].wasReceived || !messages[i].sentByCore)){
 			var progressAmountPerFrequency = .00;
 			for(var j = 0;j < frequencies.length;j++){
-				if(!frequencies[j].isDamaged && frequencies[j].systemName == messages[i].frequency){
+				console.log(frequencies[j].systemName.toLowerCase(),messages[i].frequency.toLowerCase())
+				if(!frequencies[j].isDamaged && frequencies[j].systemName.toLowerCase() == messages[i].frequency.toLowerCase()){
 					progressAmountPerFrequency = (frequencies[j].systemPower / 4) / 1000;
 				}
 			}

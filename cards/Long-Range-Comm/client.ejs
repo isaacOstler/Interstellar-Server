@@ -1,5 +1,18 @@
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css">
 <div id="contentArea">
+	<div id="messageHasNotDownloadedMask" class='popupMask'>
+		<div class='popupMask_messageBox Container0'>
+			<div class='popupMask_messageBox_messageTitle'></div>
+			<div class='popupMask_messageBox_messageSubTitle'></div>
+			<div class='popupMask_messageBox_messageIcon'>
+				<svg fill="rgb(255,205,0)" height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
+    				<path d="M0 0h24v24H0z" fill="none"/>
+    				<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+				</svg>
+			</div>
+			<div class='popupMask_messageBox_closeMessageButton noselect beepOnClick' id='messageHasNotDownloadedMask_popupMessage_close'>CLOSE</div>
+		</div>
+	</div>
 	<div id="messageListHeader">LONG RANGE MESSAGES</div>
 	<div id="messageList" class="container4">
 		<div id="messageList_background"></div>
@@ -46,13 +59,13 @@
 					FROM: USS WASHINGTON
 				</div>
 				<div id="messageDecoder_message_info_time">
-					RECIEVED AT: 18:53
+					RECIEVED AT: ??:??
 				</div>
 				<div id="messageDecoder_message_info_openedAt">
-					DECODED AT: 19:02
+					DECODED AT: ??:??
 				</div>
 				<div id="messageDecoder_message_info_timeChute">
-					TIME TO DECODE: 00:09
+					TIME TO DECODE: ??:??
 				</div>
 				<div id="messageDecoder_message_info_frequency">
 					FREQUENCY: FEDERATION FREQUENCY
@@ -75,4 +88,5 @@
 		</div>
 	</div>
 </div>
+<script src="/resource?path=encode.js"></script>
 <script src="/resource?path=script.js"></script>

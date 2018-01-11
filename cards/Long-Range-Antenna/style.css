@@ -3,14 +3,15 @@
 	top: 45px;
 	height: 60%;
 	width: calc(50% - 13px);
+	filter: drop-shadow(0px 0px 15px rgba(0,128,255,.6));
 }
 .boxHeader{
 	position: absolute;
-	top:5px;
 	left: 5px;
 	width: calc(100% - 10px);
+	top: calc(40px - 3vw);
 	text-align: center;
-	font-size: 28px;
+	font-size: 3vw;
 }
 .message_download_progress{
 	position: absolute;
@@ -139,6 +140,7 @@
 	width: 100%;
 }
 #powerDist{
+	filter: drop-shadow(0px 0px 15px rgba(255,255,255,0.4));
 	position: absolute;
 	right: 20px;
 	width: calc(100% - 39px);
