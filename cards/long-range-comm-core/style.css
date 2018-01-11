@@ -1,0 +1,220 @@
+.lrmCore_messageList_header{
+	position: absolute;
+	font-size: 13px;
+	top:2px;
+	left: 2px;
+	width: calc(100% - 4px);
+	text-align: center;
+}
+.lrmCore_message_from{
+	position: absolute;
+	white-space:nowrap;
+	left: 2px;
+	top: 5px;
+	font-size: 12px;
+	width: calc(100% - 40px);
+	overflow: hidden;
+	height: 18px;
+}
+.lrmCore_message_time{
+	color: #858585;
+	position: absolute;
+	top: 5px;
+	right: 4px;
+	height: 2px;
+	font-size: 12px;
+}
+.lrmCore_message{
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+	border-bottom: 1px solid white;
+	height: 22px;
+}
+.lrmCore_messageList_messages{
+	overflow: auto;
+	position: absolute;
+	top: 18px;
+	height: calc(100% - 22px);
+	left: 2px;
+	width: calc(100% - 7px);
+	border: 1px solid white;
+	background: linear-gradient(to bottom, rgba(14,14,14,0.25) 0%,rgba(66,66,66,0.77) 100%); 
+}
+.lrmCore_messageList{
+	position: absolute;
+	top: 2px;
+	left: 1px;
+	overflow: hidden;
+	height: calc(50% - 53px);
+	width: 203px;
+	border: 1px solid white;
+}
+.lrmCore_messageKey_item{
+	position: relative;
+	width: 100%;
+	height: 12px;
+	font-size: 10px;
+}
+.lrmCore_messageViewBox_body{
+	position: absolute;
+	top:4px;
+	left: 4px;
+	width: calc(100% - 8px);
+	height: calc(100% - 8px);
+	font-size: 12px;
+	overflow: auto;
+}
+#lrmCore_sendMessageControls_missionPresetSelect{
+    position: absolute;
+    bottom: 23px;
+    left: 58px;
+    background-color: black;
+    color: white;
+    width: calc(50% - 60px);
+}
+#lrmCore_sendMessageControls_presetPresetSelect{
+    position: absolute;
+    bottom: 5px;
+    left: 58px;
+    background-color: black;
+    color: white;
+    width: calc(50% - 60px);
+}
+#lrmCore_sendMessageControls_viewBox{
+	position: absolute;
+	top:1px;
+	left: 1px;
+	width: calc(100% - 2px);
+	height: calc(100% - 65px);
+}
+.lrmCore_messageViewBox{
+	border: 1px solid white;
+}
+#lrmCore_sendMessageControls{
+	position: absolute;
+	bottom: 1px;
+	right: 2px;
+	width: calc(100% - 211px);
+	border: 1px solid white;
+	height: calc(50% + 44px);
+}
+#lrmCore_messageKey{
+	position: absolute;
+	top: calc(50% - 47px);
+	left: 1px;
+	height: 48px;
+	border: 1px solid white;
+	width: 203px;
+}
+#lrmCore_messageViewBox_textarea{
+	position: absolute;
+	top:1px;
+	left: 1px;
+	width: calc(100% - 8px);
+	height: calc(100% - 9px);
+	border: 1px solid white;
+	color: white;
+	background-color: rgba(35,35,35,.8);
+}
+#lrmCore_sendMessageControls_fromLabel{
+	position: absolute;
+	bottom: 43px;
+	left: 3px;
+	font-size: 13px;
+}
+#lrmCore_sendMessageControls_fromTextbox{
+	position: absolute;
+	bottom: 42px;
+	left: 60px;
+	height: 14px;
+	width: 50%;
+	border: 1px solid white;
+	background-color: black;
+	color: white;
+}
+#lrmCore_sendMessageControls_missionPresetLabel{
+	position: absolute;
+	bottom: 2px;
+	left: 2px;
+}
+#lrmCore_sendMessageControls_presetPresetLabel{
+	position: absolute;
+	bottom: 5px;
+	font-size: 13px;
+	left: 4px;
+}
+#lrmCore_sendMessageControls_presetNextButton{
+	position: absolute;
+	left: 50%;
+	width: 64px;
+	height: 19px;
+	bottom: 1px;
+	/* background-color: yellow; */
+}
+#lrmCore_sendMessageControls_presetEditButton{
+	position: absolute;
+	left: 50%;
+	width: 64px;
+	height: 20px;
+	background-color: yellow;
+	bottom: 21px;
+	/* border: 1px solid white; */
+}
+#lrmCore_sendMessageControls_keyLabel{
+	position: absolute;
+	bottom: 22px;
+	left: calc(50% + 67px);
+}
+#lrmCore_sendMessageControls_frequencyLabel{
+	position: absolute;
+	bottom: 42px;
+	left: calc(50% + 67px);
+}
+#lrmCore_sendMessageControls_keyTextbox{
+	position: absolute;
+	bottom: 23px;
+	left: calc(50% + 101px);
+	width: calc(50% - 106px);
+	border: 1px solid white;
+	background-color: black;
+}
+#lrmCore_sendMessageControls_frequencySelect{
+	position: absolute;
+	background-color: black;
+	color: white;
+	bottom: 43px;
+	width: calc(50% - 169px);
+	right: 1px;
+	/* left: calc(50% + 140px); */
+}
+#lrmCore_sendMessageControls_sendButton{
+	text-align: center;
+	overflow: hidden;
+	position: absolute;
+	right: 1px;
+	height: 17px;
+	width: calc(50% - 69px);
+	bottom: 1px;
+	border: 1px solid white;
+	background: linear-gradient(to right, rgba(255,5,5,0.84) 0%,rgba(224,55,4,0.82) 44%,rgba(186,34,0,0.79) 100%);
+}
+#lrmCore_sendMessageControls_missionPresetLabel{
+	position: absolute;
+	bottom: 24px;
+	font-size: 13px;
+	left: 2px;
+}
+#lrmCore_crewToCoreMessageBox{
+    position: absolute;
+    top: 2px;
+    height: calc(50% - 53px);
+    width: calc(100% - 211px);
+    left: 207px;
+}
+#lrmCore_coreMessages{
+	position: absolute;
+	top: calc(50% + 5px);
+	height: calc(50% - 9px);
+	left: 1px;
+}
