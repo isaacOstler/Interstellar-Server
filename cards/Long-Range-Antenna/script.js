@@ -183,29 +183,3 @@ frequencyPowerLevels.on("dragFinish",function(newFrequencies){
 });
 
 //intervals
-
-//CORE ONLY
-setInterval(function(){
-	if(systemIsDamaged || systemHasNoPower){
-		return;
-	}
-	var detectedChange = false;
-	for(var i = 0;i < messages.length;i++){
-		if(messages[i].downloadProgress < 1 && (messages[i].wasReceived || !messages[i].sentByCore)){
-			var progressAmountPerFrequency = .00;
-			for(var j = 0;j < frequencies.length;j++){
-				console.log(frequencies[j].systemName.toLowerCase(),messages[i].frequency.toLowerCase())
-				if(!frequencies[j].isDamaged && frequencies[j].systemName.toLowerCase() == messages[i].frequency.toLowerCase()){
-					progressAmountPerFrequency = (frequencies[j].systemPower / 4) / 1000;
-				}
-			}
-			if(progressAmountPerFrequency != 0){
-				detectedChange = true;
-				messages[i].downloadProgress += progressAmountPerFrequency;
-			}
-		}
-	}
-	if(detectedChange){
-		Interstellar.setDatabaseValue("longRangeComm.messages",messages);
-	}
-},1000 / 3);

@@ -1,4 +1,4 @@
-<div id="Alert_Status-Core-Widget" widgetName="Long Range Comm" class="Core_Theme-CoreWidget" style="
+<div id="lrmCode-Core-Widget" widgetName="Long Range Comm" class="Core_Theme-CoreWidget" style="
     width: 902.009px;
     height: 407.003px;
     top: 492px;
@@ -7,47 +7,20 @@
 
 	<div class="lrmCore_messageList" id="lrmCrew_crewMessages">
 		<div class="lrmCore_messageList_header">CREW TO CORE</div>
-		<div class="lrmCore_messageList_messages">
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
+		<div class="lrmCore_messageList_messages" id="lrmCore_crewToCoreMessages">
+			
 		</div>
 	</div>
 	<div id="lrmCore_messageKey">
 		<div class='lrmCore_messageKey_item'>WHITE - Message Received and reported</div>
-		<div class='lrmCore_messageKey_item'><span style='color:yellow'>YELLOW</span> - Message Received <b>NOT</b> reported</div>
+		<div class='lrmCore_messageKey_item'><span style='color:yellow'>YELLOW</span> - Message Decoded <b>NOT</b> reported</div>
+		<div class='lrmCore_messageKey_item'><span style='color:rgb(255,0,255)'>PURPLE</span> - Message Received <b>NOT</b> decoded</div>
 		<div class='lrmCore_messageKey_item'><span style='color:rgb(0,128,255)'>BLUE</span> - Message Downloading</div>
 		<div class='lrmCore_messageKey_item'><span style='color:red'>RED</span> - Message <b>NOT</b> RECIEVED</div>
 	</div>
 	<div id='lrmCore_crewToCoreMessageBox' class='lrmCore_messageViewBox'>
-		<div class='lrmCore_messageViewBox_body'>
-			TO: USS WASHINGTON<br />
-			TIME: 12:29:32<br />
-			FREQUENCY: FEDERATION-FREQUENCY<br />
-			KEY: ZULU-TANGO-32<br /><br />
-			TO: USS WASHINGTON<br />
-			FROM: USS VOYAGER<br />
-			-<br />
-			WASHINGTON,
-			<BR />
-			WHAT IS YOUR STATUS?<BR/>PLEASE KEEP US UPDATED.<BR />
-			<BR/>
-			GOOD LUCK WASHINGTON<BR />
-			-<BR />
-			USS VOYAGER OUT
+		<div id='lrmCore_crewToCoreMessageBox_body' class='lrmCore_messageViewBox_body'>
+			
 		</div>
 	</div>
 	<div id="lrmCore_sendMessageControls">
@@ -85,51 +58,12 @@
 	</div>
 	<div class="lrmCore_messageList" id="lrmCore_coreMessages">
 		<div class="lrmCore_messageList_header">CORE TO CREW</div>
-		<div class="lrmCore_messageList_messages">
+		<div class="lrmCore_messageList_messages" id="lrmCore_coreToCrewMessages">
 			
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND IS REALLY COOL YAAALLLL</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
-			<div class="lrmCore_message">
-				<div class="lrmCore_message_from">STARFLEET COMMAND</div>
-				<div class="lrmCore_message_time">12:43</div>
-			</div>
 		</div>
 	</div>
 
 	<script src="/jquery" type="text/javascript"></script>
+	<script src="/resource?path=encode.js&screen=long-range-comm-core" type="text/javascript"></script>
 	<script src="/resource?path=script.js&screen=long-range-comm-core" type="text/javascript"></script>
 </div>

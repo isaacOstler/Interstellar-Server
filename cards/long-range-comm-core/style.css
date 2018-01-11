@@ -24,7 +24,14 @@
 	height: 2px;
 	font-size: 12px;
 }
+.lrmCore_message:hover{
+	filter: brightness(1.25);
+}
+.lrmCore_message:active{
+	filter: brightness(0.65);
+}
 .lrmCore_message{
+	cursor: pointer;
 	overflow: hidden;
 	position: relative;
 	width: 100%;
@@ -103,7 +110,7 @@
 	position: absolute;
 	top: calc(50% - 47px);
 	left: 1px;
-	height: 48px;
+	height: 60px;
 	border: 1px solid white;
 	width: 203px;
 }
@@ -214,7 +221,7 @@
 }
 #lrmCore_coreMessages{
 	position: absolute;
-	top: calc(50% + 5px);
-	height: calc(50% - 9px);
+	top: calc(50% + 17px);
+	height: calc(50% - 20px);
 	left: 1px;
 }
