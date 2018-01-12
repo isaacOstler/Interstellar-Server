@@ -4,7 +4,10 @@ var http = require('http').Server(express);
 var io = require('socket.io')(http);
 var colors = require('colors');
 
-var guiManager = require('./guiManager');
+const {autoUpdater} = require("electron-updater");
+const log = require('electron-log');
+
+var guiManager = require(__dirname + '/guiManager');
 
 colors.setTheme({
     silly: 'rainbow',
@@ -19,10 +22,13 @@ colors.setTheme({
     error: 'red'
 });
 
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
 
 //Start of modules
-var cardManager = require('./cardManager');
-var databaseManager = require('./databaseManager.js');
+var cardManager = require(__dirname + '/cardManager');
+var databaseManager = require(__dirname + '/databaseManager.js');
 express.set("view engine", "ejs");
 
 const electron = require('electron'),
@@ -44,6 +50,9 @@ var stations,
     saveDatabase = false;
 
 app.on('ready', function() {
+    //check for updates
+    autoUpdater.checkForUpdatesAndNotify();
+    //start file management
     for (var i = 0; i < process.argv.length; i++) {
         //do we need to build cards?
         if (process.argv[i].includes("--buildCards=")) {

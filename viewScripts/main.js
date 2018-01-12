@@ -74,7 +74,11 @@ function init(){
 		themes = loadedThemes;
 	});
 	getStationLayouts(function(obj){
-		console.log(obj);
+		for(var i = 0;i < obj.stationLayouts.length;i++){
+			if(obj.stationLayouts[i].isDefault){
+				selectedStationLayout = i;
+			}
+		}
 		stationLayouts = obj.stationLayouts;
 		listStationLayouts(stationLayouts);
 	});
@@ -110,7 +114,10 @@ function setLayouts(layouts){
 }
 
 function setStations(newStations){
+	console.log(stationLayouts[selectedStationLayout],selectedStationLayout);
+	stationLayouts[selectedStationLayout].stations = newStations;
 	ipcRenderer.send('setStations', newStations);
+	setLayouts(stationLayouts);
 	stations = newStations;
 	listStations(newStations);
 }

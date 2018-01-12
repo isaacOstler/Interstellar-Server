@@ -45,6 +45,7 @@ module.exports.init = function(ipc, passedApp, databaseManagerRef,cards,themes, 
   		stations = obj.stationLayouts[0].stations;
 		for(var i = 0;i < obj.stationLayouts.length;i++){
 			if(obj.stationLayouts[i].isDefault){
+				console.log(guiManagerHeaderText + "Loaded default stations".info);
   				stations = obj.stationLayouts[i].stations;
 				break;
 			}
