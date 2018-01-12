@@ -110,7 +110,7 @@
 	position: absolute;
 	top: 10%;
 	left: 0%;
-	height: 65%;
+	height: 80%;
 	border-image-width: 1.5em;
 	width: calc(100% / 3);
 }
