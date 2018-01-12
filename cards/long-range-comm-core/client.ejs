@@ -14,9 +14,9 @@
 	<div id="lrmCore_messageKey">
 		<div class='lrmCore_messageKey_item'>WHITE - Message Received and reported</div>
 		<div class='lrmCore_messageKey_item'><span style='color:yellow'>YELLOW</span> - Message Decoded <b>NOT</b> reported</div>
-		<div class='lrmCore_messageKey_item'><span style='color:rgb(255,0,255)'>PURPLE</span> - Message Received <b>NOT</b> decoded</div>
+		<div class='lrmCore_messageKey_item'><span style='color:rgb(255,0,0)'>RED</span> - Message Received <b>NOT</b> decoded</div>
 		<div class='lrmCore_messageKey_item'><span style='color:rgb(0,128,255)'>BLUE</span> - Message Downloading</div>
-		<div class='lrmCore_messageKey_item'><span style='color:red'>RED</span> - Message <b>NOT</b> RECIEVED</div>
+		<div class='lrmCore_messageKey_item'><span style='color:rgb(255,0,255)'>PURPLE</span> - Message <b>NOT</b> RECIEVED</div>
 	</div>
 	<div id='lrmCore_crewToCoreMessageBox' class='lrmCore_messageViewBox'>
 		<div id='lrmCore_crewToCoreMessageBox_body' class='lrmCore_messageViewBox_body'>
@@ -51,9 +51,9 @@
 		<div id="lrmCore_sendMessageControls_frequencyLabel">FREQUENCY</div>
 		<select id="lrmCore_sendMessageControls_frequencySelect">
 			<option>FEDERATION FREQUENCY</option>
-		<select id="lrmCore_sendMessageControls_frequencyTextbox">
+		</select>
 		<div id="lrmCore_sendMessageControls_viewBox" class="lrmCore_messageViewBox">
-			<textarea id='lrmCore_messageViewBox_textarea' title='PRO TIP: typing "USS OSTLER OUT" at the end of the message will automatically set the sender to USS OSTLER.  This works for all names, as long as "out" follows it!' placeholder="TYPE NEW MESSAGE HERE"></textarea>
+			<textarea spellcheck="true" id='lrmCore_messageViewBox_textarea' title='PRO TIP: typing "USS OSTLER OUT" at the end of the message will automatically set the sender to USS OSTLER.  This works for all names, as long as "out" follows it!' placeholder="TYPE NEW MESSAGE HERE"></textarea>
 		</div>
 	</div>
 	<div class="lrmCore_messageList" id="lrmCore_coreMessages">

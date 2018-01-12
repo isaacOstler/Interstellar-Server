@@ -248,7 +248,7 @@ sendMessageButton.click(function(event){
 		"frequency" : frequency.toLowerCase(),
 		"from" : to.toLowerCase(),
 		"key" : key.toUpperCase(),
-		"text" : key != "" ? encrpyt.encode(text,key.toLowerCase()) : text
+		"text" : key != "" ? encrpyt.encode(text,key.toUpperCase()) : text
 	}
 
 	Interstellar.playRandomBeep();

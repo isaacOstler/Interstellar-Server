@@ -6,7 +6,10 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 	//DOM references
 	var coreToCrew_messageList = $("#lrmCore_coreToCrewMessages"),
 		crewToCore_messageList = $("#lrmCore_crewToCoreMessages"),
-		crewMessageView_container = $("#lrmCore_crewToCoreMessageBox_body");
+		crewMessageView_container = $("#lrmCore_crewToCoreMessageBox_body"),
+		fromTextbox = $("#lrmCore_sendMessageControls_fromTextbox"),
+		keyTextbox = $("#lrmCore_sendMessageControls_keyTextbox"),
+		frequencySelect = $("#lrmCore_sendMessageControls_frequencySelect");
 
 	//variables
 	var frequencies = [],
@@ -141,25 +144,26 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		presetMessages = [],
 		presetKeys = [],
 		systemIsDamaged = false,
+		neverDrawn = true,
 		systemHasNoPower = false;
-/*
-	
-	{
-		"messageGUID" : uuidv4(),
-		"timeRecieved" : new Date(),
-		"timeDecoded" : new Date(),
-		"reportedToCommand" : false,
-		"decoded" : key != "" ? false : true,
-		"downloadProgress" : 0,
-		"sentByCore" : false, //control room sent this message, not the crew
-		"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-		"frequency" : frequency.toLowerCase(),
-		"from" : to.toLowerCase(),
-		"key" : key.toUpperCase(),
-		"text" : key != "" ? encrpyt.encode(text,key.toLowerCase()) : text
-	}
+	/*
+		
+		{
+			"messageGUID" : uuidv4(),
+			"timeRecieved" : new Date(),
+			"timeDecoded" : new Date(),
+			"reportedToCommand" : false,
+			"decoded" : key != "" ? false : true,
+			"downloadProgress" : 0,
+			"sentByCore" : false, //control room sent this message, not the crew
+			"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
+			"frequency" : frequency.toLowerCase(),
+			"from" : to.toLowerCase(),
+			"key" : key.toUpperCase(),
+			"text" : key != "" ? encrpyt.encode(text,key.toLowerCase()) : text
+		}
 
-*/
+	*/
 	//init calls
 
 	//preset observers
@@ -171,61 +175,110 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 			Interstellar.setDatabaseValue("longRangeComm.messages",messages);
 			return;
 		}
+		updateMessageLists(newData,(messages.length != newData.length) || neverDrawn);
+		neverDrawn = false;
 		messages = newData;
-		updateMessageLists(messages);
 	});
 	Interstellar.onDatabaseValueChange("longRangeAntenna.frequencies",function(newData){
 		if(newData == null){
-			//we don't set this (core does)
+			//we don't set this (long-range-antenna-core does)
 			return;
 		}
 		frequencies = newData;
 	});
 	//functions
-	function updateMessageLists(messagesToDraw){
-		var html_crewMessages = "",
+	function updateMessageLists(messagesToDraw,redraw){
+		if(!redraw){
+			$(".lrmCore_message").each(function( index, element ) {
+				var guid = String($(element).attr("guid"));
+				for (var i = messagesToDraw.length - 1; i >= 0; i--) {
+					//go backwards, it's probably faster
+					if(messagesToDraw[i].messageGUID == guid){
+						//found it
+						if(messagesToDraw[i].sentByCore){
+							if(messagesToDraw[i].wasReceived){
+								if(messagesToDraw[i].downloadProgress < 1){
+									$(element).css("background-color","rgba(0,128,255,.5)");
+								}else if(!messagesToDraw[i].decoded){
+									$(element).css("background-color","rgba(255,0,0,.5)");
+								}else if(!messagesToDraw[i].reportedToCommand){
+									$(element).css("background-color","rgba(255,255,0,.5)");
+								}else{
+									$(element).css("background-color","rgba(255,255,255,.2)");
+								}
+							}else{
+								$(element).css("background-color","rgba(255,0,255,.5)");
+							}
+						}else if(messagesToDraw[i].downloadProgress < 1){
+							$(element).css("background-color","rgba(0,128,255,.5)");
+						}else{
+							$(element).css("background-color","rgba(255,255,255,.2)");
+						}
+						break;
+					}
+				}
+			});
+		}else{
+			var html_crewMessages = "",
 			html_coreMessages = "";
 
-		for(var i = messagesToDraw.length - 1;i >= 0;i--){
-			//sort backwords, so the oldest messages come first
-			var style = "style='background-color:rgba(255,0,0,.5)'";
-			if(messagesToDraw[i].sentByCore){
-				if(messagesToDraw[i].wasReceived){
+			for(var i = messagesToDraw.length - 1;i >= 0;i--){
+				//sort backwords, so the oldest messages come first
+				var style = "style='background-color:rgba(255,0,0,.5)'";
+				if(messagesToDraw[i].sentByCore){
+					if(messagesToDraw[i].wasReceived){
+						if(messagesToDraw[i].downloadProgress < 1){
+							style = "style='background-color:rgba(0,128,255,.5)'";
+						}else if(!messagesToDraw[i].decoded){
+							style = "style='background-color:rgba(255,0,255,.5)'";
+						}else if(!messagesToDraw[i].reportedToCommand){
+							style = "style='background-color:rgba(255,255,0,.5)'";
+						}else{
+							style = "style='background-color:rgba(255,255,255,.2)'";
+						}
+					}
+					var guid = messagesToDraw[i].messageGUID;
+					html_crewMessages += '<div guid="' + guid + '" ' + style + ' class="lrmCore_message">';
+					html_crewMessages += '<div guid="' + guid + '" class="lrmCore_message_from">' + messagesToDraw[i].from.toUpperCase() + '</div>';
+					html_crewMessages += '<div guid="' + guid + '" class="lrmCore_message_time">' + toMilitaryTime(messagesToDraw[i].timeRecieved) + '</div>';
+					html_crewMessages += '</div>';
+				}else{
 					if(messagesToDraw[i].downloadProgress < 1){
 						style = "style='background-color:rgba(0,128,255,.5)'";
-					}else if(!messagesToDraw[i].decoded){
-						style = "style='background-color:rgba(255,0,255,.5)'";
-					}else if(!messagesToDraw[i].reportedToCommand){
-						style = "style='background-color:rgba(255,255,0,.5)'";
 					}else{
 						style = "style='background-color:rgba(255,255,255,.2)'";
 					}
+					var guid = messagesToDraw[i].messageGUID;
+					html_coreMessages += '<div guid="' + guid + '" ' + style + ' class="lrmCore_message">';
+					html_coreMessages += '<div guid="' + guid + '" class="lrmCore_message_from">' + messagesToDraw[i].from.toUpperCase() + '</div>';
+					html_coreMessages += '<div guid="' + guid + '" class="lrmCore_message_time">' + toMilitaryTime(messagesToDraw[i].timeRecieved) + '</div>';
+					html_coreMessages += '</div>';
 				}
-				var guid = messagesToDraw[i].messageGUID;
-				html_crewMessages += '<div guid="' + guid + '" ' + style + ' class="lrmCore_message">';
-				html_crewMessages += '<div guid="' + guid + '" class="lrmCore_message_from">' + messagesToDraw[i].from.toUpperCase() + '</div>';
-				html_crewMessages += '<div guid="' + guid + '" class="lrmCore_message_time">' + toMilitaryTime(messagesToDraw[i].timeRecieved) + '</div>';
-				html_crewMessages += '</div>';
-			}else{
-				var guid = messagesToDraw[i].messageGUID;
-				html_coreMessages += '<div guid="' + guid + '" ' + style + ' class="lrmCore_message">';
-				html_coreMessages += '<div guid="' + guid + '" class="lrmCore_message_from">' + messagesToDraw[i].from.toUpperCase() + '</div>';
-				html_coreMessages += '<div guid="' + guid + '" class="lrmCore_message_time">' + toMilitaryTime(messagesToDraw[i].timeRecieved) + '</div>';
-				html_coreMessages += '</div>';
 			}
+			crewToCore_messageList.html(html_coreMessages);
+			coreToCrew_messageList.html(html_crewMessages);
+			$(".lrmCore_message").off();
+			$(".lrmCore_message").click(function(event){
+				var guid = String($(event.target).attr("guid"));
+				for (var i = messages.length - 1; i >= 0; i--) {
+					//go backwards, it's probably faster
+					if(messages[i].messageGUID == guid){
+						if(messages[i].sentByCore){
+							//core message
+							loadCoreMessageAtIndex(i);
+						}else{
+							//crew message
+							loadCrewMessageAtIndex(i);
+						}
+						break;
+					}
+				}
+			});
 		}
-		crewToCore_messageList.html(html_coreMessages);
-		coreToCrew_messageList.html(html_crewMessages);
-		$(".lrmCore_message").off();
-		$(".lrmCore_message").click(function(event){
-			var guid = String($(event.target).attr("guid"));
-			for (var i = messages.length - 1; i >= 0; i--) {
-				//go backwards, it's probably faster
-				if(messages[i].messageGUID == guid){
-					loadCrewMessageAtIndex(i);
-				}
-			}
-		});
+	}
+
+	function loadCoreMessageAtIndex(index){
+
 	}
 
 	function loadCrewMessageAtIndex(index){
@@ -233,7 +286,7 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		text += "\nSENT AT: " + toMilitaryTime(messages[index].timeRecieved) + "\n";
 		text += "FREQUENCY: " + messages[index].frequency;
 		text += "\n\nTO: <b>" + messages[index].from + "</b>\n";
-		text += "\n" + encrpyt.decode(messages[index].text,messages[index].key);
+		text += "\n" + encrpyt.decode(messages[index].text,messages[index].key.toUpperCase());
 		crewMessageView_container.html(text.replace(/\n/g, "<br />"));
 	}
 
@@ -257,6 +310,10 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 	}
 
 	//event handlers
+
+	sendMessageButton.click(function(event){
+
+	});
 
 	//intervals
 
