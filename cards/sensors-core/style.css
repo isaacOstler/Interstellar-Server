@@ -11,6 +11,11 @@
     100% {filter: drop-shadow(0px 0px 30px #ff0000) brightness(.7);color:white;}
 }
 
+#sensors_core_contactEditor_moveSelect{
+	position: absolute;
+	bottom: 4px;
+	right: 5px;
+}
 .sensors_core_contactEditor_deleteContactModeActive{
 	z-index: 5;
     animation-name: glowRed;

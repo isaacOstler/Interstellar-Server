@@ -9,7 +9,9 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		crewMessageView_container = $("#lrmCore_crewToCoreMessageBox_body"),
 		fromTextbox = $("#lrmCore_sendMessageControls_fromTextbox"),
 		keyTextbox = $("#lrmCore_sendMessageControls_keyTextbox"),
-		frequencySelect = $("#lrmCore_sendMessageControls_frequencySelect");
+		frequencySelect = $("#lrmCore_sendMessageControls_frequencySelect"),
+		sendMessageTextarea = $("#lrmCore_messageViewBox_textarea"),
+		sendMessageButton = $("#lrmCore_messageList_header");
 
 	//variables
 	var frequencies = [],
@@ -312,7 +314,29 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 	//event handlers
 
 	sendMessageButton.click(function(event){
+		var from = fromTextbox.val().toUpperCase();
+		var text = sendMessageTextarea.val();
+		var key = keyTextbox.val().toUpperCase();
+		var frequency = frequencySelect.val().toLowerCase();
 
+		var newMessage =
+		{
+			"messageGUID" : uuidv4(),
+			"timeRecieved" : new Date(),
+			"timeDecoded" : new Date(),
+			"reportedToCommand" : false,
+			"decoded" : key != "" ? false : true,
+			"downloadProgress" : 0,
+			"sentByCore" : true, //control room sent this message, not the crew
+			"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
+			"frequency" : frequency,
+			"from" : from,
+			"key" : key,
+			"text" : key != "" ? encrpyt.encode(text,key) : text
+		}
+		console.log(newMessage);
+		messages.splice(messages.length,0,newMessage);
+		Interstellar.setDatabaseValue("longRangeComm.messages",messages);
 	});
 
 	//intervals

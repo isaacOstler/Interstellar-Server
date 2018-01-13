@@ -50,7 +50,7 @@ for(var i = 0;i < systemsThatTakeCoolant.length;i++){
 	$("#systemsView").append(newHTML);
 }
 
-$(".fillButton").on("mousedown",function(event){
+$(".fillButton").on("mousedown touchstart",function(event){
 	for(var i = 0;i < systemsThatTakeCoolant.length;i++){
 		systemName = systemsThatTakeCoolant[i].systemName.toLowerCase();
 		systemName = systemName.replace(/\s+/g, '-').toLowerCase();
@@ -74,9 +74,9 @@ $(".fillButton").on("mousedown",function(event){
 				}
 				systemsThatTakeCoolant[indexOfSystemBeingFilled].coolantAmount += .005;
 				Interstellar.setDatabaseValue("coolant.systemCoolantLevels",systemsThatTakeCoolant);
-				Interstellar.setDatabaseValue("coolant.coolantInMainTank",amountOfCoolant - .0003);
+				Interstellar.setDatabaseValue("coolant.coolantInMainTank",amountOfCoolant - .00008);
 			},0032);
-			$(document).mouseup(function(event){
+			$(document).on("mouseup touchend",function(event){
 				if(coolantTransferInterval != undefined){
 					clearInterval(coolantTransferInterval);
 					coolantTransferInterval = undefined;
@@ -110,7 +110,7 @@ $(".drainButton").on("mousedown",function(event){
 				}
 				systemsThatTakeCoolant[indexOfSystemBeingFilled].coolantAmount -= .005;
 				Interstellar.setDatabaseValue("coolant.systemCoolantLevels",systemsThatTakeCoolant);
-				Interstellar.setDatabaseValue("coolant.coolantInMainTank",amountOfCoolant + .0003);
+				Interstellar.setDatabaseValue("coolant.coolantInMainTank",amountOfCoolant + .00008);
 			},0032);
 			$(document).mouseup(function(event){
 				if(coolantTransferInterval != undefined){

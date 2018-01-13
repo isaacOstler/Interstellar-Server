@@ -39,7 +39,7 @@ function drawAlertStatus(){
     }
     alertStatusContainer.html(html);
     $(".alertStatus").off();
-    $(".alertStatus").click(function(event){
+    $(".alertStatus").on("click touchend",function(event){
         Interstellar.playRandomBeep();
         Interstellar.setDatabaseValue("ship.alertStatus",Number($(event.target).attr("index")));
     });

@@ -156,6 +156,42 @@ Interstellar.addCoreWidget("Sensors",function(){
         },
         moveAllPower = 1,
         moveAllDirection = degreesToRadians(180),
+        moveContactSpeed = 0,
+        moveContactSpeeds = 
+        [
+            {
+                "speedName" : "painfully slow",
+                "speed" : 15000
+            },
+            {
+                "speedName" : "very slow",
+                "speed" : 7500
+            },
+            {
+                "speedName" : "slow",
+                "speed" : 5000
+            },
+            {
+                "speedName" : "normal",
+                "speed" : 2200
+            },
+            {
+                "speedName" : "fast",
+                "speed" : 700
+            },
+            {
+                "speedName" : "very fast",
+                "speed" : 350
+            },
+            {
+                "speedName" : "warp",
+                "speed" : 150
+            },
+            {
+                "speedName" : "instant",
+                "speed" : 1
+            }
+        ],
         possibleContacts = [],
         CompoundContactsArray = [],
         contactTextures = [], //these are loaded as needed
@@ -238,7 +274,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             new THREE.TextureLoader().load("/resource?path=public/Nebula/nebula1.png&screen=" + thisWidgetName)
         ],
         weapons = [],
-        programs = [
+        programs = [/*
             {
                 "type" : "planet", //we have several different things that go on the sensors array, so we have to specify
                 "GUID" : guidGenerator(),
@@ -258,7 +294,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                 "rotation" : 2,
                 "rotationSpeed" : .02,
                 "asteroidIcon" : 1
-            }
+            }*/
         ],
         sizeOfElementInContactList = 21,
         contactListScrollPosition = 0,
@@ -269,6 +305,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     //DOM references
     var canvas = $("#new_sensors-core_sensorsArray_Canvas"),
         canvasContainer = $("#new_sensors-core_sensorsArray"),
+        moveSelect = $("#sensors_core_contactEditor_moveSelect"),
         contactList_container = $("#sensors_core_contactList_container"),
         nameTextbox = $("#sensors_core_contactEditor_nameTextbox"),
         imageDropdown = $("#sensors_core_contactEditor_imageDropdown"),
@@ -1355,6 +1392,16 @@ Interstellar.addCoreWidget("Sensors",function(){
         return degrees * (Math.PI / 180);
     }
     function drawGUI(){
+        //list all the move options
+
+        var html = "";
+        for(var i = 0;i < moveContactSpeeds.length;i++){
+            html += "<option>";
+            html += moveContactSpeeds[i].speedName;
+            html += "</option>";
+        }
+        moveSelect.html(html);
+
         var radius = (moveAllCanvas.width() / 2) * .85;
         var c = document.getElementById(moveAllCanvas.attr("id"));
         c.width = moveAllCanvas.width();
@@ -1594,6 +1641,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                             CompoundContactsArray[j].wantedY = draggingContactsMouseOffset.y + selectedContactOffsets[i].y;
                             CompoundContactsArray[j].xStep = undefined;
                             CompoundContactsArray[j].yStep = undefined;
+                            CompoundContactsArray[j].animationSpeed = moveContactSpeeds[moveContactSpeed].speed;
                         }
                     }
                 }
@@ -1769,6 +1817,14 @@ Interstellar.addCoreWidget("Sensors",function(){
         duplicateMode = !duplicateMode;
         deleteMode = false;
         updateContactEditorMode();
+    });
+
+    moveSelect.on("change",function(event){
+        for(var i = 0;i < moveContactSpeeds.length;i++){
+            if($(event.target).val() == moveContactSpeeds[i].speedName){
+                moveContactSpeed = i;
+            }
+        }
     });
 
     deleteContactButton.click(function(event){
