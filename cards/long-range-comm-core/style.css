@@ -180,6 +180,7 @@
 }
 #lrmCore_sendMessageControls_keyTextbox{
 	position: absolute;
+	color: white;
 	bottom: 23px;
 	left: calc(50% + 101px);
 	width: calc(50% - 106px);

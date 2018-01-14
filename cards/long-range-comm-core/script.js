@@ -11,138 +11,13 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		keyTextbox = $("#lrmCore_sendMessageControls_keyTextbox"),
 		frequencySelect = $("#lrmCore_sendMessageControls_frequencySelect"),
 		sendMessageTextarea = $("#lrmCore_messageViewBox_textarea"),
-		sendMessageButton = $("#lrmCore_messageList_header");
+		sendMessageButton = $("#lrmCore_sendMessageControls_sendButton"),
+		presetWindow = $("#lrmCode-Core_editPresetsWindow"),
+		editPresetsButton = $("#lrmCore_sendMessageControls_presetEditButton");
 
 	//variables
 	var frequencies = [],
-		messages = [		
-			{
-				"messageGUID" : uuidv4(),
-				"timeRecieved" : new Date(),
-				"timeDecoded" : new Date(),
-				"reportedToCommand" : false,
-				"decoded" : false,
-				"downloadProgress" : 0,
-				"sentByCore" : Math.random() > .5 ? true : false, //control room sent this message, not the crew
-				"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-				"frequency" : "federation frequency",
-				"from" : "STARFLEET COMMAND",
-				"key" : "ZULU-TANGO-32",
-				"text" : encrpyt.encode("some important text\n\nTesting 123\n\nThis is a test","ZULU-TANGO-32")
-			},		
-			{
-				"messageGUID" : uuidv4(),
-				"timeRecieved" : new Date(),
-				"timeDecoded" : new Date(),
-				"reportedToCommand" : false,
-				"decoded" : false,
-				"downloadProgress" : 0,
-				"sentByCore" : Math.random() > .5 ? true : false, //control room sent this message, not the crew
-				"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-				"frequency" : "federation frequency",
-				"from" : "STARFLEET COMMAND",
-				"key" : "ZULU-TANGO-32",
-				"text" : encrpyt.encode("some important text\n\nTesting 123\n\nThis is a test","ZULU-TANGO-32")
-			},		
-			{
-				"messageGUID" : uuidv4(),
-				"timeRecieved" : new Date(),
-				"timeDecoded" : new Date(),
-				"reportedToCommand" : false,
-				"decoded" : false,
-				"downloadProgress" : 0,
-				"sentByCore" : Math.random() > .5 ? true : false, //control room sent this message, not the crew
-				"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-				"frequency" : "federation frequency",
-				"from" : "STARFLEET COMMAND",
-				"key" : "ZULU-TANGO-32",
-				"text" : encrpyt.encode("some important text\n\nTesting 123\n\nThis is a test","ZULU-TANGO-32")
-			},		
-			{
-				"messageGUID" : uuidv4(),
-				"timeRecieved" : new Date(),
-				"timeDecoded" : new Date(),
-				"reportedToCommand" : false,
-				"decoded" : false,
-				"downloadProgress" : 0,
-				"sentByCore" : Math.random() > .5 ? true : false, //control room sent this message, not the crew
-				"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-				"frequency" : "federation frequency",
-				"from" : "STARFLEET COMMAND",
-				"key" : "ZULU-TANGO-32",
-				"text" : encrpyt.encode("some important text\n\nTesting 123\n\nThis is a test","ZULU-TANGO-32")
-			},		
-			{
-				"messageGUID" : uuidv4(),
-				"timeRecieved" : new Date(),
-				"timeDecoded" : new Date(),
-				"reportedToCommand" : false,
-				"decoded" : false,
-				"downloadProgress" : 0,
-				"sentByCore" : Math.random() > .5 ? true : false, //control room sent this message, not the crew
-				"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-				"frequency" : "federation frequency",
-				"from" : "STARFLEET COMMAND",
-				"key" : "ZULU-TANGO-32",
-				"text" : encrpyt.encode("some important text\n\nTesting 123\n\nThis is a test","ZULU-TANGO-32")
-			},		
-			{
-				"messageGUID" : uuidv4(),
-				"timeRecieved" : new Date(),
-				"timeDecoded" : new Date(),
-				"reportedToCommand" : false,
-				"decoded" : false,
-				"downloadProgress" : 0,
-				"sentByCore" : Math.random() > .5 ? true : false, //control room sent this message, not the crew
-				"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-				"frequency" : "federation frequency",
-				"from" : "STARFLEET COMMAND",
-				"key" : "ZULU-TANGO-32",
-				"text" : encrpyt.encode("some important text\n\nTesting 123\n\nThis is a test","ZULU-TANGO-32")
-			},		
-			{
-				"messageGUID" : uuidv4(),
-				"timeRecieved" : new Date(),
-				"timeDecoded" : new Date(),
-				"reportedToCommand" : false,
-				"decoded" : false,
-				"downloadProgress" : 0,
-				"sentByCore" : Math.random() > .5 ? true : false, //control room sent this message, not the crew
-				"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-				"frequency" : "federation frequency",
-				"from" : "STARFLEET COMMAND",
-				"key" : "ZULU-TANGO-32",
-				"text" : encrpyt.encode("some important text\n\nTesting 123\n\nThis is a test","ZULU-TANGO-32")
-			},		
-			{
-				"messageGUID" : uuidv4(),
-				"timeRecieved" : new Date(),
-				"timeDecoded" : new Date(),
-				"reportedToCommand" : false,
-				"decoded" : false,
-				"downloadProgress" : 0,
-				"sentByCore" : Math.random() > .5 ? true : false, //control room sent this message, not the crew
-				"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-				"frequency" : "federation frequency",
-				"from" : "STARFLEET COMMAND",
-				"key" : "ZULU-TANGO-32",
-				"text" : encrpyt.encode("some important text\n\nTesting 123\n\nThis is a test","ZULU-TANGO-32")
-			},		
-			{
-				"messageGUID" : uuidv4(),
-				"timeRecieved" : new Date(),
-				"timeDecoded" : new Date(),
-				"reportedToCommand" : false,
-				"decoded" : false,
-				"downloadProgress" : 0,
-				"sentByCore" : Math.random() > .5 ? true : false, //control room sent this message, not the crew
-				"wasReceived" : false, //has the crew received this message yet? (not possible when the system is damaged)
-				"frequency" : "federation frequency",
-				"from" : "STARFLEET COMMAND",
-				"key" : "ZULU-TANGO-32",
-				"text" : encrpyt.encode("some important text\n\nTesting 123\n\nThis is a test","ZULU-TANGO-32")
-			}
-		],
+		messages = [],
 		presetMessages = [],
 		presetKeys = [],
 		systemIsDamaged = false,
@@ -187,6 +62,14 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 			return;
 		}
 		frequencies = newData;
+		var html = "";
+		for(var i = 0;i < frequencies.length;i++){
+			console.log(frequencies[i]);
+			html += "<option>";
+				html += frequencies[i].systemName.toUpperCase();
+			html += "</option>";
+		}
+		frequencySelect.html(html);
 	});
 	//functions
 	function updateMessageLists(messagesToDraw,redraw){
@@ -279,6 +162,12 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		}
 	}
 
+	function clearCoreMessageEncoder(){
+		keyTextbox.val("");
+		fromTextbox.val("");
+		sendMessageTextarea.val("");
+	}
+
 	function loadCoreMessageAtIndex(index){
 
 	}
@@ -313,6 +202,10 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 
 	//event handlers
 
+	editPresetsButton.click(function(event){
+		Interstellar.openCoreWindow(presetWindow.attr("id"),event);
+	});
+
 	sendMessageButton.click(function(event){
 		var from = fromTextbox.val().toUpperCase();
 		var text = sendMessageTextarea.val();
@@ -334,9 +227,13 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 			"key" : key,
 			"text" : key != "" ? encrpyt.encode(text,key) : text
 		}
-		console.log(newMessage);
-		messages.splice(messages.length,0,newMessage);
-		Interstellar.setDatabaseValue("longRangeComm.messages",messages);
+		var newMessages = [];
+		for(var i = 0;i < messages.length; i++){
+			newMessages.splice(newMessages.length,0,messages[i]);
+		}
+		newMessages.splice(newMessages.length,0,newMessage);
+		Interstellar.setDatabaseValue("longRangeComm.messages",newMessages);
+		clearCoreMessageEncoder();
 	});
 
 	//intervals
