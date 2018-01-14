@@ -46,6 +46,7 @@ Interstellar.onDatabaseValueChange("courseCalculation.isScanning",function(newDa
 	velocity = 30;
 	if(newData){
 		scanningAnimationObject = calculationAnimation();
+		scanningCourseTitle.html("CALCULATING COURSE TO " + lastScannedCourse.toUpperCase());
 		scanningCourseTitle.slideDown();
 		scanningCourseTitle.css("opacity",1);
 		yaw.fadeOut();
@@ -523,6 +524,9 @@ $(".thruster").mousedown(function(event){
 	let thruster = event.target.id;
 	let direction = 0;
 	var desiredAngle = 0;
+	let updateInterval = setInterval(function(){
+		Interstellar.setDatabaseValue("courseCalculation.thrusters",thrusters);
+	},0300);
 	var moveInterval = setInterval(function(){
 		switch(thruster){
 			case "yaw":
@@ -559,7 +563,6 @@ $(".thruster").mousedown(function(event){
 				}
 			break;
 		}
-		Interstellar.setDatabaseValue("courseCalculation.thrusters",thrusters);
 	},0010);
 	var center = element.height() / 2;
 	var x = event.pageX - (element.offset().left + center);
@@ -610,6 +613,9 @@ $(".thruster").mousedown(function(event){
 	$(document).mouseup(function(event){
 		if(moveInterval != undefined){
 			clearInterval(moveInterval);
+		}
+		if(updateInterval != undefined){
+			clearInterval(updateInterval);
 		}
 		$(document).off();
 	})

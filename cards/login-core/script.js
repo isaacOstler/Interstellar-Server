@@ -64,7 +64,9 @@ Interstellar.addCoreWidget("Login Names",function(){
 		for(var i = 0;i < loginNames.length;i++){
 			listElement.append(loginNames[i].station + ": " + loginNames[i].loginName + "<br />");
 		}
-		listElement.append(captainName);
+		if(captainName != ""){
+			listElement.append("CAPTAIN: " + captainName);
+		}
 	}
 	//preset observers
 

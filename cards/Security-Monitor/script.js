@@ -483,6 +483,7 @@ gasProgressBar.mousedown(function(event){
 			newProgress = 1;
 		}
 		gasProgressBarFill.css("width",(newProgress * 100) + "%");
+		console.log(newProgress);
 		gasProgressBarLabel.html(Math.round(newProgress * 100) + "% - " + getGasMessage(newProgress * 100))
 	});
 	$(document).mouseup(function(event){

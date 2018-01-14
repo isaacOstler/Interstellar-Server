@@ -31,51 +31,46 @@ Interstellar.addCoreWidget("Coolant Control",function(){
 		}
 	}
 
-	$("#Coolant-Core-FlowRateBar").mousedown(function(event){
-		CoolantCoreIsDraggingFlowRate = true;
-	});
-
 	$(document).mouseup(function(event){
 		CoolantCoreIsDraggingFlowRate = false;
 	});
 
-	$("#Coolant-Core-FlowRateBackground").on("click",function(e){
-		var parentOffset = $(this).parent().offset(); 
-		var relX = e.pageX - parentOffset.left;
-		console.log(relX);
-		$("#Coolant-Core-FlowRateBar").css("left",relX + "px");
-		if(((relX / $("#Coolant-Core-FlowRateBackground").width()) - .5) > 0){
-			CoolantCoreCoolantFlowRate = 0.001;
-			$("#Coolant-Core-FlowRateBar").css("backgroundColor","#62f442");
-		}else{
-			CoolantCoreCoolantFlowRate = -0.001;
-			$("#Coolant-Core-FlowRateBar").css("backgroundColor","red");
-		}
-		CoolantCoreCoolantFlowSpeed = 1 - (Math.abs((relX / $("#Coolant-Core-FlowRateBackground").width()) - .5) / .5);
-		CoolantCoreCoolantFlowSpeed = 1000 * CoolantCoreCoolantFlowSpeed;
-		CoolantCoreCreateCoolantFlowInterval(CoolantCoreCoolantFlowSpeed);
-	});
+	$("#Coolant-Core-FlowRateBar, #Coolant-Core-FlowRateBackground").mousedown(function(e){
+		$(document.body).off("mousemove.coolantDrag");
+		$(document.body).off("mouseup.endCoolantDrag");
 
-	$("#Coolant-Core-FlowRateBackground").mousemove(function(e){
-		if(CoolantCoreIsDraggingFlowRate){
-			var parentOffset = $(this).parent().offset(); 
-			var relX = e.pageX - parentOffset.left;
-			console.log(relX);
-			$("#Coolant-Core-FlowRateBar").css("left",relX + "px");
-			CoolantCoreCoolantFlowRate = relX / $("#Coolant-Core-FlowRateBackground").width();
-			if(((relX / $("#Coolant-Core-FlowRateBackground").width()) - .5) > 0){
-				CoolantCoreCoolantFlowRate = 0.001;
-				$("#Coolant-Core-FlowRateBar").css("backgroundColor","#62f442");
-			}else{
-				CoolantCoreCoolantFlowRate = -0.001;
-				$("#Coolant-Core-FlowRateBar").css("backgroundColor","red");
+		let mouseOffsetX = e.offsetX,
+			backgroundOffsetX = $("#Coolant-Core-FlowRateBackground").offset().left,
+			updateFunction = function(event){
+				var relX = event.pageX - backgroundOffsetX - mouseOffsetX;
+				$("#Coolant-Core-FlowRateBar").css("left",relX);
+				CoolantCoreCoolantFlowRate = relX / $("#Coolant-Core-FlowRateBackground").width();
+				if(((relX / $("#Coolant-Core-FlowRateBackground").width()) - .5) > 0){
+					CoolantCoreCoolantFlowRate = 0.001;
+					$("#Coolant-Core-FlowRateBar").css("backgroundColor","#62f442");
+				}else{
+					CoolantCoreCoolantFlowRate = -0.001;
+					$("#Coolant-Core-FlowRateBar").css("backgroundColor","red");
+				}
+				CoolantCoreCoolantFlowSpeed = 1 - (Math.abs((relX / $("#Coolant-Core-FlowRateBackground").width()) - .5) / .5);
+				CoolantCoreCoolantFlowSpeed = 1000 * CoolantCoreCoolantFlowSpeed;
+				CoolantCoreCreateCoolantFlowInterval(CoolantCoreCoolantFlowSpeed);
 			}
-			CoolantCoreCoolantFlowSpeed = 1 - (Math.abs((relX / $("#Coolant-Core-FlowRateBackground").width()) - .5) / .5);
-			CoolantCoreCoolantFlowSpeed = 1000 * CoolantCoreCoolantFlowSpeed;
-			CoolantCoreCreateCoolantFlowInterval(CoolantCoreCoolantFlowSpeed);
-		}
-	});
 
+		if($(e.target).attr("id") == "Coolant-Core-FlowRateBackground"){
+			mouseOffsetX = $("#Coolant-Core-FlowRateBar").width() / 2;
+		}
+		updateFunction(e);
+
+		$(document.body).on("mousemove.coolantDrag",function(e){
+			updateFunction(e);
+		});
+		$(document.body).on("mouseup.endCoolantDrag",function(e){
+			$(document.body).off("mousemove.coolantDrag");
+			$(document.body).off("mouseup.endCoolantDrag");
+			updateFunction(e);
+		});
+	});
 	$("#Coolant-Core-TotalCoolantBox").on("change",function(event){
 		var value = event.target.value;
 		var rawValue = value.replace("%","");

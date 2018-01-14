@@ -261,8 +261,8 @@ app.on('ready', function() {
                                 //station found
                                 console.log('sending cards for station ' + data);
                                 var cards = [];
-                                for(var possibleCards = 0;possibleCards < cardManager.cards.length;possibleCards++){
-                                    for(var clientCards = 0;clientCards < stations[i].stationInfo.cards.length;clientCards++){
+                                for(var clientCards = 0;clientCards < stations[i].stationInfo.cards.length;clientCards++){
+                                    for(var possibleCards = 0;possibleCards < cardManager.cards.length;possibleCards++){
                                         if(cardManager.cards[possibleCards].cardInfo.cardName == stations[i].stationInfo.cards[clientCards]){
                                             cards.splice(cards.length,0,cardManager.cards[possibleCards]);
                                         }

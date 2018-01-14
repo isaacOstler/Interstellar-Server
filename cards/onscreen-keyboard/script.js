@@ -14,9 +14,9 @@ var onScreenKeyboardClass = function(){
     });
 
     function recalcEventListeners(){
-        $("input[type=text]","input[type=textarea]").off();
+        $("input[type=text], textarea").off();
         $(".onscreen-keyboard_key").off();
-        $("input[type=text]").click(function(event){
+        $("input[type=text], textarea").click(function(event){
             lastKnownElement = event.target;
         });
         $("#showOnscreen-keyboardButton").off();

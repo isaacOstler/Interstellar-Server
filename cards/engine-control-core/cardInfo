@@ -1,6 +1,6 @@
 {
 	"cardName":"engine-control-core",
-	"cardType":"core-widget",
+	"cardType":"coreWidget",
 	"author":"Isaac Ostler",
 	"copyright":"Isaac Ostler",
 	"version":"1.0.0",
