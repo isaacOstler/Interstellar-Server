@@ -13,12 +13,112 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		sendMessageTextarea = $("#lrmCore_messageViewBox_textarea"),
 		sendMessageButton = $("#lrmCore_sendMessageControls_sendButton"),
 		presetWindow = $("#lrmCode-Core_editPresetsWindow"),
-		editPresetsButton = $("#lrmCore_sendMessageControls_presetEditButton");
+		editPresetsButton = $("#lrmCore_sendMessageControls_presetEditButton"),
+		presetMissionSelect = $("#lrmCore_sendMessageControls_missionPresetSelect"),
+		presetPresetSelect = $("#lrmCore_sendMessageControls_presetPresetSelect");
 
 	//variables
 	var frequencies = [],
 		messages = [],
-		presetMessages = [],
+		selectedPresetMission = 0;
+		presetMessages = [
+			{
+				"name" : "ISAAC PRESETS",
+				"messages" :
+				[
+					{
+						"name" : "FARPOINT HELLO",
+						"from" : "FARPOINT COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					},
+					{
+						"name" : "FARPOINT HELLO 2",
+						"from" : "FARPOINT COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					},
+					{
+						"name" : "FARPOINT HELLO 3",
+						"from" : "FARPOINT COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					},
+					{
+						"name" : "FARPOINT HELLO 4",
+						"from" : "FARPOINT COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					},
+					{
+						"name" : "FARPOINT HELLO 5",
+						"from" : "FARPOINT COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					},
+					{
+						"name" : "FARPOINT HELLO 6",
+						"from" : "FARPOINT COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					}
+				]
+			},
+			{
+				"name" : "JONS PRESETS",
+				"messages" :
+				[
+					{
+						"name" : "STARFLEET HELLO",
+						"from" : "STARFLEE COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					},
+					{
+						"name" : "STARFLEET HELLO 2",
+						"from" : "STARFLEE COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					},
+					{
+						"name" : "STARFLEET HELLO 3",
+						"from" : "STARFLEE COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					},
+					{
+						"name" : "STARFLEET HELLO 4",
+						"from" : "STARFLEE COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					},
+					{
+						"name" : "STARFLEET HELLO 5",
+						"from" : "STARFLEE COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					},
+					{
+						"name" : "STARFLEET HELLO 6",
+						"from" : "STARFLEE COMMAND",
+						"text" : "THIS IS A TEST MESSAGE",
+						"frequency" : "federation frequency",
+						"key" : "ZULU-TANGO-32"
+					}
+				]
+			}
+		],
 		presetKeys = [],
 		systemIsDamaged = false,
 		neverDrawn = true,
@@ -200,7 +300,31 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 	  });
 	}
 
+	updatePresetSelectsWithPresets(presetMessages,selectedPresetMission);
+
+	function updatePresetSelectsWithPresets(presets,selectedPreset){
+		var missionHTML = "",
+			presetHTML = "";
+
+		for(var i = 0;i < presetMessages.length;i++){
+			missionHTML += "<option " + (i == selectedPreset ? "selected " : "") +  "value='" + i + "'>" + presetMessages[i].name + "</option>";
+			if(i == selectedPreset){
+				for(var j = 0;j < presetMessages[i].messages.length;j++){
+					presetHTML += "<option value='" + j + "'>" + presetMessages[i].messages[j].name + "</option>";
+				}
+			}	
+		}
+
+		presetMissionSelect.html(missionHTML);
+		presetPresetSelect.html(presetHTML);
+	}
+
 	//event handlers
+
+	presetMissionSelect.on("change",function(event){
+		selectedPresetMission = event.target.value;
+		updatePresetSelectsWithPresets(presetMessages,selectedPresetMission);
+	});
 
 	editPresetsButton.click(function(event){
 		Interstellar.openCoreWindow(presetWindow.attr("id"),event);
