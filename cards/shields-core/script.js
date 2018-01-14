@@ -91,7 +91,7 @@ Interstellar.addCoreWidget("Shields Core",function(){
 		var height = shieldsContainer.height() / shields.length;
 		for(var i = 0;i < shields.length;i++){
 			html += "<div class='shields-core_shieldContainer_item' style='height:" + height + "px;top: " + Math.floor(height * i) + "px'>";
-	    	html += "<div title='Right click to Raise/Lower shields' class='coreProgressBar shields-core_shieldContainer_item_progressBar' index='" + i + "' >";
+	    	html += "<div title='Right click to Raise/Lower shields' class='shields-core_shieldContainer_item_progressBar' index='" + i + "' >";
 	    	var hasEnoughPower = true;
 	        if(shipSystems != undefined){
 	            for(var j = 0;j < shipSystems.length;j++){
@@ -112,11 +112,11 @@ Interstellar.addCoreWidget("Shields Core",function(){
 	    		backgroundColor = "rgba(128,128,128,.5)";
 				text = "(No Power)"
 	    	}
-	    	html += "<div style='width:100%' id='shields-core_shieldContainer_item_label_id_" + i + "' index='" + i + "'>" + shields[i].name + " " + text + "</div>";
+	    	html += "<div style='width:100%;' id='shields-core_shieldContainer_item_label_id_" + i + "' index='" + i + "'>" + shields[i].name + " " + text + "</div>";
 	    	html += "<div class='coreProgressBarFill' id='shields-core_shieldContainer_item_progressBar_id_" + i + "' style='width:" + (shields[i].strength * 100) + "%;background-color: " + backgroundColor + "' index='" + i + "'></div>";
 	    	html += "</div>"
 	    	html += "<input type='button' value='Hit' index='" + i + "' class='coreButton core_shieldContainer_item_hitButton'>";
-	    	html += "<input type='text' index='" + i + "' id='shields-core_shieldContainer_item_shieldTextbox_id_" + i + "' value='" + Math.round(shields[i].strength * 100) + "%' class='shields-core_shieldContainer_item_percentage coreTextbox' onclick='this.select();'";
+	    	html += "<input type='text' index='" + i + "' id='shields-core_shieldContainer_item_shieldTextbox_id_" + i + "' value='" + Math.round(shields[i].strength * 100) + "%' class='shields-core_shieldContainer_item_percentage' onclick='this.select();'";
 	    	html += "</div>"
 	    	html += "</div>"
 		}
@@ -124,7 +124,8 @@ Interstellar.addCoreWidget("Shields Core",function(){
 		$(".core_shieldContainer_item_hitButton").off();
 		$(".core_shieldContainer_item_hitButton").click(function(event){
 			var index = $(event.target).attr("index");
-			setShieldValue(index,shields[index].strength - (((Math.random() * (hitPower + 3)) + 3) / 100));
+			var calculatedHitStrength = (((hitPower * 5) * Math.random()) + (3 + Math.random())) / 100;
+			setShieldValue(index,shields[index].strength - calculatedHitStrength);
 		});
 		$(".shields-core_shieldContainer_item_percentage").off();
 		$(".shields-core_shieldContainer_item_percentage").change(function(event){
@@ -216,7 +217,8 @@ Interstellar.addCoreWidget("Shields Core",function(){
 	//event listeners
 	hitAllButton.click(function(event){
 		for(var i = 0;i < shields.length;i++){
-			setShieldValue(i,shields[i].strength - (((Math.random() * (hitPower + 3)) + 3) / 100));
+			var calculatedHitStrength = (((hitPower * 5) * Math.random()) + (3 + Math.random())) / 100;
+			setShieldValue(i,shields[i].strength - calculatedHitStrength);
 		}
 	});
 

@@ -418,7 +418,7 @@ function drawGUI(){
             html += "'>";
             html += status;
             html += "</div>";
-            html += "<input type='text' class='individualShieldsContainer_textbox textbox noselect' value='" + (shields[i].strength * 100) + "%' style='height:100%' readonly>";    
+            html += "<input type='text' class='individualShieldsContainer_textbox textbox noselect' value='" + Math.round(shields[i].strength * 100) + "%' style='height:100%' readonly>";    
         }else{
             html += "<div class='individualShieldsContainer_noPower'>";
             html += "INSUFFICIENT POWER";
@@ -444,7 +444,7 @@ function drawGUI(){
         }
     }
     averageShieldStrength = Math.round(((averageShieldStrength / shields.length) * 100));
-    averageShieldStrengthLabel.html("&nbsp" + averageShieldStrength + "%");
+    averageShieldStrengthLabel.html("&nbsp" + Math.round(averageShieldStrength) + "%");
     individualShieldsContainer.html(html);
     $(".raiseLowerShieldButton").off();
     $(".raiseLowerShieldButton").click(function(event){

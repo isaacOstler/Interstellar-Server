@@ -210,7 +210,7 @@ var alertStatus = 5, //the ships alert status
     ],
     weapons = [],
     programs = [
-        {
+        /*{
             "type" : "planet", //we have several different things that go on the sensors array, so we have to specify
             "GUID" : guidGenerator(),
             "icon" : "/resource?path=public/Planets/1Terran1.png",
@@ -229,7 +229,7 @@ var alertStatus = 5, //the ships alert status
             "rotation" : 2,
             "rotationSpeed" : .02,
             "asteroidIcon" : 1
-        }
+        }*/
     ],
     scanningObject,
     scanAnswer = null,
@@ -307,7 +307,7 @@ Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
                 }
                 programs.splice(programs.length,0,newAsteroid);
             }
-        }*/
+        }
         for(var j = 0;j < 256;j++){
             var newAsteroid = {
                 "GUID" : guidGenerator(),
@@ -320,7 +320,7 @@ Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
                 "asteroidIcon" : Math.floor(Math.random() * asteroidTextures.length)
             }
             programs.splice(programs.length,0,newAsteroid);
-        }
+        }*/
         Interstellar.setDatabaseValue("sensors.programs",programs);
         return;
     }
@@ -564,25 +564,31 @@ function animationCycle(newData){
             }
         }
         //now we cut out anything that shouldn't be there (if infrared is active)
-        var finalContactsToRender = [];
+        var finalContactsToRender = [],
+            activeContacts = [];
         for(var j = 0;j < CompoundContactsArray.length;j++){
             if(CompoundContactsArray[j].type == "contact"){
                 if(CompoundContactsArray[j].isActive){
-                    finalContactsToRender.splice(finalContactsToRender.length,0,CompoundContactsArray[j]);
+                    activeContacts.splice(activeContacts.length,0,CompoundContactsArray[j]);
                 }
             }else{
-                finalContactsToRender.splice(finalContactsToRender.length,0,CompoundContactsArray[j]);
+                activeContacts.splice(activeContacts.length,0,CompoundContactsArray[j]);
             }
         }
+
         if(infraredActive){
-            for(var j = 0;j < finalContactsToRender.length;j++){
-                if(finalContactsToRender[j].type == "nebula" || finalContactsToRender[j].type == "planet" || finalContactsToRender[j].type == "phaser" || finalContactsToRender[j].type == "torpedo"){
-                        finalContactsToRender.splice(finalContactsToRender.length,0,finalContactsToRender[j]);
-                }else if(finalContactsToRender[j].type == "contact"){
-                    if(finalContactsToRender[j].attributes.infrared){
-                        finalContactsToRender.splice(finalContactsToRender.length,0,finalContactsToRender[j]);
+            for(var j = 0;j < activeContacts.length;j++){
+                if(activeContacts[j].type == "nebula" || activeContacts[j].type == "planet" || activeContacts[j].type == "phaser" || activeContacts[j].type == "torpedo"){
+                    finalContactsToRender.splice(finalContactsToRender.length,0,activeContacts[j]);
+                }else if(activeContacts[j].type == "contact"){
+                    if(activeContacts[j].attributes.infrared){
+                        finalContactsToRender.splice(finalContactsToRender.length,0,activeContacts[j]);
                     }
                 }
+            }
+        }else{
+            for(var i = 0;i < activeContacts.length;i++){
+                finalContactsToRender.splice(finalContactsToRender.length,0,activeContacts[i]);
             }
         }
         //now we update the array!
