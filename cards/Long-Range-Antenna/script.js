@@ -75,9 +75,7 @@ Interstellar.onDatabaseValueChange("longRangeComm.messages",function(newData){
 
 Interstellar.onDatabaseValueChange("longRangeAntenna.frequencies",function(newData){
 	if(newData == null){
-		$.getJSON('/resource?path=public/frequencies.json', function(loadedJSON) {
-		    Interstellar.setDatabaseValue("longRangeAntenna.frequencies",loadedJSON.frequencies);
-		});
+		//we don't set this, core does
 		return;
 	}
 	frequencies = newData;

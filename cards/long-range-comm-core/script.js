@@ -14,13 +14,15 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		sendMessageButton = $("#lrmCore_sendMessageControls_sendButton"),
 		presetWindow = $("#lrmCode-Core_editPresetsWindow"),
 		editPresetsButton = $("#lrmCore_sendMessageControls_presetEditButton"),
+		nextPresetButton = $("#lrmCore_sendMessageControls_presetNextButton"),
 		presetMissionSelect = $("#lrmCore_sendMessageControls_missionPresetSelect"),
 		presetPresetSelect = $("#lrmCore_sendMessageControls_presetPresetSelect");
 
 	//variables
 	var frequencies = [],
 		messages = [],
-		selectedPresetMission = 0;
+		selectedPresetMission = 0,
+		selectedPreset = 0,
 		presetMessages = [
 			{
 				"name" : "ISAAC PRESETS",
@@ -30,42 +32,42 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 						"name" : "FARPOINT HELLO",
 						"from" : "FARPOINT COMMAND",
 						"text" : "THIS IS A TEST MESSAGE",
-						"frequency" : "federation frequency",
+						"frequency" : "FEDERATION FREQUENCY",
 						"key" : "ZULU-TANGO-32"
 					},
 					{
 						"name" : "FARPOINT HELLO 2",
 						"from" : "FARPOINT COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
-						"frequency" : "federation frequency",
+						"text" : "THIS IS A TEST MESSAGE 1",
+						"frequency" : "FEDERATION FREQUENCY",
 						"key" : "ZULU-TANGO-32"
 					},
 					{
 						"name" : "FARPOINT HELLO 3",
 						"from" : "FARPOINT COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
-						"frequency" : "federation frequency",
+						"text" : "THIS IS A TEST MESSAGE 2",
+						"frequency" : "FEDERATION FREQUENCY",
 						"key" : "ZULU-TANGO-32"
 					},
 					{
 						"name" : "FARPOINT HELLO 4",
 						"from" : "FARPOINT COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
-						"frequency" : "federation frequency",
+						"text" : "THIS IS A TEST MESSAGE 3",
+						"frequency" : "FEDERATION FREQUENCY",
 						"key" : "ZULU-TANGO-32"
 					},
 					{
 						"name" : "FARPOINT HELLO 5",
 						"from" : "FARPOINT COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
-						"frequency" : "federation frequency",
+						"text" : "THIS IS A TEST MESSAGE 4",
+						"frequency" : "FEDERATION FREQUENCY",
 						"key" : "ZULU-TANGO-32"
 					},
 					{
 						"name" : "FARPOINT HELLO 6",
 						"from" : "FARPOINT COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
-						"frequency" : "federation frequency",
+						"text" : "THIS IS A TEST MESSAGE 5",
+						"frequency" : "FEDERATION FREQUENCY",
 						"key" : "ZULU-TANGO-32"
 					}
 				]
@@ -77,42 +79,42 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 					{
 						"name" : "STARFLEET HELLO",
 						"from" : "STARFLEE COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
+						"text" : "THIS IS A TEST MESSAGE 10",
 						"frequency" : "federation frequency",
 						"key" : "ZULU-TANGO-32"
 					},
 					{
 						"name" : "STARFLEET HELLO 2",
-						"from" : "STARFLEE COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
+						"from" : "STARFLEET COMMAND",
+						"text" : "THIS IS A TEST MESSAGE 11",
 						"frequency" : "federation frequency",
 						"key" : "ZULU-TANGO-32"
 					},
 					{
 						"name" : "STARFLEET HELLO 3",
-						"from" : "STARFLEE COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
+						"from" : "STARFLEET COMMAND",
+						"text" : "THIS IS A TEST MESSAGE 12",
 						"frequency" : "federation frequency",
 						"key" : "ZULU-TANGO-32"
 					},
 					{
 						"name" : "STARFLEET HELLO 4",
-						"from" : "STARFLEE COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
+						"from" : "STARFLEET COMMAND",
+						"text" : "THIS IS A TEST MESSAGE 13",
 						"frequency" : "federation frequency",
 						"key" : "ZULU-TANGO-32"
 					},
 					{
 						"name" : "STARFLEET HELLO 5",
-						"from" : "STARFLEE COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
+						"from" : "STARFLEET COMMAND",
+						"text" : "THIS IS A TEST MESSAGE 14",
 						"frequency" : "federation frequency",
 						"key" : "ZULU-TANGO-32"
 					},
 					{
 						"name" : "STARFLEET HELLO 6",
-						"from" : "STARFLEE COMMAND",
-						"text" : "THIS IS A TEST MESSAGE",
+						"from" : "STARFLEET COMMAND",
+						"text" : "THIS IS A TEST MESSAGE 15",
 						"frequency" : "federation frequency",
 						"key" : "ZULU-TANGO-32"
 					}
@@ -159,6 +161,9 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 	Interstellar.onDatabaseValueChange("longRangeAntenna.frequencies",function(newData){
 		if(newData == null){
 			//we don't set this (long-range-antenna-core does)
+			$.getJSON('/resource?path=public/frequencies.json&screen=long-range-comm-core', function(loadedJSON) {
+			    Interstellar.setDatabaseValue("longRangeAntenna.frequencies",loadedJSON.frequencies);
+			});
 			return;
 		}
 		frequencies = newData;
@@ -319,15 +324,37 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		presetPresetSelect.html(presetHTML);
 	}
 
+	function loadPresetMessageAtIndex(mission,index){
+		if(presetMessages[mission].messages.length > index){
+			sendMessageTextarea.val(presetMessages[mission].messages[index].text);
+			keyTextbox.val(presetMessages[mission].messages[index].key);
+			frequencySelect.val(presetMessages[mission].messages[index].frequency);
+			fromTextbox.val(presetMessages[mission].messages[index].from);
+		}
+	}
+
 	//event handlers
 
 	presetMissionSelect.on("change",function(event){
 		selectedPresetMission = event.target.value;
 		updatePresetSelectsWithPresets(presetMessages,selectedPresetMission);
+		if(presetMessages[selectedPresetMission].messages.length > 0){
+			loadPresetMessageAtIndex(selectedPresetMission,0);
+		}
+	});
+
+	presetPresetSelect.on("input",function(event){
+		selectedPreset = event.target.value;
+		loadPresetMessageAtIndex(selectedPresetMission,selectedPreset);
 	});
 
 	editPresetsButton.click(function(event){
 		Interstellar.openCoreWindow(presetWindow.attr("id"),event);
+	});
+
+	nextPresetButton.click(function(event){
+		selectedPreset++;
+		loadPresetMessageAtIndex(selectedPresetMission,selectedPreset);
 	});
 
 	sendMessageButton.click(function(event){

@@ -1,0 +1,53 @@
+{
+	"frequencies" : 
+	[
+		{
+			"systemName" : "federation frequency",
+			"systemPower" : 8,
+			"systemRequiredPowerLevels" : [50],
+			"isDamaged" : false
+		},
+		{
+			"systemName" : "general use frequency",
+			"systemPower" : 6,
+			"systemRequiredPowerLevels" : [50],
+			"isDamaged" : false
+		},
+		{
+			"systemName" : "klingon frequency",
+			"systemPower" : 4,
+			"systemRequiredPowerLevels" : [50],
+			"isDamaged" : false
+		},
+		{
+			"systemName" : "romulan frequency",
+			"systemPower" : 4,
+			"systemRequiredPowerLevels" : [50],
+			"isDamaged" : false
+		},
+		{
+			"systemName" : "orion frequency",
+			"systemPower" : 2,
+			"systemRequiredPowerLevels" : [50],
+			"isDamaged" : false
+		},
+		{
+			"systemName" : "cardassian frequency",
+			"systemPower" : 2,
+			"systemRequiredPowerLevels" : [50],
+			"isDamaged" : false
+		},
+		{
+			"systemName" : "ferengi frequency",
+			"systemPower" : 2,
+			"systemRequiredPowerLevels" : [50],
+			"isDamaged" : false
+		},
+		{
+			"systemName" : "dominion frequency",
+			"systemPower" : 2,
+			"systemRequiredPowerLevels" : [50],
+			"isDamaged" : false
+		}
+	]
+}
