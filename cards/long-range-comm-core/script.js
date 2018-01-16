@@ -333,7 +333,19 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		}
 	}
 
+	function endsWith(str, suffix) {
+    	return str.indexOf(suffix, str.length - suffix.length) !== -1;
+	}
+
 	//event handlers
+
+	sendMessageTextarea.on("input",function(event){
+		var lines = event.target.value.split(/\r?\n/),
+			lastLine = lines[lines.length - 1];
+		if(endsWith(lastLine.toUpperCase()," OUT")){
+			fromTextbox.val(lastLine.slice(0,lastLine.length - 4));
+		}
+	});
 
 	presetMissionSelect.on("change",function(event){
 		selectedPresetMission = event.target.value;

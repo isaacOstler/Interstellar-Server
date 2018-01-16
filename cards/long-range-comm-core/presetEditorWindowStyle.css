@@ -19,9 +19,9 @@
 	position: absolute;
 	overflow: auto;
 	top:16px;
-	left: 2px;
-	width: calc(100% - 7px);
-	height: calc(100% - 20px);
+	left: 1px;
+	width: calc(100% - 4px);
+	height: calc(100% - 65px);
 	border: 1px solid white;
 	background: linear-gradient(to bottom, #2d2d2d 0%,rgba(23, 23, 23, 0.79) 100%);
 }
@@ -40,4 +40,117 @@
 	position: relative;
 	overflow: hidden;
 	background-color: rgb(255,255,255,.2);
+}
+.lrmCode-Core_editPresetsWindow_list_addButton{
+	position: absolute;
+	background: linear-gradient(135deg, rgba(37,232,66,1) 0%,rgba(14,135,60,1) 100%);
+	width: calc(100% - 4px);
+	left: 1px;
+	border: 1px solid white;
+	bottom: 24px;
+	height: 20px;
+	color:black;
+	text-align: center;
+	cursor: pointer;
+}
+.lrmCode-Core_editPresetsWindow_list_removeButton{
+	position: absolute;
+	background: linear-gradient(135deg, rgba(255,40,40,1) 0%,rgba(155,17,17,1) 100%);
+	width: calc(100% - 4px);
+	left: 1px;
+	bottom: 1px;
+	border: 1px solid white;
+	height: 20px;
+	color:black;
+	text-align: center;
+	cursor: pointer;
+}
+#lrmCode-Core_editPresetsWindow_messageControls_fromTextbox{
+	position: absolute;
+	top: 20px;
+	right: 2px;
+	color: white;
+	background-color: black;
+	border: 1px solid white;
+	width: calc(100% - 100px);
+}
+#lrmCode-Core_editPresetsWindow_messageControls_frequencyTextbox{
+	position: absolute;
+	top: 40px;
+	right: 2px;
+	color: white;
+	background-color: black;
+	border: 1px solid white;
+	width: calc(100% - 100px);
+}
+#lrmCode-Core_editPresetsWindow_messageControls_keyTextbox{
+	position: absolute;
+	top: 60px;
+	right: 2px;
+	color: white;
+	background-color: black;
+	border: 1px solid white;
+	width: calc(100% - 100px);
+}
+#lrmCode-Core_editPresetsWindow_messageControls_frequencyLabel{
+	position: absolute;
+	top: 43px;
+	left: 14px;
+	font-size: 12px;
+}
+#lrmCode-Core_editPresetsWindow_messageControls_keyLabel{
+	position: absolute;
+	top: 63px;
+	left: 64px;
+	font-size: 12px;
+}
+#lrmCode-Core_editPresetsWindow_messageControls_fromLabel{
+	position: absolute;
+	top: 25px;
+	font-size: 12px;
+	left: 54px;
+}
+#lrmCode-Core_editPresetsWindow_messageControls_saveButton{
+	position: absolute;
+	bottom: 1px;
+	color: black;
+	left: 2px;
+	width: calc(100% - 6px);
+	height: 19px;
+}
+#lrmCode-Core_editPresetsWindow_messageControls{
+	position: absolute;
+	top: 23px;
+	height: calc(100% - 47px);
+	right: 1px;
+	width: calc(100% - 312px);
+	border: 1px solid white;
+}
+#lrmCode-Core_editPresetsWindow_messageControls_textarea{
+	position: absolute;
+	top:80px;
+	left: 2px;
+	width: calc(100% - 10px);
+	border: 1px solid white;
+	background-color: black;
+	color: white;
+	height: calc(100% - 110px);
+}
+#lrmCore_Core_editPresetsWindow_presetsList{
+    left: 155px;
+}
+#lrmCode-Core_editPresetsWindow_messageControls_nameLabel{
+	position: absolute;
+	top: 4px;
+	left: 54px;
+	font-size: 12px;
+}
+#lrmCode-Core_editPresetsWindow_messageControls_nameTextbox{
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	color: white;
+	background-color: black;
+	border: 1px solid white;
+	width: calc(100% - 100px);
 }

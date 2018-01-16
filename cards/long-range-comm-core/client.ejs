@@ -4,26 +4,33 @@
 		<div class='lrmCode-Core_editPresetsWindow_list_header'>MISSIONS</div>
 		<div class='lrmCode-Core_editPresetsWindow_list_container'>
 			<div class='noselect lrmCode-Core_editPresetsWindow_list_container_message'>
-				ISAAC PRESETS
-			</div>
-			<div class='noselect lrmCode-Core_editPresetsWindow_list_container_message'>
-				PERIKOI
-			</div>
-			<div class='noselect lrmCode-Core_editPresetsWindow_list_container_message'>
-				INTOLERANCE
-			</div>
-			<div class='noselect lrmCode-Core_editPresetsWindow_list_container_message'>
-				GREENPEACE
-			</div>
-			<div class='noselect lrmCode-Core_editPresetsWindow_list_container_message'>
-				PERIKOI
-			</div>
-			<div class='noselect lrmCode-Core_editPresetsWindow_list_container_message'>
-				RULE OF SWORD
+				STARTUP
 			</div>
 		</div>
-		<div class='lrmCode-Core_editPresetsWindow_list_addButton'>ADD</div>
-		<div class='lrmCode-Core_editPresetsWindow_list_removeButton'>REMOVE</div>
+		<div class='lrmCode-Core_editPresetsWindow_list_addButton customButton'>ADD</div>
+		<div class='lrmCode-Core_editPresetsWindow_list_removeButton customButton'>REMOVE</div>
+	</div>
+	<div class='lrmCode-Core_editPresetsWindow_list' id='lrmCore_Core_editPresetsWindow_presetsList'>
+		<div class='lrmCode-Core_editPresetsWindow_list_header'>PRESETS</div>
+		<div class='lrmCode-Core_editPresetsWindow_list_container'>
+			<div class='noselect lrmCode-Core_editPresetsWindow_list_container_message'>
+				ISAAC PRESETS
+			</div>
+		</div>
+		<div class='lrmCode-Core_editPresetsWindow_list_addButton customButton'>ADD</div>
+		<div class='lrmCode-Core_editPresetsWindow_list_removeButton customButton'>REMOVE</div>
+	</div>
+	<div id="lrmCode-Core_editPresetsWindow_messageControls">
+		<div id="lrmCode-Core_editPresetsWindow_messageControls_nameLabel">NAME </div>
+		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_nameTextbox" value='name'>
+		<div id="lrmCode-Core_editPresetsWindow_messageControls_fromLabel">FROM </div>
+		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_fromTextbox"  value='from'>
+		<div id="lrmCode-Core_editPresetsWindow_messageControls_frequencyLabel">FREQUENCY </div>
+		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_frequencyTextbox" value='frequency'>
+		<div id="lrmCode-Core_editPresetsWindow_messageControls_keyLabel">KEY </div>
+		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_keyTextbox" value='key'>
+		<textarea id='lrmCode-Core_editPresetsWindow_messageControls_textarea'></textarea>
+		<div class='lrmCode-Core_editPresetsWindow_list_addButton customButton' id='lrmCode-Core_editPresetsWindow_messageControls_saveButton'>SAVE</div>
 	</div>
 </div>
 
@@ -53,7 +60,7 @@
 		</div>
 	</div>
 	<div id="lrmCore_sendMessageControls">
-		<div id="lrmCore_sendMessageControls_sendButton" class="customButton">SEND MESSAGE</div>
+		<div id="lrmCore_sendMessageControls_sendButton" class="customButton">SEND NEW MESSAGE</div>
 		<div id="lrmCore_sendMessageControls_missionPresetLabel">MISSION</div>
 		<select id="lrmCore_sendMessageControls_missionPresetSelect">
 			<option>PERIKOI</option>
