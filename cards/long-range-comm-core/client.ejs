@@ -2,33 +2,37 @@
 	<link rel="stylesheet" type="text/css" href="/resource?path=presetEditorWindowStyle.css&screen=long-range-comm-core">
 	<div class='lrmCode-Core_editPresetsWindow_list'>
 		<div class='lrmCode-Core_editPresetsWindow_list_header'>MISSIONS</div>
-		<div class='lrmCode-Core_editPresetsWindow_list_container'>
+		<div class='lrmCode-Core_editPresetsWindow_list_container' id='lrmCode-Core_editPresetsWindow_missions'>
 			<div class='noselect lrmCode-Core_editPresetsWindow_list_container_message'>
 				STARTUP
 			</div>
 		</div>
-		<div class='lrmCode-Core_editPresetsWindow_list_addButton customButton'>ADD</div>
-		<div class='lrmCode-Core_editPresetsWindow_list_removeButton customButton'>REMOVE</div>
+		<div class='lrmCode-Core_editPresetsWindow_list_addButton customButton' id='lrmCode-Core_editPresetsWindow_addMissionButton'>ADD</div>
+		<div class='lrmCode-Core_editPresetsWindow_list_removeButton customButton' id='lrmCode-Core_editPresetsWindow_removeMissionButton'>REMOVE</div>
 	</div>
 	<div class='lrmCode-Core_editPresetsWindow_list' id='lrmCore_Core_editPresetsWindow_presetsList'>
 		<div class='lrmCode-Core_editPresetsWindow_list_header'>PRESETS</div>
-		<div class='lrmCode-Core_editPresetsWindow_list_container'>
+		<div class='lrmCode-Core_editPresetsWindow_list_container' id='lrmCode-Core_editPresetsWindow_presets'>
 			<div class='noselect lrmCode-Core_editPresetsWindow_list_container_message'>
 				ISAAC PRESETS
 			</div>
 		</div>
-		<div class='lrmCode-Core_editPresetsWindow_list_addButton customButton'>ADD</div>
-		<div class='lrmCode-Core_editPresetsWindow_list_removeButton customButton'>REMOVE</div>
+		<div class='lrmCode-Core_editPresetsWindow_list_addButton customButton' id='lrmCode-Core_editPresetsWindow_addPresetButton'>ADD</div>
+		<div class='lrmCode-Core_editPresetsWindow_list_removeButton customButton' id='lrmCode-Core_editPresetsWindow_removePresetButton'>REMOVE</div>
 	</div>
 	<div id="lrmCode-Core_editPresetsWindow_messageControls">
+		<div id="lrmCode-Core_editPresetsWindow_messageControls_missionTextboxArea">
+			<div id="lrmCode-Core_editPresetsWindow_messageControls_missionTextboxArea_label">MISSION NAME</div>
+			<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_missionTextboxArea_textbox">
+		</div>
 		<div id="lrmCode-Core_editPresetsWindow_messageControls_nameLabel">NAME </div>
-		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_nameTextbox" value='name'>
+		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_nameTextbox" placeholder='name'>
 		<div id="lrmCode-Core_editPresetsWindow_messageControls_fromLabel">FROM </div>
-		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_fromTextbox"  value='from'>
+		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_fromTextbox"  placeholder='from'>
 		<div id="lrmCode-Core_editPresetsWindow_messageControls_frequencyLabel">FREQUENCY </div>
-		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_frequencyTextbox" value='frequency'>
+		<select id='lrmCode-Core_editPresetsWindow_messageControls_frequencyTextbox'></select>
 		<div id="lrmCode-Core_editPresetsWindow_messageControls_keyLabel">KEY </div>
-		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_keyTextbox" value='key'>
+		<input type="text" id="lrmCode-Core_editPresetsWindow_messageControls_keyTextbox" placeholder='key'>
 		<textarea id='lrmCode-Core_editPresetsWindow_messageControls_textarea'></textarea>
 		<div class='lrmCode-Core_editPresetsWindow_list_addButton customButton' id='lrmCode-Core_editPresetsWindow_messageControls_saveButton'>SAVE</div>
 	</div>

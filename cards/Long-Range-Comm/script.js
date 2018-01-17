@@ -13,7 +13,7 @@ var messageListContainer = $("#messageList_listContainer"),
 	sendMessageButton = $("#messageEncoder_messageEncoder_sendControls_sendMessageButton"),
 	clearMessageButton = $("#messageEncoder_messageEncoder_sendControls_clearMessageButton"),
 	printMessageButton = $("#printMessageButton"),
-	printCodeButton = $("#printCodeButton");
+	printCodeButton = $("#printCodeButton"),
 	selectAMessageMask = $("#messageDecoder_selectAMessage"),
 	recievedMessage_messageInfoFromLabel = $("#messageDecoder_message_info_sender"),
 	recievedMessage_frequencyLabel = $("#messageDecoder_message_info_frequency"),
@@ -30,7 +30,21 @@ var messageListContainer = $("#messageList_listContainer"),
 	popupSubtitle = $(".popupMask_messageBox_messageSubTitle"),
 	popupCloseButton = $("#messageHasNotDownloadedMask_popupMessage_close");
 //variables
-var messages = [],
+var messages = [
+		{
+			"messageGUID" : uuidv4(),
+			"timeRecieved" : new Date(),
+			"timeDecoded" : new Date(),
+			"reportedToCommand" : false,
+			"decoded" : false,
+			"downloadProgress" : 1,
+			"sentByCore" : true, //control room sent this message, not the crew
+			"wasReceived" : true, //has the crew received this message yet? (not possible when the system is damaged)
+			"frequency" : "FEDERATION FREQUENCY",
+			"from" : "STARFLEET COMMAND",
+			"key" : "ZULU-TANGO-32",
+			"text" : encrpyt.encode("THIS IS A TEST MESSAGE, YEEE BOI","ZULU-TANGO-32")
+		}],
 	frequencies = [],
 	selectedMessage = undefined;
 
@@ -187,19 +201,6 @@ function clearEncoder(){
 }
 
 //event handlers
-recievedMessage_keyTextbox.on("input",function(event){
-	var key = event.target.value.toUpperCase(),
-		messageText = messages[selectedMessage].text,
-		decodedString = encrpyt.decode(messageText,key);
-
-	recievedMessage_Textarea.html(decodedString.replace(/\n/g, "<br />"));
-	if(key == messages[selectedMessage].key){
-		messages[selectedMessage].decoded = true;
-		messages[selectedMessage].timeDecoded = new Date();
-		Interstellar.setDatabaseValue("longRangeComm.messages",messages);
-		loadMessageWithGUID(messages[selectedMessage].messageGUID);
-	}
-});
 
 recievedMessage_reportButton.click(function(event){
 	if(selectedMessage != undefined){
@@ -266,6 +267,20 @@ clearMessageButton.click(function(event){
 popupCloseButton.click(function(){
 	Interstellar.playRandomBeep();
 	popupContainer.fadeOut();
+});
+
+recievedMessage_keyTextbox.on("input",function(event){
+	var key = event.target.value.toUpperCase(),
+		messageText = messages[selectedMessage].text,
+		decodedString = encrpyt.decode(messageText,key);
+
+	recievedMessage_Textarea.html(decodedString.replace(/\n/g, "<br />"));
+	if(key == messages[selectedMessage].key){
+		messages[selectedMessage].decoded = true;
+		messages[selectedMessage].timeDecoded = new Date();
+		Interstellar.setDatabaseValue("longRangeComm.messages",messages);
+		loadMessageWithGUID(messages[selectedMessage].messageGUID);
+	}
 });
 
 //intervals
