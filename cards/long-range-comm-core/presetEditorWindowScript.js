@@ -21,6 +21,7 @@ Interstellar.addCoreWidget(undefined,function(){
 var presets = [],
 	selectedMission = 0,
 	selectedPreset = 0,
+	deleteMode = 0,
 	selectedColor = "rgba(0,128,255,.6)";
 	//init calls
 
@@ -39,6 +40,9 @@ var presets = [],
 
 	//functions
 	function loadPreset(mission,preset){
+		if(presets.length <= mission || presets[mission].messages.length <= preset){
+			return;
+		}
 		textarea.val(presets[mission].messages[preset].text);
 		fromTextbox.val(presets[mission].messages[preset].from);
 		keyTextbox.val(presets[mission].messages[preset].key);
@@ -77,14 +81,27 @@ var presets = [],
 		$(".lrmCode-Core_editPresetsWindow_preset").off();
 		$(".lrmCode-Core_editPresetsWindow_mission").click(function(event){
 			selectedMission = Number($(event.target).attr("index"));
-			selectedPreset = 0;
-			drawGUI();
-			loadPreset(selectedMission,selectedPreset);
+			if(deleteMode == 0 || deleteMode == 2){
+				selectedPreset = 0;
+				drawGUI();
+				loadPreset(selectedMission,selectedPreset);
+			}else if(deleteMode == 1){
+				presets.splice(selectedMission,1);
+				Interstellar.setPresetValue("lrm.messages",presets);
+				deleteMode = 0;
+			}
 		});
 		$(".lrmCode-Core_editPresetsWindow_preset").click(function(event){
 			selectedPreset = Number($(event.target).attr("index"));
-			drawGUI();
-			loadPreset(selectedMission,selectedPreset);
+
+			if(deleteMode == 0 || deleteMode == 1){
+				drawGUI();
+				loadPreset(selectedMission,selectedPreset);
+			}else if(deleteMode == 2){
+				presets[selectedMission].messages.splice(selectedPreset,1);
+				Interstellar.setPresetValue("lrm.messages",presets);
+				deleteMode = 0;
+			}
 		});
 	}
 
@@ -102,6 +119,27 @@ var presets = [],
 	missionTextbox.on("change",function(event){
 		presets[selectedMission].name = event.target.value;
 		Interstellar.setPresetValue("lrm.messages",presets);
+	});
+
+	addPresetButton.click(function(event){
+		console.log("what the hell");
+		var defaultMessageTemplate =
+		{
+			"name" : "NEW PRESET",
+			"frequency" : frequencySelect.val(),
+			"from" : "",
+			"key" : "",
+			"text" : ""
+		}
+		presets[selectedMission].messages.unshift(defaultMessageTemplate);
+		Interstellar.setPresetValue("lrm.messages",presets);
+	});
+
+	removeMissionButton.click(function(event){
+		deleteMode = 1;
+	});
+	removePresetButton.click(function(event){
+		deleteMode = 2;
 	});
 
 	addMissionButton.click(function(event){

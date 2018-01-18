@@ -17,7 +17,11 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		editPresetsButton = $("#lrmCore_sendMessageControls_presetEditButton"),
 		nextPresetButton = $("#lrmCore_sendMessageControls_presetNextButton"),
 		presetMissionSelect = $("#lrmCore_sendMessageControls_missionPresetSelect"),
-		presetPresetSelect = $("#lrmCore_sendMessageControls_presetPresetSelect");
+		presetPresetSelect = $("#lrmCore_sendMessageControls_presetPresetSelect"),
+		editingAnOldMessageContainer = $("#lrmCore_sendMessageControls_editingOldMessages"),
+		editingAnOldMessageContainer_deleteButton = $("#lrmCore_sendMessageControls_editingOldMessages_sendAsNewButton"),
+		editingAnOldMessageContainer_exitButton = $("#lrmCore_sendMessageControls_editingOldMessages_exitButton"),
+		editingAnOldMessageContainer_saveOverButton = $("#lrmCore_sendMessageControls_editingOldMessages_saveOverButton");
 
 	//variables
 	var frequencies = [],
@@ -25,6 +29,7 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		selectedPresetMission = 0,
 		selectedPreset = 0,
 		presetMessages = [],
+		messageCurrentlyEditing = -1,
 		presetKeys = [],
 		systemIsDamaged = false,
 		neverDrawn = true,
@@ -169,6 +174,7 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 					if(messages[i].messageGUID == guid){
 						if(messages[i].sentByCore){
 							//core message
+							messageCurrentlyEditing = i;
 							loadCoreMessageAtIndex(i);
 						}else{
 							//crew message
@@ -188,7 +194,12 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 	}
 
 	function loadCoreMessageAtIndex(index){
-
+		editingAnOldMessageContainer.slideDown();
+		sendMessageTextarea.animate({"top" : 22, "height" : sendMessageTextarea.parent().height() - 30});
+		sendMessageTextarea.val(encrpyt.decode(messages[index].text,messages[index].key.toUpperCase()));
+		keyTextbox.val(messages[index].key);
+		fromTextbox.val(messages[index].from);
+		frequencySelect.val(messages[index].frequency.toUpperCase());
 	}
 
 	function loadCrewMessageAtIndex(index){
@@ -236,6 +247,11 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		presetPresetSelect.html(presetHTML);
 	}
 
+	function closePreExistingMessageWarning(){
+		editingAnOldMessageContainer.slideUp();
+		sendMessageTextarea.animate({"top" : 2, "height" : sendMessageTextarea.parent().height() - 9});
+	}
+
 	function loadPresetMessageAtIndex(mission,index){
 		if(presetMessages[mission].messages.length > index){
 			sendMessageTextarea.val(presetMessages[mission].messages[index].text);
@@ -281,7 +297,44 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		loadPresetMessageAtIndex(selectedPresetMission,selectedPreset);
 	});
 
+	editingAnOldMessageContainer_saveOverButton.click(function(event){
+		var from = fromTextbox.val().toUpperCase();
+		var text = sendMessageTextarea.val();
+		var key = keyTextbox.val().toUpperCase();
+		var frequency = frequencySelect.val().toLowerCase();
+
+		messages[messageCurrentlyEditing].text = key != "" ? encrpyt.encode(text,key) : text;
+		messages[messageCurrentlyEditing].frequency = frequency;
+		messages[messageCurrentlyEditing].key = key;
+		messages[messageCurrentlyEditing].decoded = key != "" ? false : true;
+		messages[messageCurrentlyEditing].from = from;
+
+		Interstellar.setDatabaseValue("longRangeComm.messages",messages);
+		closePreExistingMessageWarning();
+		clearCoreMessageEncoder();
+		updateMessageLists(messages,true);
+	});
+
+	editingAnOldMessageContainer_exitButton.click(function(event){
+		closePreExistingMessageWarning();
+		clearCoreMessageEncoder();
+		messageCurrentlyEditing = -1;
+	});
+
+	editingAnOldMessageContainer_deleteButton.click(function(event){
+		var newMessages = [];
+		for(var i = 0;i < messages.length;i++){
+			if(i != messageCurrentlyEditing){
+				newMessages.splice(newMessages.length,0,messages[i]);
+			}
+		}
+		Interstellar.setDatabaseValue("longRangeComm.messages",newMessages);
+		closePreExistingMessageWarning();
+		clearCoreMessageEncoder();
+	});
+
 	sendMessageButton.click(function(event){
+		closePreExistingMessageWarning();
 		var from = fromTextbox.val().toUpperCase();
 		var text = sendMessageTextarea.val();
 		var key = keyTextbox.val().toUpperCase();
