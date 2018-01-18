@@ -1,0 +1,132 @@
+
+@keyframes example {
+    0%   {-webkit-transform: rotate(0deg);filter:brightness(1);}
+    20%  {-webkit-transform: rotate(10deg);filter:brightness(2) drop-shadow(0px 0px 20px white);}
+    40%  {-webkit-transform: rotate(2deg);filter:brightness(1);}
+    60%  {-webkit-transform: rotate(-15deg);filter:brightness(2) drop-shadow(0px 0px 20px white);}
+    100%  {-webkit-transform: rotate(0deg);filter:brightness(1);}
+}
+
+@keyframes flashRed {
+    0%   {filter:drop-shadow(0px 0px 50px rgb(0,128,255));background-color: rgba(0,0,0,.7);}
+    5%   {filter:drop-shadow(0px 0px 100px red);background-color: rgba(255,0,0,.6);}
+    100%  {filter:drop-shadow(0px 0px 50px rgb(0,128,255));background-color: rgba(0,0,0,.7);}
+}
+
+#icr_popup_callboxMask{
+	display: none;
+	position: absolute;
+	top:10%;
+	left: 0px;
+	z-index: 4;
+	background-color: rgba(0,0,0,.5);
+	height: 90%;
+	width:100%;
+}
+.icr_flashRedAnimation{
+    animation-name: flashRed;
+    animation-duration: 3.5s;
+    animation-timing-function: cubic-bezier();
+    animation-iteration-count: 1;
+}
+.icr_popup_phoneAnimation{
+    animation-name: example;
+    animation-duration: 1s;
+    animation-timing-function: cubic-bezier();
+    animation-iteration-count: 1;
+}
+#icr_popup_callbox_muteButton:hover{
+	filter: brightness(1.25);
+}
+#icr_popup_callbox_muteButton:active{
+	filter: brightness(0.75);
+}
+#icr_popup_callbox_muteButton{
+	display: none;
+	background-color: rgba(255,213,0,.5);
+	cursor: pointer;
+	position: absolute;
+	bottom: 32%;
+	filter: drop-shadow(0px 0px 20px orange);
+	height: 15%;
+	width: 40%;
+	right: 10%;
+	border-radius: 20px;
+	text-align: center;
+	font-size: 3vw;
+	border: 1px solid white;
+	color: white;
+}
+#icr_popup_callbox_answerButton{
+	cursor: pointer;
+	position: absolute;
+	bottom: 32%;
+	height: 15%;
+	width: 40%;
+	right: 10%;
+	filter: drop-shadow(0px 0px 7px lime);
+	border-radius: 20px;
+	text-align: center;
+	font-size: 3vw;
+	background-color: rgba(0, 148, 0, 0.95);
+	border: 1px solid white;
+	color: white;
+}
+#icr_popup_callbox_hangUpButton{
+	cursor: pointer;
+	position: absolute;
+	bottom: 15%;
+	height: 15%;
+	width: 40%;
+	right: 10%;
+	border-radius: 20px;
+	text-align: center;
+	font-size: 3vw;
+	filter: drop-shadow(0px 0px 9px red);
+	background-color: rgba(128,0,0,.95);
+	border: 1px solid white;
+	color: white;
+}
+#icr_popup_callbox_hangUpButton:hover{
+	filter: brightness(1.25);
+}
+#icr_popup_callbox_hangUpButton:active{
+	filter: brightness(0.75);
+}
+#icr_popup_callbox_roomHeader{
+    position: absolute;
+    top: 39%;
+    font-size: 2vw;
+    width: 100%;
+    left: calc(20% + 2px);
+}
+#icr_popup_callbox_header{
+	position: absolute;
+	top: 11%;
+	font-size: 6vw;
+	width:100%;
+	left: 20%;
+}
+#icr_popup_callbox_phoneConnectedIcon{
+	display: none;
+}
+#icr_popup_callbox_phoneMutedIcon{
+	display: none;
+}
+.icr_popup_phone{
+	position: absolute;
+	top: 48%;
+	font-size: 4vw;
+	left: 19%;
+}
+#icr_popup_callbox{
+	position: absolute;
+	top:30%;
+	height: 35%;
+	width:35%;
+	filter: drop-shadow(0px 0px 50px rgb(0,128,255));
+	left: 32.5%;
+	background-color: rgba(0,0,0,.7);
+	z-index: 4;
+	border:1px solid white;
+}

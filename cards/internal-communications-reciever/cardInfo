@@ -1,0 +1,8 @@
+{
+	"cardName":"internal-communications-reciever",
+	"cardType":"card controller",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the station to recieve incoming calls"
+}
