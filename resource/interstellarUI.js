@@ -123,6 +123,5 @@ document.addEventListener("keydown", function (e) {
 });
 
 $(document).ready(function(){
-	console.log("loading core layout");
 	Interstellar.loadCoreLayout();
 });

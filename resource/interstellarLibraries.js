@@ -445,15 +445,17 @@
 		var zIndexCounter = 100;
 
 		this.loadCoreLayout = function(){
-			var coreLayouts = Interstellar.getPresetValue("coreLayouts.layouts").value;
+			var coreLayouts = this.getPresetValue("coreLayouts.layouts").value;
 			if(coreLayouts == null){
 				return;
 			}
 			for(var i = 0;i < coreLayouts.length;i++){
-				$('[widgetName="' + coreLayouts[i].widgetName + '"]').css("top",coreLayouts[i].top + "px");
-				$('[widgetName="' + coreLayouts[i].widgetName + '"]').css("left",coreLayouts[i].left + "px");
-				$('[widgetName="' + coreLayouts[i].widgetName + '"]').css("height",coreLayouts[i].height + "px");
-				$('[widgetName="' + coreLayouts[i].widgetName + '"]').css("width",coreLayouts[i].width + "px");
+				if($('[widgetName="' + coreLayouts[i].widgetName + '"]').length != 0){
+					$('[widgetName="' + coreLayouts[i].widgetName + '"]').css("top",coreLayouts[i].top + "px");
+					$('[widgetName="' + coreLayouts[i].widgetName + '"]').css("left",coreLayouts[i].left + "px");
+					$('[widgetName="' + coreLayouts[i].widgetName + '"]').css("height",coreLayouts[i].height + "px");
+					$('[widgetName="' + coreLayouts[i].widgetName + '"]').css("width",coreLayouts[i].width + "px");
+				}
 			}
 		}
 
