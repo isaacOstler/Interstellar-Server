@@ -12,6 +12,7 @@ Interstellar.addCoreWidget("Internal Communications",function(){
 
 	var isCalling = false,
 		isConnected = false,
+		callRoom = "",
 		isMuted = false;
 
 	//DOM References
@@ -62,7 +63,6 @@ Interstellar.addCoreWidget("Internal Communications",function(){
 		}
 		isConnected = newData;
 		if(isConnected){
-			incomingCallTextbox.val("NO INCOMING HAIL");
 			callInfoLabel.html("NO CALL");
 			callInfoLabel.css("color","lime");
 			incomingCallTextbox.css("background-color","");
@@ -78,7 +78,8 @@ Interstellar.addCoreWidget("Internal Communications",function(){
 			Interstellar.setDatabaseValue("internalComm.crewCall.currentCall","NO CALL");
 			return;
 		}
-		if(newData == "NO CALL"){
+		callRoom = newData;
+		if(callRoom == "NO CALL"){
 			incomingCallConnectButton.prop("disabled","disabled");
 			isConnected = false;
 			callInfoLabel.html("NO CALL");
@@ -86,9 +87,9 @@ Interstellar.addCoreWidget("Internal Communications",function(){
 			incomingCallTextbox.css("background-color","");
 		}else{
 			incomingCallConnectButton.prop("disabled","");
-			incomingCallTextbox.val(newData.toString().toUpperCase());
+			incomingCallTextbox.val(callRoom.toString().toUpperCase());
 			incomingCallTextbox.css("background-color","red");
-			Interstellar.say("Internal call. " + newData);
+			Interstellar.say("Internal call. " + callRoom);
 			callInfoLabel.html("INCOMING CALL");
 			callInfoLabel.css("color","gold");
 		}
