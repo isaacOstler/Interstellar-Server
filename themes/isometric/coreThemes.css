@@ -292,7 +292,7 @@ body{
 	left: 4px;
 	width: calc(100% - 8px);
 	height: 4px;
-	z-index: 10001;
+	z-index: 10002;
 	cursor: ns-resize;
 }
 .coreWidget-bottomResize{
