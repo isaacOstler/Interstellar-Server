@@ -13,6 +13,7 @@ Interstellar.addCoreWidget("Engine Control",function(){
 	//variables
 	var currentEngine = 0,
 		currentSpeed = -1,
+		didAnnounce = false,
 		impulseSpeeds = ["1/4","1/2","3/4","Full"],
 		warpSpeeds = [1,2,3,4,5,6,7,8,9,9.23],
 		impulseSpeedSpeech = ["1 Quarter","1 Half","3 Quarters","Full"],
@@ -29,7 +30,7 @@ Interstellar.addCoreWidget("Engine Control",function(){
 					"starboard" : 70
 				}
 		},
-		maxHeat = 10000,
+		maxHeat = 1200,
 		restingHeat = 70,
 		heatLevels = 
 		{
@@ -106,6 +107,66 @@ Interstellar.addCoreWidget("Engine Control",function(){
 			return;
 		}
 		heats = newData;
+		for(var i = 0;i < 4;i++){
+			var heat = 0;
+			switch(i){
+				case 0:
+					heat = newData.impulse.port;
+				break;
+				case 1:
+					heat = newData.impulse.starboard;
+				break;
+				case 2:
+					heat = newData.warp.port;
+				break;
+				case 3:
+					heat = newData.warp.starboard;
+				break;
+			}
+			if(heat / maxHeat > .49 && heat / maxHeat < .51){
+				if(!didAnnounce){
+					didAnnounce = true;
+					Interstellar.say("Engine heat at 50%, " + Math.round(heat) + " degrees");
+					setTimeout(function(){
+						didAnnounce = false
+					},5000);
+				}
+			}
+			if(heat / maxHeat > .74 && heat / maxHeat < .76){
+				if(!didAnnounce){
+					didAnnounce = true;
+					Interstellar.say("HEAT LEVELS HIGH: Engine heat at 75%, " + Math.round(heat) + " degrees");
+					setTimeout(function(){
+						didAnnounce = false
+					},5000);
+				}
+			}
+			if(heat / maxHeat > .88 && heat / maxHeat < .91){
+				if(!didAnnounce){
+					didAnnounce = true;
+					Interstellar.playSoundEffect("attention.wav");
+					Interstellar.say("WARNING HEAT LEVELS HIGH: Engine heat at 90%, " + Math.round(heat) + " degrees");
+					setTimeout(function(){
+						didAnnounce = false
+					},5000);
+				}
+			}
+			if(heat > maxHeat * .99 && heat < maxHeat + (maxHeat * .01)){
+				if(!didAnnounce){
+					didAnnounce = true;
+					Interstellar.playSoundEffect("attention.wav");
+					setTimeout(function(){
+						Interstellar.playSoundEffect("attention.wav");
+					},1250);
+					setTimeout(function(){
+						Interstellar.say("WARNING HEAT LEVELS CRITICAL: Engine heat at " + Math.round(heat) + " degrees");
+					},2500);
+					setTimeout(function(){
+						didAnnounce = false
+					},7000);
+				}
+			}
+		}
 		updateHeatGUI();
 	});
 	//preset observers

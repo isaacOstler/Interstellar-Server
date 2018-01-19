@@ -23,7 +23,7 @@ var heats = {
 			"starboard" : 0
 		}
 	}
-	maxHeat = 10000,
+	maxHeat = 1200,
 	currentEngine = 0, //0 for impulse, 1 for warp
 	currentSpeed = 0, //index of the speed (for the speed arrays)
 	alertStatus = 5,
@@ -498,7 +498,7 @@ function drawHeatDisplays(){
 		ctx.font = (radius * .3) + "px Arial";
       	ctx.textAlign = 'center';
       	ctx.fillStyle = "white";
-      	ctx.fillText(Math.round(heat) + "°",center,center + 15);
+      	ctx.fillText(Math.round(heat) + "° F",center,center + 15);
 		ctx.stroke();
 		ctx.beginPath();
     	ctx.strokeStyle = "rgba(255,0,0,.5)";
@@ -516,11 +516,15 @@ $("#fullStopButton").click(function(event){
 });
 
 $(".flushCoolant").mousedown(function(event){
+	if(coolant == undefined || coolant.length == 0){
+		Interstellar.playErrorNoise();
+		return;
+	}
 	for(var i = 0;i < coolant.length;i++){
 		if(coolant[i].systemName.includes("ENGINE")){
 			coolantAmount = coolant[i].coolantAmount;
 			coolantFillBar.css("width",(coolantAmount * 100) + "%")
-			coolantAmount -= .01;
+			coolantAmount -= .0025;
 			if(coolantAmount <= 0){
 				Interstellar.playErrorNoise();
 				return;
@@ -539,7 +543,7 @@ $(".flushCoolant").mousedown(function(event){
 			if(coolant[i].systemName.includes("ENGINE")){
 				coolantAmount = coolant[i].coolantAmount;
 				coolantFillBar.css("width",(coolantAmount * 100) + "%")
-				coolantAmount -= .01;
+				coolantAmount -= .0025;
 				coolant[i].coolantAmount = coolantAmount;
 				Interstellar.setDatabaseValue("coolant.systemCoolantLevels",coolant);
 				if(coolantAmount <= 0){
@@ -555,15 +559,15 @@ $(".flushCoolant").mousedown(function(event){
 		}
 		if(currentEngine == 0){
 			if(engineFlushing == "port"){
-				amountToChange = (heats.impulse.port / maxHeat) * 50;
+				amountToChange = ((heats.impulse.port - 58) / maxHeat) * 50;
 			}else{
-				amountToChange = (heats.impulse.starboard / maxHeat) * 50;
+				amountToChange = ((heats.impulse.starboard - 58) / maxHeat) * 50;
 			}
 		}else{
 			if(engineFlushing == "port"){
-				amountToChange = (heats.warp.port / maxHeat) * 50;
+				amountToChange = ((heats.warp.port - 58) / maxHeat) * 50;
 			}else{
-				amountToChange = (heats.warp.starboard / maxHeat) * 50;
+				amountToChange = ((heats.warp.starboard - 58) / maxHeat) * 50;
 			}
 		}
 		if(currentEngine == 0){

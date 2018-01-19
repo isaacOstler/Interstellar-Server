@@ -96,6 +96,7 @@ Interstellar.addCoreWidget("Internal Communications",function(){
 	});
 	//event handlers
 	incomingCallConnectButton.click(function(event){
-		Interstellar.setDatabaseValue("internalComm.crewCall.LineConnected",true);
+		isConnected = !isConnected;
+		Interstellar.setDatabaseValue("internalComm.crewCall.LineConnected",isConnected);
 	});
 });

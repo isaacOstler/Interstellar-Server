@@ -239,7 +239,17 @@ Interstellar.addCoreWidget("Damage Control",function(){
 			for(var i = 0;i < damagedSystemStatus.length;i++){
 				newArray.splice(newArray.length,0,damagedSystemStatus[i]);
 				var amount = Math.max(Math.min(0.75 - (Math.log(i) / 2),1),0);
-				newArray[i].timePassed += amount;
+				//first we need to make sure there aren't any pings
+				var pingDetected = false;
+				for(var j = 0;j < damagePings.length;j++){
+					console.log(damagePings[i]);
+					if(damagePings[j].pingSystem == damagedSystemStatus[i].systemName){
+						pingDetected = true;
+					}
+				}
+				if(!pingDetected){
+					newArray[i].timePassed += amount;
+				}
 			}
 			for(var i = 0;i < newArray.length;i++){
 				if(newArray[i].timePassed >= newArray[i].timeRequired){
