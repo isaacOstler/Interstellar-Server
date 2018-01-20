@@ -170,7 +170,7 @@
 		},
 		"weaponStatus" :
 		{
-			"torpedoCount" : 2,
+			"torpedoCount" : 40,
 			"torpedoLoaded" : false
 		},
 		"point" :
@@ -196,8 +196,8 @@
 		},
 		"weaponStatus" :
 		{
-			"torpedoCount" : 25,
-			"torpedoLoaded" : true
+			"torpedoCount" : 40,
+			"torpedoLoaded" : false
 		},
 		"point" :
 		{

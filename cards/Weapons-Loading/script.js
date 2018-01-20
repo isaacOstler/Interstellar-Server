@@ -180,10 +180,11 @@ function drawGUI(){
 				var columnWidth = weapons[index].size.width * 80;
 				var rowHeight = weapons[index].size.height * 35;
 				torpedo.stop();
-				torpedo.animate({"left" : 228},5000,function(){
+				torpedo.animate({"left" : 250},5000,function(){
 					torpedo.stop();
-					torpedo.animate({"top" : 2},5000,function(){
+					torpedo.animate({"top" : 4},5000,function(){
 						weapons[index].weaponStatus.torpedoLoaded = true;
+						weapons[index].weaponStatus.torpedoCount--;
         				Interstellar.setDatabaseValue("weapons.weaponStatus",weapons);
 					});
 				});
@@ -232,6 +233,7 @@ function drawGUI(){
 					torpedo.stop();
 					torpedo.animate({"left" : ((columnWidth * calculatedColumn) + 20)},5000,function(){
 						weapons[index].weaponStatus.torpedoLoaded = false;
+						weapons[index].weaponStatus.torpedoCount++;
         				Interstellar.setDatabaseValue("weapons.weaponStatus",weapons);
 					});
 				});
