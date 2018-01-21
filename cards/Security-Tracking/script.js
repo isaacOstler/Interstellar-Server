@@ -16,10 +16,11 @@ var gridWidth = 45,
 	devDrawSettings =
 	{
 		"blockType" : "wall", //wall is the only supported mode right now, hope to add doors soon
-		"zoning" : true,
+		"zoning" : false,
 		"zoneName" : "Sickbay Alpha"
 	},
-	zones = []
+	zones = [],
+	drawZones = false,
 	drawBounds = true,
 	currentDeck = 2,
 
@@ -61,15 +62,35 @@ enterDevDrawMode();
 
 $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
 	worldMaps = deckDataJSONFile.deck;
-	compiledZoneMaps = deckDataJSONFile.compiledZoneMap;
+	zones = deckDataJSONFile.zones;
+	var zonesOnDeck = [];
+	for(var i = 0;i < worldMaps.length;i++){
+		compiledZoneMaps.splice(compiledZoneMaps.length,0,[]);
+	}
+	for(var i = 0;i < zones.length;i++){
+		var detected = false;
+		for(var j = 0;j < zonesOnDeck.length;j++){
+			if(zones[i].zoneDeck == zonesOnDeck[j].deck){
+				detected = true;
+				zonesOnDeck[j].zones.splice(zonesOnDeck[j].length,0,zones[i]);
+			}
+		}
+		if(!detected){
+			zonesOnDeck.splice(zonesOnDeck.length,0,
+			{
+				"deck" : zones[i].zoneDeck,
+				"zones" : [zones[i]]
+			});
+		}
+	}
+	for(var i = 0;i < zonesOnDeck.length;i++){
+		compiledZoneMaps[zonesOnDeck[i].deck] = compileZoneMap(zonesOnDeck[i].zones);
+	}
 	pathfinder = new Pathfinder();
 	initWorld(function(){
-		for(degree = 0;degree < 360;degree++){
-			var cart = polarToCartesian({"radians" : degreesToRadians(degree), "distance" : ((gridWidth / gridHeight) * gridHeight) * .4});
-			worldMap[Math.floor(cart.x + gridWidth / 2)][Math.floor(cart.y + gridHeight / 2) - 3].state = "closed";
-		}
 		drawCanvas();
 		if(!devDrawMode){
+			/*
 			setInterval(function(){
 				if(compiledZoneMaps[currentDeck].length == 0){
 					return;
@@ -78,10 +99,10 @@ $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
 				var randomZone = Math.floor(Math.random() * zones.length);
 				var wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
 				officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,currentDeck,wanderPoint.y,wanderPoint.x,Math.random() * 550 + 1000));
-				var randomZone = Math.floor(Math.random() * zones.length);
-				wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
-				changeOfficerPath(officerPositions.length - 1,wanderPoint.x,wanderPoint.y);
-			},1000);
+				//var randomZone = Math.floor(Math.random() * zones.length);
+				//wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
+				//changeOfficerPath(officerPositions.length - 1,wanderPoint.x,wanderPoint.y);
+			},1000);*/
 
 			setInterval(function(){
 				for(var i = 0;i < officerPositions.length;i++){
@@ -137,16 +158,18 @@ function updateOfficerPosition(index){
 	if(timePassed >= totalTime || officerPositions[index].positioning.path == "NO PATH" || officerPositions[index].positioning.path.length == 0){
 		//this person is already at the destination
 		if(!(officerPositions[index].positioning.path == "NO PATH" || officerPositions[index].positioning.path.length == 0)){
+			//the code below sets officers to "wander mode"
+
 			//if they had a path, set the x and y pos to the last step
 			//officerPositions[index].positioning.xPos = officerPositions[index].positioning.path[officerPositions[index].positioning.length - 1].x;
 			//officerPositions[index].positioning.yPos = officerPositions[index].positioning.path[officerPositions[index].positioning.length - 1].y;
-			if(!officerPositions[index].state.dead && !officerPositions[index].state.frozen){
-				if(Math.random() > .99){
-					var randomZone = Math.floor(Math.random() * zones.length),
-						wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
-					changeOfficerPath(index,wanderPoint.x,wanderPoint.y);
-				}
-			}
+			//if(!officerPositions[index].state.dead && !officerPositions[index].state.frozen){
+			//	if(Math.random() > .99){
+			//		var randomZone = Math.floor(Math.random() * zones.length),
+			//			wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
+			//		changeOfficerPath(index,wanderPoint.x,wanderPoint.y);
+			//	}
+			//}
 		}
 		return;
 	}
@@ -181,12 +204,12 @@ function enterDevDrawMode(){
 			y = Math.floor(Math.min(Math.max(event.offsetY / width,0),1) * gridHeight);
 
 		let drawState;
-		if(worldMap[x][y].state == "closed"){
+		if(worldMaps[currentDeck][x][y].state == "closed"){
 			drawState = "open";
-			//worldMap[x][y].state = "open";
+			//worldMaps[currentDeck][x][y].state = "open";
 		}else{
 			drawState = "closed";
-			//worldMap[x][y].state = "closed";
+			//worldMaps[currentDeck][x][y].state = "closed";
 		}
 
 		if(devDrawSettings.zoning){
@@ -198,7 +221,6 @@ function enterDevDrawMode(){
 					}
 				}
 			}
-			console.log(detected);
 			if(detected){
 				drawState = "removeZone";
 			}else{
@@ -221,7 +243,7 @@ function enterDevDrawMode(){
 				}
 			}
 		}else{
-			worldMap[x][y].state = drawState;
+			worldMaps[currentDeck][x][y].state = drawState;
 		}
 		canvas.on("mousemove.draw",function(event){
 			var width = canvas.width(),
@@ -254,7 +276,7 @@ function enterDevDrawMode(){
 					zones.splice(zones.length,0,{"zoneName" : devDrawSettings.zoneName,"zoneDeck" : currentDeck,"color" : getRandomColor(),"tiles" : [{"x" : x,"y" : y}]});
 				}
 			}else{
-				worldMap[x][y].state = drawState;
+				worldMaps[currentDeck][x][y].state = drawState;
 			}
 		});
 		canvas.on("mouseup.end",function(event){
@@ -265,7 +287,19 @@ function enterDevDrawMode(){
 	});
 }
 
-
+function sendOfficerToRoom(officer,room,deck){
+	if(officerPositions[officer].positioning.deck != deck){
+		//we need to go to a different deck,
+		//lets head to the turbolift
+	}else{
+		for(var i = 0;i < zones.length;i++){
+			if(zones[i].zoneName.toLowerCase() == room.toLowerCase()){
+				wanderPoint = zones[i].tiles[Math.floor(zones[i].tiles.length * Math.random())];
+				changeOfficerPath(officer,wanderPoint.x,wanderPoint.y);
+			}
+		}
+	}
+}
 
 function generateNewOfficer(firstName,lastName,type,deck,positionX,positionY,moveSpeed){
 	var newOfficer = 	
@@ -345,7 +379,6 @@ function startPathfindingTest(){
 			x = Math.floor(Math.min(Math.max(event.offsetX / height,0),1) * gridWidth),
 			y = Math.floor(Math.min(Math.max(event.offsetY / width,0),1) * gridHeight);
 
-		console.log(x,y);
 
 		//drawPath(pathfinder.getPathForPoints(worldMap,1,17,x,y));
 		changeOfficerPath(0,x,y);
@@ -387,9 +420,9 @@ function initWorld(functionCallback){
 
 		/*
 		for(var i = 0;i < gridHeight;i++){
-			worldMap[i] = [];
+			worldMaps[currentDeck][i] = [];
 			for(var j = 0;j < gridWidth;j++){
-				worldMap[i][j] = 
+				worldMaps[currentDeck][i][j] = 
 				{
 					"state" : Math.random() > .25 ? "open" : "closed"
 				}
@@ -407,6 +440,39 @@ function getRandomColor() {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
+}
+
+function createNewDeck(radius){
+	worldMap = [];
+	
+	for(var i = 0;i < gridHeight;i++){
+		worldMaps[currentDeck][i] = [];
+		for(var j = 0;j < gridWidth;j++){
+			worldMaps[currentDeck][i][j] = 
+			{
+				"state" : "open"
+			}
+		}
+	}
+	if(radius != undefined){
+		for(degree = 0;degree < 360;degree++){
+			var cart = polarToCartesian({"radians" : degreesToRadians(degree), "distance" : ((gridWidth / gridHeight) * gridHeight) * radius});
+			worldMaps[currentDeck][Math.floor(cart.x + gridWidth / 2)][Math.floor(cart.y + gridHeight / 2) - 3].state = "closed";
+		}
+	}
+}
+
+function hexToRgbA(hex,opacity){
+    var c;
+    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+        c= hex.substring(1).split('');
+        if(c.length== 3){
+            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+        }
+        c= '0x'+c.join('');
+        return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',opacity)';
+    }
+    throw new Error('Bad Hex');
 }
 
 function setState(index,state,status){
@@ -463,20 +529,23 @@ function drawCanvas(){
 	ctx.stroke();
 	ctx.setLineDash([]);
 
+
 	for(var i = 0;i < zones.length;i++){
-		ctx.beginPath();//draw world zones
-		for(var j = 0;j < zones[i].tiles.length;j++){
-			ctx.rect(zones[i].tiles[j].x * cellHeight,zones[i].tiles[j].y * cellWidth,cellHeight,cellWidth);
+		if(drawZones || zones[i].highlighted){
+			ctx.beginPath();//draw world zones
+			for(var j = 0;j < zones[i].tiles.length;j++){
+				ctx.rect(zones[i].tiles[j].x * cellHeight,zones[i].tiles[j].y * cellWidth,cellHeight,cellWidth);
+			}
+			ctx.fillStyle = zones[i].color;
+			ctx.fill();
+			ctx.stroke();
 		}
-		ctx.fillStyle = zones[i].color;
-		ctx.fill();
-		ctx.stroke();
 	}
 
 	ctx.beginPath();//draw world tiles
 	for(var i = 0;i < worldMap.length;i++){
-		for(var j = 0;j < worldMap[i].length;j++){
-			if(worldMap[i][j].state == "closed"){
+		for(var j = 0;j < worldMaps[currentDeck][i].length;j++){
+			if(worldMaps[currentDeck][i][j].state == "closed"){
 				ctx.rect(i * cellHeight,j * cellWidth,cellHeight,cellWidth);
 			}
 		}
@@ -534,7 +603,7 @@ function findTileWithCords(xCord,yCord){
 	return({"x" : xTile, "y" : yTile});
 }
 
-function compileZoneMap(deck){
+function compileZoneMap(passedZones){
 	var compiledMap = [];
 	for(var i = 0;i < gridHeight;i++){
 		compiledMap[i] = [];
@@ -545,11 +614,11 @@ function compileZoneMap(deck){
 			}
 		}
 	}
-	for(var i = 0;i < zones.length;i++){
-		for(var j = 0;j < zones[i].tiles.length;j++){
-			var tileX = zones[i].tiles[j].x,
-				tileY = zones[i].tiles[j].y;
-			compiledMap[tileX][tileY].zoneName = zones[i].zoneName;
+	for(var i = 0;i < passedZones.length;i++){
+		for(var j = 0;j < passedZones[i].tiles.length;j++){
+			var tileX = passedZones[i].tiles[j].x,
+				tileY = passedZones[i].tiles[j].y;
+			compiledMap[tileX][tileY].zoneName = passedZones[i].zoneName;
 		}
 	}
 	return compiledMap;
@@ -561,7 +630,6 @@ canvas.on("mousemove.seeZone",function(event){
 	if(compiledZoneMaps[currentDeck].length > 0){
 		var cords = findTileWithCords(event.offsetX,event.offsetY);
 		var zoneName = compiledZoneMaps[currentDeck][cords.x][cords.y].zoneName;
-
 		zoneContainerElement.css("left",event.pageX + 20 + "px");
 		zoneContainerElement.css("top",event.pageY - 20 + "px");
 
@@ -569,7 +637,17 @@ canvas.on("mousemove.seeZone",function(event){
 			zoneContainerElement.stop();
 			zoneContainerElement.fadeIn();
 			zoneContainerElement_label.html(zoneName.toUpperCase());
+			for(var i = 0;i < zones.length;i++){
+				if(zones[i].zoneName == zoneName){
+					zones[i].highlighted = true;
+				}else{
+					zones[i].highlighted = false;
+				}
+			}
 		}else{
+			for(var i = 0;i < zones.length;i++){
+				zones[i].highlighted = false;
+			}
 			zoneContainerElement.stop();
 			zoneContainerElement.fadeOut();
 		}
