@@ -443,7 +443,7 @@ function getRandomColor() {
 }
 
 function createNewDeck(radius){
-	worldMap = [];
+	worldMaps[currentDeck][i] = [];
 	
 	for(var i = 0;i < gridHeight;i++){
 		worldMaps[currentDeck][i] = [];
