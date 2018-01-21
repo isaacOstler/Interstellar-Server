@@ -129,7 +129,6 @@ function drawOfficerPositions(deck){
 	var width = canvas.width(),
 		height = canvas.height();
 	
-
 	cellWidth = width / gridWidth,
 	cellHeight = height / gridHeight;
 
