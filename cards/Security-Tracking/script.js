@@ -60,7 +60,6 @@ var pathfinder;
 
 //init calls
 
-enterDevDrawMode();
 
 $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
 	worldMaps = deckDataJSONFile.deck;
@@ -169,7 +168,16 @@ function updateOfficerPosition(index){
 		//this person is already at the destination
 		if(!(officerPositions[index].positioning.path == "NO PATH" || officerPositions[index].positioning.path.length == 0)){
 			//the code below sets officers to "wander mode"
-
+			if(officerPositions[index].positioning.nextDestinations.length > 0){
+				if(officerPositions[index].positioning.nextDestinations[0].isTurbolift){
+					officerPositions[index].positioning.deck = officerPositions[index].positioning.nextDestinations[0].newDeck;
+					officerPositions[index].positioning.nextDestinations.splice(0,1);
+				}else{
+					var cords = officerPositions[index].positioning.nextDestinations[0];
+					sendOfficerToRoom(index,cords.zoneName,officerPositions[index].positioning.deck);
+					officerPositions[index].positioning.nextDestinations.splice(0,1);
+				}
+			}
 			//if they had a path, set the x and y pos to the last step
 			//officerPositions[index].positioning.xPos = officerPositions[index].positioning.path[officerPositions[index].positioning.length - 1].x;
 			//officerPositions[index].positioning.yPos = officerPositions[index].positioning.path[officerPositions[index].positioning.length - 1].y;
@@ -299,15 +307,33 @@ function enterDevDrawMode(){
 	});
 }
 
+function queOfficerToRoom(officer,room,deck){
+
+}
+
 function sendOfficerToRoom(officer,room,deck){
 	if(officerPositions[officer].positioning.deck != deck){
+		var turboliftPoint;
+		for(var i = 0;i < zones.length;i++){
+			if(zones[i].zoneDeck == officerPositions[officer].positioning.deck && (zones[i].zoneName.toLowerCase().includes("turbolift") || zones[i].zoneName.toLowerCase().includes("transit") || zones[i].zoneName.toLowerCase().includes("elevator"))){
+				turboliftPoint = zones[i].tiles[Math.floor(zones[i].tiles.length * Math.random())];
+				changeOfficerPath(officer,turboliftPoint.x,turboliftPoint.y,officerPositions[officer].positioning.deck);
+			}
+		}
+
+		for(var i = 0;i < zones.length;i++){
+			if(zones[i].zoneName.toLowerCase() == room.toLowerCase()){
+				wanderPoint = zones[i].tiles[Math.floor(zones[i].tiles.length * Math.random())];
+				officerPositions[officer].positioning.nextDestinations = [{"x" : turboliftPoint.x,"y" : turboliftPoint.y,"isTurbolift" : true,"newDeck" : zones[i].zoneDeck},{"x" : wanderPoint.x,"y" : wanderPoint.y,"zoneName" : zones[i].zoneName,"isTurbolift" : false,"newDeck" : zones[i].zoneDeck}]
+			}
+		}
 		//we need to go to a different deck,
 		//lets head to the turbolift
 	}else{
 		for(var i = 0;i < zones.length;i++){
 			if(zones[i].zoneName.toLowerCase() == room.toLowerCase()){
 				wanderPoint = zones[i].tiles[Math.floor(zones[i].tiles.length * Math.random())];
-				changeOfficerPath(officer,wanderPoint.x,wanderPoint.y);
+				changeOfficerPath(officer,wanderPoint.x,wanderPoint.y,officerPositions[officer].positioning.deck);
 			}
 		}
 	}
@@ -327,6 +353,7 @@ function generateNewOfficer(firstName,lastName,type,deck,positionX,positionY,mov
 			"xPos" : positionX,
 			"yPos" : positionY,
 			"path" : [], //pathfinding result
+			"nextDestinations" : [],
 			"startTime" : null,
 			"finishTime" : null
 		},
@@ -340,9 +367,9 @@ function generateNewOfficer(firstName,lastName,type,deck,positionX,positionY,mov
 	return newOfficer;
 }
 
-function changeOfficerPath(index,newX,newY){
+function changeOfficerPath(index,newX,newY,deck){
 
-	officerPositions[index].positioning.path = pathfinder.getPathForPoints(worldMaps[currentDeck],Math.floor(officerPositions[index].positioning.yPos),Math.floor(officerPositions[index].positioning.xPos),newX,newY);
+	officerPositions[index].positioning.path = pathfinder.getPathForPoints(worldMaps[deck],Math.floor(officerPositions[index].positioning.yPos),Math.floor(officerPositions[index].positioning.xPos),newX,newY);
 	var totalTime = officerPositions[index].positioning.path.length * officerPositions[index].positioning.moveSpeed;
 	officerPositions[index].positioning.startTime = Date.now();
 	officerPositions[index].positioning.finishTime = Date.now() + totalTime;
@@ -380,39 +407,6 @@ function drawPath(path){
 	ctx.fill();
 	ctx.stroke();
 }
-function startPathfindingTest(){
-	canvas.off();
-	canvas.on("mousedown",function(event){
-		var width = canvas.width(),
-			height = canvas.height(),
-
-			cellWidth = width / gridWidth,
-			cellHeight = height / gridHeight;
-			x = Math.floor(Math.min(Math.max(event.offsetX / height,0),1) * gridWidth),
-			y = Math.floor(Math.min(Math.max(event.offsetY / width,0),1) * gridHeight);
-
-
-		//drawPath(pathfinder.getPathForPoints(worldMap,1,17,x,y));
-		changeOfficerPath(0,x,y);
-		canvas.on("mousemove.draw",function(event){
-			var width = canvas.width(),
-				height = canvas.height(),
-
-			cellWidth = width / gridWidth,
-			cellHeight = height / gridHeight;
-			x = Math.floor(Math.min(Math.max(event.offsetX / height,0),1) * gridWidth),
-			y = Math.floor(Math.min(Math.max(event.offsetY / width,0),1) * gridHeight);
-
-			changeOfficerPath(0,x,y);
-			//drawPath(pathfinder.getPathForPoints(worldMap,1,17,x,y));
-		});
-		canvas.on("mouseup.end",function(event){
-			canvas.off("mouseup.end");
-			canvas.off("mousemove.draw");
-		});
-	});
-}
-
 function guidGenerator() {
     var S4 = function() {
        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -496,7 +490,7 @@ function setState(index,state,status){
 				}else{
 					officerPositions[i].state.dead = status;
 				}
-				changeOfficerPath(i,officerPositions[i].positioning.xPos,officerPositions[i].positioning.yPos);
+				changeOfficerPath(i,officerPositions[i].positioning.xPos,officerPositions[i].positioning.yPos,officerPositions[i].positioning.deck);
 			}
 		}
 	}else{
@@ -507,7 +501,7 @@ function setState(index,state,status){
 				officerPositions[index].state.dead = status;
 			}
 			if(status){
-				changeOfficerPath(index,officerPositions[index].positioning.xPos,officerPositions[index].positioning.yPos);
+				changeOfficerPath(index,officerPositions[index].positioning.xPos,officerPositions[index].positioning.yPos,officerPositions[i].positioning.deck);
 			}
 		}
 	}
