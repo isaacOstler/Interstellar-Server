@@ -10,6 +10,7 @@ var canvas = $("#canvas"),
 var gridWidth = 45,
 	gridHeight = 40,
 	worldMap = [],
+	databaseObserversInit = false,
 	compiledZoneMaps = [],
 	lastZoneHoveredOver = undefined,
 	worldMaps,
@@ -92,7 +93,9 @@ $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
 	}
 	pathfinder = new Pathfinder();
 	initWorld(function(){
+
 		drawCanvas();
+		createDatabaseObservers();
 		if(!devDrawMode){
 			
 			/*setInterval(function(){
@@ -121,7 +124,21 @@ $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
 //preset observers
 
 //database observers
+function createDatabaseObservers(){
+	if(databaseObserversInit){
+		return;
+	}
+	databaseObserversInit = true;
 
+	Interstellar.onDatabaseValueChange("securityTracking.officerPositions",function(newData){
+		if(newData == null){
+			spawnAmountOfOfficers(150);
+			Interstellar.setDatabaseValue("securityTracking.officerPositions",officerPositions);
+			return;
+		}
+		officerPositions = newData
+	});
+}
 //functions
 
 function spawnAmountOfOfficers(amount){
@@ -707,3 +724,11 @@ canvas.on("mousemove.seeZone",function(event){
 
 
 //intervals
+setInterval(function(){
+	for(var i = 0;i < officerPositions.length;i++){
+		if(Math.random() > .935){
+			sendToRandomRoom(i);
+		}
+	}
+	Interstellar.setDatabaseValue("securityTracking.officerPositions",officerPositions);
+},30000);
