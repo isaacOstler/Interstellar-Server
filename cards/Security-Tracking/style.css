@@ -1,3 +1,9 @@
+@keyframes pulseRed {
+	0% { color:rgba(255,0,0,1); }
+	50% { color:rgba(255,0,0,.5); }
+	100% { color:rgba(255,0,0,1); }
+}
+
 #canvas{
 	position: absolute;
 	top:2.5%;
@@ -7,6 +13,37 @@
 	background-image: url("/resource?path=public/");
 	background-size: cover;
 	background-repeat: no-repeat;
+}
+#deckStatusClassifiedContainer{
+	display: none;
+	position: absolute;
+	top:calc(50% - 75px);
+	left: 2.5%;
+	width: 97.5%;
+	height: 150px;
+	border: 1px solid white;
+	background-color: rgba(0,0,0,.7);
+	color:red;
+	text-transform: uppercase;
+	text-align: center;
+}
+#deckStatusClassifiedContainer_header{
+	position: absolute;
+	top:10px;
+	left: 5px;
+	width:calc(100% - 10px);
+	font-size: 72px;
+	animation:pulseRed;
+	animation-duration: infinite;
+	animation-timing-function: cubic-bezier(); 
+}
+#deckStatusClassifiedContainer_subtitle{
+	position: absolute;
+	top: 72px;
+	font-size: 33px;
+	color:white;
+	left: 5px;
+	width:calc(100% - 10px);
 }
 #zoneContainerElement{
 	background-color: rgba(0,0,0,.7);
@@ -18,10 +55,11 @@
 	display: none;
 }
 #viewControls{
+	transform: rotate(90deg);
 	position: absolute;
-	bottom: 5px;
-	left: 5px;
-	width: calc(100% - 10px);
+	bottom: calc(39% + 10px);
+	left: -37%;
+	width: calc(71% - 10px);
 	height: 20px;
 	background-color: rgba(0,0,0,.6);
 	border: 1px solid white;
@@ -34,8 +72,8 @@
     left: 5px;
 }
 #deckLabel{
-	position: absolute;
-	top:5px;
-	left: 5px;
-	font-size: 48px;
+    position: absolute;
+    top: 56px;
+    left: 5%;
+    font-size: 72px;
 }

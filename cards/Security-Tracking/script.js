@@ -3,6 +3,7 @@ var canvas = $("#canvas"),
 	zoneContainerElement = $("#zoneContainerElement"),
 	zoneContainerElement_label = $("#zoneContainerElement_label"),
 	viewControls_slider = $("#viewControls_slider"),
+	deckClassifiedContainer = $("#deckStatusClassifiedContainer"),
 	deckLabel = $("#deckLabel");
 
 //variables
@@ -23,7 +24,8 @@ var gridWidth = 45,
 	},
 	zones = [],
 	drawZones = false,
-	drawBounds = false,
+	drawGrid = false,
+	drawBounds = true,
 	currentDeck = 2,
 
 	officerPositions = [];
@@ -530,53 +532,65 @@ function drawCanvas(){
 	canvas.attr("width",width);
 	canvas.attr("height",height);
 
-	ctx.setLineDash([2,3]);
-	ctx.strokeStyle = "rgb(95,95,95)";
-	for(var i = 0;i < gridHeight;i++){
-		ctx.moveTo(0,i * cellHeight);
-		ctx.lineTo(width,i * cellHeight);
-	}
-
-	for(var i = 0;i < gridWidth;i++){
-		ctx.moveTo(i * cellWidth,0);
-		ctx.lineTo(i * cellWidth,height);
-	}
-	ctx.lineWidth = 1;
-	ctx.stroke();
-	ctx.setLineDash([]);
-
-
-	for(var i = 0;i < zones.length;i++){
-		if(drawZones || zones[i].highlighted){
-			ctx.beginPath();//draw world zones
-			for(var j = 0;j < zones[i].tiles.length;j++){
-				ctx.rect(zones[i].tiles[j].x * cellWidth,zones[i].tiles[j].y * cellHeight,cellWidth,cellHeight);
+	if(worldMaps[currentDeck].length == 0){
+		deckClassifiedContainer.css("display","block");
+		canvas.css("background-color","white");
+		canvas.css("border-radius","50px");
+		noise(ctx);
+	}else{
+		deckClassifiedContainer.css("display","none");
+		canvas.css("background-color","");
+		canvas.css("border-radius","");
+		if(drawGrid){
+			ctx.setLineDash([2,3]);
+			ctx.strokeStyle = "rgb(95,95,95)";
+			for(var i = 0;i < gridHeight;i++){
+				ctx.moveTo(0,i * cellHeight);
+				ctx.lineTo(width,i * cellHeight);
 			}
-			ctx.fillStyle = zones[i].color;
-			ctx.fill();
+
+			for(var i = 0;i < gridWidth;i++){
+				ctx.moveTo(i * cellWidth,0);
+				ctx.lineTo(i * cellWidth,height);
+			}
+			ctx.lineWidth = 1;
 			ctx.stroke();
+			ctx.setLineDash([]);
 		}
-	}
 
-	ctx.beginPath();//draw world tiles
-	for(var i = 0;i < worldMap.length;i++){
-		for(var j = 0;j < worldMaps[currentDeck][i].length;j++){
-			if(worldMaps[currentDeck][i][j].state == "closed"){
-				ctx.rect(i * cellWidth,j * cellHeight,cellWidth,cellHeight);
+
+		for(var i = 0;i < zones.length;i++){
+			if(drawZones || zones[i].highlighted){
+				ctx.beginPath();//draw world zones
+				for(var j = 0;j < zones[i].tiles.length;j++){
+					ctx.rect(zones[i].tiles[j].x * cellWidth,zones[i].tiles[j].y * cellHeight,cellWidth,cellHeight);
+				}
+				ctx.fillStyle = zones[i].color;
+				ctx.fill();
+				ctx.stroke();
 			}
 		}
+
+		ctx.beginPath();//draw world tiles
+		for(var i = 0;i < worldMap.length;i++){
+			for(var j = 0;j < worldMaps[currentDeck][i].length;j++){
+				if(worldMaps[currentDeck][i][j].state == "closed"){
+					ctx.rect(i * cellWidth,j * cellHeight,cellWidth,cellHeight);
+				}
+			}
+		}
+		ctx.fillStyle = "white";
+		ctx.fill();
+		ctx.stroke();
+	/*
+		ctx.beginPath();//draw world tiles
+		for(var i = 0;i < safeWanderPoints.length;i++){
+			ctx.rect(safeWanderPoints[i].x * cellHeight,safeWanderPoints[i].y * cellWidth,cellHeight,cellWidth);
+		}
+		ctx.fillStyle = "yellow";
+		ctx.fill();
+		ctx.stroke();*/
 	}
-	ctx.fillStyle = "white";
-	ctx.fill();
-	ctx.stroke();
-/*
-	ctx.beginPath();//draw world tiles
-	for(var i = 0;i < safeWanderPoints.length;i++){
-		ctx.rect(safeWanderPoints[i].x * cellHeight,safeWanderPoints[i].y * cellWidth,cellHeight,cellWidth);
-	}
-	ctx.fillStyle = "yellow";
-	ctx.fill();
-	ctx.stroke();*/
 }
 
 
@@ -640,6 +654,24 @@ function compileZoneMap(passedZones){
 	return compiledMap;
 }
 
+//credit to http://jsfiddle.net/AbdiasSoftware/vX7NK/
+function noise(ctx) {
+    
+    var w = ctx.canvas.width,
+        h = ctx.canvas.height,
+        idata = ctx.createImageData(w, h),
+        buffer32 = new Uint32Array(idata.data.buffer),
+        len = buffer32.length,
+        i = 0;
+
+    for(; i < len;)
+        buffer32[i++] = ((255 * Math.random())|0) << 24;
+
+    ctx.putImageData(idata, 0, 0);
+}
+
+
+
 //event handlers
 viewControls_slider.on("input",function(event){
 	currentDeck = Math.floor(event.target.value);
@@ -672,5 +704,6 @@ canvas.on("mousemove.seeZone",function(event){
 		}
 	}
 });
+
 
 //intervals
