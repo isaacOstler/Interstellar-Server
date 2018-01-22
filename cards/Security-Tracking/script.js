@@ -23,7 +23,7 @@ var gridWidth = 45,
 	},
 	zones = [],
 	drawZones = false,
-	drawBounds = true,
+	drawBounds = false,
 	currentDeck = 2,
 
 	officerPositions = [];
@@ -93,26 +93,15 @@ $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
 		drawCanvas();
 		if(!devDrawMode){
 			
-			setInterval(function(){
+			/*setInterval(function(){
 				if(compiledZoneMaps[currentDeck].length == 0){
 					return;
 				}
 				var type = Math.random() > .95 ? "intruder" : "officer",
 					randomZone = Math.floor(Math.random() * zones.length),
-					goodZone = false;
-				while(!goodZone){
-					if(zones[randomZone].zoneDeck == currentDeck){
-						goodZone = true;
-					}else{
-						randomZone = Math.floor(Math.random() * zones.length);
-					}
-				}
 				var wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
-				officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,currentDeck,wanderPoint.y,wanderPoint.x,Math.random() * 550 + 1000));
-				//var randomZone = Math.floor(Math.random() * zones.length);
-				//wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
-				//changeOfficerPath(officerPositions.length - 1,wanderPoint.x,wanderPoint.y);
-			},1000);
+				officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,zones[randomZone].zoneDeck,wanderPoint.y,wanderPoint.x,Math.random() * 550 + 1000));
+			},1000);*/
 
 			setInterval(function(){
 				for(var i = 0;i < officerPositions.length;i++){
@@ -133,6 +122,15 @@ $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
 
 //functions
 
+function spawnAmountOfOfficers(amount){
+	for(var i = 0;i < amount;i++){
+		var type = Math.random() > .95 ? "intruder" : "officer",
+			randomZone = Math.floor(Math.random() * zones.length),
+			wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
+		officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,zones[randomZone].zoneDeck,wanderPoint.y,wanderPoint.x,Math.random() * 550 + 1000));
+	}
+}
+
 function drawOfficerPositions(deck){
 
 	var ctx = canvas[0].getContext('2d');
@@ -151,9 +149,12 @@ function drawOfficerPositions(deck){
 			ctx.beginPath();
 			//this officer is on this deck, lets draw their position
 			var xPos = officerPositions[i].positioning.xPos,
-				yPos = officerPositions[i].positioning.yPos;
+				yPos = officerPositions[i].positioning.yPos,
+				radius = cellWidth * .25,
+				varianceX = officerPositions[i].positioning.varianceX * (cellWidth / 2),
+				varianceY = officerPositions[i].positioning.varianceY * (cellHeight / 2);
 			//ctx.moveTo(xPos * cellWidth + (cellWidth / 2),yPos * cellHeight + (cellHeight / 2),(cellHeight / cellWidth) * cellWidth * .25 + (cellWidth / 2));
-			ctx.arc(yPos * cellWidth + (cellWidth / 2),xPos * cellHeight + (cellHeight / 2),cellWidth * .25,0,2*Math.PI);
+			ctx.arc(yPos * cellWidth + (cellWidth / 2) + varianceX,xPos * cellHeight + (cellHeight / 2) + varianceY,radius,0,2*Math.PI);
 			ctx.fillStyle = officerPositions[i].type == "intruder" ? "red" : "white";
 			ctx.fill();
 			ctx.stroke();
@@ -209,6 +210,13 @@ function updateOfficerPosition(index){
 		officerPositions[index].positioning.xPos = currentXStep;
 		officerPositions[index].positioning.yPos = currentYStep;
 	}
+	officerPositions[index].positioning.varianceX = Math.min(Math.max(officerPositions[index].positioning.varianceX + randomNumberBetween(-0.04,0.04),-0.5),0.5);
+	officerPositions[index].positioning.varianceY = Math.min(Math.max(officerPositions[index].positioning.varianceY + randomNumberBetween(-0.04,0.04),-0.5),0.5);
+}
+
+function sendToRandomRoom(officer){
+	randomZone = Math.floor(zones.length * Math.random());
+	sendOfficerToRoom(officer,zones[randomZone].zoneName,zones[randomZone].zoneDeck);
 }
 
 function enterDevDrawMode(){
@@ -307,10 +315,6 @@ function enterDevDrawMode(){
 	});
 }
 
-function queOfficerToRoom(officer,room,deck){
-
-}
-
 function sendOfficerToRoom(officer,room,deck){
 	if(officerPositions[officer].positioning.deck != deck){
 		var turboliftPoint;
@@ -320,7 +324,6 @@ function sendOfficerToRoom(officer,room,deck){
 				changeOfficerPath(officer,turboliftPoint.x,turboliftPoint.y,officerPositions[officer].positioning.deck);
 			}
 		}
-
 		for(var i = 0;i < zones.length;i++){
 			if(zones[i].zoneName.toLowerCase() == room.toLowerCase()){
 				wanderPoint = zones[i].tiles[Math.floor(zones[i].tiles.length * Math.random())];
@@ -355,7 +358,9 @@ function generateNewOfficer(firstName,lastName,type,deck,positionX,positionY,mov
 			"path" : [], //pathfinding result
 			"nextDestinations" : [],
 			"startTime" : null,
-			"finishTime" : null
+			"finishTime" : null,
+			"varianceX" : randomNumberBetween(-0.5,0.5),
+			"varianceY" : randomNumberBetween(-0.5,0.5)
 		},
 		"state" :
 		{
@@ -365,6 +370,10 @@ function generateNewOfficer(firstName,lastName,type,deck,positionX,positionY,mov
 		}
 	}
 	return newOfficer;
+}
+
+function randomNumberBetween(min,max){
+	return Math.random() * (max * 2) + min; 
 }
 
 function changeOfficerPath(index,newX,newY,deck){
