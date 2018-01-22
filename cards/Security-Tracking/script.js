@@ -1,11 +1,13 @@
 //DOM References
 var canvas = $("#canvas"),
 	zoneContainerElement = $("#zoneContainerElement"),
-	zoneContainerElement_label = $("#zoneContainerElement_label");
+	zoneContainerElement_label = $("#zoneContainerElement_label"),
+	viewControls_slider = $("#viewControls_slider"),
+	deckLabel = $("#deckLabel");
 
 //variables
 var gridWidth = 45,
-	gridHeight = 45,
+	gridHeight = 40,
 	worldMap = [],
 	compiledZoneMaps = [],
 	lastZoneHoveredOver = undefined,
@@ -63,6 +65,7 @@ enterDevDrawMode();
 $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
 	worldMaps = deckDataJSONFile.deck;
 	zones = deckDataJSONFile.zones;
+	viewControls_slider.attr("max",worldMaps.length);
 	var zonesOnDeck = [];
 	for(var i = 0;i < worldMaps.length;i++){
 		compiledZoneMaps.splice(compiledZoneMaps.length,0,[]);
@@ -90,19 +93,27 @@ $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
 	initWorld(function(){
 		drawCanvas();
 		if(!devDrawMode){
-			/*
+			
 			setInterval(function(){
 				if(compiledZoneMaps[currentDeck].length == 0){
 					return;
 				}
-				var type = Math.random() > .95 ? "intruder" : "officer";
-				var randomZone = Math.floor(Math.random() * zones.length);
+				var type = Math.random() > .95 ? "intruder" : "officer",
+					randomZone = Math.floor(Math.random() * zones.length),
+					goodZone = false;
+				while(!goodZone){
+					if(zones[randomZone].zoneDeck == currentDeck){
+						goodZone = true;
+					}else{
+						randomZone = Math.floor(Math.random() * zones.length);
+					}
+				}
 				var wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
 				officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,currentDeck,wanderPoint.y,wanderPoint.x,Math.random() * 550 + 1000));
 				//var randomZone = Math.floor(Math.random() * zones.length);
 				//wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
 				//changeOfficerPath(officerPositions.length - 1,wanderPoint.x,wanderPoint.y);
-			},1000);*/
+			},1000);
 
 			setInterval(function(){
 				for(var i = 0;i < officerPositions.length;i++){
@@ -128,8 +139,8 @@ function drawOfficerPositions(deck){
 	var ctx = canvas[0].getContext('2d');
 	var width = canvas.width(),
 		height = canvas.height();
-	
-	cellWidth = width / gridWidth,
+
+	cellWidth = (width / gridWidth),
 	cellHeight = height / gridHeight;
 
 	if(!drawBounds){
@@ -142,13 +153,13 @@ function drawOfficerPositions(deck){
 			//this officer is on this deck, lets draw their position
 			var xPos = officerPositions[i].positioning.xPos,
 				yPos = officerPositions[i].positioning.yPos;
-			ctx.moveTo(yPos * cellHeight + (cellHeight / 2),xPos * cellWidth + (cellWidth / 2),(cellWidth / cellWidth) * cellWidth * .25 + (cellWidth / 2));
-			ctx.arc(yPos * cellHeight + (cellHeight / 2),xPos * cellWidth  + (cellWidth / 2),(cellWidth / cellWidth) * cellWidth * .25,0,2*Math.PI);
+			//ctx.moveTo(xPos * cellWidth + (cellWidth / 2),yPos * cellHeight + (cellHeight / 2),(cellHeight / cellWidth) * cellWidth * .25 + (cellWidth / 2));
+			ctx.arc(yPos * cellWidth + (cellWidth / 2),xPos * cellHeight + (cellHeight / 2),cellWidth * .25,0,2*Math.PI);
 			ctx.fillStyle = officerPositions[i].type == "intruder" ? "red" : "white";
 			ctx.fill();
+			ctx.stroke();
 		}
 	}
-	ctx.stroke();
 }
 
 function updateOfficerPosition(index){
@@ -199,8 +210,9 @@ function enterDevDrawMode(){
 
 			cellWidth = width / gridWidth,
 			cellHeight = height / gridHeight;
-			x = Math.floor(Math.min(Math.max(event.offsetX / height,0),1) * gridWidth),
-			y = Math.floor(Math.min(Math.max(event.offsetY / width,0),1) * gridHeight);
+			var cords = findTileWithCords(event.offsetX,event.offsetY),
+			x = cords.x,
+			y = cords.y;
 
 		let drawState;
 		if(worldMaps[currentDeck][x][y].state == "closed"){
@@ -250,8 +262,9 @@ function enterDevDrawMode(){
 
 			cellWidth = width / gridWidth,
 			cellHeight = height / gridHeight;
-			x = Math.floor(Math.min(Math.max(event.offsetX / height,0),1) * gridWidth),
-			y = Math.floor(Math.min(Math.max(event.offsetY / width,0),1) * gridHeight);
+			var cords = findTileWithCords(event.offsetX,event.offsetY),
+			x = cords.x,
+			y = cords.y;
 
 			if(devDrawSettings.zoning){
 				//clear this tile from any other zone
@@ -516,15 +529,16 @@ function drawCanvas(){
 
 	ctx.setLineDash([2,3]);
 	ctx.strokeStyle = "rgb(95,95,95)";
-	for(var i = 0;i < gridWidth;i++){
-		ctx.moveTo(0,i * cellWidth);
-		ctx.lineTo(width,i * cellWidth);
+	for(var i = 0;i < gridHeight;i++){
+		ctx.moveTo(0,i * cellHeight);
+		ctx.lineTo(width,i * cellHeight);
 	}
 
-	for(var i = 0;i < gridHeight;i++){
-		ctx.moveTo(i * cellHeight,0);
-		ctx.lineTo(i * cellHeight,height);
+	for(var i = 0;i < gridWidth;i++){
+		ctx.moveTo(i * cellWidth,0);
+		ctx.lineTo(i * cellWidth,height);
 	}
+	ctx.lineWidth = 1;
 	ctx.stroke();
 	ctx.setLineDash([]);
 
@@ -533,7 +547,7 @@ function drawCanvas(){
 		if(drawZones || zones[i].highlighted){
 			ctx.beginPath();//draw world zones
 			for(var j = 0;j < zones[i].tiles.length;j++){
-				ctx.rect(zones[i].tiles[j].x * cellHeight,zones[i].tiles[j].y * cellWidth,cellHeight,cellWidth);
+				ctx.rect(zones[i].tiles[j].x * cellWidth,zones[i].tiles[j].y * cellHeight,cellWidth,cellHeight);
 			}
 			ctx.fillStyle = zones[i].color;
 			ctx.fill();
@@ -545,7 +559,7 @@ function drawCanvas(){
 	for(var i = 0;i < worldMap.length;i++){
 		for(var j = 0;j < worldMaps[currentDeck][i].length;j++){
 			if(worldMaps[currentDeck][i][j].state == "closed"){
-				ctx.rect(i * cellHeight,j * cellWidth,cellHeight,cellWidth);
+				ctx.rect(i * cellWidth,j * cellHeight,cellWidth,cellHeight);
 			}
 		}
 	}
@@ -597,8 +611,8 @@ function radiansToDegrees(radians){
 function findTileWithCords(xCord,yCord){
 	var height = canvas.height(),
 		width = canvas.width(),
-		xTile = Math.floor(Math.min(Math.max(xCord / height,0),1) * gridWidth),
-		yTile = Math.floor(Math.min(Math.max(yCord / width,0),1) * gridHeight);
+		xTile = Math.floor(Math.min(Math.max(xCord / width,0),1) * gridWidth),
+		yTile = Math.floor(Math.min(Math.max(yCord / height,0),1) * gridHeight);
 	return({"x" : xTile, "y" : yTile});
 }
 
@@ -624,7 +638,10 @@ function compileZoneMap(passedZones){
 }
 
 //event handlers
-
+viewControls_slider.on("input",function(event){
+	currentDeck = Math.floor(event.target.value);
+	deckLabel.html("DECK " + (currentDeck + 1));
+});
 canvas.on("mousemove.seeZone",function(event){
 	if(compiledZoneMaps[currentDeck].length > 0){
 		var cords = findTileWithCords(event.offsetX,event.offsetY);
