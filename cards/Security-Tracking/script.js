@@ -24,6 +24,7 @@ var gridWidth = 45,
 		"zoning" : false,
 		"zoneName" : "Sickbay Alpha"
 	},
+	doors = [],
 	zones = [],
 	drawZones = false,
 	drawGrid = false,
@@ -332,6 +333,24 @@ function enterDevDrawMode(){
 					}
 				}
 			}
+		}else if(devDrawSettings.blockType == "door"){
+			var wasDetected = false;
+			for(var i = 0;i < doors.length;i++){
+				if(doors[i].x == x && doors[i].y == y && doors[i].deck == currentDeck){
+					wasDetected = true;
+				}
+			}
+			if(!wasDetected){
+				var newDoorObject = 
+				{
+					"x" : x,
+					"y" : y,
+					"deck" : currentDeck,
+					"guid" : guidGenerator(),
+					"doorState" : "open"
+				}
+				doors.splice(doors.length,0,newDoorObject);
+			}
 		}else{
 			worldMaps[currentDeck][x][y].state = drawState;
 		}
@@ -365,6 +384,24 @@ function enterDevDrawMode(){
 				}
 				if(!detected){
 					zones.splice(zones.length,0,{"zoneName" : devDrawSettings.zoneName,"zoneDeck" : currentDeck,"color" : getRandomColor(),"tiles" : [{"x" : x,"y" : y}]});
+				}
+			}else if(devDrawSettings.blockType == "door"){
+				var wasDetected = false;
+				for(var i = 0;i < doors.length;i++){
+					if(doors[i].x == x && doors[i].y == y && doors[i].deck == currentDeck){
+						wasDetected = true;
+					}
+				}
+				if(!wasDetected){
+					var newDoorObject = 
+					{
+						"x" : x,
+						"y" : y,
+						"deck" : currentDeck,
+						"guid" : guidGenerator(),
+						"doorState" : "open"
+					}
+					doors.splice(doors.length,0,newDoorObject);
 				}
 			}else{
 				worldMaps[currentDeck][x][y].state = drawState;
