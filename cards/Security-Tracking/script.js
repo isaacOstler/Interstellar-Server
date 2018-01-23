@@ -10,6 +10,7 @@ var canvas = $("#canvas"),
 var gridWidth = 45,
 	gridHeight = 40,
 	worldMap = [],
+	randomNames = [],
 	databaseObserversInit = false,
 	compiledZoneMaps = [],
 	lastZoneHoveredOver = undefined,
@@ -28,6 +29,38 @@ var gridWidth = 45,
 	drawGrid = false,
 	drawBounds = true,
 	currentDeck = 2,
+	jobs = 
+	[
+		"general engineer",
+		"doctor",
+		"janitor",
+		"cook",
+		"damage control officer",
+		"fire control specialist",
+		"nuclear engineer",
+		"antimatter engineer",
+		"chaplain",
+		"shuttle pilot",
+		"shuttle support crew",
+		"personnel officer",
+		"tactical officer",
+		"science officer",
+		"communications operator",
+		"fuel specialist",
+		"teacher",
+		"civilian",
+		"nurse",
+		"medical assistant",
+		"EMT",
+		"paramedic",
+		"electrician",
+		"programmer",
+		"computer network specialist",
+		"sensors officer",
+		"technician",
+		"enlisted officer",
+		"quartermaster"
+	]
 
 	officerPositions = [];
 
@@ -92,32 +125,35 @@ $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
 		compiledZoneMaps[zonesOnDeck[i].deck] = compileZoneMap(zonesOnDeck[i].zones);
 	}
 	pathfinder = new Pathfinder();
-	initWorld(function(){
+ 
+	$.getJSON('/resource?path=public/randomNames.json',function(jsonLoaded){
+		randomNames = jsonLoaded;
+		initWorld(function(){
+			drawCanvas();
+			createDatabaseObservers();
+			if(!devDrawMode){
+				
+				/*setInterval(function(){
+					if(compiledZoneMaps[currentDeck].length == 0){
+						return;
+					}
+					var type = Math.random() > .95 ? "intruder" : "officer",
+						randomZone = Math.floor(Math.random() * zones.length),
+					var wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
+					officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,zones[randomZone].zoneDeck,wanderPoint.y,wanderPoint.x,Math.random() * 550 + 1000));
+				},1000);*/
 
-		drawCanvas();
-		createDatabaseObservers();
-		if(!devDrawMode){
-			
-			/*setInterval(function(){
-				if(compiledZoneMaps[currentDeck].length == 0){
-					return;
-				}
-				var type = Math.random() > .95 ? "intruder" : "officer",
-					randomZone = Math.floor(Math.random() * zones.length),
-				var wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
-				officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,zones[randomZone].zoneDeck,wanderPoint.y,wanderPoint.x,Math.random() * 550 + 1000));
-			},1000);*/
-
-			setInterval(function(){
-				for(var i = 0;i < officerPositions.length;i++){
-					updateOfficerPosition(i);
-				}
-				if(drawBounds){
-					drawCanvas();
-				}
-				drawOfficerPositions(currentDeck);
-			},0050);
-		}
+				setInterval(function(){
+					for(var i = 0;i < officerPositions.length;i++){
+						updateOfficerPosition(i);
+					}
+					if(drawBounds){
+						drawCanvas();
+					}
+					drawOfficerPositions(currentDeck);
+				},0050);
+			}
+		});
 	});
 });
 
@@ -132,7 +168,7 @@ function createDatabaseObservers(){
 
 	Interstellar.onDatabaseValueChange("securityTracking.officerPositions",function(newData){
 		if(newData == null){
-			spawnAmountOfOfficers(150);
+			spawnAmountOfOfficers(500);
 			Interstellar.setDatabaseValue("securityTracking.officerPositions",officerPositions);
 			return;
 		}
@@ -143,10 +179,10 @@ function createDatabaseObservers(){
 
 function spawnAmountOfOfficers(amount){
 	for(var i = 0;i < amount;i++){
-		var type = Math.random() > .95 ? "intruder" : "officer",
+		var type = Math.random() > .95 ? (Math.random() > .7 ? "intruder" : "security") : jobs[Math.floor(Math.random() * jobs.length)],
 			randomZone = Math.floor(Math.random() * zones.length),
 			wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
-		officerPositions.splice(officerPositions.length,0,generateNewOfficer("Officer", "#" + officerPositions.length,type,zones[randomZone].zoneDeck,wanderPoint.y,wanderPoint.x,Math.random() * 550 + 1000));
+		officerPositions.splice(officerPositions.length,0,generateNewOfficer(randomNames.maleNames[Math.floor(Math.random() * randomNames.maleNames.length)], randomNames.maleNames[Math.floor(Math.random() * randomNames.maleNames.length)],type,zones[randomZone].zoneDeck,wanderPoint.y,wanderPoint.x,Math.random() * 550 + 1000));
 	}
 }
 
@@ -174,7 +210,22 @@ function drawOfficerPositions(deck){
 				varianceY = officerPositions[i].positioning.varianceY * (cellHeight / 2);
 			//ctx.moveTo(xPos * cellWidth + (cellWidth / 2),yPos * cellHeight + (cellHeight / 2),(cellHeight / cellWidth) * cellWidth * .25 + (cellWidth / 2));
 			ctx.arc(yPos * cellWidth + (cellWidth / 2) + varianceX,xPos * cellHeight + (cellHeight / 2) + varianceY,radius,0,2*Math.PI);
-			ctx.fillStyle = officerPositions[i].type == "intruder" ? "red" : "white";
+			//lets also draw where they are going, 
+			/*if(officerPositions[i].positioning.path.length > 0){
+				radius = radius * 2;
+				xPos = officerPositions[i].positioning.path[officerPositions[i].positioning.path.length - 1].x;
+				yPos = officerPositions[i].positioning.path[officerPositions[i].positioning.path.length - 1].y;
+				ctx.arc(yPos * cellWidth + (cellWidth / 2) + varianceX,xPos * cellHeight + (cellHeight / 2) + varianceY,radius,0,2*Math.PI);
+			}*/
+			if(officerPositions[i].type == "security"){
+				ctx.fillStyle = "yellow";
+			}else if(officerPositions[i].type == "intruder"){
+				//INTRUDER ALERT!
+				ctx.fillStyle = "red";
+			}else{
+				//could be anything from an engineer to a doctor
+				ctx.fillStyle = "white";
+			}
 			ctx.fill();
 			ctx.stroke();
 		}
@@ -201,13 +252,6 @@ function updateOfficerPosition(index){
 			//if they had a path, set the x and y pos to the last step
 			//officerPositions[index].positioning.xPos = officerPositions[index].positioning.path[officerPositions[index].positioning.length - 1].x;
 			//officerPositions[index].positioning.yPos = officerPositions[index].positioning.path[officerPositions[index].positioning.length - 1].y;
-			//if(!officerPositions[index].state.dead && !officerPositions[index].state.frozen){
-			//	if(Math.random() > .99){
-			//		var randomZone = Math.floor(Math.random() * zones.length),
-			//			wanderPoint = zones[randomZone].tiles[Math.floor(zones[randomZone].tiles.length * Math.random())];
-			//		changeOfficerPath(index,wanderPoint.x,wanderPoint.y);
-			//	}
-			//}
 		}
 		return;
 	}
@@ -687,7 +731,9 @@ function noise(ctx) {
     ctx.putImageData(idata, 0, 0);
 }
 
-
+function withinRange(variance,value,comparedTo){
+	return value > (comparedTo - variance) && value < (comparedTo + variance);
+}
 
 //event handlers
 viewControls_slider.on("input",function(event){
@@ -701,10 +747,23 @@ canvas.on("mousemove.seeZone",function(event){
 		zoneContainerElement.css("left",event.pageX + 20 + "px");
 		zoneContainerElement.css("top",event.pageY - 20 + "px");
 
+		var officerSelected = [];
+		for(var i = 0;i < officerPositions.length;i++){
+			if(withinRange(1,officerPositions[i].positioning.yPos,cords.x) && withinRange(1,officerPositions[i].positioning.xPos,cords.y) && officerPositions[i].positioning.deck == currentDeck){
+				officerSelected.splice(officerSelected.length,0,i);
+			}
+		}
+
+		var dropdownShown = false;
 		if(zoneName != undefined){
-			zoneContainerElement.stop();
-			zoneContainerElement.fadeIn();
-			zoneContainerElement_label.html(zoneName.toUpperCase());
+			zoneContainerElement_label.html("");
+			if(lastZoneHoveredOver != zoneName){
+				zoneContainerElement.stop();
+				zoneContainerElement.fadeIn();
+			}
+			dropdownShown = true;
+			lastZoneHoveredOver = zoneName;
+			zoneContainerElement_label.html(zoneName.toUpperCase() + "<br />");
 			for(var i = 0;i < zones.length;i++){
 				if(zones[i].zoneName == zoneName){
 					zones[i].highlighted = true;
@@ -716,8 +775,31 @@ canvas.on("mousemove.seeZone",function(event){
 			for(var i = 0;i < zones.length;i++){
 				zones[i].highlighted = false;
 			}
+			if(lastZoneHoveredOver != undefined){
+				zoneContainerElement.stop();
+				zoneContainerElement.fadeOut(function(){
+					zoneContainerElement_label.html("");
+				});
+			}
+			lastZoneHoveredOver = undefined;
+		}
+		if(officerSelected.length > 0 && !dropdownShown){
+			lastZoneHoveredOver = "officer";
+			zoneContainerElement_label.html("");
 			zoneContainerElement.stop();
-			zoneContainerElement.fadeOut();
+			zoneContainerElement.fadeIn();
+		}
+		for(var i = 0;i < officerSelected.length;i++){
+			if(officerPositions[officerSelected[i]].type == "security"){
+				zoneContainerElement_label.append("<small style='color:yellow'>" + officerPositions[officerSelected[i]].lastName + ", " + officerPositions[officerSelected[i]].firstName + " (SECURITY OFFICER)</small>")
+			}else if(officerPositions[officerSelected[i]].type == "intruder"){
+				zoneContainerElement_label.append("<small style='color:red'><b>" + officerPositions[officerSelected[i]].lastName + " " + officerPositions[officerSelected[i]].firstName + " (UNAUTHORIZED)</b></small>");
+			}else{
+				zoneContainerElement_label.append("<small>" + officerPositions[officerSelected[i]].lastName + ", " + officerPositions[officerSelected[i]].firstName + " (" + officerPositions[officerSelected[i]].type.toUpperCase() + ")</small>");
+			}
+			if(i != officerSelected.length - 1){
+				zoneContainerElement_label.append("<br />");
+			}
 		}
 	}
 });
