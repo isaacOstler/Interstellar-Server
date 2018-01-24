@@ -270,6 +270,19 @@ function updateOfficerPosition(index){
 		var differenceY = currentYStep - lastYStep;
 		officerPositions[index].positioning.xPos = lastXStep + (differenceX * progress);
 		officerPositions[index].positioning.yPos = lastYStep + (differenceY * progress);
+
+		var detected = false;
+		for(var i = 0;i < doors.length;i++){
+			if(door[i].x == Math.floor(officerPositions[index].positioning.xPos + 1) && door[i].y == Math.floor(officerPositions[index].positioning.yPos + 1)){
+				if(door[i].doorState == "closed"){
+					detected = true;
+				}
+			}
+		}
+		if(detected){
+			//prevent them from moving
+			console.log("door closed!");
+		}
 	}else{
 		officerPositions[index].positioning.xPos = currentXStep;
 		officerPositions[index].positioning.yPos = currentYStep;
