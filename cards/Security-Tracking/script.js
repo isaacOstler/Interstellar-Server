@@ -206,7 +206,7 @@ function drawOfficerPositions(deck){
 			//this officer is on this deck, lets draw their position
 			var xPos = officerPositions[i].positioning.xPos,
 				yPos = officerPositions[i].positioning.yPos,
-				radius = cellWidth * .25,
+				radius = cellWidth * .175,
 				varianceX = officerPositions[i].positioning.varianceX * (cellWidth / 2),
 				varianceY = officerPositions[i].positioning.varianceY * (cellHeight / 2);
 			//ctx.moveTo(xPos * cellWidth + (cellWidth / 2),yPos * cellHeight + (cellHeight / 2),(cellHeight / cellWidth) * cellWidth * .25 + (cellWidth / 2));
