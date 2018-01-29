@@ -4,13 +4,28 @@
 	100% { color:rgba(255,0,0,1); }
 }
 
+#ship{
+	position: absolute;
+	top: 7%;
+	z-index: 10;
+	border-radius: 30px;
+	right: 5%;
+	background-color: rgba(0,0,0,.5);
+	width: 35%;
+	height: 9%;
+	background-image: url("/ship?file=starboard.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
 #canvas{
 	position: absolute;
-	top:2.5%;
+	top:10%;
 	left: 2.5%;
-	width: 97.5%;
-	height: 95%;
-	background-image: url("/resource?path=public/");
+	width: 87.5%;
+	height: 90%;
+	background-image: url("/resource?path=");
 	background-size: cover;
 	background-repeat: no-repeat;
 }
@@ -19,7 +34,7 @@
 	position: absolute;
 	top:calc(50% - 75px);
 	left: 2.5%;
-	width: 97.5%;
+	width: 87.5%;
 	height: 150px;
 	border: 1px solid white;
 	background-color: rgba(0,0,0,.7);
@@ -53,6 +68,22 @@
 	padding: 4px;
 	border: 1px solid white;
 	display: none;
+}
+#ship_bar_top{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 0px;
+	background-color: rgba(0,0,0,.7);
+}
+#ship_bar_bottom{
+	position: absolute;
+	bottom:0px;
+	left: 0px;
+	width: 100%;
+	height: 0px;
+	background-color: rgba(0,0,0,.7);
 }
 #viewControls{
 	transform: rotate(90deg);

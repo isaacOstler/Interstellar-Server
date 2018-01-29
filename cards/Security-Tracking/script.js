@@ -4,7 +4,10 @@ var canvas = $("#canvas"),
 	zoneContainerElement_label = $("#zoneContainerElement_label"),
 	viewControls_slider = $("#viewControls_slider"),
 	deckClassifiedContainer = $("#deckStatusClassifiedContainer"),
-	deckLabel = $("#deckLabel");
+	deckLabel = $("#deckLabel"),
+	ship = $("#ship"),
+	shipTopBar = $("#ship_bar_top"),
+	shipBottomBar = $("#ship_bar_bottom");
 
 //variables
 var gridWidth = 45,
@@ -25,6 +28,7 @@ var gridWidth = 45,
 		"zoneName" : "Sickbay Alpha"
 	},
 	doors = [],
+	displayZones = [],
 	zones = [],
 	drawZones = false,
 	drawGrid = false,
@@ -99,8 +103,10 @@ var pathfinder;
 
 
 $.getJSON('/resource?path=public/deckData.json', function(deckDataJSONFile) {
+	Interstellar.setDatabaseValue("securityTracking.deckMaps",deckDataJSONFile);
 	worldMaps = deckDataJSONFile.deck;
 	zones = deckDataJSONFile.zones;
+	displayZones = deckDataJSONFile.displayZones;
 	viewControls_slider.attr("max",worldMaps.length);
 	var zonesOnDeck = [];
 	for(var i = 0;i < worldMaps.length;i++){
@@ -169,14 +175,23 @@ function createDatabaseObservers(){
 
 	Interstellar.onDatabaseValueChange("securityTracking.officerPositions",function(newData){
 		if(newData == null){
-			spawnAmountOfOfficers(500);
-			Interstellar.setDatabaseValue("securityTracking.officerPositions",officerPositions);
+
+			//wait for core to spawn everyone ;(
+
+
+			/*spawnAmountOfOfficers(500);
+			Interstellar.setDatabaseValue("securityTracking.officerPositions",officerPositions);*/
 			return;
 		}
 		officerPositions = newData
 	});
 }
 //functions
+
+function setDeckBar(top,height){
+	shipTopBar.css("height",ship.height() * top + "px");
+	shipBottomBar.css("height",ship.height() - ((ship.height() * top) + ship.height() * height) + "px");
+}
 
 function spawnAmountOfOfficers(amount){
 	for(var i = 0;i < amount;i++){
@@ -630,6 +645,12 @@ function setState(index,state,status){
 }
 
 function drawCanvas(){
+
+	for(var i = 0;i < displayZones.length;i++){
+		if(displayZones[i].deck == currentDeck){
+			setDeckBar(displayZones[i].startY,displayZones[i].height);
+		}
+	}
 	var ctx = canvas[0].getContext('2d');
 	var width = canvas.width(),
 		height = canvas.height();
