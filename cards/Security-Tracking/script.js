@@ -877,6 +877,8 @@ canvas.on("mousemove.seeZone",function(event){
 
 
 //intervals
+
+/*
 setInterval(function(){
 	for(var i = 0;i < officerPositions.length;i++){
 		if(Math.random() > .935){
@@ -884,4 +886,4 @@ setInterval(function(){
 		}
 	}
 	Interstellar.setDatabaseValue("securityTracking.officerPositions",officerPositions);
-},30000);
+},30000);*/
