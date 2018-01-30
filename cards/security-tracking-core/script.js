@@ -226,6 +226,75 @@ Interstellar.addCoreWidget("Security Tracking",function(){
 			securityList.html(securityHTML);
 		}else{
 			//update existing
+			$( ".security-tracking-core_officerListItem_endPosition" ).each(function( index ) {
+				var i = Number($(this).attr("index"));
+				var currentZone = getZoneForCords(officerPositions[i].positioning.xPos,officerPositions[i].positioning.yPos,officerPositions[i].positioning.deck);
+				if(currentZone == undefined){
+					positionName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", HALLWAY";
+				}else{
+					positionName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", " + currentZone.zoneName;
+				}
+				var endPosName = positionName;
+				if(officerPositions[i].positioning.path.length != 0){
+					var endCords = officerPositions[i].positioning.path[officerPositions[i].positioning.path.length - 1];
+					var endZone = getZoneForCords(endCords.x,endCords.y,officerPositions[i].positioning.deck);
+					if(endZone == undefined){
+						endPosName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", HALLWAY";
+					}else{
+						endPosName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", " + endZone.zoneName;
+					}
+				}
+
+				$(this).html("<option>" + endPosName + "</option>");
+			});
+			$( ".security-tracking-core_officerListItem_position" ).each(function( index ) {
+				var i = Number($(this).attr("index"));
+				var currentZone = getZoneForCords(officerPositions[i].positioning.xPos,officerPositions[i].positioning.yPos,officerPositions[i].positioning.deck);
+				var positionName = "unknown";
+				if(currentZone == undefined){
+					positionName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", HALLWAY";
+				}else{
+					positionName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", " + currentZone.zoneName;
+				}
+				var endPosName = positionName;
+				if(officerPositions[i].positioning.path.length != 0){
+					var endCords = officerPositions[i].positioning.path[officerPositions[i].positioning.path.length - 1];
+					var endZone = getZoneForCords(endCords.x,endCords.y,officerPositions[i].positioning.deck);
+					if(endZone == undefined){
+						endPosName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", HALLWAY";
+					}else{
+						endPosName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", " + endZone.zoneName;
+					}
+				}
+				$(this).html("<option>" + positionName + "</option>");
+			});
+
+			$(".security-tracking-core_officerListItem").each(function( index ) {
+				var i = Number($(this).attr("index"));
+				var currentZone = getZoneForCords(officerPositions[i].positioning.xPos,officerPositions[i].positioning.yPos,officerPositions[i].positioning.deck);
+				var positionName = "unknown";
+				if(currentZone == undefined){
+					positionName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", HALLWAY";
+				}else{
+					positionName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", " + currentZone.zoneName;
+				}
+				var endPosName = positionName;
+				if(officerPositions[i].positioning.path.length != 0){
+					var endCords = officerPositions[i].positioning.path[officerPositions[i].positioning.path.length - 1];
+					var endZone = getZoneForCords(endCords.x,endCords.y,officerPositions[i].positioning.deck);
+					if(endZone == undefined){
+						endPosName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", HALLWAY";
+					}else{
+						endPosName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", " + endZone.zoneName;
+					}
+				}
+				if(endPosName == positionName){
+					$(this).css("background-color","");
+				}else{
+					$(this).css("background-color","rgba(0,128,255,.6)");
+				}
+			});
+
 		}
 	}
 
