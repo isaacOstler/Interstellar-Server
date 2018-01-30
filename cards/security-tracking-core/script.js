@@ -10,7 +10,10 @@ Interstellar.addCoreWidget("Security Tracking",function(){
 		viewControls_slider = $("#security-tracking-core_deckSlider"),
 		zoneContainerElement = $("#Security-Tracking-Core_zoneContainerElement"),
 		zoneContainerElement_label = $("#Security-Tracking-Core_zoneContainerElement_label"),
-		deckLabel = $("#Security-Tracking-Core-deckLabel");
+		deckLabel = $("#Security-Tracking-Core-deckLabel"),
+		officerList = $("#security-tracking-core_officerControls_officerContainer_list"),
+		securityList = $("#security-tracking-core_securityControls_securityContainer_list"),
+		intruderList = $("#security-tracking-core_securityControls_intruderContainer_list");
 
 	//variables
 	var gridWidth = 45,
@@ -74,33 +77,6 @@ Interstellar.addCoreWidget("Security Tracking",function(){
 
 	//Class instances
 	var pathfinder;
-
-	/*officer position array is as follows:
-
-		{
-			"firstName" : "Isaac",
-			"lastName" : "Ostler",
-			"id" : GUID,
-			"type" : "officer", //security, officer, intruder, other
-			"positioning" :
-			{
-				"deck" : 0,
-				"xPos" : 0,
-				"yPos" : 0,
-				"path" : [...], //pathfinding result
-				"startTime" : x,
-				"finishTime" : y
-			} 
-		}
-
-	*/
-
-	//type of world tiles 
-	/*
-		{
-			"state" : "open",
-		}
-	*/
 
 	//init calls
 
@@ -178,18 +154,92 @@ Interstellar.addCoreWidget("Security Tracking",function(){
 
 		Interstellar.onDatabaseValueChange("securityTracking.officerPositions",function(newData){
 			if(newData == null){
-
-				//wait for core to spawn everyone ;(
-
-
 				spawnAmountOfOfficers(500);
 				Interstellar.setDatabaseValue("securityTracking.officerPositions",officerPositions);
+				updateOfficerList(true);
 				return;
 			}
-			officerPositions = newData
+			var redraw = officerPositions.length != newData.length;
+			officerPositions = newData;
+			updateOfficerList(redraw);
 		});
 	}
 	//functions
+
+	function updateOfficerList(redraw){
+		if(redraw){
+			//draw new
+			var officerHTML = "",
+				intruderHTML = "",
+				securityHTML = "",
+				html = "";
+
+			for(var i = 0;i < officerPositions.length;i++){
+				html = "";
+				var currentZone = getZoneForCords(officerPositions[i].positioning.xPos,officerPositions[i].positioning.yPos,officerPositions[i].positioning.deck);
+				if(currentZone == undefined){
+					positionName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", HALLWAY";
+				}else{
+					positionName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", " + currentZone.zoneName;
+				}
+				var endPosName = positionName;
+				if(officerPositions[i].positioning.path.length != 0){
+					var endCords = officerPositions[i].positioning.path[officerPositions[i].positioning.path.length - 1];
+					var endZone = getZoneForCords(endCords.x,endCords.y,officerPositions[i].positioning.deck);
+					if(endZone == undefined){
+						endPosName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", HALLWAY";
+					}else{
+						endPosName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", " + endZone.zoneName;
+					}
+				}
+				var style = "";
+				if(endPosName != positionName){
+					style = "style='background-color:rgba(0,128,255,.6)'";
+				}
+				html += "<div " + style + " index='" + i + "' class='security-tracking-core_officerListItem'>";
+					html += '<input index="' + i + '" type="textbox" class="security-tracking-core_officerListItem_firstName" value="' + officerPositions[i].firstName + '">'
+					html += '<input index="' + i + '" type="textbox" class="security-tracking-core_officerListItem_lastName" value="' + officerPositions[i].lastName + '">'
+					html += '<select index="' + i + '" class="security-tracking-core_officerListItem_status">'
+						html += '<option>ALIVE</option>'
+						html += '<option>INJURED</option>'
+						html += '<option>DEAD</option>'
+					html += '</select>'
+					html += '<select index="' + i + '" class="security-tracking-core_officerListItem_position">'
+						html += '<option>' + positionName + '</option>'
+					html += '</select>'
+					html += '<select index="' + i + '" class="security-tracking-core_officerListItem_endPosition">'
+						html += '<option>' + endPosName + '</option>'
+					html += '</select>'
+				html += '</div>';
+				if(officerPositions[i].type != "security" && officerPositions[i].type != "intruder"){
+					officerHTML += html;
+				}else{
+					if(officerPositions[i].type == "security"){
+						securityHTML += html;
+					}else{
+						intruderHTML += html;
+					}
+				}
+			}
+			officerList.html(officerHTML);
+			intruderList.html(intruderHTML);
+			securityList.html(securityHTML);
+		}else{
+			//update existing
+		}
+	}
+
+	function getZoneForCords(y,x,deck){
+		for(var i = 0;i < zones.length;i++){
+			if(zones[i].zoneDeck == deck){
+				for(var j = 0;j < zones[i].tiles.length;j++){
+					if(x == zones[i].tiles[j].x && y == zones[i].tiles[j].y){
+						return zones[i];
+					}
+				}
+			}
+		}
+	}
 
 	function spawnAmountOfOfficers(amount){
 		for(var i = 0;i < amount;i++){

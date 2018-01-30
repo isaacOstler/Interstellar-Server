@@ -1,3 +1,21 @@
+#Security-Tracking-Core_zoneContainerElement{
+	background-color: rgba(0,0,0,.7);
+	position: absolute;
+	top:0px;
+	left: 0px;
+	padding: 4px;
+	border: 1px solid white;
+	display: none;
+	z-index: 1001;
+}
+
+#Security-Tracking-Core-deckLabel{
+	position: absolute;
+	top:5px;
+	left: 5px;
+	font-size: 24px;
+}
+
 #Security-Tracking_canvas{
 	position: absolute;
 	top:1px;
@@ -8,9 +26,10 @@
 }
 #security-tracking-core_deckSlider{
 	position: absolute;
-	top:5px;
-	left: 5px;
-	width: calc(60% - 10px);
+	top: 230px;
+	left: -192px;
+	transform: rotate(90deg);
+	width: 400px;
 }
 #security-tracking-core_officerControls{
 	position: absolute;
