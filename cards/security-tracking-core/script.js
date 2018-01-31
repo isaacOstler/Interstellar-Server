@@ -71,7 +71,9 @@ Interstellar.addCoreWidget("Security Tracking",function(){
 			"technician",
 			"enlisted officer",
 			"quartermaster"
-		]
+		],
+
+		roomlist = "";
 
 		officerPositions = [];
 
@@ -146,6 +148,22 @@ Interstellar.addCoreWidget("Security Tracking",function(){
 	//preset observers
 
 	//database observers
+
+	Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
+		if(newData == null){
+			return;
+		}
+		roomlist = "";
+		for(var i = 0;i < newData.length;i++){
+			roomlist += "<option>DECK " + (i + 1) + ", HALLWAY</option>";
+			roomlist += "<option>DECK " + (i + 1) + ", TRANSIT ELEVATOR</option>";
+			for(var j = 0;j < newData[i].length;j++){
+				roomlist += "<option>DECK " + (i + 1) + ", " + newData[i][j].name.toUpperCase() + "</option>";
+			}
+		}
+		updateOfficerList(true);
+	});
+
 	function createDatabaseObservers(){
 		if(databaseObserversInit){
 			return;
@@ -204,11 +222,11 @@ Interstellar.addCoreWidget("Security Tracking",function(){
 						html += '<option>INJURED</option>'
 						html += '<option>DEAD</option>'
 					html += '</select>'
-					html += '<select index="' + i + '" class="security-tracking-core_officerListItem_position">'
-						html += '<option>' + positionName + '</option>'
+					html += '<select value="' + positionName + '" index="' + i + '" class="security-tracking-core_officerListItem_position">'
+						html +=  roomlist;//'<option>' + positionName + '</option>'
 					html += '</select>'
-					html += '<select index="' + i + '" class="security-tracking-core_officerListItem_endPosition">'
-						html += '<option>' + endPosName + '</option>'
+					html += '<select value="' + endPosName + '" index="' + i + '" class="security-tracking-core_officerListItem_endPosition">'
+						html +=  roomlist;//'<option>' + endPosName + '</option>'
 					html += '</select>'
 				html += '</div>';
 				if(officerPositions[i].type != "security" && officerPositions[i].type != "intruder"){
@@ -245,7 +263,7 @@ Interstellar.addCoreWidget("Security Tracking",function(){
 					}
 				}
 
-				$(this).html("<option>" + endPosName + "</option>");
+				$(this).val(endPosName.toUpperCase());
 			});
 			$( ".security-tracking-core_officerListItem_position" ).each(function( index ) {
 				var i = Number($(this).attr("index"));
@@ -266,7 +284,7 @@ Interstellar.addCoreWidget("Security Tracking",function(){
 						endPosName = "DECK " + (officerPositions[i].positioning.deck + 1) + ", " + endZone.zoneName;
 					}
 				}
-				$(this).html("<option>" + positionName + "</option>");
+				$(this).val(positionName.toUpperCase());
 			});
 
 			$(".security-tracking-core_officerListItem").each(function( index ) {
