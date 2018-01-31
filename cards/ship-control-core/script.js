@@ -237,6 +237,8 @@ Interstellar.addCoreWidget("Ship Control",function(){
 		});
 		saveShipRoomsButton.click(function(event){
 			Interstellar.setDatabaseValue("ship.rooms",rooms);
+			presets.rooms = rooms;
+			Interstellar.setPresetValue("ship.presets",presets);
 		});
 		cancelShipRoomsButton.click(function(event){
 			rooms = roomsBackup;
