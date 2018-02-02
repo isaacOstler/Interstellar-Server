@@ -102,6 +102,7 @@ var alertStatus = 5, //the ships alert status
     thisWidgetName = "Sensors", //the name of this widget (since for a while, it was called new-sensors-core)
     scanningObject,
     scanAnswer = null,
+    timeBoost = 1,
     flashProcessedDataInsteadOfFullScreen = false,
     averageScanTime = 120;
     //DOM references
@@ -155,7 +156,7 @@ Interstellar.onDatabaseValueChange("sensors.externalScans.scanAnswer",function(n
     //new scan answer, woo
     scanAnswer = newData;
     //if we are making a scan, and it's past 100%, answer
-    if(scanAnswer != null && scanningObject.timePassed / scanningObject.timeRequired > 1){
+    if(scanAnswer != null && scanningObject.finishTime < Date.now()){
         flashElement(scanAnswerTextArea,10);
         scanAnswerTextArea.html(scanAnswer);
         //and remove the old scan
@@ -249,20 +250,6 @@ Interstellar.onDatabaseValueChange("sensors.externalScans.scanObject",function(n
         //scan in progress
         scanButton.html("CANCEL");
     }
-    if(!(scanningObject == undefined || scanningObject == null)){
-        if((scanningObject.timePassed / scanningObject.timeRequired) >= 1){
-            if(scanAnswer != null){
-                flashElement(scanAnswerTextArea,10);
-                Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
-                scanAnswerTextArea.html(scanAnswer); 
-            }else{
-                scanAnswerTextArea.html("NOW ANALYZING DATA<br />PLEASE STANDBY")
-            }
-        }else{
-            scanAnswerTextArea.html("SCANNING... <br />(" + Math.round((scanningObject.timePassed / scanningObject.timeRequired) * 100) + "% COMPLETE)");
-        }
-    }
-    drawSensorsGui();
 });
 
 Interstellar.onDatabaseValueChange("sensors.effects",function(newData){
@@ -445,10 +432,11 @@ scanButton.click(function(event){
         Interstellar.setDatabaseValue("sensors.externalScans.scanObject",undefined);
     }else{
         var direction = Number(scanDirectionDropdown.val());
+        scanTimeRequired = averageScanTime / timeBoost;
         Interstellar.setDatabaseValue("sensors.externalScans.scanObject",{
             "query" : scanQueryTextbox.val(),
-            "timePassed" : 0,
-            "timeRequired" : averageScanTime,
+            "timeStarted" : Date.now(),
+            "timeFinished" : Date.now() + (scanTimeRequired * 1000), //miliseconds to seconds
             "direction" : direction,
             "answer" : undefined
         });
@@ -463,7 +451,11 @@ visibleButton.click(function(event){
 //intervals
 setInterval(function(){
     if(scanningObject != undefined){
+        drawSensorsGui();
+    }
+    /*
+    if(scanningObject != undefined){
         scanningObject.timePassed += .1;
         Interstellar.setDatabaseValue("sensors.externalScans.scanObject",scanningObject);
-    }
-},0100);
+    }*/
+},1000 / 30);

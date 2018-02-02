@@ -256,17 +256,6 @@ initThreeJS();
 //preset observers
 
 //database observers
-Interstellar.onDatabaseValueChange("sensors.externalScans.scanAnswer",function(newData){
-    //new scan answer, woo
-    scanAnswer = newData;
-    //if we are making a scan, and it's past 100%, answer
-    if(scanAnswer != null && scanningObject.timePassed / scanningObject.timeRequired > 1){
-        flashElement(scanAnswerTextArea,10);
-        scanAnswerTextArea.html(scanAnswer);
-        //and remove the old scan
-        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
-    }
-});
 Interstellar.onDatabaseValueChange("sensors.moveAllSpeeds",function(newData){
     if(newData == null){
         Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
@@ -796,7 +785,12 @@ function drawSensorsGui(){
     ctx.setLineDash([1,.1]);
     //Now time for scanning objects!
     if(scanningObject != undefined){
-        var innerRadius = circleRadius * (scanningObject.timePassed / scanningObject.timeRequired),
+
+        var totalTime = (scanningObject.timeFinished - scanningObject.timeStarted),
+            percentage = ((Date.now() - scanningObject.timeStarted) / totalTime);
+
+
+        var innerRadius = circleRadius * percentage,
         outerRadius = 0,
         // Radius of the entire circle.
         radius = circleRadius;
@@ -825,6 +819,22 @@ function drawSensorsGui(){
         ctx.stroke();
         //restore the stroke style back to white
         ctx.strokeStyle="white";
+    }
+
+    if(!(scanningObject == undefined || scanningObject == null)){
+        if(Date.now() > scanningObject.timeFinished){
+            if(scanAnswer != null){
+                flashElement(scanAnswerTextArea,10);
+                Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
+                scanAnswerTextArea.html(scanAnswer); 
+            }else{
+                scanAnswerTextArea.html("NOW ANALYZING DATA<br />PLEASE STANDBY")
+            }
+        }else{
+            var totalTime = (scanningObject.timeFinished - scanningObject.timeStarted),
+                percentage = Math.round(((Date.now() - scanningObject.timeStarted) / totalTime) * 100);
+            scanAnswerTextArea.html("SCANNING... <br />(" + percentage + "% COMPLETE)");
+        }
     }
 }
 
