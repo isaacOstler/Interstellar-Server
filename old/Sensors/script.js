@@ -261,27 +261,26 @@ function drawSensorsGui(){
         // Radius of the entire circle.
         radius = circleSize;
 
-        var gradient = ctx.createRadialGradient(center, center, innerRadius, center, center, outerRadius);
-        switch(Number(alertStatus)){
-            case 5:
-            gradient.addColorStop(0, 'rgba(66, 191, 244, 0.3)'); //set the color to white
-            break;
-            case 4:
-            gradient.addColorStop(0, 'rgba(65, 244, 166, 0.3)'); //set the color to a greenish blue color
-            break;
-            case 3:
-            gradient.addColorStop(0, 'rgba(244, 238, 66, 0.3)'); //set the color to yellow
-            break;
-            case 2:
-            gradient.addColorStop(0, 'rgba(172, 119, 32, 0.6)'); //set the color to orange
-            break;
-            case 1:
-            gradient.addColorStop(0, 'rgba(255, 0, 0, 0.5)'); //set the color to red
-            break;
+    var gradient = ctx.createRadialGradient(center, center, innerRadius, center, center, outerRadius);
+    switch(Number(alertStatus)){
+        case 5:
+        gradient.addColorStop(0, 'rgba(66, 191, 244, 0.3)'); //set the color to white
+        break;
+        case 4:
+        gradient.addColorStop(0, 'rgba(65, 244, 166, 0.3)'); //set the color to a greenish blue color
+        break;
+        case 3:
+        gradient.addColorStop(0, 'rgba(244, 238, 66, 0.3)'); //set the color to yellow
+        break;
+        case 2:
+        gradient.addColorStop(0, 'rgba(172, 119, 32, 0.6)'); //set the color to orange
+        break;
+        case 1:
+        gradient.addColorStop(0, 'rgba(255, 0, 0, 0.5)'); //set the color to red
+        break;
         default: //in case the alert status is something wierd, default to this
         gradient.addColorStop(0, 'rgba(66, 191, 244, 0.3)');
         break;
-
     }
     gradient.addColorStop(.6, 'rgba(0, 0, 0, 0.7)');
 
