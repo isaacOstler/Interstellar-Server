@@ -125,6 +125,14 @@ drawSensorsGui();
 //preset observers
 
 //database observers
+Interstellar.onDatabaseValueChange("sensors.scanTimeBoost",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("sensors.scanTimeBoost",timeBoost);
+        return;
+    }
+    timeBoost = newData;
+});
+
 Interstellar.onDatabaseValueChange("sensors.processedData.flashFullScreen",function(newData){
     if(newData == null){
         Interstellar.setDatabaseValue("sensors.processedData.flashFullScreen",true);
@@ -440,6 +448,7 @@ scanButton.click(function(event){
             "direction" : direction,
             "answer" : undefined
         });
+        Interstellar.setDatabaseValue("sensors.externalScans.scanAnswer",null);
     }
 });
 infraredButton.click(function(event){

@@ -212,3 +212,7 @@
 	border-right: 1px solid white;
 	height: 100%;
 }
+
+.sensorScansWidget_buttonDisabled:disabled {
+    filter: brightness(0.7);
+}

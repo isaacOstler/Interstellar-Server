@@ -6,15 +6,15 @@
 		<div id="sensorScansWidget_scanTypeBar_progressBars">
 			<div id="sensorScansWidget_scanTypeBar_progressBars_internal" class="sensorScansWidget_scanTypeBar_progressBar">
 				<div id="sensorScansWidget_scanTypeBar_progressBars_internal_label" class="sensorScansWidget_scanTypeBar_progressBar_label">INTERNAL SCAN (0% COMPLETE)</div>
-				<div id="sensorScansWidget_scanTypeBar_progressBars_internal_fill"></div>
+				<div id="sensorScansWidget_scanTypeBar_progressBars_internal_fill" class="sensorScansWidget_scanTypeBar_progressBar_fill"></div>
 			</div>
 			<div id="sensorScansWidget_scanTypeBar_progressBars_external" class="sensorScansWidget_scanTypeBar_progressBar">
-				<div id="sensorScansWidget_scanTypeBar_progressBars_external_label" class="sensorScansWidget_scanTypeBar_progressBar_label">INTERNAL SCAN (0% COMPLETE)</div>
+				<div id="sensorScansWidget_scanTypeBar_progressBars_external_label" class="sensorScansWidget_scanTypeBar_progressBar_label">EXTERNAL SCAN (0% COMPLETE)</div>
 				<div id="sensorScansWidget_scanTypeBar_progressBars_external_fill" class="sensorScansWidget_scanTypeBar_progressBar_fill"></div>
 			</div>
 		</div>
-		<input type="button" class="coreButton" value="Internal" id="sensorScansWidget_scanTypeBar_internalButton">
-		<input type="button" class="coreButton" value="External" id="sensorScansWidget_scanTypeBar_externalButton">
+		<input type="button" class="coreButton sensorScansWidget_buttonDisabled" value="Internal" id="sensorScansWidget_scanTypeBar_internalButton">
+		<input type="button" class="coreButton sensorScansWidget_buttonDisabled" value="External" id="sensorScansWidget_scanTypeBar_externalButton">
 	</div>
 	
 	<!-- scan request box -->
@@ -46,7 +46,7 @@
 		<input type="button" class="coreButton" id="sensorScansWidget_responseButtons_sendButton" value="Send">
 		<input type="button" class="coreButton" id="sensorScansWidget_responseButtons_sendNowButton" value="Send NOW">
 		<div id="sensorScansWidget_responseButtons_speedLabel">Speed</div>
-		<input type="text" value="1x" id="sensorScansWidget_responseButtons_speedTextbox">
+		<input type="text" value="1" onClick='this.select();' id="sensorScansWidget_responseButtons_speedTextbox">
 		<div id="Sensor-Scans-sensorScansWidget_responseButtons_gearContainer">
 			<center><div class="gearIcon" id="sensorScansWidget_responseButtons_gear"></div></center>
 		</div>
