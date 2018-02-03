@@ -1,0 +1,135 @@
+<div id="Sensor-Scans-Core-UserPrefsWindow" class="coreWindow" windowName="Sensor Scans Settings" style="width: 325px;height: 500px;top:230px;left: 230px">
+	<div id="Sensor-Scans-Core-UserPrefsWindow-generalSettings">
+		<div id="Sensor-Scans-Core-UserPrefsWindow-generalSettings-contentArea">
+			<span style="font-size:25px"><center>General Settings</center></span><br />
+			Announce New Scans
+			<select class="userPreferenceOption" id="Sensor-Scans-Core-UserPrefsWindow-generalSettings-contentArea-announceScansDropdown" style="width:25%;">
+				<option>Always</option>
+				<option>Never</option>
+			</select><br />
+			Announce Automatic Answers
+			<select class="userPreferenceOption" id="Sensor-Scans-Core-UserPrefsWindow-generalSettings-contentArea-announceAutoAnswerDropdown" style="width:25%;">
+				<option>Always</option>
+				<option>Never</option>
+			</select><br />
+			Default External Speed Boost
+			<input type="text" class="userPreferenceOption" id="Sensor-Scans-Core-UserPrefsWindow-generalSettings-contentArea-externalSpeedBoostTextbox" style="width:25%;"><br />
+			Default Internal Speed Boost
+			<input type="text" class="userPreferenceOption" id="Sensor-Scans-Core-UserPrefsWindow-generalSettings-contentArea-internalSpeedBoostTextbox" style="width:25%;">
+		</div>
+	</div>
+<div id="Sensor-Scans-Core-UserPrefsWindow-hotkeysContainer">
+	<span id="Sensors-Scans-Core-UserPrefsWindow-hotKeysContainer-Header">Hotkeys</span><br />
+	<div id="Sensors-Scans-Core-UserPrefsWindow-hotKeysContainer-addRemoveButtons">
+		<input type="button" value="+" class="coreButton" id="Sensors-Scans-Core-UserPrefsWindow-hotKeysContainer-addRemoveButtons-add"><input type="button" value="-" class="coreButton" style="background-color: #d11010" id="Sensors-Scans-Core-UserPrefsWindow-hotKeysContainer-addRemoveButtons-remove">
+	</div>
+	<div id="Sensor-Scans-Core-UserPrefsWindow-hotkeysContainer-hotKeysList"></div>
+</div>
+
+<div style="position: absolute;bottom: 30px;font-size:9px;width: 100%;text-align: center;color:red">To edit Auto-Response™ values, right click the Auto-Response™ button</div>
+	
+</div>
+
+<div id="Sensors-Scans-Core-AutoResponseOptions" class="coreWindow" windowName="Auto-Response™" style="width: 290px;height: 500px;top:230px;left: 230px">
+	<div id="Sensors-Scans-Core-AutoResponseOptions-table"></div>
+	<div id="Sensors-Scans-Core-AutoResponseOptions-queryControls">
+		<div class="customButton verticalAlign" id="Sensors-Scans-Core-AutoResponseOptions-queryControls-CreateNewButton">
+		+
+		</div>
+		<div class="customButton verticalAlign" id="Sensors-Scans-Core-AutoResponseOptions-queryControls-removeButton">
+		-
+		</div>
+	</div>
+	<div id="Sensors-Scans-Core-AutoResponseOptions-tableOptions">
+	<div id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresets-newPreset">
+		New Preset Name: <input type="text" placeholder="NEW PRESET" id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresets-newPreset-nameTextbox"><br />
+		<input type="button" class="coreButton" style="background-color:red;color:black" value="Cancel" id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresets-newPreset-cancelButton">
+		<input type="button" class="coreButton" style="width: 80%;" value="Create Preset" id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresets-newPreset-createButton">
+	</div>
+	<div id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresets">
+		<div class="customButton" id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresets-createNewPresetButton" style="font-size:12px; color:black;position:absolute;background: -webkit-linear-gradient(top, #ffffff 0%,#e1e1e1 93%);height: 100%;width: 40%;">
+			Create New Preset
+		</div>
+		<div class="customButton" id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresets-editOldPresetButton" style="font-size:12px; color:black;position:absolute;background:-webkit-linear-gradient(top, #b4d2ea 0%,#70b0e0 100%);height: 100%;width: 40%;right: 20%;">
+			Edit Old Preset
+		</div>
+		<div class="customButton" id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresets-cancelButton" style="font-size:12px; position:absolute;background: -webkit-linear-gradient(top, #ff3019 0%,#cf0404 100%);height: 100%;width: 20%;right: 0px;">
+			Cancel
+		</div>
+	</div>
+		Preset: 
+		<select style="
+    width: 77%;
+    position: absolute;
+    top: 0px;
+    right: 1px;" id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-presetsDropdown">
+			<option></option>
+		</select><br>
+		<input type="checkbox" id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-overridePresetCheckbox"> Override current values
+		<input type="button" id="Sensors-Scans-Core-AutoResponseOptions-tableOptions-editPresetsButton" value="Edit Presets" class="coreButton" style="
+    width: 29%;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    height: 50%;">
+	</div>
+</div>
+<div id="Sensor-Scans-Core-Widget" class="Core_Theme-CoreWidget" style="width:540px;height:240px;top:656px;left:255px">
+	<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=sensor-scans-core">
+	<div class="hardContainer">
+	<div id="Sensor-Scans-Core_internalExternalButtonContainer">
+		<div id="Sensor-Scans-Core_UserPrefencesIconContainer">
+			<center><div class="gearIcon" id="Sensor-Scans-Core_UserPrefences"></div></center>
+		</div>
+		<input type="button" class="coreButton Sensor-Scans-Core_ScanTypeButton" value="INTERNAL" id="Sensor-Scans-Core_InternalScansButton" style="right:10%;">
+		<input type="button" class="coreButton Sensor-Scans-Core_ScanTypeButton" value="EXTERNAL" id="Sensor-Scans-Core_ExternalScansButton" style="right:55%">
+	</div>
+	<div id="Sensor-Scans-Core_InternalSensorsProgress" class="verticalAlign">
+		<div style="position: absolute;top:0px;left:0px;width: 100%;height: 100%"></div>
+		<span id="Sensor-Scans-Core_InternalSensorsProgressLabel">INTERNAL SCAN PROGRESS (0%)</span>
+		<div id="Sensor-Scans-Core_InternalSensorsProgressFill" class="Sensor-Scans-Core_scanProgressFill"></div>
+	</div>
+	<div id="Sensor-Scans-Core_ExternalSensorsProgress" class="verticalAlign">
+		<div style="position: absolute;top:0px;left:0px;width: 100%;height: 100%"></div>
+		<span id="Sensor-Scans-Core_ExternalSensorsProgressLabel">EXTERNAL SCAN PROGRESS (0%)</span>
+		<div id="Sensor-Scans-Core_ExternalSensorsProgressFill" class="Sensor-Scans-Core_scanProgressFill"></div>
+	</div>
+	<div id="Sensor-Scans-Core_ScanType" class="notEditable verticalAlign"></div>
+	<div id="Sensor-Scans-Core_ScanLocation" class="notEditable verticalAlign"></div>
+	<div id="Sensor-Scans-Core_ScanQuerry" class="notEditable"></div>
+	<div id="Sensor-Scans-Core_ScanProgress">
+		<div style="position: absolute;top:0px;left:0px;width: 100%;height: 100%"></div>
+		<span id="Sensor-Scans-Core_ScanProgressLabel" class="verticalAlign">NO SCAN IN PROGRESS</span>
+		<div id="Sensor-Scans-Core_ScanProgressFill" class="Sensor-Scans-Core_scanProgressFill"></div>
+	</div>
+	<div id="Sensor-Scans-Core_InstantFinishButton" class="customButton verticalAlign">INSTANT FINISH</div>
+	<div id="Sensor-Scans-Core_PresetsMenu">
+		MISSION:
+		<select>
+			<option>PERIKOI</option>
+			<option>INTOLERANCE</option>
+			<option>GREENPEACE</option>
+		</select>
+		PRESET:
+		<select>
+			<option>RELAY STATION</option>
+			<option>AT PERIKOI</option>
+			<option>ALIEN SHIP SCAN</option>
+		</select>
+	</div>
+	<div id="Sensor-Scans-Core_SpeedControl">
+		<div style="position: absolute;right:38%;text-align: right;">SPEED</div> <input type='input' onClick='this.select();' id="Sensor-Scans-Core_SpeedTextbox" value="1x" class="coreTextbox">
+	</div>
+	<div id="Sensor-Scans-Core_ScanAnswerContainer">
+		<textarea id="Sensor-ScansCore_ScanAnswerTextarea" class="textarea" style="width: 100%;height: 100%;background-color: #ffe6a3"></textarea>
+	</div>
+	<div id="Sensor-Scans-Core_SendButtons">
+		<input type="button" id="Sensor-Scans-Core_AutoSendButton" class="coreButton sendButton" value="Auto-Response™" style="right: 80%;height: 100%;width: 20%">
+		<input type="button" id="Sensor-Scans-Core_specifyButton" class="coreButton sendButton" value="SPECIFY" style="right: 65%;height: 100%;width: 15%">
+		<input type="button" id="Sensor-Scans-Core_unknownButton" class="coreButton sendButton" value="UNKNOWN" style="right: 50%;height: 100%;width: 15%">
+		<input type="button" id="Sensor-Scans-Core_NoneDetectedButton" class="coreButton sendButton" value="NONE DETECTED" style="right: 30%;height: 100%;width: 20%">
+		<input type="button" id="Sensor-Scans-Core_SendAnswerButton" class="coreButton sendButton" value="SEND" style="right: 0%;height: 100%;width: 30%; border-right: none">
+	</div>
+	</div>
+	<script src="/resource?path=script.js&screen=sensor-scans-core" type="text/javascript"></script>
+</div>

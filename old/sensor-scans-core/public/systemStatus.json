@@ -1,0 +1,142 @@
+[
+	{
+		"systemName" : "WARP ENGINES",
+		"systemPower" : 14,
+		"requiredPower" : [10,14,18,22,26,30,34,38,42,46],
+		"isDamaged" : false,
+		"quickTooltip" : "THE WARP ENGINES ARE USED FOR FASTER THAN LIGHT TRAVEL"
+	},
+	{
+		"systemName" : "IMPULSE ENGINES",
+		"systemPower" : 8,
+		"requiredPower" : [8,12,16,20,24],
+		"isDamaged" : false,
+		"quickTooltip" : "THE IMPULSE ENGINES ARE USED FOR SLOWER THAN LIGHT TRAVEL"
+	},
+	{
+		"systemName" : "THRUSTERS",
+		"systemPower" : 4,
+		"requiredPower" : [4,6,8],
+		"isDamaged" : false,
+		"quickTooltip" : "THURSTERS MOVE THE SHIP IN SMALL AMOUNTS"
+	},
+	{
+		"systemName" : "NAVIGATIONS COMPUTER",
+		"systemPower" : 3,
+		"requiredPower" : [3],
+		"isDamaged" : false,
+		"quickTooltip" : "THIS SYSTEM FINDS THE SAFEST COURSE TO OUR DESTINATION"
+	},
+	{
+		"systemName" : "TRACTOR BEAM",
+		"systemPower" : 7,
+		"requiredPower" : [4,8,16],
+		"isDamaged" : false,
+		"quickTooltip" : "THIS SYSTEM PULLS THINGS TOWARD OR BEHIND OUR SHIP"
+	},
+	{
+		"systemName" : "TRANSPORTERS",
+		"systemPower" : 12,
+		"requiredPower" : [12,14,16],
+		"isDamaged" : false,
+		"quickTooltip" : "TRANSPORTERS TELEPORT AN OBJECT FROM ONE SPOT TO ANOTHER"
+	},
+	{
+		"systemName" : "PHASERS",
+		"systemPower" : 16,
+		"requiredPower" : [8,16,24],
+		"isDamaged" : false,
+		"quickTooltip" : "PHASERS ARE A LASER WEAPON, USED TO SLICE AND CUT OBJECTS"
+	},
+	{
+		"systemName" : "TORPEDOES",
+		"systemPower" : 6,
+		"requiredPower" : [6,8,10],
+		"isDamaged" : false,
+		"quickTooltip" : "TORPEDOES ARE EXPLOSIVE MISSILES THAT CAN BE FIRED"
+	},
+	{
+		"systemName" : "SENSORS",
+		"systemPower" : 14,
+		"requiredPower" : [10,20,30],
+		"isDamaged" : false,
+		"quickTooltip" : "SENSORS SHOWS WHAT IS HAPPENING OUTSIDE THE SHIP"
+	},
+	{
+		"systemName" : "LONG RANGE COMM",
+		"systemPower" : 4,
+		"requiredPower" : [4],
+		"isDamaged" : false,
+		"quickTooltip" : "LONG RANGE COMM SENDS TEXT MESSAGES TO OTHER SHIPS"
+	},
+	{
+		"systemName" : "SHORT RANGE COMM",
+		"systemPower" : 6,
+		"requiredPower" : [6,8],
+		"isDamaged" : false,
+		"quickTooltip" : "SHORT RANGE COMM IS USED FOR PHONE CALLS WITH NEARBY SHIPS"
+	},
+	{
+		"systemName" : "SIGNAL JAMMER",
+		"systemPower" : 2,
+		"requiredPower" : [2],
+		"isDamaged" : false,
+		"quickTooltip" : "THE SIGNAL JAMMER STOPS OTHER COMMUNICATION SIGNALS"
+	},
+	{
+		"systemName" : "OXYGEN GENERATORS",
+		"systemPower" : 7,
+		"requiredPower" : [7],
+		"isDamaged" : false,
+		"quickTooltip" : "OXYGEN GENERATORS CREATE AIR FOR THE CREW TO BREATH"
+	},
+	{
+		"systemName" : "CO2 SCRUBBERS",
+		"systemPower" : 9,
+		"requiredPower" : [9],
+		"isDamaged" : true,
+		"quickTooltip" : "CO2 SCRUBBERS CLEANS THE AIR FOR THE CREW TO BREATH"
+	},
+	{
+		"systemName" : "FORWARD SHIELDS",
+		"systemPower" : 6,
+		"requiredPower" : [6,12,18],
+		"isDamaged" : false,
+		"quickTooltip" : "THIS SYSTEM PROTECTS THE FRONT OF THE SHIP"
+	},
+	{
+		"systemName" : "AFT SHIELDS",
+		"systemPower" : 9,
+		"requiredPower" : [6,12,18],
+		"isDamaged" : false,
+		"quickTooltip" : "THIS SYSTEM PROTECTS THE BACK OF THE SHIP"
+	},
+	{
+		"systemName" : "PORT SHIELDS",
+		"systemPower" : 9,
+		"requiredPower" : [6,12,18],
+		"isDamaged" : false,
+		"quickTooltip" : "THIS SYSTEM PROTECTS THE LEFT SIDE OF THE SHIP"
+	},
+	{
+		"systemName" : "STARBOARD SHIELDS",
+		"systemPower" : 9,
+		"requiredPower" : [6,12,18],
+		"isDamaged" : false,
+		"quickTooltip" : "THIS SYSTEM PROTECTS THE RIGHT SIDE OF THE SHIP"
+	},
+	{
+		"systemName" : "DORSAL SHIELDS",
+		"systemPower" : 9,
+		"requiredPower" : [6,12,18],
+		"isDamaged" : false,
+		"quickTooltip" : "THIS SYSTEM PROTECTS THE BOTTOM OF THE SHIP"
+	},
+	{
+		"systemName" : "VENTRAL SHIELDS",
+		"systemPower" : 9,
+		"requiredPower" : [6,12,18],
+		"isDamaged" : false,
+		"quickTooltip" : "THIS SYSTEM PROTETS THE TOP OF THE SHIP"
+	}
+]

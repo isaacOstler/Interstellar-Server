@@ -1,1 +1,8 @@
-{"cardName":"sensor-scans-core","cardType":"coreWidget","author":"Isaac Ostler","copyright":"Isaac Ostler","version":"1.0.0","description":"Allows the FD to answer BOTH internal and exeternal scans"}
+{
+	"cardName":"sensor-scans-core",
+	"cardType":"coreWidget",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"2.0.0",
+	"description":"Allows the FD to answer sensor scans"
+}
