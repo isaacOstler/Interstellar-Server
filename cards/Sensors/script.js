@@ -98,12 +98,13 @@
 */
 
 //variables
-var alertStatus = 5, //the ships alert status
-    thisWidgetName = "Sensors", //the name of this widget (since for a while, it was called new-sensors-core)
+var thisWidgetName = "Sensors", //the name of this widget (since for a while, it was called new-sensors-core)
     scanningObject,
     scanAnswer = null,
+    lastContactSelectedName = null,
     timeBoost = 1,
     flashProcessedDataInsteadOfFullScreen = false,
+    contactInfoCords = {"x" : 0,"y" : 0},
     averageScanTime = 120;
     //DOM references
 var canvas = $("#sensorsArray_Canvas"),
@@ -117,6 +118,8 @@ var canvas = $("#sensorsArray_Canvas"),
     visibleButton = $("#visibleButton"),
     scanAnswerTextArea = $("#scanAnswerTextArea"),
     scanDirectionDropdown = $("#directionDropdown"),
+    contactInfoBox = $("#contactInfoBox"),
+    contactInfoBox_label = $("#contactInfoBox_nameLabel"),
     processedDataTextArea = $("#processedDataContainer");
 //init calls
 
@@ -457,6 +460,30 @@ infraredButton.click(function(event){
 visibleButton.click(function(event){
     Interstellar.setDatabaseValue("sensors.infrared",false);
 });
+
+canvasContainer.on("mousemove.contactInfoCordUpdate",function(event){
+    contactInfoCords.x = event.offsetX / canvasContainer.width();
+    contactInfoCords.y = Math.abs(1 - event.offsetY / canvasContainer.height());
+    for(var i = 0;i < CompoundContactsArray.length;i++){
+        if(withinRange(CompoundContactsArray[i].xPos,contactInfoCords.x,.03) && withinRange(CompoundContactsArray[i].yPos,contactInfoCords.y,.03)){
+            contactInfoBox_label.html(CompoundContactsArray[i].name);
+        }
+    }
+});
+
+function withinRange(number,range,difference){
+    if(number < range + difference && number > range - difference){
+        return true;
+    }
+    return false;
+}
+
+$(document).on("mousemove.contactInfoBox",function(event){
+    if(contactInfoBox.css("display") != "none"){
+        contactInfoBox.css("left",event.pageX + 10 + "px");
+        contactInfoBox.css("top",event.pageY + 10 + "px");
+    }
+})
 //intervals
 setInterval(function(){
     if(scanningObject != undefined){

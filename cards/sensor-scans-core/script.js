@@ -39,6 +39,8 @@ Interstellar.addCoreWidget("Sensor Scans",function(){
 		externalTextboxValue = "",
 		lastInternalScan = "NO SCAN",
 		lastExternalScan = "NO SCAN",
+		internalScanAnswer = null,
+		externalScanAnswer = null,
 		timeBoost = 1;
 	
 	//init calls
@@ -57,13 +59,20 @@ Interstellar.addCoreWidget("Sensor Scans",function(){
 
 	Interstellar.onDatabaseValueChange("sensors.externalScans.scanObject",function(newData){
 	    externalScanObject = newData;
-	    drawGui();
 
 	    if(newData != null){
-	    	Interstellar.say("New external sensors scan");
+	    	if(newData.timeFinished > Date.now()){
+	    		Interstellar.say("New external sensors scan");
+	    	}
+	    	lastExternalScan = newData.query;
 	    }
+	    drawGui();
 	});
 
+	Interstellar.onDatabaseValueChange("sensors.externalScans.scanAnswer",function(newData){
+		externalScanAnswer = newData;
+		drawGui();
+	});
 	//functions
 
 	function drawGui(){
@@ -115,20 +124,30 @@ Interstellar.addCoreWidget("Sensor Scans",function(){
 	}
 
 	function updateButtonColors(){
-		if(internalScanObject == null){
+		if(internalScanObject != null){
+			if(internalScanAnswer == null){
+				//internal scan in progress
+				toggleButton_internal.css("background-color","red");
+			}else{	
+				//external scan in progress
+				toggleButton_external.css("background-color","yellow");
+			}
+		}else{
 			//no internal scan
 			toggleButton_internal.css("background-color","");
-		}else{
-			//internal scan in progress
-			toggleButton_internal.css("background-color","red");
 		}
 
-		if(externalScanObject == null){
+		if(externalScanObject != null){
+			if(externalScanAnswer == null){
+				//external scan in progress
+				toggleButton_external.css("background-color","red");
+			}else{	
+				//external scan in progress
+				toggleButton_external.css("background-color","yellow");
+			}
+		}else{
 			//no external scan
 			toggleButton_external.css("background-color","");
-		}else{
-			//external scan in progress
-			toggleButton_external.css("background-color","red");
 		}
 
 
@@ -186,17 +205,38 @@ Interstellar.addCoreWidget("Sensor Scans",function(){
 	});
 
 	timeBoostTextbox.on("change",function(event){
-		var newValue = Number(event.target.value.replace(/[^\d.-]/g, ''));
+		var newValue = Number(event.target.value.replace(/[^\d.-]/g, '')),
+			oldValue = timeBoost;
 		if(!isNaN(newValue) && newValue != undefined && newValue != 0){
 			Interstellar.setDatabaseValue("sensors.scanTimeBoost",newValue);
+		}
+		if(externalScanObject != null){
+			var scaleValue = newValue / timeBoost;
+			var timeRemaining = Math.max(0,externalScanObject.timeFinished - Date.now());
+			timeRemaining *= scaleValue;
+			externalScanObject.timeFinished = externalScanObject.timeStarted + timeRemaining;
+			Interstellar.setDatabaseValue("sensors.externalScans.scanObject",externalScanObject);
+		}
+		if(internalScanObject != null){
+			//internal placeholder
 		}
 	});
 
 	noneButton.click(function(event){
-		scanRequestBox.val("NONE DETECTED");
+		if(selectedScanType == "internal"){
+			internalTextboxValue = "NONE DETECTED";
+		}else{
+			externalTextboxValue = "NONE DETECTED";
+		}
+		drawGui();
 	});
 	unknownButton.click(function(event){
-		scanRequestBox.val("REQUEST QUERY WAS UNKNOWN AND/OR AMBIGUOUS, PLEASE RESTATE OR CLARIFY");
+		if(selectedScanType == "internal"){
+			internalTextboxValue = "REQUEST QUERY WAS UNKNOWN AND/OR AMBIGUOUS, PLEASE RESTATE OR CLARIFY";
+		}else{
+			externalTextboxValue = "REQUEST QUERY WAS UNKNOWN AND/OR AMBIGUOUS, PLEASE RESTATE OR CLARIFY";
+		}
+		drawGui();
 	});
 	//intervals
 	setInterval(function(){

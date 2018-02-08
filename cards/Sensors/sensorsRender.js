@@ -256,6 +256,14 @@ initThreeJS();
 //preset observers
 
 //database observers
+Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("ship.alertStatus",5);
+        return;
+    }
+    alertStatus = newData;
+    drawSensorsGui();
+})
 Interstellar.onDatabaseValueChange("sensors.moveAllSpeeds",function(newData){
     if(newData == null){
         Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
@@ -728,27 +736,33 @@ function drawSensorsGui(){
 
     
     var gradient = ctx.createRadialGradient(center, center, innerRadius, center, center, outerRadius);
+    console.log(alertStatus);
     switch(Number(alertStatus)){
         case 5:
-        gradient.addColorStop(0, 'rgba(66, 191, 244, 0.2)'); //set the color to white
+        gradient.addColorStop(0, 'rgba(66, 191, 244, 0.6)'); //set the color to white
+        gradient.addColorStop(.6, 'rgba(66, 191, 244, 0)'); //set the color to white
         break;
         case 4:
-        gradient.addColorStop(0, 'rgba(65, 244, 166, 0.2)'); //set the color to a greenish blue color
+        gradient.addColorStop(0, 'rgba(65, 244, 166, 0.6)'); //set the color to a greenish blue color
+        gradient.addColorStop(.6, 'rgba(65, 244, 166, 0)'); //set the color to a greenish blue color
         break;
         case 3:
-        gradient.addColorStop(0, 'rgba(244, 238, 66, 0.2)'); //set the color to yellow
+        gradient.addColorStop(0, 'rgba(244, 238, 66, .6)'); //set the color to yellow
+        gradient.addColorStop(.6, 'rgba(244, 238, 66, 0)'); //set the color to yellow
         break;
         case 2:
-        gradient.addColorStop(0, 'rgba(172, 119, 32, 0.5)'); //set the color to orange
+        gradient.addColorStop(0, 'rgba(172, 119, 32, 0.6)'); //set the color to orange
+        gradient.addColorStop(.6, 'rgba(172, 119, 32, 0)'); //set the color to orange
         break;
         case 1:
-        gradient.addColorStop(0, 'rgba(255, 0, 0, 0.4)'); //set the color to red
+        gradient.addColorStop(0, 'rgba(255, 0, 0, 0.6)'); //set the color to red:
+        gradient.addColorStop(.6, 'rgba(255, 0, 0, 0)'); //set the color to red
         break;
         default: //in case the alert status is something wierd, default to this
-        gradient.addColorStop(0, 'rgba(66, 191, 244, 0.2)');
+        gradient.addColorStop(0, 'rgba(66, 191, 244, 0.6)');
+        gradient.addColorStop(.6, 'rgba(66, 191, 244, 0)');
         break;
     }
-    gradient.addColorStop(.6, 'rgba(0, 0, 0, 0.6)');
     ctx.fillStyle = gradient;
     ctx.fill();
     ctx.stroke();
