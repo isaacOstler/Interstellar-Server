@@ -464,9 +464,20 @@ visibleButton.click(function(event){
 canvasContainer.on("mousemove.contactInfoCordUpdate",function(event){
     contactInfoCords.x = event.offsetX / canvasContainer.width();
     contactInfoCords.y = Math.abs(1 - event.offsetY / canvasContainer.height());
+    console.log(event.offsetX,event.offsetY);
+    var oldName = lastContactSelectedName;
+    lastContactSelectedName = undefined;
     for(var i = 0;i < CompoundContactsArray.length;i++){
-        if(withinRange(CompoundContactsArray[i].xPos,contactInfoCords.x,.03) && withinRange(CompoundContactsArray[i].yPos,contactInfoCords.y,.03)){
-            contactInfoBox_label.html(CompoundContactsArray[i].name);
+        if(withinRange(CompoundContactsArray[i].xPos,contactInfoCords.x * 100,CompoundContactsArray[i].width / 2) && withinRange(CompoundContactsArray[i].yPos,contactInfoCords.y * 100,CompoundContactsArray[i].height / 2)){
+            lastContactSelectedName = CompoundContactsArray[i].name;
+        }
+    }
+    if(lastContactSelectedName != oldName){
+        if(lastContactSelectedName == undefined){
+            contactInfoBox.fadeOut();
+        }else{
+            contactInfoBox.fadeIn();
+            contactInfoBox_label.html(lastContactSelectedName);
         }
     }
 });
@@ -480,8 +491,8 @@ function withinRange(number,range,difference){
 
 $(document).on("mousemove.contactInfoBox",function(event){
     if(contactInfoBox.css("display") != "none"){
-        contactInfoBox.css("left",event.pageX + 10 + "px");
-        contactInfoBox.css("top",event.pageY + 10 + "px");
+       contactInfoBox.css("left",event.pageX + 10 + "px");
+       contactInfoBox.css("top",event.pageY + 10 + "px");
     }
 })
 //intervals
