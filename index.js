@@ -46,6 +46,7 @@ var stations,
     rebuildThemes = false,
     overidePort = false,
     overrideingPortNumber = 3000,
+    httpAlreadyInit = false,
     portNumberFromUserPrefs = overrideingPortNumber,
     saveDatabase = false;
 
@@ -98,6 +99,10 @@ app.on('ready', function() {
             console.log("stations set to " + stations);
         });
         cardManager.init(rebuildCards,rebuildThemes, function() {
+            if(httpAlreadyInit){
+                return;
+            }
+            httpAlreadyInit = true;
             http.listen(portNumberFromUserPrefs, function(socket) {
                 console.log('=====[' + 'listening on port '.bold + portNumberFromUserPrefs.toString().bold + ']=====');
 

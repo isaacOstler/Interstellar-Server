@@ -47,10 +47,20 @@ module.exports.getThemeFiles = function(themeName, callback) {
 }
 module.exports.init = function(rebuildCards,rebuildThemes,callback){
     compressDirectory(resourceFilePath,"compressedResources",function(){
-
-    });
-    indexCards(rebuildCards,function(){
-        indexThemes(rebuildThemes,callback);
+        var cardsRebuilt = false,
+        themesRebuilt = false;
+        indexThemes(rebuildThemes,function(){
+            themesRebuilt = true;
+            if(cardsRebuilt && themesRebuilt){
+                callback();
+            }
+        });
+        indexCards(rebuildCards,function(){
+            cardsRebuilt = true;
+            if(cardsRebuilt && themesRebuilt){
+                callback();
+            }
+        });
     });
 }
 
