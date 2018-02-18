@@ -123,6 +123,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     var alertStatus = 5, //the ships alert status
         defaultContactName = "UNKNOWN CONTACT", //the defualt contact name for new contacts
         defaultContactIcon = "Generic.png", //defualt contact icon
+        defaultContactImage = "", //default contact image
         duplicateMode = false,
         deleteMode = false,
         defaultContactSize = 3, //default height and width of new icons
@@ -1256,7 +1257,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     //takes: x cord, y cord
     //returns: object, containing distance and radians
     function init(){
-        getFileNamesInFolder("/public/Contacts","sensors-core",function(files){
+        getFileNamesInFolder("/public/Contacts/","sensors-core",function(files){
             possibleContacts = files;
             var option = '';
             for (var i=0;i<possibleContacts.length;i++){
@@ -1264,6 +1265,18 @@ Interstellar.addCoreWidget("Sensors",function(){
             }
             iconDropdown.html(option);
         });
+
+        //cheat solution, since getFileNamesInFolder seems to have problems with scope and callbacks
+        setTimeout(function(){
+            getFileNamesInFolder("/public/Images/","sensors-core",function(imageFiles){
+                possibleImages = imageFiles;
+                var imageOption = '';
+                for (var i=0;i<possibleImages.length;i++){
+                   imageOption += '<option value="'+ possibleImages[i] + '">' + possibleImages[i] + '</option>';
+                }
+                imageDropdown.html(imageOption);
+            });
+        },0500);
     }
 
     function cartesian2Polar(x, y){
@@ -1309,7 +1322,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         //Interstellar.setDatabaseValue("sensors.programs",programs);
     }
 
-    function addNewContact(name,xPos,yPos,wantedX,wantedY,height,width,animationSpeed,icon,isActive){
+    function addNewContact(name,xPos,yPos,wantedX,wantedY,height,width,animationSpeed,icon,image,isActive){
         if(isActive == undefined){
             isActive = true;
         }
@@ -1328,6 +1341,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "xStep" : undefined,
             "yStep" : undefined,
             "icon" : icon,
+            "image" : image,
             "isActive" : isActive,
             "attributes" :
             {
@@ -1508,6 +1522,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                 nameTextbox.val(CompoundContactsArray[i].name);
                 iconDropdown.val(CompoundContactsArray[i].icon);
                 sizeSlider.val(CompoundContactsArray[i].width);
+                imageDropdown.val(CompoundContactsArray[i].image);
             }
         }
     }
@@ -1536,7 +1551,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     image = contacts[Number($(event.target).attr("index"))].image,
                     animationSpeed = contacts[Number($(event.target).attr("index"))].animationSpeed
 
-                addNewContact(name,0,0,0,0,height,width,animationSpeed,icon,false);
+                addNewContact(name,0,0,0,0,height,width,animationSpeed,icon,image,false);
                 contactListSelectedContact = undefined;
                 updateContactEditor();
             }else if(deleteMode){
@@ -1781,6 +1796,16 @@ Interstellar.addCoreWidget("Sensors",function(){
             }
         }
     });
+    imageDropdown.change(function(event){
+        if(contactListSelectedContact != undefined){
+            for(var i = 0;i < CompoundContactsArray.length;i++){
+                if(CompoundContactsArray[i].GUID == contactListSelectedContact){
+                    CompoundContactsArray[i].image = event.target.value;
+                    updateContactsEarly();
+                }
+            }
+        }
+    });
     iconDropdown.change(function(event){
         if(contactListSelectedContact != undefined){
             for(var i = 0;i < CompoundContactsArray.length;i++){
@@ -1835,7 +1860,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     addContactButton.click(function(event){
         duplicateMode = false;
         deleteMode = false;
-        addNewContact(defaultContactName,150,50,150,50,defaultContactSize,defaultContactSize,3000,defaultContactIcon,false);
+        addNewContact(defaultContactName,150,50,150,50,defaultContactSize,defaultContactSize,3000,defaultContactIcon,defaultContactImage,false);
         updateContactEditorMode();
     });
     moveAllCanvas.on("mousedown.moveAllCanvasDrag",function(event){

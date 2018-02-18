@@ -216,7 +216,7 @@ var alertStatus = 5, //the ships alert status
     ],
     weapons = [],
     programs = [
-        {
+        /*{
             "type" : "planet", //we have several different things that go on the sensors array, so we have to specify
             "GUID" : guidGenerator(),
             "icon" : "/resource?path=public/Planets/1Terran1.png",
@@ -235,7 +235,7 @@ var alertStatus = 5, //the ships alert status
             "rotation" : 2,
             "rotationSpeed" : .02,
             "asteroidIcon" : 1
-        }
+        }*/
     ],
     scanningObject,
     scanAnswer = null,
@@ -308,7 +308,7 @@ Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
                 }
                 programs.splice(programs.length,0,newAsteroid);
             }
-        }*/
+        }
         for(var j = 0;j < 256;j++){
             var newAsteroid = {
                 "GUID" : guidGenerator(),
@@ -321,7 +321,7 @@ Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
                 "asteroidIcon" : Math.floor(Math.random() * asteroidTextures.length)
             }
             programs.splice(programs.length,0,newAsteroid);
-        }
+        }*/
         Interstellar.setDatabaseValue("sensors.programs",programs);
         return;
     }

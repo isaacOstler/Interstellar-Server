@@ -155,7 +155,6 @@ button:active{
 	top:22px;
 	right: 2px;
 	width: calc(100% - 52px);
-	cursor: not-allowed;
 }
 #sensors_core_contactEditor_nameLabel{
 	position: absolute;

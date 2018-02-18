@@ -124,10 +124,11 @@
 	}
 
 	this.getFileNamesInFolder = function(folder,screen,callback){
+		let functionCallback = callback;
 		var ipcRenderer = require('electron').ipcRenderer;
 		ipcRenderer.send("getFileNamesInFolder",{"path" : folder,"screen" : screen});
 		ipcRenderer.once("recieveFileNamesInFolder",function(event,fileNames){
-			callback(fileNames)
+			functionCallback(fileNames)
 		})
 	}
 

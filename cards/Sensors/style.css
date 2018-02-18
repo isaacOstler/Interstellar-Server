@@ -21,6 +21,14 @@
     height: 95%;
     width: 95%;
 }
+#sensorsArray_Canvas_mouseCatcher{
+    position: absolute;
+    top:2.5%;
+    left: 2.5%;
+    height: 95%;
+    width: 95%;
+    z-index: 9999;
+}
 #sensorsArray_Canvas{
 	position: absolute;
 	top:2.5%;
@@ -164,8 +172,8 @@
 }
 #contactInfoBox_nameLabel{
     position: absolute;
-    top: 20px;
-    left: 40px;
+    top: 26px;
+    left: 20px;
     font-size: 42px;
 }
 #contactInfoBox_image{
@@ -175,6 +183,9 @@
     height: calc(100% - 40px);
     width: 85px;
     border-radius: 10px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
     border: 1px solid white;
     background-color: rgba(0,0,0,.5);
 }

@@ -105,6 +105,7 @@ var thisWidgetName = "Sensors", //the name of this widget (since for a while, it
     timeBoost = 1,
     flashProcessedDataInsteadOfFullScreen = false,
     contactInfoCords = {"x" : 0,"y" : 0},
+    contactInfoTextWidth = 16,
     averageScanTime = 120;
     //DOM references
 var canvas = $("#sensorsArray_Canvas"),
@@ -120,6 +121,8 @@ var canvas = $("#sensorsArray_Canvas"),
     scanDirectionDropdown = $("#directionDropdown"),
     contactInfoBox = $("#contactInfoBox"),
     contactInfoBox_label = $("#contactInfoBox_nameLabel"),
+    canvas_mouseCatcher = $("#sensorsArray_Canvas_mouseCatcher"),
+    contactInfoBox_image = $("#contactInfoBox_image"),
     processedDataTextArea = $("#processedDataContainer");
 //init calls
 
@@ -228,7 +231,7 @@ Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
                 }
                 programs.splice(programs.length,0,newAsteroid);
             }
-        }*/
+        }
         for(var j = 0;j < 256;j++){
             var newAsteroid = {
                 "GUID" : guidGenerator(),
@@ -241,7 +244,7 @@ Interstellar.onDatabaseValueChange("sensors.programs",function(newData){
                 "asteroidIcon" : Math.floor(Math.random() * asteroidTextures.length)
             }
             programs.splice(programs.length,0,newAsteroid);
-        }
+        }*/
         Interstellar.setDatabaseValue("sensors.programs",programs);
         return;
     }
@@ -283,8 +286,8 @@ Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
     //if there is no new data (the value hasn't been set on the database yet)
     if(newData == null){
         //for debugging purposes, I've generated a test value
-        
-        var presetContacts =[];/*
+        /*
+        var presetContacts =[];
         for(var k = 0;k < 500;k++){
             var newContact = {
                     "GUID" : guidGenerator(),
@@ -439,8 +442,8 @@ function createExplosionAtPoint(xCord,yCord,size){
 requestAnimationFrame(animate);
 //event handlers
 scanButton.click(function(event){
-    if(scanningObject != undefined){
-        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",undefined);
+    if(scanningObject != null){
+        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
     }else{
         var direction = Number(scanDirectionDropdown.val());
         scanTimeRequired = averageScanTime / timeBoost;
@@ -461,23 +464,28 @@ visibleButton.click(function(event){
     Interstellar.setDatabaseValue("sensors.infrared",false);
 });
 
-canvasContainer.on("mousemove.contactInfoCordUpdate",function(event){
-    contactInfoCords.x = event.offsetX / canvasContainer.width();
-    contactInfoCords.y = Math.abs(1 - event.offsetY / canvasContainer.height());
-    console.log(event.offsetX,event.offsetY);
+canvas_mouseCatcher.on("mousemove.contactInfoCordUpdate",function(event){
+    contactInfoCords.x = Math.abs(event.offsetX / $(event.target).width())
+    contactInfoCords.y = Math.abs(1 - event.offsetY / $(event.target).height())
     var oldName = lastContactSelectedName;
-    lastContactSelectedName = undefined;
+    lastContactSelectedName = undefined,
+    lastContactSelectedImage = undefined;
     for(var i = 0;i < CompoundContactsArray.length;i++){
         if(withinRange(CompoundContactsArray[i].xPos,contactInfoCords.x * 100,CompoundContactsArray[i].width / 2) && withinRange(CompoundContactsArray[i].yPos,contactInfoCords.y * 100,CompoundContactsArray[i].height / 2)){
             lastContactSelectedName = CompoundContactsArray[i].name;
+            lastContactSelectedImage = CompoundContactsArray[i].image;
         }
     }
     if(lastContactSelectedName != oldName){
         if(lastContactSelectedName == undefined){
+            contactInfoBox.stop();
             contactInfoBox.fadeOut();
         }else{
+            contactInfoBox.stop();
             contactInfoBox.fadeIn();
+            contactInfoBox.width(95 + (lastContactSelectedName.length * contactInfoTextWidth));
             contactInfoBox_label.html(lastContactSelectedName);
+            contactInfoBox_image.css("background-image","url('/resource?path=public/Images/" + lastContactSelectedImage + "')");
         }
     }
 });

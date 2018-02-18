@@ -247,6 +247,7 @@ var canvas = $("#sensorsArray_Canvas"),
     scanButton = $("#scanButton"),
     scanQueryTextbox = $("#scanTextbox"),
     scanAnswerTextArea = $("#scanAnswerTextArea"),
+    canvas_mouseCatcher = $("#sensorsArray_Canvas_mouseCatcher"),
     scanDirectionDropdown = $("#directionDropdown");
 //init calls
 
@@ -653,9 +654,14 @@ function drawSensorsGui(){
         //set the height to the width
         canvas.height(canvas.width());
     }
+    canvas_mouseCatcher.height(canvas.height());
+    canvas_mouseCatcher.width(canvas.width());
 
     canvas.css("left",(1 - (canvas.width() / canvasContainer.width())) / 2 * canvasContainer.width() + "px");
     canvas.css("top",(1 - (canvas.height() / canvasContainer.height())) / 2 * canvasContainer.height() + "px");
+
+    canvas_mouseCatcher.css("left",canvas.position().left + "px");
+    canvas_mouseCatcher.css("top",canvas.position().top + "px");
     //set the mask width and height to match the canvas width and height
 
     //set the array size to half of 80% of the sensor array width
