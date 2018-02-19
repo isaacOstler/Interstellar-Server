@@ -4,19 +4,25 @@ var cardControllerClass = function(){
     offlineElement = $("#card-controller_stationOffline"),
     sparkElement = $("#card-controller_spark");
     //variables
-    numberOfSparkImages = 5;
+    numberOfSparkImages = 5,
+    cardControllers = [],
+    initTimeout = undefined;
 
     //init calls
 
     //database observers
     Interstellar.onDatabaseValueChange("cardController.state",function(newData){
-        if(newData == null){
+        cardControllers = newData;
+        if(initTimeout != undefined){
+            return;
+        }
+        if(cardControllers == null){
             Interstellar.setDatabaseValue("cardController.state",[]);
             return;
         }
-        for(var i = 0;i < newData.length;i++){
-            if(newData[i].station == Interstellar.getStation()){
-                var state = newData[i].state;
+        for(var i = 0;i < cardControllers.length;i++){
+            if(cardControllers[i].station == Interstellar.getStation()){
+                var state = cardControllers[i].state;
                 if(state == "blackout"){
                     blackoutMask.css("display","block");
                 }else{
@@ -32,8 +38,11 @@ var cardControllerClass = function(){
             }
         }
         //if we get to this point, the station hasn't been listed yet
-        newData.splice(newData.length,0,{"station" : Interstellar.getStation(),"state" : "online"});
-        Interstellar.setDatabaseValue("cardController.state",newData);
+        initTimeout = setTimeout(function(){
+            initTimeout = undefined;
+            cardControllers.splice(cardControllers.length,0,{"station" : Interstellar.getStation(),"state" : "online"});
+            Interstellar.setDatabaseValue("cardController.state",cardControllers);
+        },Math.random() * 250);
     });
     Interstellar.onDatabaseValueChange("cardController.flash",function(newData){
         if(newData == null){
