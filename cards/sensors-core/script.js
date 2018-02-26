@@ -300,6 +300,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         ],
         sizeOfElementInContactList = 21,
         contactListScrollPosition = 0,
+        nebulaProgramInterval = undefined,
         contactListSelectedContact = undefined,
         //three.js stuff
         camera, scene, renderer,
@@ -319,6 +320,9 @@ Interstellar.addCoreWidget("Sensors",function(){
         addContactButton = $("#sensors_core_contactEditor_addNewContactButton"),
         moveAllCanvas = $("#sensors_core_contactControls_moveAllControls_canvas"),
         planetIconContainer = $("#Sensor_Core_PlanetEditorWindow_icons"),
+        planetControls_sizeSlider = $("#Sensor_Core_PlanetEditorWindow_options_sizeRange"),
+        planetControls_rotationSlider = $("#Sensor_Core_PlanetEditorWindow_options_spinRange"),
+        planetControls_nameTextbox = $("#Sensor_Core_PlanetEditorWindow_options_nameTextbox"),
         moveAllPowerSlider = $("#sensors_core_moveAllPowerSlider");
     //init calls
 
@@ -915,7 +919,6 @@ Interstellar.addCoreWidget("Sensors",function(){
         //now that we have all the names of the children that need to be
         //removed, we can cycle through them and delete them all
         for(i = 0;i < childrenToBeRemoved.length;i++){
-            console.log("REMOVING " + childrenToBeRemoved[i].name);
             scene.remove(childrenToBeRemoved[i]);
         }
         //now we need to add all the contacts
@@ -1288,12 +1291,11 @@ Interstellar.addCoreWidget("Sensors",function(){
                         planetImages.splice(planetImages.length,0,files[i]);
                         planetsHTML += '<div index="' + i + '" class="sensors_core_imagePreview customButton" style="background-image: url(\'/resource?path=public/Planets/' + files[i] + '&screen=sensors-core\');"></div>';
                     }
-                    console.log(planetsHTML,planetIconContainer);
                     planetIconContainer.html(planetsHTML);
                     $(".sensors_core_imagePreview").off();
                     $(".sensors_core_imagePreview").click(function(event){
                         var index = Number($(event.target).attr("index"));
-                        createPlanet("PERIKOI",.3,planetImages[index],.0002);
+                        createPlanet(planetControls_nameTextbox.val(),Number(planetControls_sizeSlider.val()),planetImages[index],Number(planetControls_rotationSlider.val()));
                         Interstellar.closeCoreWindow("Sensor_Core_PlanetEditorWindow");
                     })
                 });
@@ -1936,7 +1938,33 @@ Interstellar.addCoreWidget("Sensors",function(){
 
             break;
             case "nebula":
-
+                if(nebulaProgramInterval != undefined){
+                    clearInterval(nebulaProgramInterval);
+                    nebulaProgramInterval = undefined;
+                    return;
+                }
+                let spawnFunction = function(){
+                    var newPrograms = programs;
+                    for(var i = 0;i < Math.floor(Math.random() * 5) + 2;i++){
+                        var newAsteroid = {
+                            "GUID" : guidGenerator(),
+                            "type" : "nebula",
+                            "xPos" : 70 * Math.random() + 15,
+                            "yPos" : 130,
+                            "size" : .5 * Math.random() + .5,
+                            "rotation" : 2 * Math.random(),
+                            "rotationSpeed" : .01 * Math.random() -.0075,
+                            "nebulaIcon" : 0,
+                            "color" : (0.00004 * Math.random()) + (Math.PI * 2)
+                        }
+                        newPrograms.splice(programs.length,0,newAsteroid);
+                    }
+                    Interstellar.setDatabaseValue("sensors.programs",newPrograms);
+                }  
+                spawnFunction();
+                nebulaProgramInterval = setInterval(function(){
+                    spawnFunction();
+                },10000);
             break;
             case "attackPattern":
 
