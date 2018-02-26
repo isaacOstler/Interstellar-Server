@@ -72,6 +72,29 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 			Interstellar.setDatabaseValue("longRangeComm.messages",messages);
 			return;
 		}
+		if(messages.length != newData.length){
+			var old_numberOfCrewToCoreMessages = 0,
+				old_numberOfCoreToCrewMessages = 0,
+				current_numberOfCoreToCrewMessages = 0,
+				current_numberOfCrewToCoreMessages = 0;
+			for(var i = 0;i < newData.length;i++){
+				if(newData[i].sentByCore){
+					current_numberOfCoreToCrewMessages++;
+				}else{
+					current_numberOfCrewToCoreMessages++;
+				}
+			}
+			for(var i = 0;i < messages.length;i++){
+				if(messages[i].sentByCore){
+					old_numberOfCoreToCrewMessages++;
+				}else{
+					old_numberOfCrewToCoreMessages++;
+				}
+			}
+			if(old_numberOfCrewToCoreMessages < current_numberOfCrewToCoreMessages){
+				Interstellar.say("New Long Range Message");
+			}
+		}
 		updateMessageLists(newData,(messages.length != newData.length) || neverDrawn);
 		neverDrawn = false;
 		messages = newData;
@@ -196,8 +219,15 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 	function loadCoreMessageAtIndex(index){
 		editingAnOldMessageContainer.slideDown();
 		sendMessageTextarea.animate({"top" : 22, "height" : sendMessageTextarea.parent().height() - 30});
-		sendMessageTextarea.val(encrpyt.decode(messages[index].text,messages[index].key.toUpperCase()));
-		keyTextbox.val(messages[index].key);
+		if(messages[index].key != null && messages[index].key != ""){
+			sendMessageTextarea.val(encrpyt.decode(messages[index].text,messages[index].key.toUpperCase()));
+			keyTextbox.val(messages[index].key);
+			keyTextbox.css("color","white");
+		}else{
+			sendMessageTextarea.val(messages[index].text);
+			keyTextbox.val("NO KEY");
+			keyTextbox.css("color","red");
+		}
 		fromTextbox.val(messages[index].from);
 		frequencySelect.val(messages[index].frequency.toUpperCase());
 	}
@@ -207,7 +237,11 @@ Interstellar.addCoreWidget("Long Range Comm",function(){
 		text += "\nSENT AT: " + toMilitaryTime(messages[index].timeRecieved) + "\n";
 		text += "FREQUENCY: " + messages[index].frequency;
 		text += "\n\nTO: <b>" + messages[index].from + "</b>\n";
-		text += "\n" + encrpyt.decode(messages[index].text,messages[index].key.toUpperCase());
+		if(messages[index].key != "" && messages[index].key != null){
+			text += "\n" + encrpyt.decode(messages[index].text,messages[index].key.toUpperCase());
+		}else{
+			text += "\n" + messages[index].text;
+		}
 		crewMessageView_container.html(text.replace(/\n/g, "<br />"));
 	}
 
