@@ -122,7 +122,7 @@ Interstellar.addCoreWidget("Sensors",function(){
     //variables
     var alertStatus = 5, //the ships alert status
         defaultContactName = "UNKNOWN CONTACT", //the defualt contact name for new contacts
-        defaultContactIcon = "Generic.png", //defualt contact icon
+        defaultContactIcon = "Contacts/Generic.png", //defualt contact icon
         defaultContactImage = "", //default contact image
         duplicateMode = false,
         deleteMode = false,
@@ -156,6 +156,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "y" : 0
         },
         moveAllPower = 1,
+        planetImages = [],
         moveAllDirection = degreesToRadians(180),
         moveContactSpeed = 0,
         moveContactSpeeds = 
@@ -312,10 +313,12 @@ Interstellar.addCoreWidget("Sensors",function(){
         imageDropdown = $("#sensors_core_contactEditor_imageDropdown"),
         iconDropdown = $("#sensors_core_contactEditor_iconDropdown"),
         sizeSlider = $("#sensors_core_contactEditor_sizeRange"),
+        contactEditorMask = $("#sensors_core_contactEditor_container_mask"),
         duplicateContactButton = $("#sensors_core_contactEditor_duplicateContactButton"),
         deleteContactButton = $("#sensors_core_contactEditor_removeContactButton"),
         addContactButton = $("#sensors_core_contactEditor_addNewContactButton"),
         moveAllCanvas = $("#sensors_core_contactControls_moveAllControls_canvas"),
+        planetIconContainer = $("#Sensor_Core_PlanetEditorWindow_icons"),
         moveAllPowerSlider = $("#sensors_core_moveAllPowerSlider");
     //init calls
 
@@ -413,7 +416,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             //for debugging purposes, I've generated a test value
             setTimeout(function(){
             var presetContacts =[];
-            for(var k = 0;k < 0;k++){
+            /*for(var k = 0;k < 0;k++){
                 var newContact = {
                     "type" : "contact", //we have several different things that go on the sensors array, so we have to specify
                     "GUID" : guidGenerator(),
@@ -435,7 +438,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     }
                 }
                 presetContacts.splice(presetContacts.length,0,newContact);
-            }
+            }*/
             //set the default value
             Interstellar.setDatabaseValue("sensors.contacts",presetContacts);
             },0100);
@@ -928,7 +931,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     //first we make the geometry (just a plane)
                     var geometry = new THREE.PlaneGeometry( 100, 100 );
                     //then we load the texture
-                    var texture = new THREE.TextureLoader().load( '/resource?path=public/Contacts/' + renderedContacts[i].icon + '&screen=' + thisWidgetName );
+                    var texture = new THREE.TextureLoader().load( '/resource?path=public/' + renderedContacts[i].icon + '&screen=' + thisWidgetName );
                     //now we need to make a material with that texture
                     var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                     //now make the actual mesh
@@ -967,7 +970,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                     if(contactGhost == undefined){
                         var geometry = new THREE.PlaneGeometry( 100, 100 );
                         //then we load the texture
-                        var texture = new THREE.TextureLoader().load( '/resource?path=public/Contacts/' + renderedContacts[i].icon + '&screen=' + thisWidgetName );
+                        var texture = new THREE.TextureLoader().load( '/resource?path=public/' + renderedContacts[i].icon + '&screen=' + thisWidgetName );
                         //now we need to make a material with that texture
                         var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true,opacity : .5} );
                         var newGhost = new THREE.Mesh(geometry, material);
@@ -1003,7 +1006,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                         var newTextureCache = 
                         {
                             "texture" : renderedContacts[i].icon,
-                            "map" : new THREE.TextureLoader().load("/resource?path=public/Contacts/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
+                            "map" : new THREE.TextureLoader().load("/resource?path=public/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
                         }
                         contactTextures.splice(contactTextures.length,0,newTextureCache);
                         texture = newTextureCache.map;
@@ -1049,7 +1052,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                         var newTextureCache = 
                         {
                             "texture" : renderedContacts[i].icon,
-                            "map" : new THREE.TextureLoader().load("/resource?path=public/Contacts/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
+                            "map" : new THREE.TextureLoader().load("/resource?path=public/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
                         }
                         contactTextures.splice(contactTextures.length,0,newTextureCache);
                         texture = newTextureCache.map;
@@ -1083,7 +1086,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                         var newTextureCache = 
                         {
                             "texture" : renderedContacts[i].icon,
-                            "map" : new THREE.TextureLoader().load("/resource?path=public/Contacts/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
+                            "map" : new THREE.TextureLoader().load("/resource?path=public/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
                         }
                         contactTextures.splice(contactTextures.length,0,newTextureCache);
                         texture = newTextureCache.map;
@@ -1276,6 +1279,25 @@ Interstellar.addCoreWidget("Sensors",function(){
                 }
                 imageDropdown.html(imageOption);
             });
+            //list all the planets
+            setTimeout(function(){
+                getFileNamesInFolder("/public/Planets/","sensors-core",function(files){
+                    var planetsHTML = "";
+                    planetImages = [];
+                    for(var i = 0;i < files.length;i++){
+                        planetImages.splice(planetImages.length,0,files[i]);
+                        planetsHTML += '<div index="' + i + '" class="sensors_core_imagePreview customButton" style="background-image: url(\'/resource?path=public/Planets/' + files[i] + '&screen=sensors-core\');"></div>';
+                    }
+                    console.log(planetsHTML,planetIconContainer);
+                    planetIconContainer.html(planetsHTML);
+                    $(".sensors_core_imagePreview").off();
+                    $(".sensors_core_imagePreview").click(function(event){
+                        var index = Number($(event.target).attr("index"));
+                        createPlanet("PERIKOI",.3,planetImages[index],.0002);
+                        Interstellar.closeCoreWindow("Sensor_Core_PlanetEditorWindow");
+                    })
+                });
+            },0100);
         },0500);
     }
 
@@ -1314,7 +1336,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "size" : size,
             "name" : name,
             "yPos" : yPos,
-            "icon" : icon,
+            "icon" : "Contacts/" + icon,
             "isActive" : true
         }
         programs.splice(programs.length,0,newContact);
@@ -1326,10 +1348,11 @@ Interstellar.addCoreWidget("Sensors",function(){
         if(isActive == undefined){
             isActive = true;
         }
+        var guid = guidGenerator();
         var newContact = 
         {
             "type" : "contact", //we have several different things that go on the sensors array, so we have to specify
-            "GUID" : guidGenerator(),
+            "GUID" : guid,
             "xPos" : xPos,
             "height" : height,
             "name" : name,
@@ -1406,9 +1429,8 @@ Interstellar.addCoreWidget("Sensors",function(){
         return degrees * (Math.PI / 180);
     }
     function drawGUI(){
-        //list all the move options
-
         var html = "";
+        //list all the move options
         for(var i = 0;i < moveContactSpeeds.length;i++){
             html += "<option>";
             html += moveContactSpeeds[i].speedName;
@@ -1516,15 +1538,39 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
     }
 
+    function createPlanet(planetName,size,icon,spin){
+        var newPlanet = {
+            "type" : "planet", //we have several different things that go on the sensors array, so we have to specify
+            "GUID" : guidGenerator(),
+            "icon" : "Planets/" + icon,
+            "xPos" : 50,
+            "size" : size,
+            "name" : planetName,
+            "yPos" : 110,
+            "rotation" : 0,
+            "rotationSpeed" : spin
+        }
+        newPrograms = programs;
+        newPrograms.splice(newPrograms.length,0,newPlanet);
+        Interstellar.setDatabaseValue("sensors.programs",newPrograms);
+    }
+
     function updateContactEditor(){
         for(var i = 0;i < CompoundContactsArray.length;i++){
             if(CompoundContactsArray[i].GUID == contactListSelectedContact){
+                contactEditorMask.fadeOut();
                 nameTextbox.val(CompoundContactsArray[i].name);
                 iconDropdown.val(CompoundContactsArray[i].icon);
                 sizeSlider.val(CompoundContactsArray[i].width);
                 imageDropdown.val(CompoundContactsArray[i].image);
+                return;
             }
         }
+        nameTextbox.val("");
+        iconDropdown.val("");
+        sizeSlider.val("");
+        imageDropdown.val("");
+        contactEditorMask.fadeIn();
     }
 
     function updateContactList(){
@@ -1810,7 +1856,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         if(contactListSelectedContact != undefined){
             for(var i = 0;i < CompoundContactsArray.length;i++){
                 if(CompoundContactsArray[i].GUID == contactListSelectedContact){
-                    CompoundContactsArray[i].icon = event.target.value;
+                    CompoundContactsArray[i].icon = "Contacts/" + event.target.value;
                     updateContactsEarly();
                 }
             }
@@ -1842,6 +1888,16 @@ Interstellar.addCoreWidget("Sensors",function(){
         duplicateMode = !duplicateMode;
         deleteMode = false;
         updateContactEditorMode();
+        if(duplicateMode){
+            $(document).off("keyup.sensorsDuplicateDeleteCancel");
+            $(document).on("keyup.sensorsDuplicateDeleteCancel",function(event){
+               if(event.keyCode == 27){
+                    duplicateMode = false;
+                    updateContactEditorMode();
+                    $(document).off("keyup.sensorsDuplicateDeleteCancel");
+                }
+            });
+        }
     });
 
     moveSelect.on("change",function(event){
@@ -1856,6 +1912,39 @@ Interstellar.addCoreWidget("Sensors",function(){
         duplicateMode = false;
         deleteMode = !deleteMode;
         updateContactEditorMode();
+        if(deleteMode){
+            $(document).off("keyup.sensorsDuplicateDeleteCancel");
+            $(document).on("keyup.sensorsDuplicateDeleteCancel",function(event){
+               if(event.keyCode == 27){
+                    deleteMode = false;
+                    updateContactEditorMode();
+                    $(document).off("keyup.sensorsDuplicateDeleteCancel");
+                }
+            });
+        }
+    });
+    $(".sensors_core_contactControls_programControls_programContainer").click(function(event){
+        var programType = $(event.target).attr("programType");
+        switch(programType){
+            case "planet":
+                Interstellar.openCoreWindow("Sensor_Core_PlanetEditorWindow",event);
+            break;
+            case "border":
+
+            break;
+            case "asteroid":
+
+            break;
+            case "nebula":
+
+            break;
+            case "attackPattern":
+
+            break;
+            case "starbase":
+
+            break;
+        }
     });
     addContactButton.click(function(event){
         duplicateMode = false;

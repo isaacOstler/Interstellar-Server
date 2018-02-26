@@ -30,21 +30,7 @@ var messageListContainer = $("#messageList_listContainer"),
 	popupSubtitle = $(".popupMask_messageBox_messageSubTitle"),
 	popupCloseButton = $("#messageHasNotDownloadedMask_popupMessage_close");
 //variables
-var messages = [
-		{
-			"messageGUID" : uuidv4(),
-			"timeRecieved" : new Date(),
-			"timeDecoded" : new Date(),
-			"reportedToCommand" : false,
-			"decoded" : false,
-			"downloadProgress" : 1,
-			"sentByCore" : true, //control room sent this message, not the crew
-			"wasReceived" : true, //has the crew received this message yet? (not possible when the system is damaged)
-			"frequency" : "FEDERATION FREQUENCY",
-			"from" : "STARFLEET COMMAND",
-			"key" : "ZULU-TANGO-32",
-			"text" : encrpyt.encode("THIS IS A TEST MESSAGE, YEEE BOI","ZULU-TANGO-32")
-		}],
+var messages = [],
 	frequencies = [],
 	selectedMessage = undefined;
 

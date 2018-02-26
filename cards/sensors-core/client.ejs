@@ -1,52 +1,100 @@
 <script src="/threejs"></script>
 <script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=sensors-core">
-<div id="new_Sensor-Array-Core-Widget" widgetName="Sensors" class="Core_Theme-CoreWidget" style="width:1000px;height:500px;top:150px;left:255px">
-<div class="hardContainer">
-	<datalist id="my-detents">
-  		<option value="0"></option>
-	</datalist>
-	<div id="sensors_core_contactControls">
-		<div id="sensors_core_contactControls_moveAllControls">
-			<canvas id="sensors_core_contactControls_moveAllControls_canvas"></canvas>
-			<input type="range" id='sensors_core_moveAllPowerSlider'  min='-1' max='1' value="0" step='.01' list="my-detents">
-		</div>
-		<div id="sensors_core_contactList_container">
-			
-		</div>
-		<div id="sensors_core_contactControls_addRemoveDuplicateButtons">
-			<!-- Yes these ID's are incorrect, ignore it -->
-			<button id="sensors_core_contactEditor_addNewContactButton">ADD NEW CONTACT</button>
-			<button id="sensors_core_contactEditor_duplicateContactButton">DUPLICATE CONTACT</button>
-			<button id="sensors_core_contactEditor_removeContactButton">REMOVE CONTACT</button>
-		</div>
-		<div id="sensors_core_contactEditor_container">
+<div id="Sensor_Core_IconEditorWindow" class="coreWindow" windowName="Icon Editor" style="width: 525px;height: 500px;top:230px;left: 230px">
+	<div id="Sensor_Core_IconEditorWindow_title">Select a new icon for "UNKNOWN CONTACT"</div>
+	<div id="Sensor_Core_IconEditorWindow_icons"></div>
+</div>
 
-			<div id="sensors_core_contactEditor_nameLabel">
-				Name
-			</div>
-			<input type="text" id="sensors_core_contactEditor_nameTextbox">
-			<div id="sensors_core_contactEditor_imageLabel">
-				Image
-			</div>
-			<select id="sensors_core_contactEditor_imageDropdown"></select>
-			<div id="sensors_core_contactEditor_iconLabel">
-				Icon
-			</div>
-			<select id="sensors_core_contactEditor_iconDropdown"></select>
-			<div id="sensors_core_contactEditor_sizeLabel">
-				Size
-			</div>
-			<input type="range" id="sensors_core_contactEditor_sizeRange" min="1" max= "100" step=".1">
-
-			<select id="sensors_core_contactEditor_moveSelect">
-
-			</select>
-		</div>
+<div id="Sensor_Core_PlanetEditorWindow" class="coreWindow" windowName="Planet Editor" style="width: 525px;height: 600px;top:230px;left: 230px">
+	<div id="Sensor_Core_PlanetEditorWindow_title">Select an image for this planet</div>
+	<div id="Sensor_Core_PlanetEditorWindow_icons">
 	</div>
-	<div id="new_sensors-core_sensorsArray">
-		<canvas id="new_sensors-core_sensorsArray_Canvas" class="noselect"></canvas>
+	<div id="Sensor_Core_PlanetEditorWindow_presets">
+		<input type="button" class="coreButton sensors_core_planetaryPresetButton" style="background-color:#75efe9;" value="EARTH">
+		<input type="button" class="coreButton sensors_core_planetaryPresetButton" style="background-color:#fcd23c;" value="MARS">
+		<input type="button" class="coreButton sensors_core_planetaryPresetButton" style="background-color:red;" value="STAR">
+		<input type="button" class="coreButton sensors_core_planetaryPresetButton" style="background-color:#3cfc85;" value="PERIKOI">
+		<input type="button" class="coreButton sensors_core_planetaryPresetButton" style="background-color:#565656;color:white" value="BLACK HOLE">
+		<input type="button" class="coreButton sensors_core_planetaryPresetButton" value="Edit Presets">
+	</div>
+	<div id="Sensor_Core_PlanetEditorWindow_options">
+		<div id="Sensor_Core_PlanetEditorWindow_options_sizeLabel">Size</div>
+		<input type="range" value="50" min="1" max="125" step=".1" id="Sensor_Core_PlanetEditorWindow_options_sizeRange">
+		<input type="text" class="coreTextbox" onClick='this.select();' id="Sensor_Core_PlanetEditorWindow_options_sizeTextbox" value="50">
+		<div id="Sensor_Core_PlanetEditorWindow_options_nameLabel">Name</div>
+		<input type="text" class="coreTextbox" onClick='this.select();' id="Sensor_Core_PlanetEditorWindow_options_nameTextbox" placeholder="PLANET">
+		<div id="Sensor_Core_PlanetEditorWindow_options_spinLabel">Spin</div>
+		<input type="range" value="2" min="-10" max="10" step=".01" id="Sensor_Core_PlanetEditorWindow_options_spinRange">
+		<input type="text" class="coreTextbox" onClick='this.select();' id="Sensor_Core_PlanetEditorWindow_options_spinTextbox" value="-2">
+		<div id="Sensor_Core_PlanetEditorWindow_createPlanetButton" class="customButton">Create Planet</div>
+		<div id="Sensor_Core_PlanetEditorWindow_cancelButton" class="customButton">Cancel</div>
 	</div>
 </div>
-<script src="/resource?path=script.js&screen=sensors-core" type="text/javascript"></script>
+<div id="new_Sensor-Array-Core-Widget" widgetName="Sensors" class="Core_Theme-CoreWidget" style="width:1000px;height:500px;top:150px;left:255px">
+
+	<div class="hardContainer">
+		<datalist id="my-detents">
+			<option value="0"></option>
+		</datalist>
+		<div id="sensors_core_contactControls">
+			<div id="sensors_core_contactControls_programControls">
+				<div id="sensors_core_contactControls_programControls_planet" class="sensors_core_contactControls_programControls_programContainer customButton" programType="planet">
+					<div class="sensors_core_contactControls_programControls_programContainer_label">NEW PLANET</div>
+				</div>
+				<div id="sensors_core_contactControls_programControls_border" class="sensors_core_contactControls_programControls_programContainer customButton" programType="border">
+					<div class="sensors_core_contactControls_programControls_programContainer_label">NEW BORDER</div>
+				</div>
+				<div id="sensors_core_contactControls_programControls_asteroid" class="sensors_core_contactControls_programControls_programContainer customButton" programType="asteroid">
+					<div class="sensors_core_contactControls_programControls_programContainer_label">NEW ASTEROID FIELD</div>
+				</div>
+				<div id="sensors_core_contactControls_programControls_nebula" class="sensors_core_contactControls_programControls_programContainer customButton" programType="nebula">
+					<div class="sensors_core_contactControls_programControls_programContainer_label">NEW NEBULA</div>
+				</div>
+				<div id="sensors_core_contactControls_programControls_pattern" class="sensors_core_contactControls_programControls_programContainer customButton" programType="attackPattern">
+					<div class="sensors_core_contactControls_programControls_programContainer_label">NEW ATTACK PATTERN</div>
+				</div>
+				<div id="sensors_core_contactControls_programControls_starbase" class="sensors_core_contactControls_programControls_programContainer customButton" programType="starbase">
+					<div class="sensors_core_contactControls_programControls_programContainer_label">NEW STARBASE</div>
+				</div>
+			</div>
+			<div id="sensors_core_contactControls_moveAllControls">
+				<canvas id="sensors_core_contactControls_moveAllControls_canvas"></canvas>
+				<input type="range" id='sensors_core_moveAllPowerSlider'  min='-1' max='1' value="0" step='.01' list="my-detents">
+			</div>
+			<div id="sensors_core_contactList_container">
+
+			</div>
+			<div id="sensors_core_contactControls_addRemoveDuplicateButtons">
+				<!-- Yes these ID's are incorrect, ignore it -->
+				<button id="sensors_core_contactEditor_addNewContactButton">ADD NEW CONTACT</button>
+				<button id="sensors_core_contactEditor_duplicateContactButton">DUPLICATE CONTACT</button>
+				<button id="sensors_core_contactEditor_removeContactButton">REMOVE CONTACT</button>
+			</div>
+			<div id="sensors_core_contactEditor_container">
+				<div id="sensors_core_contactEditor_container_mask"></div>
+				<div id="sensors_core_contactEditor_nameLabel">
+					Name
+				</div>
+				<input type="text" id="sensors_core_contactEditor_nameTextbox">
+				<div id="sensors_core_contactEditor_imageLabel">
+					Image
+				</div>
+				<select id="sensors_core_contactEditor_imageDropdown"></select>
+				<div id="sensors_core_contactEditor_iconLabel">
+					Icon
+				</div>
+				<select id="sensors_core_contactEditor_iconDropdown"></select>
+				<div id="sensors_core_contactEditor_sizeLabel">
+					Size
+				</div>
+				<input type="range" id="sensors_core_contactEditor_sizeRange" min="1" max= "100" step=".1">
+			</div>
+			<select id="sensors_core_contactEditor_moveSelect"></select>
+		</div>
+		<div id="new_sensors-core_sensorsArray">
+			<canvas id="new_sensors-core_sensorsArray_Canvas" class="noselect"></canvas>
+		</div>
+	</div>
+	<script src="/resource?path=script.js&screen=sensors-core" type="text/javascript"></script>
 </div>

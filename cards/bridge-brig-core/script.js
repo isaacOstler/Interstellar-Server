@@ -1,4 +1,4 @@
-Interstellar.addCoreWidget("Alert Status",function(){
+Interstellar.addCoreWidget("Brig Control",function(){
 	var brigState,
 		hasAnnouncedConnection = false;
 

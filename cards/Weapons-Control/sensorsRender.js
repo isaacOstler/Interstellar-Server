@@ -936,7 +936,7 @@ function updateContactsOnArray(renderedContacts){
                 //first we make the geometry (just a plane)
                 var geometry = new THREE.PlaneGeometry( 100, 100 );
                 //then we load the texture
-                var texture = new THREE.TextureLoader().load( '/resource?path=public/Contacts/' + renderedContacts[i].icon + '&screen=' + thisWidgetName );
+                var texture = new THREE.TextureLoader().load( '/resource?path=public/' + renderedContacts[i].icon + '&screen=' + thisWidgetName );
                 //now we need to make a material with that texture
                 var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                 //now make the actual mesh
@@ -960,7 +960,7 @@ function updateContactsOnArray(renderedContacts){
                 var newTextureCache = 
                 {
                     "texture" : renderedContacts[i].icon,
-                    "map" : new THREE.TextureLoader().load("/resource?path=public/Contacts/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
+                    "map" : new THREE.TextureLoader().load("/resource?path=public/" + renderedContacts[i].icon + '&screen=' + thisWidgetName )
                 }
                 contactTextures.splice(contactTextures.length,0,newTextureCache);
                 texture = newTextureCache.map;
