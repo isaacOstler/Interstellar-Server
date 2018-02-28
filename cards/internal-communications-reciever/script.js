@@ -61,6 +61,12 @@ var ICR_CARD_CONTROLLER_CLASS = function(){
                         header.html("INCOMING CALL");
                         header.css("color","white");
                         //incoming call
+                        muteButton.css("display","none");
+                        answerButton.css("display","block");
+                        phoneIcon_connected.css("display","none");
+                        phoneIcon_notConnected.css("display","none");
+                        phoneIcon_muted.css("display","none");
+
                         animateIncomingHail();
                         muteButton.html("MUTE");
                         hangupButton.html("REJECT");
@@ -112,9 +118,11 @@ var ICR_CARD_CONTROLLER_CLASS = function(){
     function clearCallAnimation(){
         if(incomingHailInterval != undefined){
             clearInterval(incomingHailInterval);
+            incomingHailInterval = undefined;
         }
         if(textDrawInterval != undefined){
             clearInterval(textDrawInterval);
+            textDrawInterval = undefined;
         }
     }
 

@@ -1,63 +1,57 @@
-#internalCommunicationsCore_deckDropdown{
+/* Standard syntax */
+@keyframes flashRed {
+    0%   {background-color:white;color:black;}
+    50%  {background-color:red;color:white;}
+    75%  {background-color:red;color:white;}
+    100% {background-color:white;color:black;}
+}
+.internalComm_core_widget_incomingCallFlash{
+	background-color: red;
+    animation-name: flashRed;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+#internal_communciations_Core_Widget_incomingCallLabel{
 	position: absolute;
-	top:22px;
-	left: 150px;
-	width: calc(100% - 215px);
-}
-#internalCommunicationsCore_generalCallInfo_muteButton{
-	position: absolute;
-	top:0px;
-	left: 0px;
-	height: 100%;
-	width: 25%;
-	background: linear-gradient(to bottom, rgba(255,116,0,1) 0%,rgba(193,90,0,1) 100%);
-}
-#internalCommunicationsCore_roomDropdown{
-	position: absolute;
-	top:40px;
-	left: 0px;
-	width: calc(100% - 65px);
-}
-#internalCommunicationsCore_sortButton{
-    position: absolute;
-    top: 22px;
-    left: 1px;
-    width: 148px;
-}
-#internalCommunicationsCore_callInfoLabel{
-	cursor: default;
-	height: 16px;
-    position: absolute;
-    top: 22px;
-    font-size: 11px;
-    right: 1px;
-    width: 64px;
-    overflow: hidden;
-    color: #707070;
-    text-align: center;
-}
-#internalCommunicationsCore_incomingCallTextfield{
-	position: absolute;
+	top: 1px;
 	left: 1px;
-	top:1px;
-	width: calc(100% - 69px);
-	height: 18px;
-	font-size: 16px;
-	background-color: #7ceada;
-	cursor: default;
-}
-#internalCommunicationsCore_incomingCall_connectButton{
-	position: absolute;
-	top:1px;
-	height: 16px;
-	right: 1px;
-	width: 64px;
+	width: calc(100% - 62px);
 	height: 20px;
+	text-align: center;
+	border: 1px solid white;
+	background-color: rgba(95, 95, 95, 0.6);
+	color:white;
+	display: flex;
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
 }
-#internalCommunicationsCore_callButton{
-    position: absolute;
-    top: 41px;
-    right: 1px;
-    width: 63px;
-    height: 17px;
+#internal_communciations_Core_Widget_incomingCallConnectButton{
+	position: absolute;
+	right: 1px;
+	top:1px;
+	height: 22px;
+	width: 57px;
+}
+#internal_communciations_Core_Widget_callLabel{
+	position: absolute;
+	top: 25px;
+	right: 1px;
+}
+#internal_communciations_Core_Widget_callDropdown{position: absolute;top: 41px;left: 1px;width: calc(100% - 60px);}
+#internal_communciations_Core_Widget_fromLabel{position: absolute;top: 40px;left: 1px;}
+#internal_communciations_Core_Widget_fromDropdown{position: absolute;top: 24px;left: 1px;width: calc(100% - 2px);}
+#internal_communciations_Core_Widget_callButton{position: absolute;top: 42px;right: 1px;width: 57px;height: 17px;}
+#internal_communciations_Core_Widget_statusLabel{position: absolute;bottom: 3%;left: 2px;}
+#internal_communciations_Core_Widget_statusBox{
+	display: flex;
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	width: calc(100% - 55px);
+	text-align: center;
+	border: 1px solid white;
+	background-color: rgb(57, 57, 57);
+	position: absolute;
+	height: calc(100% - 63px);
+	bottom: 1px;
+	left: 52px;
 }

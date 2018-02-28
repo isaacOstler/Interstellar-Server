@@ -1,37 +1,19 @@
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=internal-communications-core">
-<div id="internal-communciations-Core-Widget" widgetName="Internal Communications" class="Core_Theme-CoreWidget" style="
-    width: 290px;
-    height: 59px;
-    top: 816px;
-    left: 800px;">
+<div id="internal_communciations_Core_Widget" widgetName="Internal Communications" class="Core_Theme-CoreWidget" style="
+    width: 490px;
+    height: 80px;
+    top: 516px;
+    left: 600px;">
     <div class="hardContainer">
-    	<input type="text" class="coreTextbox noselect verticalAlign" readonly id="internalCommunicationsCore_incomingCallTextfield" value="NO INTERNAL HAIL">
-    	<input type="button" value="ACCEPT" class="coreButton" id="internalCommunicationsCore_incomingCall_connectButton" disabled="disabled">
-    	<input type="button" value="SORT ALPHABETICALLY" class="coreButton" id="internalCommunicationsCore_sortButton">
-    	<select id="internalCommunicationsCore_deckDropdown">
-    		<optgroup label="Deck">
-    			<option>DECK 1</option>
-    			<option>DECK 2</option>
-    			<option>DECK 3</option>
-    			<option>DECK 4</option>
-    			<option>DECK 5</option>
-    			<option>DECK 6</option>
-    			<option>DECK 7</option>
-    		</optgroup>
-    	</select>
-    	<div id="internalCommunicationsCore_callInfoLabel" class="verticalAlign noselect">No Call</div>
-    	<select id="internalCommunicationsCore_roomDropdown">
-    		<optgroup label="Room">
-    			<option>DECK 1</option>
-    			<option>DECK 2</option>
-    			<option>DECK 3</option>
-    			<option>DECK 4</option>
-    			<option>DECK 5</option>
-    			<option>DECK 6</option>
-    			<option>DECK 7</option>
-    		</optgroup>
-    	</select>
-    	<input type="button" class="coreButton" value="CALL" id="internalCommunicationsCore_callButton">
+        <div id="internal_communciations_Core_Widget_incomingCallLabel">NO INCOMING CALL</div>
+        <input type="button" class="coreButton" value="Connect" id="internal_communciations_Core_Widget_incomingCallConnectButton">
+        <select id="internal_communciations_Core_Widget_callDropdown">
+        </select>
+        <select title="PRO TIP! Right Click To Toggle Between Alphabetical And Deck Sorting" id="internal_communciations_Core_Widget_fromDropdown">
+        </select>
+        <input type="button" value="Call" class="coreButton" id="internal_communciations_Core_Widget_callButton">
+        <div id="internal_communciations_Core_Widget_statusLabel">Status</div>
+        <div id="internal_communciations_Core_Widget_statusBox">No Call</div>
     </div>
 </div>
 <script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>

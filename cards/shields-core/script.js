@@ -289,5 +289,5 @@ Interstellar.addCoreWidget("Shields Core",function(){
 			setShieldValue(i,newValue);
 		}
 		Interstellar.closeCoreWindow("shields-core_setShieldStrengthWindow");
-	})
+	});
 });
