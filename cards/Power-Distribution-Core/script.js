@@ -35,7 +35,10 @@ Interstellar.addCoreWidget("Power Distribution",function(){
 		if(old_damagedSystems == damagedSystems){
 			Interstellar.say("Power");
 		}
-		PowerDistributionshipSystems = newData;
+		PowerDistributionshipSystems = [];
+		for(var i = 0;i < newData.length;i++){
+			PowerDistributionshipSystems.splice(PowerDistributionshipSystems.length,0,newData[i]);
+		}
 		drawGUI();
 	});
 
