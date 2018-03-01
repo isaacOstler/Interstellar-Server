@@ -142,7 +142,7 @@ app.on('ready', function() {
                     res.sendFile(cardFolderLocation + "/" + req.query.card.toString() + "/preview.png");
                 });
                 express.get('/views/client', function(req, res) {
-                    res.render('client', {
+                    res.render('client.ejs', {
                         'port': portNumberFromUserPrefs,
                         'cards': cardManager.getCards(),
                         'stations': stations

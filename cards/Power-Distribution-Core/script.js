@@ -1,8 +1,8 @@
 Interstellar.addCoreWidget("Power Distribution",function(){	
-	var thisWidget = this;
-	var PowerDistributionshipSystems = [];
-	var PowerDistributionPowerInUse = 0;
-	var PowerDistributionReactorOutput = 140,
+	var thisWidget = this,
+		PowerDistributionshipSystems = [],
+		PowerDistributionPowerInUse = 0,
+		PowerDistributionReactorOutput = 140,
 		PowerDistributionDamagedSystems = [];
 
 	Interstellar.onDatabaseValueChange("damageControl.damagedSystems",function(newData){
@@ -19,6 +19,21 @@ Interstellar.addCoreWidget("Power Distribution",function(){
 				return;
 			});
 			return;
+		}
+		var old_damagedSystems = 0,
+			damagedSystems = 0;
+		for(var i = 0;i < PowerDistributionshipSystems.length;i++){
+			if(PowerDistributionshipSystems[i].isDamaged){
+				damagedSystems++;
+			}
+		}
+		for(var i = 0;i < newData.length;i++){
+			if(newData[i].isDamaged){
+				old_damagedSystems++;
+			}
+		}
+		if(old_damagedSystems == damagedSystems){
+			Interstellar.say("Power");
 		}
 		PowerDistributionshipSystems = newData;
 		drawGUI();
