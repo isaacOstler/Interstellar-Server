@@ -227,7 +227,12 @@ function drawDeckList(){
 		currentDeck = index;
 		setCallMask(currentDeck);
 		drawRoomListForDeck(currentDeck);
-		if(index == -2){
+		if(index != -2){
+			currentRoom = -2;
+			callButton.removeClass("Button2Disabled");
+			callButton.addClass("Button2");
+			selectedRoomTextbox.val("DECK " + (currentDeck + 1) + ", ALL ROOMS");
+		}else{
 			selectedRoomTextbox.val("ALL ROOMS, ALL DECKS");
 		}
 	});
@@ -257,7 +262,7 @@ function drawRoomListForDeck(deck){
 		if(currentRoom > -1){
 			selectedRoomTextbox.val($(event.target).html() + ", DECK " + formatTwoDigitNumberToString(currentDeck + 1));
 		}else if(currentRoom == -2){
-			selectedRoomTextbox.val("ALL ROOMS, DECK " + formatTwoDigitNumberToString(currentDeck));
+			selectedRoomTextbox.val("ALL ROOMS, DECK " + formatTwoDigitNumberToString(currentDeck + 1));
 		}
 		callButton.removeClass("Button2Disabled");
 		callButton.addClass("Button2");
