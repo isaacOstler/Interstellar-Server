@@ -117,13 +117,14 @@
 					MENU_IS_LOGGED_IN_BOOL = true;
 					$("#contentArea").animate({width : "63%"});
 					$("#menu").slideDown();
+					$("#mc_card_controller_container").fadeIn();
 				}
 				return;
 			}
 		}
 		if(MENU_IS_LOGGED_IN_BOOL){
 			//just logged out!
-			if(false){
+			if(true){
 				console.warn("Menu set screen when login not found has been disabled!");
 				return;
 			}
@@ -132,6 +133,7 @@
 			$("#menu").slideUp(function(){
 				$("#contentArea").animate({width : "78%"});
 			});
+			$("#mc_card_controller_container").fadeOut();
 			if(currentScreen != "Login"){
 				Interstellar.setCurrentScreen("Login");
 			}

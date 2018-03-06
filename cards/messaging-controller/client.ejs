@@ -1,0 +1,56 @@
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=messaging-controller">
+
+<div id="mc_card_controller_container" class="border_slantedRight">
+	<div id="mc_card_controller_container_header">
+		<div id="mc_card_controller_container_header_title">MESSAGES</div>
+	</div>
+	<div id="mc_card_controller_container_channelLabel">
+		CHANNEL
+	</div>
+	<select id="mc_card_controller_container_channelSelect">
+		<option>SECURITY</option>
+		<option>MEDICAL</option>
+		<option>DAMAGE CONTROL</option>
+		<option>BRIDGE</option>
+		<option>GENERAL</option>
+	</select>
+	<div id="mc_card_controller_container_messages">
+		<div class="mc_card_controller_message">
+			<div class="mc_card_controller_message_sender">
+				<span style="color:yellow">(Security Officer)</span> Lowder, James
+			</div>
+			<div class="mc_card_controller_message_message">
+				Lowder On Scene... Assessing the situation...
+			</div>
+		</div>
+		<div class="mc_card_controller_message">
+			<div class="mc_card_controller_message_sender">
+				YOU
+			</div>
+			<div class="mc_card_controller_message_message">
+				10-4.  Keep me updated.
+			</div>
+		</div>
+		<div class="mc_card_controller_message">
+			<div class="mc_card_controller_message_sender">
+				<span style="color:yellow">(Security Officer)</span> Lowder, James
+			</div>
+			<div class="mc_card_controller_message_message">
+				Seems like the situation has calmed down a bit.  It sounds like Ensign Marcus Green started a fight in the cafeteria.  I'm going to investigate a bit more, can you run a background check for me?  Last name: Green, First Name: Marcus, Rank: Ensign, Posting: Communications Antenna Deck
+			</div>
+		</div>
+		<div class="mc_card_controller_message">
+			<div class="mc_card_controller_message_sender">
+				YOU
+			</div>
+			<div class="mc_card_controller_message_message">
+				In progress, standby.
+			</div>
+		</div>
+	</div>
+	<textarea id="mc_card_controller_textarea" placeholder="Type a message to send..."></textarea>
+	<div id="mc_card_controller_sendButton" class="customButton">SEND MESSAGE</div>
+</div>
+
+<script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+<script src="/resource?path=script.js&screen=messaging-controller" type="text/javascript"></script>

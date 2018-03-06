@@ -1,0 +1,8 @@
+{
+	"cardName":"messaging-controller",
+	"cardType":"card controller",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the station to recieve and send messages"
+}
