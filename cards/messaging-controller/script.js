@@ -24,14 +24,16 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 						"prefix" : "<span style='color:yellow'>(SECURITY OFFICER)</span>",
 						"sentAt" : new Date(),
 						"color" : "rgba(255,200,0,.1)",
-						"message" : "I'M CODE 4"
+						"message" : "I'M CODE 4",
+						"hasBeenReadBy" : []
 					},
 					{
 						"messageFrom" : Interstellar.getStation(),
 						"prefix" : "",
 						"sentAt" : new Date(),
 						"color" : "rgba(255,200,0,.1)",
-						"message" : "AT 1749"
+						"message" : "AT 1749",
+						"hasBeenReadBy" : []
 					}
 				]
 			}
@@ -52,7 +54,8 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 						"prefix" : "<span style='color:yellow'>(SECURITY OFFICER)</span>",
 						"sentAt" : date object,
 						"color" : red,
-						"message" : "I'M CODE 4"
+						"message" : "I'M CODE 4",
+						"hasBeenReadBy" : []
 					}
 				]
 			}
@@ -90,10 +93,39 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		channelSelect.attr("value",channels[selectedChannel].channelName);
 	}
 
+	function createMessageOnChannel(channel,message,from,prefix,color){
+		var newMessage = 
+		{
+			"messageFrom" : from != undefined ? from : Interstellar.getStation(),
+			"prefix" : prefix != undefined ? prefix : "",
+			"sentAt" : new Date(),
+			"color" : color != undefined ? color : "rgba(255,255,255,.1)",
+			"message" : message != undefined ? message : "? UNABLE TO FIND MESSAGE ?",
+			"hasBeenReadBy" : []
+		}
+		var newChannels = [];
+		for(var i = 0;i < channels.length;i++){
+			if(i == channel){
+				channels[i].messages.splice(channels[i].messages.length,0,newMessage);
+			}
+			newChannels.splice(newChannels.length,0,channels[i]);
+		}
+		Interstellar.setDatabaseValue("messaging.channels",newChannels);
+	}
+
 	function updateMessagesForChannel(channel){
-		var html = "";
+		var html = "",
+			messageAreaDOM = document.getElementById(messageArea.attr("id")),
+			requireNewMessageUpdate = false,
+			lockScroll = messageAreaDOM.scrollHeight - messageAreaDOM.clientHeight <= messageAreaDOM.scrollTop + 1;
 		for(var i = 0;i < channels[channel].messages.length;i++){
-			html += '<div class="mc_card_controller_message">';
+			var newMessage = true;
+			for(var j = 0;j < channels[channel].messages[i].hasBeenReadBy.length;j++){
+				if(channels[channel].messages[i].hasBeenReadBy[j] == Interstellar.getStation()){
+					newMessage = false;
+				}
+			}
+			html += '<div class="mc_card_controller_message" style="' + (newMessage ? "background-color:rgba(255,0,0,.3)" : ("background-color:" + channels[channel].messages[i].color)) + '">';
 				html += '<div class="mc_card_controller_message_sender">';
 					html += channels[channel].messages[i].messageFrom == Interstellar.getStation() ? "YOU" : channels[channel].messages[i].prefix + " " + channels[channel].messages[i].messageFrom;
 				html += '</div>';
@@ -101,19 +133,53 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 					html += channels[channel].messages[i].message;
 				html += '</div>';
 			html += '</div>';
+			if(newMessage && lockScroll && htmlElement.position().top != originalMessagingElementPosition){
+				channels[channel].messages[i].hasBeenReadBy.splice(channels[channel].messages[i].hasBeenReadBy.length,0,Interstellar.getStation());
+				requireNewMessageUpdate = true;
+			}
 		}
 		messageArea.html(html);
+		if(requireNewMessageUpdate){
+			setTimeout(function(){
+				Interstellar.setDatabaseValue("messaging.channels",channels);
+			},1000);
+		}
+		if(lockScroll){
+	    	messageAreaDOM.scrollTop = messageAreaDOM.scrollHeight - messageAreaDOM.clientHeight;
+		}
 	}
 
 	//event handlers
 
+	textarea.scroll(function(event){
+		var newMessageDetected = false,
+			lockScroll = messageAreaDOM.scrollHeight - messageAreaDOM.clientHeight <= messageAreaDOM.scrollTop + 1;
+		for(var i = 0;i < channels[channel].messages.length;i++){
+			var newMessage = true;
+			for(var j = 0;j < channels[channel].messages[i].hasBeenReadBy.length;j++){
+				if(channels[channel].messages[i].hasBeenReadBy[j] == Interstellar.getStation()){
+					newMessage = false;
+				}
+			}
+			if(newMessage){
+				newMessageDetected = true;
+			}
+		}
+		if(newMessageDetected && lockScroll){
+			updateMessagesForChannel(selectedChannel);
+		}
+	})
+
     header.click(function(){
     	htmlElement.stop();
     	if(htmlElement.position().top == originalMessagingElementPosition){
-    		//close
-    		htmlElement.animate({"top" : heightOfPage * percentageToOpenTo,"width" : widthOfPage * percentageWidthToOpenTo - 10});
-    	}else{
     		//open
+    		htmlElement.animate({"top" : heightOfPage * percentageToOpenTo,"width" : widthOfPage * percentageWidthToOpenTo - 10},function(){
+    			textarea.focus();
+    			updateMessagesForChannel(selectedChannel);
+    		});
+    	}else{
+    		//close
     		htmlElement.animate({"top" : originalMessagingElementPosition,"width" : widthOfPage * .25});
     	}
     });
@@ -142,8 +208,17 @@ var MC_CARD_CONTROLLER_CLASS = function(){
     		});
     		return;
     	}
+    	createMessageOnChannel(selectedChannel,newMessage);
     	textarea.val("");
     });
+
+    textarea.keypress(function(e) {
+    	if(e.which == 13 && e.shiftKey != true) {
+    	    sendButton.trigger("click");
+    		textarea.val("");
+    		e.preventDefault();
+    	}
+	});
 
 	//intervals
 }
