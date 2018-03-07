@@ -15,26 +15,26 @@ var MC_CARD_CONTROLLER_CLASS = function(){
     	selectedChannel = 0,
     	channels = 
     	[
-			{
+			/*{
 				"channelName" : "SECURITY",
 				"availableTo" : ["test station","Tactical","Communications"],
 				"messages" : 
 				[
-					/*{
+					{
 						"messageFrom" : "LOWDER, JAMES",
 						"prefix" : "<span style='color:yellow'>(SECURITY OFFICER)</span>",
 						"sentAt" : new Date(),
 						"color" : "rgba(255,200,0,.1)",
 						"message" : "I'M CODE 4",
 						"hasBeenReadBy" : []
-					}*/
+					}
 				]
 			},
 			{
 				"channelName" : "MEDICAL",
 				"availableTo" : ["test station","Tactical","Communications"],
 				"messages" : []
-			}
+			}*/
 		],
     	originalMessagingElementPosition = htmlElement.position().top,
     	redBackgroundClearTimeout = undefined;
@@ -90,7 +90,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		for(var i = 0;i < channels.length;i++){
 			for(var j = 0;j < channels[i].availableTo.length;j++){
 				console.log(channels[i].availableTo[j],Interstellar.getStation());
-				if(channels[i].availableTo[j] == Interstellar.getStation()){
+				if(channels[i].availableTo[j].toLowerCase() == Interstellar.getStation().toLowerCase()){
 					html += "<option value='" + i + "'>" + channels[i].channelName + "</option>";
 				}
 			}
