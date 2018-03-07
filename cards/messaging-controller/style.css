@@ -1,3 +1,18 @@
+@keyframes newMessageLabel {
+    0% {color: white;filter: drop-shadow(0px 0px 0px red);}
+    50% {color: red;filter: drop-shadow(0px 0px 10px red);}
+    100% {color: white;filter: drop-shadow(0px 0px 0px red);}
+}
+
+#mc_card_controller_container_header_newMessage{
+    position: absolute;
+    top: 1px;
+    right: 25px;
+    color: red;
+    animation: newMessageLabel;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+}
 #mc_card_controller_sendButton:hover{
 	filter: brightness(1.25);
 }

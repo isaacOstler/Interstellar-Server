@@ -5,6 +5,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		textarea = $("#mc_card_controller_textarea"),
 		messageArea = $("#mc_card_controller_container_messages"),
 		channelSelect = $("#mc_card_controller_container_channelSelect"),
+		newMessageLabel = $("#mc_card_controller_container_header_newMessage"),
 		sendButton = $("#mc_card_controller_sendButton");
 	//variables
 	var percentageToOpenTo = .35,
@@ -19,23 +20,20 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 				"availableTo" : ["test station","Tactical","Communications"],
 				"messages" : 
 				[
-					{
+					/*{
 						"messageFrom" : "LOWDER, JAMES",
 						"prefix" : "<span style='color:yellow'>(SECURITY OFFICER)</span>",
 						"sentAt" : new Date(),
 						"color" : "rgba(255,200,0,.1)",
 						"message" : "I'M CODE 4",
 						"hasBeenReadBy" : []
-					},
-					{
-						"messageFrom" : Interstellar.getStation(),
-						"prefix" : "",
-						"sentAt" : new Date(),
-						"color" : "rgba(255,200,0,.1)",
-						"message" : "AT 1749",
-						"hasBeenReadBy" : []
-					}
+					}*/
 				]
+			},
+			{
+				"channelName" : "MEDICAL",
+				"availableTo" : ["test station","Tactical","Communications"],
+				"messages" : []
 			}
 		],
     	originalMessagingElementPosition = htmlElement.position().top,
@@ -77,6 +75,14 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		updateChannels();
 		updateMessagesForChannel(selectedChannel);
 	});
+
+	Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
+		if(newData == null){
+			Interstellar.setDatabaseValue("ship.alertStatus",5);
+			return;
+		}
+		adjustGuiToAlertStatus(newData);
+	});
 	//functions
 
 	function updateChannels(){
@@ -91,9 +97,30 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		}
 		channelSelect.html(html);
 		channelSelect.attr("value",channels[selectedChannel].channelName);
+
+
+		var newMessageDetected = false;
+		for(var x = 0;x < channels.length;x++){
+			for(var i = 0;i < channels[x].messages.length;i++){
+				var newMessage = true;
+				for(var j = 0;j < channels[x].messages[i].hasBeenReadBy.length;j++){
+					if(channels[x].messages[i].hasBeenReadBy[j] == Interstellar.getStation()){
+						newMessage = false;
+					}
+				}
+				if(newMessage){
+					newMessageDetected = true;
+				}
+			}
+		}
+		if(newMessageDetected){
+			newMessageLabel.fadeIn();
+		}else{
+			newMessageLabel.fadeOut();
+		}
 	}
 
-	function createMessageOnChannel(channel,message,from,prefix,color){
+	function createMessageOnChannel(channel,message,prefix,from,color){
 		var newMessage = 
 		{
 			"messageFrom" : from != undefined ? from : Interstellar.getStation(),
@@ -101,7 +128,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 			"sentAt" : new Date(),
 			"color" : color != undefined ? color : "rgba(255,255,255,.1)",
 			"message" : message != undefined ? message : "? UNABLE TO FIND MESSAGE ?",
-			"hasBeenReadBy" : []
+			"hasBeenReadBy" : [Interstellar.getStation()]
 		}
 		var newChannels = [];
 		for(var i = 0;i < channels.length;i++){
@@ -130,12 +157,14 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 					html += channels[channel].messages[i].messageFrom == Interstellar.getStation() ? "YOU" : channels[channel].messages[i].prefix + " " + channels[channel].messages[i].messageFrom;
 				html += '</div>';
 				html += '<div class="mc_card_controller_message_message">';
-					html += channels[channel].messages[i].message;
+					html += channels[channel].messages[i].message.replace(/\n/g, "<br />");
 				html += '</div>';
 			html += '</div>';
 			if(newMessage && lockScroll && htmlElement.position().top != originalMessagingElementPosition){
 				channels[channel].messages[i].hasBeenReadBy.splice(channels[channel].messages[i].hasBeenReadBy.length,0,Interstellar.getStation());
 				requireNewMessageUpdate = true;
+			}else{
+				newMessageDetected = true;
 			}
 		}
 		messageArea.html(html);
@@ -146,6 +175,27 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		}
 		if(lockScroll){
 	    	messageAreaDOM.scrollTop = messageAreaDOM.scrollHeight - messageAreaDOM.clientHeight;
+		}
+	}
+
+	function adjustGuiToAlertStatus(alertStatus){
+		switch(alertStatus){
+			case 4:
+			htmlElement.css("filter","drop-shadow(0px 0px 6px rgb(0,200,255))");
+			break;
+			case 3:
+			htmlElement.css("filter","drop-shadow(0px 0px 6px rgb(255,200,0))");
+			break;
+			case 2:
+			htmlElement.css("filter","drop-shadow(0px 0px 6px rgb(255,120,0))");
+			break;
+			case 1:
+			htmlElement.css("filter","drop-shadow(0px 0px 6px rgb(255,0,0))");
+			break;
+			default:
+			//5 defaults here
+			htmlElement.css("filter","drop-shadow(0px 0px 6px rgb(0,160,255))");
+			break;
 		}
 	}
 
@@ -168,7 +218,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		if(newMessageDetected && lockScroll){
 			updateMessagesForChannel(selectedChannel);
 		}
-	})
+	});
 
     header.click(function(){
     	htmlElement.stop();
@@ -220,6 +270,10 @@ var MC_CARD_CONTROLLER_CLASS = function(){
     	}
 	});
 
+    channelSelect.change(function(event){
+    	selectedChannel = Number(event.target.value);
+    	updateMessagesForChannel(selectedChannel);
+    });
 	//intervals
 }
 
