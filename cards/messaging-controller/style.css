@@ -9,6 +9,7 @@
     top: 1px;
     right: 25px;
     color: red;
+    display: none;
     animation: newMessageLabel;
     animation-iteration-count: infinite;
     animation-duration: 1s;
