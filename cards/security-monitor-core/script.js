@@ -52,6 +52,10 @@ Interstellar.addCoreWidget("Login Names",function(){
 			{
 				"name" : "bomb".toUpperCase(),
 				"alarmInfo" : "an armed explosive device was detected in this room, time until detonation could not be detected.".toUpperCase()
+			},
+			{
+				"name" : "Notifier Alarm".toUpperCase(),
+				"alarmInfo" : "a security alarm has been triggered in this room.  no additional information available".toUpperCase()
 			}
 		];
 

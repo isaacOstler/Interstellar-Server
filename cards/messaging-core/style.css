@@ -1,3 +1,49 @@
+#messagingCore_messageTextarea{
+	position: absolute;
+	bottom: 22px;
+	right: 1px;
+	height: 57px;
+	border: 1px solid white;
+	background-color: rgba(35,35,35,.8);
+	color:white;
+	font-family: 'Arial';
+	width: calc(100% - 211px);
+}
+#messagingCore_sendMessageButton{
+	position: absolute;
+	bottom: 1px;
+	right: 1px;
+	border: 1px solid white;
+	background-color: red;
+	width: 110px;
+	color: white;
+}
+#messagingCore_fromTextbox{
+	position: absolute;
+	bottom: 1px;
+	right: 112px;
+	border: 1px solid white;
+	width: calc(100% - 370px);
+	height: 20px;
+	background-color: black;
+	color:white;
+	font-family: 'Arial';
+}
+#messagingCore_fromLabel{
+	position: absolute;
+	bottom: 2px;
+	left: 205px;
+	/* border: 1px solid white; */
+	width: calc(100% - 370px);
+}
+#messagingCore_channelsList{
+	position: absolute;
+	top: 24px;
+	left: 1px;
+	width: calc(100% - 4px);
+	border: 1px solid white;
+	height: calc(100% - 27px);
+}
 #messagingCore_channels_presetsContainer_editButton{
 	position: absolute;
 	top:1px;
@@ -45,11 +91,11 @@
 	left: 1px;
 	width: 200px;
 	border: 1px solid white;
-	height: calc(100% - 2px);
+	height: calc(100% - 4px);
 }
 #messagingCore_channels_presetsContainer{
 	position: absolute;
-	bottom: 65px;
+	bottom: 86px;
 	right: 1px;
 	width: calc(100% - 207px);
 	border: 1px solid white;
@@ -59,9 +105,10 @@
 	right: 1px;
 	width: calc(100% - 207px);
 	top:1px;
-	height: calc(100% - 109px);
+	height: calc(100% - 130px);
 	border: 1px solid white;
 	position: absolute;
+	overflow: hidden;
 }
 #messagingCore_channels_channel_gearContainer{
 	position: absolute;
@@ -105,7 +152,7 @@
 	text-align: center;
 	bottom: 5px;
 }
-.messagingCore_channels_header{
+#messagingCore_channels_header{
 	position: relative;
 	width: 100%;
 	background-color: #404040;
@@ -121,6 +168,12 @@
 }
 .messagingCore_channels_channel:active{
 	filter: brightness(0.65);
+}
+.messagingCore_channels_messageContainer_message_message_timestamp{
+	float: right;
+	margin: 4px;
+	color:#808080;
+	font-size: 9px;
 }
 .messagingCore_channels_channel{
 	cursor: pointer;

@@ -6,14 +6,14 @@
     left: 200px;">
 
     <div id="messagingCore_channels">
-    	<div class="messagingCore_channels_header">CHANNELS
+
+    	<div id="messagingCore_channels_header">CHANNELS
     		<div id="messagingCore_channels_channel_gearContainer">
 				<div class="gearIcon" id="messagingCore_channels_channel_gearContainer_gear"></div>
 			</div>
     	</div>
-    	<div class="messagingCore_channels_channel">SECURITY</div>
-    	<div class="messagingCore_channels_channel">MEDICAL</div>
-    	<div class="messagingCore_channels_channel">DAMAGE CONTROL</div>
+
+    	<div id="messagingCore_channelsList"></div>
     </div>
     <div id="messagingCore_channels_presetsContainer">
     	<input type="button" value="EDIT" class="coreButton" id="messagingCore_channels_presetsContainer_editButton">
@@ -35,47 +35,28 @@
     		</optgroup>
     	</select>
     </div>
-    <div id="messagingCore_channels_messageContainer">
-    	<div class="messagingCore_channels_messageContainer_message">
-    		<div class="messagingCore_channels_messageContainer_message_from">
-    			SECURITY TEAMS
-    		</div>
-    		<div class="messagingCore_channels_messageContainer_message_message" contenteditable="true">
-    			HELLO WORLD
-    		</div>
-    	</div>
-    	<div class="messagingCore_channels_messageContainer_message">
-    		<div class="messagingCore_channels_messageContainer_message_from">
-    			SECURITY TEAMS
-    		</div>
-    		<div class="messagingCore_channels_messageContainer_message_message" contenteditable="true">
-    			HELLO WORLD
-    		</div>
-    	</div>
-    	<div class="messagingCore_channels_messageContainer_message">
-    		<div class="messagingCore_channels_messageContainer_message_from">
-    			SECURITY TEAMS
-    		</div>
-    		<div class="messagingCore_channels_messageContainer_message_message" contenteditable="true">
-    			HELLO WORLD
-    		</div>
-    	</div>
-    	<div class="messagingCore_channels_messageContainer_message">
-    		<div class="messagingCore_channels_messageContainer_message_from">
-    			SECURITY TEAMS
-    		</div>
-    		<div class="messagingCore_channels_messageContainer_message_message" contenteditable="true">
-    			HELLO WORLD
-    		</div>
-    	</div>
-    	<div class="messagingCore_channels_messageContainer_message">
-    		<div class="messagingCore_channels_messageContainer_message_from">
-    			SECURITY TEAMS
-    		</div>
-    		<div class="messagingCore_channels_messageContainer_message_message" contenteditable="true">
-    			HELLO WORLD
-    		</div>
-    	</div>
+    <div id="messagingCore_channels_messageContainer"></div>
+    <textarea id="messagingCore_messageTextarea" placeholder="TYPE NEW MESSAGE HERE"></textarea>
+    <input type="button" id="messagingCore_sendMessageButton" value="SEND MESSAGE">
+    <div id="messagingCore_fromLabel">
+    	Sender
     </div>
+    <select id="messagingCore_fromTextbox">
+    	<optgroup label="Control Groups">
+    		<option>SECURITY CONTROL</option>
+    		<option>DAMAGE CONTROL</option>
+    		<option>MEDICAL CONTROL</option>
+    	</optgroup>
+    	<optgroup label="Locations">
+    		<option>BRIG, DECK 11</option>
+    		<option>MAIN ENGINEERING, DECK 12</option>
+    		<option>SICKBAY ALPHA, DECK 5</option>
+    	</optgroup>
+    	<optgroup label="Officers">
+    		<option>ENSIGN LOWDER</option>
+    		<option>LIEUTENANT BAIRD</option>
+    		<option>ADMIRAL WILLIAMSON</option>
+    	</optgroup>
+    </select>
 </div>
 <script src="/resource?path=script.js&screen=messaging-core" type="text/javascript"></script>

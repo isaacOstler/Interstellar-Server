@@ -13,29 +13,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
     	heightOfPage = $(document).height(),
     	widthOfPage = $(document).width(),
     	selectedChannel = 0,
-    	channels = 
-    	[
-			/*{
-				"channelName" : "SECURITY",
-				"availableTo" : ["test station","Tactical","Communications"],
-				"messages" : 
-				[
-					{
-						"messageFrom" : "LOWDER, JAMES",
-						"prefix" : "<span style='color:yellow'>(SECURITY OFFICER)</span>",
-						"sentAt" : new Date(),
-						"color" : "rgba(255,200,0,.1)",
-						"message" : "I'M CODE 4",
-						"hasBeenReadBy" : []
-					}
-				]
-			},
-			{
-				"channelName" : "MEDICAL",
-				"availableTo" : ["test station","Tactical","Communications"],
-				"messages" : []
-			}*/
-		],
+    	channels = [],
     	originalMessagingElementPosition = htmlElement.position().top,
     	redBackgroundClearTimeout = undefined;
 
@@ -68,7 +46,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 	//database observers
 	Interstellar.onDatabaseValueChange("messaging.channels",function(newData){
 		if(newData == null){
-			Interstellar.setDatabaseValue("messaging.channels",channels);
+			//we must wait for core to set these
 			return;
 		}
 		channels = newData;
