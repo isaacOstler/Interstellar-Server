@@ -108,7 +108,7 @@
 	height: calc(100% - 130px);
 	border: 1px solid white;
 	position: absolute;
-	overflow: hidden;
+	overflow: auto;
 }
 #messagingCore_channels_channel_gearContainer{
 	position: absolute;

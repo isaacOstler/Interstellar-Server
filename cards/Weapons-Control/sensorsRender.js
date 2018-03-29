@@ -1296,6 +1296,7 @@ function createExplosionAtPoint(xCord,yCord,size){
     updateContactsEarly();
     //Interstellar.setDatabaseValue("sensors.effects",effects);
 }
+
 function updateContactsEarly(){
     for(var l = 0;l < CompoundContactsArray.length;l++){
         if(CompoundContactsArray[l].type == "planet" || CompoundContactsArray[l].type == "asteroid" || CompoundContactsArray[l].type == "nebula"){     

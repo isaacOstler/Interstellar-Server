@@ -67,8 +67,9 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		var html = "";
 		for(var i = 0;i < channels.length;i++){
 			for(var j = 0;j < channels[i].availableTo.length;j++){
-				console.log(channels[i].availableTo[j],Interstellar.getStation());
-				if(channels[i].availableTo[j].toLowerCase() == Interstellar.getStation().toLowerCase()){
+				if(channels[i].availableTo[j] == null){
+					html += "<option value='" + i + "'>" + channels[i].channelName + "</option>";
+				}else if(channels[i].availableTo[j].toLowerCase() == Interstellar.getStation().toLowerCase()){
 					html += "<option value='" + i + "'>" + channels[i].channelName + "</option>";
 				}
 			}
