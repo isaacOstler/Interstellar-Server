@@ -21,6 +21,12 @@ Interstellar.addCoreWidget("Messaging",function(){
 	//variables
 	var channels = [
 		{
+			"channelName" : "BRIDGE",
+			"channelGUID" : guidGenerator(),
+			"availableTo" : [null],
+			"messages" : []
+		},
+		{
 			"channelName" : "DAMAGE CONTROL",
 			"channelGUID" : guidGenerator(),
 			"availableTo" : ["DAMAGE CONTROL"],
@@ -30,12 +36,6 @@ Interstellar.addCoreWidget("Messaging",function(){
 			"channelName" : "SECURITY",
 			"channelGUID" : guidGenerator(),
 			"availableTo" : ["SECURITY TEAMS","SECURITY MONITORING","SECURITY DISPATCH","SECURITY SCANS","INTERNAL SCANS","INTERNAL SENSORS","SECURITY TRACKING","SECURITY"],
-			"messages" : []
-		},
-		{
-			"channelName" : "BRIDGE",
-			"channelGUID" : guidGenerator(),
-			"availableTo" : [null],
 			"messages" : []
 		}
 	],
@@ -393,5 +393,8 @@ Interstellar.addCoreWidget("Messaging",function(){
 	nextPresetButton.click(function(event){
 		presetSelect.val(presetSelect[0].selectedIndex + 1);
 		textarea.val(messagePresets[selectedPreset].presets[presetSelect.val()].preset);
+	});
+	editPresetButton.click(function(event){
+		Interstellar.openCoreWindow("messagingCorePresetEditor",event);
 	});
 });

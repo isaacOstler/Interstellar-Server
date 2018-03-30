@@ -12,7 +12,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		percentageWidthToOpenTo = .70,
     	heightOfPage = $(document).height(),
     	widthOfPage = $(document).width(),
-    	selectedChannel = 0,
+    	selectedChannel = -1,
     	channels = [],
     	originalMessagingElementPosition = htmlElement.position().top,
     	redBackgroundClearTimeout = undefined;
@@ -77,7 +77,6 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		channelSelect.html(html);
 		channelSelect.attr("value",channels[selectedChannel].channelName);
 
-
 		var newMessageDetected = false;
 		for(var x = 0;x < channels.length;x++){
 			for(var i = 0;i < channels[x].messages.length;i++){
@@ -100,6 +99,9 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 	}
 
 	function createMessageOnChannel(channel,message,prefix,from,color){
+		if(channel == -1){
+			return;
+		}
 		var newMessage = 
 		{
 			"messageFrom" : from != undefined ? from : Interstellar.getStation(),
