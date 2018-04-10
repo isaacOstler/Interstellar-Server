@@ -16,7 +16,18 @@ Interstellar.addCoreWidget("Messaging",function(){
 		presetSelect = $("#messagingCore_channels_presetsContainer_presetSelect"),
 		nextPresetButton = $("#messagingCore_channels_presetsContainer_nextButton"),
 		editPresetButton = $("#messagingCore_channels_presetsContainer_editButton"),
-		messageList = $("#messagingCore_channels_messageContainer");
+		messageList = $("#messagingCore_channels_messageContainer"),
+		//preset editor window
+		presetEditor_missionNameTextbox = $("#messagingCorePresetEditor_presetEditor_missionNameTextbox"),
+		presetEditor_presetNameTextbox = $("#messagingCorePresetEditor_presetEditor_presetNameTextbox"),
+		presetEditor_presetTextarea = $("#messagingCorePresetEditor_presetEditor_presetTextarea"),
+		presetEditor_savePresetButton = $("#messagingCorePresetEditor_presetEditor_saveButton"),
+		presetEditor_addPresetButton = $("#messagingCorePresetEditor_addPresetButton"),
+		presetEditor_removePresetButton = $("#messagingCorePresetEditor_removePresetButton"),
+		presetEditor_addMissionButton = $("#messagingCorePresetEditor_addMissionButton"),
+		presetEditor_removeMissionButton = $("#messagingCorePresetEditor_removeMissionButton"),
+		presetEditor_missionList = $("#messagingCorePresetEditor_missionList_list"),
+		presetEditor_presetList = $("#messagingCorePresetEditor_presetList_list");
 
 	//variables
 	var channels = [
@@ -138,52 +149,30 @@ Interstellar.addCoreWidget("Messaging",function(){
 			"color" : "rgba(255,200,0,.1)"
 		}
 	],
-	messagePresets = [
-		{
-			"missionName" : "ISAAC PRESETS",
-			"presets" :
-			[
-				{
-					"name" : "startup",
-					"preset" : "foo foo foo"
-				},
-				{
-					"name" : "startup1",
-					"preset" : "foo foo foo2"
-				},
-				{
-					"name" : "startup2",
-					"preset" : "foo foo foo3"
-				},
-				{
-					"name" : "startup3",
-					"preset" : "foo foo foo4"
-				},
-				{
-					"name" : "startup4",
-					"preset" : "foo foo foo5"
-				},
-				{
-					"name" : "startup5",
-					"preset" : "foo foo foo6"
-				}
-			]
-		}
-	],
+	messagePresets = [],
 	selectedPreset = 0,
 	selectedChannel = 0,
-	lockScroll = true;
+	lockScroll = true,
+	presetEditor_selectedMission = -1,
+	presetEditor_selectedPreset = -1;
 
 	//init calls
 	drawChannels();
 	listLocations();
-	listPresets();
 	//interstellar calls
 	thisWidget.onResize = function(){
 		//do nothing
 	}
 	
 	//preset observers
+	Interstellar.onPresetValueChange("messaging.presets",function(newData){
+		if(newData == null){
+			Interstellar.setPresetValue("messaging.presets",messagePresets);
+			return;
+		}
+		messagePresets = newData;
+		listPresets();
+	});
 
 	//database observers
 	
@@ -214,12 +203,17 @@ Interstellar.addCoreWidget("Messaging",function(){
     	html += "</optgroup>";
     	presetMissionSelect.html(html);
     	html = "<optgroup label='PRESET'>";
-    	for(i = 0;i < messagePresets[selectedPreset].presets.length;i++){
-    		html += "<option value='" + i + "'>" + messagePresets[selectedPreset].presets[i].name + "</option>";
+    	if(messagePresets.length > 0){
+    		for(i = 0;i < messagePresets[selectedPreset].presets.length;i++){
+	    		html += "<option value='" + i + "'>" + messagePresets[selectedPreset].presets[i].name + "</option>";
+	    	}
+	    	html += "</optgroup>";
+	    	presetSelect.html(html);
+	    	presetMissionSelect.val(selectedPreset);
+    	}else{
+	    	presetSelect.html("");
+	    	presetMissionSelect.val("");
     	}
-    	html += "</optgroup>";
-    	presetSelect.html(html);
-    	presetMissionSelect.val(selectedPreset);
     }
 
     function drawChannels(){
@@ -362,6 +356,52 @@ Interstellar.addCoreWidget("Messaging",function(){
 		createMessageOnChannel(selectedChannel,textarea.val().replace(/\n/g, "<br />"),sender.prefix,sender.name,sender.color);
 		textarea.val("");
 	}
+
+	function updateEditorList(){
+		var i,//defining i outside of the for loop is faster
+			html = "";
+
+		for(i = 0;i < messagePresets.length;i++){
+			html += '<div index="' + i + '" class="messagingCorePresetEditor_listContainer_item messagingCorePresetEditor_mission">';
+            html += messagePresets[i].missionName;
+            html += '</div>';
+		}
+		presetEditor_missionList.html(html);
+		if(messagePresets.length > 0){
+			html = "";
+			presetEditor_selectedMission = 0;
+			for(i = 0;i < messagePresets[presetEditor_selectedMission].presets.length;i++){
+				html += '<div index="' + i + '" class="messagingCorePresetEditor_listContainer_item messagingCorePresetEditor_preset">';
+		        html += messagePresets[presetEditor_selectedMission].presets[i].name;
+		        html += '</div>';
+			}
+			presetEditor_presetList.html(html);
+		}else{
+			presetEditor_presetList.html("");
+		}
+		if(presetEditor_selectedPreset > -1 && presetEditor_selectedMission > -1){
+			presetEditor_missionNameTextbox.val(messagePresets[presetEditor_selectedMission].missionName);
+			presetEditor_presetNameTextbox.val(messagePresets[presetEditor_selectedMission].presets[presetEditor_selectedPreset].name);
+			presetEditor_presetTextarea.val(messagePresets[presetEditor_selectedMission].presets[presetEditor_selectedPreset].preset);
+		}
+		$(".messagingCorePresetEditor_mission").off();
+		$(".messagingCorePresetEditor_mission").click(function(event){
+			var index = Number($(event.target).attr("index"));
+			presetEditor_selectedMission = index;
+			if(messagePresets[presetEditor_selectedMission].presets.length > 0){
+				presetEditor_selectedPreset = 0;
+			}else{
+				presetEditor_selectedPreset = -1;
+			}
+			updateEditorList();
+		});
+		$(".messagingCorePresetEditor_preset").off();
+		$(".messagingCorePresetEditor_preset").click(function(event){
+			var index = Number($(event.target).attr("index"));
+			presetEditor_selectedPreset = index;
+			updateEditorList();
+		});
+	}
 	//event handlers
 	$(".messagingCore_channels_messageContainer_message_message").on("cut paste input",function(event){
 		console.log($(event.target).html());
@@ -395,6 +435,60 @@ Interstellar.addCoreWidget("Messaging",function(){
 		textarea.val(messagePresets[selectedPreset].presets[presetSelect.val()].preset);
 	});
 	editPresetButton.click(function(event){
+		updateEditorList();
 		Interstellar.openCoreWindow("messagingCorePresetEditor",event);
+	});
+	presetEditor_addPresetButton.click(function(event){
+		if(presetEditor_selectedMission == -1 || !(messagePresets.length > 0)){
+			console.warn("WARN: messaging core attempted to create a preset for a mission, however no mission was selected.  Error catched properly.")
+			return; //no mission!  Cannot create preset!
+		}
+		var newPreset =
+		{
+			"name" : "New Preset",
+			"preset" : ""
+		}
+		messagePresets[presetEditor_selectedMission].presets.splice(messagePresets[presetEditor_selectedMission].presets.length,0,newPreset);
+		updateEditorList();
+		Interstellar.setPresetValue("messaging.presets",messagePresets);
+	});
+	presetEditor_addMissionButton.click(function(event){
+		var newPreset =
+		{
+			"missionName" : "New Mission",
+			"presets" : [
+				{
+				"name" : "New Preset",
+				"preset" : ""
+				}
+			]
+		}
+		messagePresets.splice(messagePresets.length,0,newPreset);
+		presetEditor_selectedMission = messagePresets.length - 1;
+		updateEditorList();
+		Interstellar.setPresetValue("messaging.presets",messagePresets);
+	});
+	presetEditor_removePresetButton.click(function(event){
+		if(presetEditor_selectedMission != -1){
+			messagePresets[presetEditor_selectedMission].presets.splice(presetEditor_selectedPreset,1);
+			presetEditor_selectedPreset--;
+			updateEditorList();
+			Interstellar.setPresetValue("messaging.presets",messagePresets);
+		}
+	});
+	presetEditor_removeMissionButton.click(function(event){
+		if(presetEditor_selectedMission != -1){
+			messagePresets.splice(presetEditor_selectedMission,1);
+			presetEditor_selectedMission--;
+			updateEditorList();
+			Interstellar.setPresetValue("messaging.presets",messagePresets);
+		}
+	});
+	presetEditor_savePresetButton.click(function(event){
+		messagePresets[presetEditor_selectedMission].missionName = presetEditor_missionNameTextbox.val();
+		messagePresets[presetEditor_selectedMission].presets[presetEditor_selectedPreset].name = presetEditor_presetNameTextbox.val();
+		messagePresets[presetEditor_selectedMission].presets[presetEditor_selectedPreset].preset = presetEditor_presetTextarea.val();
+		updateEditorList();
+		Interstellar.setPresetValue("messaging.presets",messagePresets);
 	});
 });

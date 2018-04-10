@@ -12,7 +12,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		percentageWidthToOpenTo = .70,
     	heightOfPage = $(document).height(),
     	widthOfPage = $(document).width(),
-    	selectedChannel = -1,
+    	selectedChannel = 0,
     	channels = [],
     	originalMessagingElementPosition = htmlElement.position().top,
     	redBackgroundClearTimeout = undefined;
@@ -49,6 +49,17 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 			//we must wait for core to set these
 			return;
 		}
+		var channelThatUserCanHear = false;
+		for(var i = 0;i < channels.length;i++){
+			for(var j = 0;j < channels[i].availableTo.length;j++){
+				if(channels[i].availableTo[j] == null){
+					channelThatUserCanHear = true;
+				}else if(channels[i].availableTo[j].toLowerCase() == Interstellar.getStation().toLowerCase()){
+					channelThatUserCanHear = true;
+				}
+			}
+		}
+
 		channels = newData;
 		updateChannels();
 		updateMessagesForChannel(selectedChannel);
@@ -126,33 +137,36 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 			messageAreaDOM = document.getElementById(messageArea.attr("id")),
 			requireNewMessageUpdate = false,
 			lockScroll = messageAreaDOM.scrollHeight - messageAreaDOM.clientHeight <= messageAreaDOM.scrollTop + 1;
-		for(var i = 0;i < channels[channel].messages.length;i++){
-			var newMessage = true;
-			for(var j = 0;j < channels[channel].messages[i].hasBeenReadBy.length;j++){
-				if(channels[channel].messages[i].hasBeenReadBy[j] == Interstellar.getStation()){
-					newMessage = false;
+		if(channels.length > channel){
+			for(var i = 0;i < channels[channel].messages.length;i++){
+				var newMessage = true;
+				for(var j = 0;j < channels[channel].messages[i].hasBeenReadBy.length;j++){
+					if(channels[channel].messages[i].hasBeenReadBy[j] == Interstellar.getStation()){
+						newMessage = false;
+					}
 				}
-			}
-			html += '<div class="mc_card_controller_message" style="' + (newMessage ? "background-color:rgba(255,0,0,.3)" : ("background-color:" + channels[channel].messages[i].color)) + '">';
-				html += '<div class="mc_card_controller_message_sender">';
-					html += channels[channel].messages[i].messageFrom == Interstellar.getStation() ? "YOU" : channels[channel].messages[i].prefix + " " + channels[channel].messages[i].messageFrom;
+				html += '<div class="mc_card_controller_message" style="' + (newMessage ? "background-color:rgba(255,0,0,.3)" : ("background-color:" + channels[channel].messages[i].color)) + '">';
+					html += '<div class="mc_card_controller_message_sender">';
+						html += channels[channel].messages[i].messageFrom == Interstellar.getStation() ? "YOU" : channels[channel].messages[i].prefix + " " + channels[channel].messages[i].messageFrom;
+					html += '</div>';
+					html += '<div class="mc_card_controller_message_message">';
+						html += channels[channel].messages[i].message.replace(/\n/g, "<br />");
+					html += '</div>';
 				html += '</div>';
-				html += '<div class="mc_card_controller_message_message">';
-					html += channels[channel].messages[i].message.replace(/\n/g, "<br />");
-				html += '</div>';
-			html += '</div>';
-			if(newMessage && lockScroll && htmlElement.position().top != originalMessagingElementPosition){
-				channels[channel].messages[i].hasBeenReadBy.splice(channels[channel].messages[i].hasBeenReadBy.length,0,Interstellar.getStation());
-				requireNewMessageUpdate = true;
-			}else{
-				newMessageDetected = true;
+				if(newMessage && lockScroll && htmlElement.position().top != originalMessagingElementPosition){
+					channels[channel].messages[i].hasBeenReadBy.splice(channels[channel].messages[i].hasBeenReadBy.length,0,Interstellar.getStation());
+					requireNewMessageUpdate = true;
+				}else{
+					newMessageDetected = true;
+				}
 			}
 		}
 		messageArea.html(html);
 		if(requireNewMessageUpdate){
 			setTimeout(function(){
+				console.log("write");
 				Interstellar.setDatabaseValue("messaging.channels",channels);
-			},1000);
+			},1000 + (500 * Math.random()));
 		}
 		if(lockScroll){
 	    	messageAreaDOM.scrollTop = messageAreaDOM.scrollHeight - messageAreaDOM.clientHeight;

@@ -4,31 +4,12 @@
         <div class="messagingCorePresetEditor_listHeaderContainer">
             <div class="messagingCorePresetEditor_listHeaderContainer_header">Mission</div>
         </div>
-        <div class="messagingCorePresetEditor_listContainer">
-            <div class="messagingCorePresetEditor_listContainer_item">
-                Isaac's Presets
-            </div>
-            <div class="messagingCorePresetEditor_listContainer_item">
-                Jon's Presets
-            </div>
-            <div class="messagingCorePresetEditor_listContainer_item">
-                JeNnnnsennnnnn's presets
-            </div>
-            <div class="messagingCorePresetEditor_listContainer_item">
-                JeNnnnsennnnnn's presets
-            </div>
-            <div class="messagingCorePresetEditor_listContainer_item">
-                JeNnnnsennnnnn's presets
-            </div>
-            <div class="messagingCorePresetEditor_listContainer_item">
-                JeNnnnsennnnnn's presets
-            </div>
-        </div>
+        <div class="messagingCorePresetEditor_listContainer" id="messagingCorePresetEditor_missionList_list"></div>
         <div class="messagingCorePresetEditor_controlButtons">
-            <div class="messagingCorePresetEditor_controlButtons_add">
+            <div id="messagingCorePresetEditor_addMissionButton" class="messagingCorePresetEditor_controlButtons_add">
                 ADD
             </div>
-            <div class="messagingCorePresetEditor_controlButtons_remove">
+            <div id="messagingCorePresetEditor_removeMissionButton" class="messagingCorePresetEditor_controlButtons_remove">
                 REMOVE
             </div>
         </div>
@@ -37,22 +18,12 @@
         <div class="messagingCorePresetEditor_listHeaderContainer">
             <div class="messagingCorePresetEditor_listHeaderContainer_header">Preset</div>
         </div>
-        <div class="messagingCorePresetEditor_listContainer">
-            <div class="messagingCorePresetEditor_listContainer_item">
-                Isaac's Presets
-            </div>
-            <div class="messagingCorePresetEditor_listContainer_item">
-                Jon's Presets
-            </div>
-            <div class="messagingCorePresetEditor_listContainer_item">
-                JeNnnnsennnnnn's presets
-            </div>
-        </div>
+        <div class="messagingCorePresetEditor_listContainer" id="messagingCorePresetEditor_presetList_list"></div>
         <div class="messagingCorePresetEditor_controlButtons">
-            <div class="messagingCorePresetEditor_controlButtons_add">
+            <div id="messagingCorePresetEditor_addPresetButton" class="messagingCorePresetEditor_controlButtons_add">
                 ADD
             </div>
-            <div class="messagingCorePresetEditor_controlButtons_remove">
+            <div id="messagingCorePresetEditor_removePresetButton" class="messagingCorePresetEditor_controlButtons_remove">
                 REMOVE
             </div>
         </div>
@@ -62,7 +33,7 @@
         <input type="text" id="messagingCorePresetEditor_presetEditor_missionNameTextbox" placeholder="NEW MISSION">
         <div id="messagingCorePresetEditor_presetEditor_presetNameLabel">Preset Name</div>
         <input type="text" id="messagingCorePresetEditor_presetEditor_presetNameTextbox" placeholder="NEW PRESET">
-        <textarea id="messagingCorePresetEditor_presetEditor_presetTextarea" placeholder="Type new preset here..."></textarea>
+        <textarea spellcheck="true" id="messagingCorePresetEditor_presetEditor_presetTextarea" placeholder="Type new preset here..."></textarea>
         <div id="messagingCorePresetEditor_presetEditor_saveButton">Save</div>
     </div>
 </div>
@@ -103,7 +74,7 @@
     	</select>
     </div>
     <div id="messagingCore_channels_messageContainer"></div>
-    <textarea id="messagingCore_messageTextarea" placeholder="TYPE NEW MESSAGE HERE"></textarea>
+    <textarea spellcheck="true" id="messagingCore_messageTextarea" placeholder="TYPE NEW MESSAGE HERE"></textarea>
     <input type="button" id="messagingCore_sendMessageButton" title="PRO TIP!  Right click to change all text to uppercase (useful for copy and pasting text, as well as spell checking)" value="SEND MESSAGE">
     <div id="messagingCore_fromLabel">
     	Sender
