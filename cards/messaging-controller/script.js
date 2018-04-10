@@ -30,8 +30,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 						"prefix" : "<span style='color:yellow'>(SECURITY OFFICER)</span>",
 						"sentAt" : date object,
 						"color" : red,
-						"message" : "I'M CODE 4",
-						"hasBeenReadBy" : []
+						"message" : "I'M CODE 4"
 					}
 				]
 			}
@@ -88,7 +87,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		channelSelect.html(html);
 		channelSelect.attr("value",channels[selectedChannel].channelName);
 
-		var newMessageDetected = false;
+		/*var newMessageDetected = false;
 		for(var x = 0;x < channels.length;x++){
 			for(var i = 0;i < channels[x].messages.length;i++){
 				var newMessage = true;
@@ -106,7 +105,7 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 			newMessageLabel.fadeIn();
 		}else{
 			newMessageLabel.fadeOut();
-		}
+		}*/
 	}
 
 	function createMessageOnChannel(channel,message,prefix,from,color){
@@ -119,8 +118,8 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 			"prefix" : prefix != undefined ? prefix : "",
 			"sentAt" : new Date(),
 			"color" : color != undefined ? color : "rgba(255,255,255,.1)",
-			"message" : message != undefined ? message : "? UNABLE TO FIND MESSAGE ?",
-			"hasBeenReadBy" : [Interstellar.getStation()]
+			"message" : message != undefined ? message : "? UNABLE TO FIND MESSAGE ?"/*,
+			"hasBeenReadBy" : [Interstellar.getStation()]*/
 		}
 		var newChannels = [];
 		for(var i = 0;i < channels.length;i++){
@@ -139,12 +138,12 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 			lockScroll = messageAreaDOM.scrollHeight - messageAreaDOM.clientHeight <= messageAreaDOM.scrollTop + 1;
 		if(channels.length > channel){
 			for(var i = 0;i < channels[channel].messages.length;i++){
-				var newMessage = true;
-				for(var j = 0;j < channels[channel].messages[i].hasBeenReadBy.length;j++){
+				var newMessage = false;
+				/*for(var j = 0;j < channels[channel].messages[i].hasBeenReadBy.length;j++){
 					if(channels[channel].messages[i].hasBeenReadBy[j] == Interstellar.getStation()){
 						newMessage = false;
 					}
-				}
+				}*/
 				html += '<div class="mc_card_controller_message" style="' + (newMessage ? "background-color:rgba(255,0,0,.3)" : ("background-color:" + channels[channel].messages[i].color)) + '">';
 					html += '<div class="mc_card_controller_message_sender">';
 						html += channels[channel].messages[i].messageFrom == Interstellar.getStation() ? "YOU" : channels[channel].messages[i].prefix + " " + channels[channel].messages[i].messageFrom;
@@ -164,7 +163,6 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		messageArea.html(html);
 		if(requireNewMessageUpdate){
 			setTimeout(function(){
-				console.log("write");
 				Interstellar.setDatabaseValue("messaging.channels",channels);
 			},1000 + (500 * Math.random()));
 		}
@@ -200,12 +198,12 @@ var MC_CARD_CONTROLLER_CLASS = function(){
 		var newMessageDetected = false,
 			lockScroll = messageAreaDOM.scrollHeight - messageAreaDOM.clientHeight <= messageAreaDOM.scrollTop + 1;
 		for(var i = 0;i < channels[channel].messages.length;i++){
-			var newMessage = true;
-			for(var j = 0;j < channels[channel].messages[i].hasBeenReadBy.length;j++){
+			var newMessage = false;
+			/*for(var j = 0;j < channels[channel].messages[i].hasBeenReadBy.length;j++){
 				if(channels[channel].messages[i].hasBeenReadBy[j] == Interstellar.getStation()){
 					newMessage = false;
 				}
-			}
+			}*/
 			if(newMessage){
 				newMessageDetected = true;
 			}
