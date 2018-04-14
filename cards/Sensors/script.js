@@ -170,11 +170,13 @@ Interstellar.onDatabaseValueChange("sensors.externalScans.scanAnswer",function(n
     //new scan answer, woo
     scanAnswer = newData;
     //if we are making a scan, and it's past 100%, answer
-    if(scanAnswer != null && scanningObject.finishTime < Date.now()){
-        flashElement(scanAnswerTextArea,10);
-        scanAnswerTextArea.html(scanAnswer);
-        //and remove the old scan
-        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
+    if(scanningObject != null){
+        if(scanAnswer != null && scanningObject.finishTime < Date.now()){
+            flashElement(scanAnswerTextArea,10);
+            scanAnswerTextArea.html(scanAnswer);
+            //and remove the old scan
+            Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
+        }
     }
 });
 Interstellar.onDatabaseValueChange("sensors.infrared",function(newData){

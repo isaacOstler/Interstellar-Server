@@ -192,6 +192,7 @@ Interstellar.addCoreWidget("Sensor Scans",function(){
 			externalTextboxValue = responseTextarea.val();
 			Interstellar.setDatabaseValue("sensors.externalScans.scanAnswer",externalTextboxValue);
 			externalScanObject.timeFinished = Date.now() + 50;
+			console.log(externalScanObject);
 			Interstellar.setDatabaseValue("sensors.externalScans.scanObject",externalScanObject);
 		}
 	});
