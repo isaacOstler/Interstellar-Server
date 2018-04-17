@@ -524,11 +524,10 @@ function animationCycle(newData){
                         //BOOOM!!! AAHAHAH (remove the contact and create an explosion)
                         if(weapons[l].GUID == CompoundContactsArray[i].GUID){
                             //console.log(GUID_ofImpactedObject + " WAS HIT BY A " + CompoundContactsArray[i].type + "!");
-                            createExplosionAtPoint(CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,Math.random() * .04 + .01);
                             //remove this weapon
                             weapons.splice(l,1);
                             CompoundContactsArray.splice(i,1);
-                            break;
+                            createExplosionAtPoint(CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,Math.random() * .04 + .01);
                         }
                     }
                 }
