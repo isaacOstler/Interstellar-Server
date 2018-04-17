@@ -1,3 +1,80 @@
+<div id="processedDataSettingsWindow" class="coreWindow" windowName="Processed Data Settings" style="width: 925px;height: 500px;top:230px;left: 230px">
+	<div id="processedDataSettingsWindow_menu">
+		<div class="processedDataSettingsWindow_menuItem" index="0">
+			PRESETS
+		</div>
+		<div class="processedDataSettingsWindow_menuItem" index="1">
+			AUTOMATOR
+		</div>
+		<div class="processedDataSettingsWindow_menuItem" index="2">
+			HOTKEYS
+		</div>
+	</div>
+	<div id="processedDataSettingsWindow_presetsSection">
+		<div id="processedDataSettingsWindow_presetsSection_missionList">
+			<div class="processedDataSettingsWindow_listHeaderContainer noselect">
+				Mission
+			</div>
+			<div id="processedDataSettingsWindow_presetsSection_missionList_missions" class="processedDataSettingsWindow_listContainer noselect">
+				<div class="processedDataSettingsWindow_listContainer_item">
+					<div class="processedDataSettingsWindow_listContainer_item_title">
+						Mission Name
+					</div>
+					<div class="processedDataSettingsWindow_listContainer_item_delete" title="Delete Mission">
+						🗑
+					</div>
+					<div class="processedDataSettingsWindow_listContainer_item_up" title="Sort Up One Position">
+						↑
+					</div>
+					<div class="processedDataSettingsWindow_listContainer_item_down" title="Sort Down One Position">
+						↓
+					</div>
+				</div>
+				<div class="processedDataSettingsWindow_listContainer_addItem">
+					New Mission
+				</div>
+			</div>
+		</div>
+		<div id="processedDataSettingsWindow_presetsSection_presetList">
+			<div class="processedDataSettingsWindow_listHeaderContainer noselect">
+				Preset
+			</div>
+			<div id="processedDataSettingsWindow_presetsSection_presetList_presets" class="processedDataSettingsWindow_listContainer noselect">
+				<div class="processedDataSettingsWindow_listContainer_item">
+					<div class="processedDataSettingsWindow_listContainer_item_title">
+						Preset Name
+					</div>
+					<div class="processedDataSettingsWindow_listContainer_item_delete" title="Delete Preset">
+						🗑
+					</div>
+					<div class="processedDataSettingsWindow_listContainer_item_up" title="Sort Up One Preset">
+						↑
+					</div>
+					<div class="processedDataSettingsWindow_listContainer_item_down" title="Sort Down One Preset">
+						↓
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="processedDataSettingsWindow_presetsSection_presetEditor">
+			<div class="noselect" id="processedDataSettingsWindow_presetsSection_presetEditor_missionNameLabel">
+				Mission Name
+			</div>
+			<input type="text" placeholder="New Mission..." id="processedDataSettingsWindow_presetsSection_presetEditor_missionNameTextbox">
+			<div class="noselect" id="processedDataSettingsWindow_presetsSection_presetEditor_presetNameLabel">
+				Preset Name
+			</div>
+			<input type="text" placeholder="New Preset..." id="processedDataSettingsWindow_presetsSection_presetEditor_presetNameTextbox">
+			<textarea id="processedDataSettingsWindow_presetsSection_presetEditor_presetTextarea" placeholder="Type Preset Here..."></textarea>
+		</div>
+		<div id="processedDataSettingsWindow_presetsSection_saveButton">
+			Save Preset
+		</div>
+		<div id="processedDataSettingsWindow_presetsSection_deleteButton">
+			Delete Preset
+		</div>
+	</div>
+</div>
 <div id="processedData-Core-Widget" widgetName="Processed Data" class="Core_Theme-CoreWidget" style="width: 290px;height: 155px;top: 656px;left: 800px;">
 	<link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=processed-data-core">
 	<textarea id="processedData-Core-Widget-processedDataTextfield" spellcheck="true"></textarea>
@@ -10,11 +87,13 @@
 		<input type="button" class="coreButton" value="F&S" id="processedData-Core-Widget-processedDataControls-flashAndSendButton">
 		<input type="button" class="coreButton" value="Next >>" id="processedData-Core-Widget-processedDataControls-nextButton">
 		<input type="button" class="coreButton" value="<< Back" id="processedData-Core-Widget-processedDataControls-backButton">
-		<input type="button" class="coreButton" value="Edit Presets" id="processedData-Core-Widget-processedDataControls-editPresetsButton">
+		<input type="button" class="coreButton" value="Settings" id="processedData-Core-Widget-processedDataControls-editPresetsButton">
 		<div id="processedData-Core-Widget-processedDataControls-altEditPresetsButton" class="gearIcon"></div>
 		<div id="processedData-Core-Widget-processedDataControls-allowFontSizeAdjust">
 			<input type="checkbox" id="processedData-Core-Widget-processedDataControls-allowFontSizeAdjust-fontAdjustCheckbox" checked="checked" title="This checkbox can be removed in the sensors preferences"> Font Adjust
 		</div>
 	</div>
+	<script src="/jquery" type="text/javascript"></script>
 	<script src="/resource?path=script.js&screen=processed-data-core" type="text/javascript"></script>
+	<script src="/resource?path=presetEditor.js&screen=processed-data-core" type="text/javascript"></script>
 </div>
