@@ -1,8 +1,101 @@
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=weapons-control-core">
-<div id="Login_Names-Core-Widget" widgetName="Weapons Control" class="Core_Theme-CoreWidget" style="width: 600px;
-    height: 300px;
+<div id="weaponsControlCore" widgetName="Weapons Control" class="Core_Theme-CoreWidget" style="width: 350px;
+    height: 500px;
     top: 149px;
-    left: 40px;">
+	left: 40px;">
+	<div id="weaponsControlCore_phaserContainer">
+		<div id="weaponsControlCore_phaserContainer_header">
+			<div id="weaponsControlCore_phaserContainer_header_heatLabel">
+				Phaser Heat
+			</div>
+			<div id="weaponsControlCore_phaserContainer_header_chargeLabel">
+				Charge
+			</div>
+		</div>
+		<div id="weaponsControlCore_phaserContainer_heat">
+			<div class="weaponsControlCore_phaserContainer_heat_item">
+				<div class="weaponsControlCore_phaserContainer_heat_item_label">
+					PORT PHASER
+				</div>
+				<div class="weaponsControlCore_phaserContainer_heat_item_barContainer">
+					<div class="weaponsControlCore_phaserContainer_heat_item_barContainer_fill"></div>
+				</div>
+				<input type="text" placeholder="0%" class="weaponsControlCore_phaserContainer_heat_item_chargeTextbox">
+			</div>
+			<div class="weaponsControlCore_phaserContainer_heat_item">
+				<div class="weaponsControlCore_phaserContainer_heat_item_label">
+					STARBOARD PHASER
+				</div>
+				<div class="weaponsControlCore_phaserContainer_heat_item_barContainer">
+					<div class="weaponsControlCore_phaserContainer_heat_item_barContainer_fill"></div>
+				</div>
+				<input type="text" placeholder="0%" class="weaponsControlCore_phaserContainer_heat_item_chargeTextbox">
+			</div>
+			<div class="weaponsControlCore_phaserContainer_heat_item">
+				<div class="weaponsControlCore_phaserContainer_heat_item_label">
+					PORT BOW PHASER
+				</div>
+				<div class="weaponsControlCore_phaserContainer_heat_item_barContainer">
+					<div class="weaponsControlCore_phaserContainer_heat_item_barContainer_fill"></div>
+				</div>
+				<input type="text" placeholder="0%" class="weaponsControlCore_phaserContainer_heat_item_chargeTextbox">
+			</div>
+			<div class="weaponsControlCore_phaserContainer_heat_item">
+				<div class="weaponsControlCore_phaserContainer_heat_item_label">
+					STARBOARD BOW PHASER
+				</div>
+				<div class="weaponsControlCore_phaserContainer_heat_item_barContainer">
+					<div class="weaponsControlCore_phaserContainer_heat_item_barContainer_fill"></div>
+				</div>
+				<input type="text" placeholder="0%" class="weaponsControlCore_phaserContainer_heat_item_chargeTextbox">
+			</div>
+			<div class="weaponsControlCore_phaserContainer_heat_item">
+				<div class="weaponsControlCore_phaserContainer_heat_item_label">
+					PORT QUARTER PHASER
+				</div>
+				<div class="weaponsControlCore_phaserContainer_heat_item_barContainer">
+					<div class="weaponsControlCore_phaserContainer_heat_item_barContainer_fill"></div>
+				</div>
+				<input type="text" placeholder="0%" class="weaponsControlCore_phaserContainer_heat_item_chargeTextbox">
+			</div>
+			<div class="weaponsControlCore_phaserContainer_heat_item">
+				<div class="weaponsControlCore_phaserContainer_heat_item_label">
+					STAR QUARTER PHASER
+				</div>
+				<div class="weaponsControlCore_phaserContainer_heat_item_barContainer">
+					<div class="weaponsControlCore_phaserContainer_heat_item_barContainer_fill"></div>
+				</div>
+				<input type="text" placeholder="0%" class="weaponsControlCore_phaserContainer_heat_item_chargeTextbox">
+			</div>
+		</div>
+	</div>
+	<div id="weaponsControlCore_torpedoContainer">
+		<div id="weaponsControlCore_torpedoContainer_header">
+			<div id="weaponsControlCore_torpedoContainer_header_torpedoLabel">
+				Torpedo Launchers
+			</div>
+			<div id="weaponsControlCore_torpedoContainer_header_loadedLabel">
+				Loaded
+			</div>
+		</div>
+		<div class="weaponsControlCore_torpedoContainer_item">
+			<div class="weaponsControlCore_torpedoContainer_item_label">Forward Torpedo Launcher</div>
+			<div class="weaponsControlCore_torpedoContainer_item_torpedos">
+				<input type="text" placeholder="0" class="weaponsControlCore_torpedoContainer_item_torpedos_textbox">
+				<div class="weaponsControlCore_torpedoContainer_item_torpedos_slash">/</div>
+				<div class="weaponsControlCore_torpedoContainer_item_torpedos_max">50</div>
+			</div>
+			<div class="weaponsControlCore_torpedoContainer_item_loaded">NO</div>
+		</div>
+	</div>
+	<div id="weaponsControlCore_settings">
+		<div id="weaponsControlCore_settings_difficultyLabel">Aim Difficulty</div>
+		<input type="text" class="weaponsControlCore_settings_difficultyTextbox">
+		<div id="weaponsControlCore_settings_canDestroyLabel">Can Destroy Ships</div>
+		<input type="check" class="weaponsControlCore_settings_canDestroyCheckbox">
+		<div id="weaponsControlCore_settings_playSFXLabel">Play Sound Effects</div>
+		<input type="check" class="weaponsControlCore_settings_playSFXCheckbox">
+	</div>
 </div>
 <script src="/jquery"></script>
 <script src="/resource?path=script.js&screen=weapons-control-core" type="text/javascript"></script>
