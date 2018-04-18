@@ -52,7 +52,7 @@ var stations,
 
 app.on('ready', function() {
     //check for updates
-    autoUpdater.checkForUpdatesAndNotify();
+    //autoUpdater.checkForUpdatesAndNotify();
     //start file management
     for (var i = 0; i < process.argv.length; i++) {
         //do we need to build cards?
