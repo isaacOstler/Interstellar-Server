@@ -1,0 +1,8 @@
+{
+	"cardName":"weapons-control-core",
+	"cardType":"coreWidget",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the flight director to monitor weapons status"
+}
