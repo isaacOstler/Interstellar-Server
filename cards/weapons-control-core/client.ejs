@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=weapons-control-core">
 <div id="weaponsControlCore" widgetName="Weapons Control" class="Core_Theme-CoreWidget" style="width: 350px;
-    height: 500px;
+    height: 400px;
     top: 149px;
 	left: 40px;">
 	<div id="weaponsControlCore_phaserContainer">
@@ -78,23 +78,37 @@
 				Loaded
 			</div>
 		</div>
-		<div class="weaponsControlCore_torpedoContainer_item">
-			<div class="weaponsControlCore_torpedoContainer_item_label">Forward Torpedo Launcher</div>
-			<div class="weaponsControlCore_torpedoContainer_item_torpedos">
-				<input type="text" placeholder="0" class="weaponsControlCore_torpedoContainer_item_torpedos_textbox">
-				<div class="weaponsControlCore_torpedoContainer_item_torpedos_slash">/</div>
-				<div class="weaponsControlCore_torpedoContainer_item_torpedos_max">50</div>
+		<div id="weaponsControlCore_torpedoContainer_itemContainer">
+			<div class="weaponsControlCore_torpedoContainer_itemContainer_item">
+				<div class="weaponsControlCore_torpedoContainer_itemContainer_item_label">Forward Torpedo Launcher</div>
+				<div class="weaponsControlCore_torpedoContaine_itemContainer_item_torpedos">
+					<input type="text" placeholder="50" class="weaponsControlCore_torpedoContainer_itemContainer_item_torpedos_textbox">
+					<div class="weaponsControlCore_torpedoContainer_itemContainer_item_torpedos_slash">/</div>
+					<div class="weaponsControlCore_torpedoContainer_itemContainer_item_torpedos_max">50</div>
+				</div>
+				<div class="weaponsControlCore_torpedoContainer_itemContainer_item_loaded">NO</div>
 			</div>
-			<div class="weaponsControlCore_torpedoContainer_item_loaded">NO</div>
+			<div class="weaponsControlCore_torpedoContainer_itemContainer_item">
+				<div class="weaponsControlCore_torpedoContainer_itemContainer_item_label">Aft Torpedo Launcher</div>
+				<div class="weaponsControlCore_torpedoContaine_itemContainer_item_torpedos">
+					<input type="text" placeholder="50" class="weaponsControlCore_torpedoContainer_itemContainer_item_torpedos_textbox">
+					<div class="weaponsControlCore_torpedoContainer_itemContainer_item_torpedos_slash">/</div>
+					<div class="weaponsControlCore_torpedoContainer_itemContainer_item_torpedos_max">50</div>
+				</div>
+				<div class="weaponsControlCore_torpedoContainer_itemContainer_item_loaded">NO</div>
+			</div>
 		</div>
 	</div>
 	<div id="weaponsControlCore_settings">
 		<div id="weaponsControlCore_settings_difficultyLabel">Aim Difficulty</div>
-		<input type="text" class="weaponsControlCore_settings_difficultyTextbox">
+		<input type="text" placeholder="1" value="1" id="weaponsControlCore_settings_difficultyTextbox">
 		<div id="weaponsControlCore_settings_canDestroyLabel">Can Destroy Ships</div>
-		<input type="check" class="weaponsControlCore_settings_canDestroyCheckbox">
+		<input type="checkbox" id="weaponsControlCore_settings_canDestroyCheckbox">
 		<div id="weaponsControlCore_settings_playSFXLabel">Play Sound Effects</div>
-		<input type="check" class="weaponsControlCore_settings_playSFXCheckbox">
+		<input type="checkbox" id="weaponsControlCore_settings_playSFXCheckbox">
+		<div id="weaponsControlCore_settings_heatLabel">Heat</div>
+		<input type="range" id="weaponsControlCore_settings_heatSlider" min="0" max="10" value="1">
+		<input type="text" placeholder="1" value="1" id="weaponsControlCore_settings_heatTextbox">
 	</div>
 </div>
 <script src="/jquery"></script>
