@@ -102,7 +102,7 @@ Interstellar.addCoreWidget("Weapons Control",function(){
 			if(weapons[i].type == "phaser"){
 				$("[weaponsCorePhaserHeatIndex=" + i + "]").css("width",weapons[i].weaponStatus.phaserHeat * 100 + "%");
 				$("[weaponsCorePhaserChargeIndex=" + i + "]").val(Math.round(weapons[i].weaponStatus.phaserCharge * 100) + "%");
-				var adjustedColor = Interstellar.rotateHue("#FF0000",-120 * weapons[i].weaponStatus.phaserCharge);
+				var adjustedColor = Interstellar.rotateHue("#FF0000",120 * weapons[i].weaponStatus.phaserCharge);
 				$("[weaponsCorePhaserChargeIndex=" + i + "]").css("background-color",adjustedColor);
 			}
 		}
@@ -118,4 +118,22 @@ Interstellar.addCoreWidget("Weapons Control",function(){
 	}
 	//event handlers
 
+	//intervals
+	setInterval(function(){
+		var willUpdate = false;
+		for(var i = 0;i < weapons.length;i++){
+			if(weapons[i].type == "phaser"){
+				if(weapons[i].weaponStatus.phaserHeat > 0){
+					willUpdate = true;
+					weapons[i].weaponStatus.phaserHeat -= .01 * Math.random();
+				}else{
+					willUpdate = true;
+					weapons[i].weaponStatus.phaserHeat = 0;
+				}
+			}
+		}
+		if(willUpdate){
+			Interstellar.setDatabaseValue("weapons.weaponStatus",weapons);
+		}
+	},0500);
 });
