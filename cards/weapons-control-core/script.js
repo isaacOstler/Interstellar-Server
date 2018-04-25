@@ -6,7 +6,8 @@ Interstellar.addCoreWidget("Weapons Control",function(){
 		weaponsLastLength = -1;
 
 	//DOM References
-	var phaserHeatContainer = $("#weaponsControlCore_phaserContainer_heat");
+	var phaserHeatContainer = $("#weaponsControlCore_phaserContainer_heat"),
+		torpedoContainer = $("#weaponsControlCore_torpedoContainer_itemContainer");
 	//init calls
 
 	//interstellar calls
@@ -30,8 +31,8 @@ Interstellar.addCoreWidget("Weapons Control",function(){
 			drawGUI();
 			return;
 		}
-		updateCharge();
-		updateHeat();
+		updateHeatAndChargeOfPhasers();
+		updateStatusOfTorpedoLaunchers();
 	});
 
 	//functions
@@ -39,7 +40,8 @@ Interstellar.addCoreWidget("Weapons Control",function(){
 		var html = "",
 			numberOfPhasers = 0,
 			numberOfTorpedos = 0,
-			numberOfPhasersInited = 0;
+			numberOfPhasersInited = 0,
+			numberOfTorpedosInited = 0;
 
 		for(var i = 0;i < weapons.length;i++){
 			if(weapons[i].type == "phaser"){
@@ -69,15 +71,50 @@ Interstellar.addCoreWidget("Weapons Control",function(){
 			}
 		}
 		phaserHeatContainer.html(html);
-	}
-	function updateCharge(){
+		html = "";
 		for(var i = 0;i < weapons.length;i++){
-			$("[weaponsCorePhaserHeatIndex=" + i + "]").css("width",weapons[i].weaponStatus.phaserHeat * 100 + "%");
-			$("[weaponsCorePhaserChargeIndex=" + i + "]").val(weapons[i].weaponStatus.phaserCharge * 100 + "%");
+			if(weapons[i].type == "torpedo"){
+				var style = 'style="height:' + Number(phaserHeatContainer.height() / numberOfPhasers) + 'px';
+				numberOfTorpedosInited++;
+				if(numberOfPhasersInited == numberOfPhasers){
+					style = 'style="border-bottom:0px;height:' + ((phaserHeatContainer.height() / numberOfPhasers) - 5) + 'px';
+				}
+				
+				html += '<div class="weaponsControlCore_torpedoContainer_itemContainer_item">';
+					html += '<div class="weaponsControlCore_torpedoContainer_itemContainer_item_label">';
+					html += weapons[i].weaponName
+					html += '</div>';
+					html += '<div class="weaponsControlCore_torpedoContaine_itemContainer_item_torpedos">';
+						html += '<input weaponsCoreTorpedoLoadedTextbox="' + i + '" type="text" placeholder="50" value="' + weapons[i].weaponStatus.torpedoCount + '" class="weaponsControlCore_torpedoContainer_itemContainer_item_torpedos_textbox">';
+						html += '<div class="weaponsControlCore_torpedoContainer_itemContainer_item_torpedos_slash">/</div>';
+						html += '<div class="weaponsControlCore_torpedoContainer_itemContainer_item_torpedos_max">50</div>';
+					html += '</div>';
+					html += '<div weaponsCoreTorpedoLoadedIndex="' + i + '" class="weaponsControlCore_torpedoContainer_itemContainer_item_loaded">' + (weapons[i].weaponStatus.torpedoLoaded ? "YES" : "NO") + '</div>';
+				html += '</div>';
+			}
+		}
+		torpedoContainer.html(html);
+		updateHeatAndChargeOfPhasers();
+		updateStatusOfTorpedoLaunchers();
+	}
+	function updateHeatAndChargeOfPhasers(){
+		for(var i = 0;i < weapons.length;i++){
+			if(weapons[i].type == "phaser"){
+				$("[weaponsCorePhaserHeatIndex=" + i + "]").css("width",weapons[i].weaponStatus.phaserHeat * 100 + "%");
+				$("[weaponsCorePhaserChargeIndex=" + i + "]").val(Math.round(weapons[i].weaponStatus.phaserCharge * 100) + "%");
+				var adjustedColor = Interstellar.rotateHue("#FF0000",-120 * weapons[i].weaponStatus.phaserCharge);
+				$("[weaponsCorePhaserChargeIndex=" + i + "]").css("background-color",adjustedColor);
+			}
 		}
 	}
-	function updateHeat(){
-
+	function updateStatusOfTorpedoLaunchers(){
+		for(var i = 0;i < weapons.length;i++){
+			if(weapons[i].type == "torpedo"){
+				$("[weaponsCoreTorpedoLoadedTextbox=" + i + "]").val(weapons[i].weaponStatus.torpedoCount);
+				$("[weaponsCoreTorpedoLoadedIndex=" + i + "]").html(weapons[i].weaponStatus.torpedoLoaded ? "YES" : "NO");
+				$("[weaponsCoreTorpedoLoadedIndex=" + i + "]").css("background-color",weapons[i].weaponStatus.torpedoLoaded ? "lime" : "red");
+			}
+		}
 	}
 	//event handlers
 
