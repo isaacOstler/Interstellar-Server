@@ -1,40 +1,94 @@
 <link rel="stylesheet" type="text/css" href="/stationThemes">
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css">
+<div id="dispatchBlackoutArea"></div>
+<div id="dispatchBlackoutArea_dispatchItemSpecific"></div>
 <div id="contentArea" class="noselect">
-	<div id="avaliableOfficerContainer" class="container4">
-		<div class="list" id="avaliableOfficerContainer_list" droplist="true" ondrop="drop(event)" ondragover="event.preventDefault()"></div>
-	</div>
-	<div id="officersEnRouteContainer" class="container4">
-		<div class="list" id="officersEnRouteContainer_list"></div>
-	</div>
-	<div id="officersOnSceneContainer" class="container4">
-		<div class="list" id="officersOnSceneContainer_list"></div>
-	</div>
-	<div id="officersRecalledContainer" class="container4">
-		<div class="list" id="officersRecalledContainer_list" droplist="true" class='list' ondrop="drop(event)" ondragover="event.preventDefault()"></div>
-	</div>
-	<div id="avaliableOfficerLabel">AVAILABLE OFFICERS</div>
-	<div id="officersEnRouteLabel">EN ROUTE</div>
-	<div id="officersOnSceneLabel">ON SCENE</div>
-	<div id="officersRecalledLabel">RECALLED</div>
-	<div id="dispatchControls" class="container4">
-		<div id="dispatchControls_location">
-			<div id="dispatchControls_location_deckLabel">
-				DISPATCH OFFICERS TO DECK
-			</div>
-			<select id="dispatchControls_location_deck">
-				<option>DECK 1</option>
-			</select>
-			<div id="dispatchControls_location_roomLabel">
-				ROOM
-			</div>
-			<select id="dispatchControls_location_room">
-				<option>BRIDGE</option>
-			</select>
+	<div id="officersLabel">SECURITY OFFICERS</div>
+	<div id="officersList">
+		<div class="officerItem">
+			OSTLER, ISAAC
 		</div>
-		<div id="dispatchControls_officerList_label">OFFICERS TO DISPATCH</div>
-		<div id="dispatchControls_officerList" droplist="true" class='list' ondrop="drop(event)" ondragover="event.preventDefault()"></div>
+		<div class="officerItem">
+			WILLIAMSON, VICTOR
+		</div>
 	</div>
+	<div id="officerKey">
+		<div class="officerKeyItem" style="background-color: rgba(255,255,255,.3);">
+			<span style="color:white;">WHITE</span><span class="officerKeyItem_info">OFFICER UNASSIGNED</span>
+		</div>
+		<div class="officerKeyItem" style="background-color: rgba(55,55,55,.3);">
+			<span style="color:grey;">GREY</span><span class="officerKeyItem_info">OFFICER OFF DUTY</span>
+		</div>
+		<div class="officerKeyItem" style="background-color: rgba(255,128,0,.3);">
+			<span style="color:orange;">ORANGE</span><span class="officerKeyItem_info">OFFICER EN ROUTE</span>
+		</div>
+		<div class="officerKeyItem" style="background-color: rgba(0,128,255,.3);">
+			<span style="color:cyan;">BLUE</span><span class="officerKeyItem_info">OFFICER ON SCENE</span>
+		</div>
+		<div class="officerKeyItem" style="background-color: rgba(255,255,0,.3);">
+			<span style="color:yellow;">YELLOW</span><span class="officerKeyItem_info">OFFICER RETURNING</span>
+		</div>
+		<div class="officerKeyItem" style="background-color: rgba(255,0,0,.3);">
+			<span style="color:red;">RED</span><span class="officerKeyItem_info">OFFICER STATUS UNKNOWN</span>
+		</div>
+	</div>
+	<div class="beepOnClick Button2" id="dispatchButton">
+		NEW DISPATCH
+	</div>
+	<div id="dispatchTasksInfo">
+		<div class="beepOnClick" id="dispatchTasksInfo_closeButton">
+			CLOSE
+		</div>
+		<div id="dispatchTasksInfo_title">DISPATCH TASKS</div>
+		<div id="dispatchTasksInfo_subtitle">LISTED BELOW ARE TASKS THAT SHOULD BE ACCOMPLISHED WITH EVERY CALL, AND THE TIME THEY SHOULD BE ACCOMPLISHED</div>
+		<div id="dispatchTasksInfo_list">
+			<div id="dispatchTasksInfo_list_header" style="font-size:22px">
+				<div class="dispatchTasksInfo_list_item_name">TASK</div>
+				<div class="dispatchTasksInfo_list_item_byTime">COMPLETE AT TIME</div>
+				<div class="dispatchTasksInfo_list_item_description">TASK DESCRIPTION</div>
+			</div>
+			<div class="dispatchTasksInfo_list_item">
+				<div class="dispatchTasksInfo_list_item_name">INITIAL DISPATCH</div>
+				<div class="dispatchTasksInfo_list_item_byTime">0:00 (UPON DISPATCH)</div>
+				<div class="dispatchTasksInfo_list_item_description">OVER MESSAGING OR RADIO, INFORM THE DISPATCHED OFFICERS THAT THEY ARE BEING DISPATCHED, ANY ADDITIONAL INFORMATION, AND TO CONTACT YOU WITH ANY QUESTIONS</div>
+			</div>
+			<div class="dispatchTasksInfo_list_item">
+				<div class="dispatchTasksInfo_list_item_name">ARRIVAL CHECK</div>
+				<div class="dispatchTasksInfo_list_item_byTime">7:00 (IF NOT ARRIVED)</div>
+				<div class="dispatchTasksInfo_list_item_description">IF THE OFFICER HAS NOT ARRIVED AT THEIR DESTINATION WITHIN 7 MINUTES, CHECK WITH THEM OVER THE RADIO OR MESSAGING TO ASSESS THEIR CURRENT POSITION / STATUS</div>
+			</div>
+			<div class="dispatchTasksInfo_list_item">
+				<div class="dispatchTasksInfo_list_item_name">SCENE CHECK</div>
+				<div class="dispatchTasksInfo_list_item_byTime">5:00 (10 MINUTES AFTER ARRIVAL)</div>
+				<div class="dispatchTasksInfo_list_item_description">AFTER 5 MINUTES, IF YOU HAVE NOT HEARD FROM THE OFFICER YOU SHOULD CHECK THEIR STATUS.  ARE THEY OKAY?  DOES THE TEAM NEED ADDITIONAL RESOURCES?  HAS THE SITUATION GOTTEN BETTER OR WORSE?</div>
+			</div>
+			<div class="dispatchTasksInfo_list_item">
+				<div class="dispatchTasksInfo_list_item_name">CODE-4 CHECK</div>
+				<div class="dispatchTasksInfo_list_item_byTime">HAVEN'T HEARD FROM OFFICER FOR MORE THAN 10:00</div>
+				<div class="dispatchTasksInfo_list_item_description">IS THE OFFICER "CODE-4"? (IS THE OFFICER OKAY?  DO THEY RESPOND TO RADIO / MESSAGING CHECKS?  IF NOT, DISPATCH ADDITIONAL UNITS TO CHECK ON THEM)</div>
+			</div>
+			<div class="dispatchTasksInfo_list_item">
+				<div class="dispatchTasksInfo_list_item_name">DANGEROUS SITUATION</div>
+				<div class="dispatchTasksInfo_list_item_byTime">5:00 (EVERY 5 MINUTES)</div>
+				<div class="dispatchTasksInfo_list_item_description">IF THE OFFICER IS BEING SENT TO A PARTICULARLY DANGEROUS SITUATION (INTRUDER, FIRE, UNKNOWN PROBLEM, ETC), THEY SHOULD BE CHECKED EVERY 5 MINUTES.</div>
+			</div>
+			<div class="dispatchTasksInfo_list_item">
+				<div class="dispatchTasksInfo_list_item_name">MEDICAL EMERGENCY</div>
+				<div class="dispatchTasksInfo_list_item_byTime">10:00</div>
+				<div class="dispatchTasksInfo_list_item_description">IF THE OFFICER IS BEING SENT AS A FIRST RESPONDER TO A MEDICAL EMERGENCY, YOU SHOULD CHECK WITH THEM AFTER 10 MINUTES.  CAN THE PATIENT WALK?  DO THEY NEED A MEDICAL TEAM FROM SICKBAY?  IS THE PATIENT CRITICALLY INJURED?</div>
+			</div>
+		</div>
+	</div>
+	<div id="dispatchTasks" class="beepOnClick">
+		VIEW DISPATCH TASKS &ensp;
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    		<path d="M0 0h24v24H0z" fill="none"/>
+    		<path fill="white" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+		</svg>
+	</div>
+	<canvas id="canvas">
+		
+	</canvas>
 </div>
 <script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
 <script src="/resource?path=script.js" type="text/javascript"></script>

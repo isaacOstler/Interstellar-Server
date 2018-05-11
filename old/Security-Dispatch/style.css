@@ -1,0 +1,146 @@
+#dispatchControls_location_roomLabel{
+	position: absolute;
+	font-size: 32px;
+	bottom: 4px;
+}
+#dispatchControls_location_room{
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	width: calc(100% - 60px);
+	zoom: 1.25;
+}
+#dispatchControls_location_deck{
+	position: absolute;
+	right: 0px;
+	zoom: 1.25;
+}
+#dispatchControls_location{
+	position: absolute;
+	top:5%;
+	left: 37%;
+	width: 60%;
+	height: 20%;
+}
+#dispatchControls_location_deckLabel{
+	position: absolute;
+	font-size: 32px;
+	left: 0px;
+	top:4px;
+	height: 0px;
+}
+#dispatchControls_officerList{
+	position: absolute;
+	top:45px;
+	left: 15px;
+	height: calc(100% - 60px);
+	width: calc(35% - 15px);
+}
+#dispatchControls_officerList_label{
+	position: absolute;
+	width: calc(35% - 15px);
+	text-align: center;
+}
+.list{
+	position: absolute;
+	top:9px;
+	left: 9px;
+	width: calc(100% - 18px);
+	height: calc(100% - 18px);
+	background-color: rgba(0,0,0,.8);
+	border: 1px solid white;
+	overflow: auto;
+}
+.room{
+	cursor: -webkit-grab;
+	padding-left: 4px;
+	position: relative;
+	width: 100%;
+}
+.roomHeader{
+	width: 100%;
+	height: 26px;
+	background-color: rgba(255,255,255,.2);
+}
+.listItem{
+	cursor: -webkit-grab;
+	padding-left: 4px;
+	position: relative;
+	width: 100%;
+	height: 28px;
+	border-bottom: 1px solid white;
+}
+.listItem:hover{
+	filter: brightness(1.25);
+}
+.listItem:active{
+	cursor: -webkit-grabbing;
+	filter: brightness(0.65);
+}
+#avaliableOfficerContainer{
+	position: absolute;
+	top:5%;
+	left: 0%;
+	width: 25%;
+	height: 90%;
+}
+#avaliableOfficerLabel{
+	position: absolute;
+	top:1.5%;
+	left: 0%;
+	font-size: 34px;
+	width: 25%;
+	text-align: center;
+}
+#officersOnSceneLabel{
+	position: absolute;
+	top:1.5%;
+	left: 50%;
+	font-size: 34px;
+	width: 25%;
+	text-align: center;
+}
+#dispatchControls{
+	position: absolute;
+	top:45%;
+	left: 25%;
+	width: 75%;
+	height: 50%;
+}
+#officersRecalledLabel{
+	position: absolute;
+	top:1.5%;
+	left: 75%;
+	font-size: 34px;
+	width: 25%;
+	text-align: center;
+}
+#officersOnSceneContainer{
+	position: absolute;
+	top:5%;
+	left: 50%;
+	width: 25%;
+	height: 40%;
+}
+#officersRecalledContainer{
+	position: absolute;
+	top:5%;
+	left: 75%;
+	width: 25%;
+	height: 40%;
+}
+#officersEnRouteContainer{
+	position: absolute;
+	top:5%;
+	left: 25%;
+	width: 25%;
+	height: 40%;
+}
+#officersEnRouteLabel{
+	position: absolute;
+	top:1.5%;
+	left: 25%;
+	font-size: 34px;
+	width: 25%;
+	text-align: center;
+}
