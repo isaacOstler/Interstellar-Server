@@ -1,3 +1,112 @@
+#securityInformation_currentOrders{
+	position: absolute;
+	top: 337px;
+	/* left: 20px; */
+	height: 96px;
+	overflow: auto;
+}
+#securityInformation_currentOrdersLabel{
+	position: absolute;
+	top: 333px;
+	left: 20px;
+}
+#securityInformation_currentRoomLabel{
+	position: absolute;
+	top: 303px;
+	left: 20px;
+}
+#securityInformation_currentDeck{
+	position: absolute;
+	top: 278px;
+}
+#securityInformation_currentRoom{
+	position: absolute;
+	top: 306px;
+	/* right: 20px; */
+	height: 20px;
+}
+#securityInformation_specialty{
+	position: absolute;
+	top: 250px;
+	/* left: 20px; */
+}
+#securityInformation_specialtyLabel{
+	position: absolute;
+	top:40px;
+	left: 20px
+
+}
+#securityInformation_rank{
+	position: absolute;
+	top: 222px;
+	/* left: 20px */
+}
+#securityInformation_rankLabel{
+	position: absolute;
+	top: 217px;
+	left: 20px;
+}
+#securityInformation_speciesLabel{
+	position: absolute;
+	top: 163px;
+	left: 20px;
+}
+#securityOfficerInformation_label{
+	position: absolute;
+	top: 4px;
+	left: 6px;
+}
+#securityInformation_firstNameLabel{
+	position: absolute;
+	top: 49px;
+	left: 20px;
+}
+#securityInformation_firstName{
+	position: absolute;
+	top: 52px;
+	/* left: 20px; */
+}
+#securityInformation_lastNameLabel{
+	position: absolute;
+	top: 77px;
+	left: 20px;
+}
+#securityInformation_lastName{
+	position: absolute;
+	top: 80px;
+	/* left: 20px; */
+}
+#securityInformation_middleNameLabel{
+	position: absolute;
+	top: 105px;
+	left: 20px;
+}
+#securityInformation_middleName{
+	position: absolute;
+	top: 108px;
+	right: 28px;
+	/* width: calc(100% - 220px); */
+}
+#securityInformation_age{
+	position: absolute;
+	top: 137px;
+	right: 28px;
+	/* width: calc(100% - 228px); */
+}
+#securityInformation_ageLabel{
+	position: absolute;
+	top: 133px;
+	left: 20px;
+}
+#securityOfficerInformation{
+	z-index: 2;
+	position: absolute;
+	top: 7.35%;
+	height: 60%;
+	left: 35%;
+	/* opacity: .9; */
+	width: 48%;
+}
 #dispatchButton{
 	position: absolute;
 	bottom: 5%;
@@ -140,12 +249,26 @@
 	overflow: auto;
 	background-color: rgba(0,0,0,.6);
 }
+#securityInformation_species{
+	position: absolute;
+	top: 165px;
+}
+#securityInformation_currentDeckLabel{
+	position: absolute;
+	top: 274px;
+	left: 20px;
+}
 #dispatchTasksInfo_list_header{
 	position: relative;
 	float: left;
 	width: 100%;
 	height: 26px;
 	border-bottom: 1px solid white;
+}
+#securityInformation_specialtyLabel{
+	position: absolute;
+	top: 246px;
+	left: 20px;
 }
 .dispatchTasksInfo_list_item{
 	float: left;
@@ -183,4 +306,22 @@
 .officerKeyItem_info{
 	float:right;
 	margin-right: 2px;
+}
+.officerItem{
+	position: relative;
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid white;
+	background-color: rgba(0,0,0,.4);
+	height: 30px;
+	font-size: 26px;
+}
+.informationField{
+	border: 1px solid white;
+	background-color: rgba(0,0,0,.6);
+	width: 80%;
+	font-size: 15px;
+	font-family: 'Arial';
+	right: 28px;
+	width: calc(100% - 167px);
 }

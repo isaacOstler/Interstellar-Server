@@ -53,6 +53,14 @@ body{
     height: 89%;
 }
 
+.container6{
+  filter: drop-shadow(0px 0px 10px rgba(105,127,200,1));
+  border-image-source: url('/themeResource?path=public/box5.png');
+  border-image-slice: fill 106 92 185 100;
+  border-image-width: 4em;
+  padding: 10px;
+}
+
 .container4{
   filter: drop-shadow(0px 0px 10px rgba(105,127,200,1));
   border-image-source: url('/container4');
@@ -95,11 +103,11 @@ body{
   border-image-width: 1em;
 }
 .button{   
-	width: 200px;
-	height: 55px;
+  width: 200px;
+  height: 55px;
   color:white;
-	text-align: center;
-	cursor:pointer;
+  text-align: center;
+  cursor:pointer;
   border-image-source: url(/container1);
   border-image-slice: fill 33 56 42 38;
   background-color: rgba(0,0,0,0);

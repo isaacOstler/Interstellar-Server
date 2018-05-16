@@ -1,0 +1,245 @@
+{
+	"officers" :
+	[
+		{
+			"name" : 
+			{
+				"first" : "ISAAC",
+				"middle" : "STEPHEN",
+				"last" : "OSTLER"
+			},
+			"age" : 19,
+			"rank" : "ensign",
+			"specialty" : "combat medic",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "ALDEN",
+				"middle" : "ANDREW",
+				"last" : "RHODES"
+			},
+			"age" : 22,
+			"rank" : "lieutenant",
+			"specialty" : "combat medic",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human" 
+		},
+		{
+			"name" : 
+			{
+				"first" : "BRUCE",
+				"middle" : "WILLIAM",
+				"last" : "MILLER"
+			},
+			"age" : 24,
+			"rank" : "ensign",
+			"specialty" : "linguist",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "LANCE",
+				"middle" : "RICHARD",
+				"last" : "WELLS"
+			},
+			"age" : 28,
+			"rank" : "ensign",
+			"specialty" : "explosives expert",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "BUCK",
+				"middle" : "ADAM",
+				"last" : "KING"
+			},
+			"age" : 18,
+			"rank" : "ensign",
+			"specialty" : "marine",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "PETTER",
+				"middle" : "JEREMY",
+				"last" : "BRANDOW"
+			},
+			"age" : 19,
+			"rank" : "ensign",
+			"specialty" : "marine",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "JAMES",
+				"middle" : "BRADLY",
+				"last" : "LOWDER"
+			},
+			"age" : 19,
+			"rank" : "ensign",
+			"specialty" : "marine",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "ANDREW",
+				"middle" : "MATHEW",
+				"last" : "HOWARD"
+			},
+			"age" : 19,
+			"rank" : "lieutenant",
+			"specialty" : "field investigator",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "JIM",
+				"middle" : "SAMUEL",
+				"last" : "FUNK"
+			},
+			"age" : 24,
+			"rank" : "ensign",
+			"specialty" : "heavy weapons specialist",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "TIMOTHY",
+				"middle" : "FRANCIS",
+				"last" : "MOORE"
+			},
+			"age" : 18,
+			"rank" : "ensign",
+			"specialty" : "marine",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "ELISABETH",
+				"middle" : "HELLEN",
+				"last" : "BAKER"
+			},
+			"age" : 21,
+			"rank" : "ensign",
+			"specialty" : "heavy rescue specialist",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "THOMAS",
+				"middle" : "BERIC",
+				"last" : "BEAR"
+			},
+			"age" : 21,
+			"rank" : "ensign",
+			"specialty" : "heavy rescue specialist",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "BAROT",
+				"middle" : "TORG",
+				"last" : "K'RATAK"
+			},
+			"age" : 27,
+			"rank" : "ensign",
+			"specialty" : "marine",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Klingon"
+		},
+		{
+			"name" : 
+			{
+				"first" : "MEGAN",
+				"middle" : "AMY",
+				"last" : "WARNER"
+			},
+			"age" : 24,
+			"rank" : "lieutenant",
+			"specialty" : "tactician",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		},
+		{
+			"name" : 
+			{
+				"first" : "NATE",
+				"middle" : "JEREMY",
+				"last" : "MCFADEN"
+			},
+			"age" : 18,
+			"rank" : "ensign",
+			"specialty" : "marine",
+			"currentAction" : 0,
+			"postedDeck" : -1,
+			"postedRoom" : -1,
+			"orders" : 0,
+			"race" : "Human"
+		}
+	]
+}
