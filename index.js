@@ -84,6 +84,7 @@ app.on('ready', function() {
         if (process.argv[i].includes("--portOverride=")) {
             overidePort = true;
             overrideingPortNumber = parseInt(process.argv[i].split("=")[1]);
+            console.log("port set to " + overrideingPortNumber.toString().bold);
         }
     }
     if (saveDatabase == true) {
@@ -92,7 +93,7 @@ app.on('ready', function() {
     if (overidePort == true) {
         portNumberFromUserPrefs = overrideingPortNumber;
     }
-    guiManager.init(ipcMain, app, databaseManager, cardManager.getCards(),cardManager.getThemes(),portNumberFromUserPrefs, function(portNumberFromUserPrefs, loadedStations) {
+    guiManager.init(ipcMain, app, databaseManager, cardManager.getCards(),cardManager.getThemes(),overidePort ? overrideingPortNumber : portNumberFromUserPrefs, function(portNumberFromUserPrefs, loadedStations) {
         stations = loadedStations;
         guiManager.onStationChange(function(newData) {
             stations = newData;
@@ -103,15 +104,15 @@ app.on('ready', function() {
                 return;
             }
             httpAlreadyInit = true;
-            http.listen(portNumberFromUserPrefs, function(socket) {
-                console.log('=====[' + 'listening on port '.bold + portNumberFromUserPrefs.toString().bold + ']=====');
+            http.listen(overidePort ? overrideingPortNumber : portNumberFromUserPrefs, function(socket) {
+                console.log('=====[' + 'listening on port '.bold + overidePort ? overrideingPortNumber : portNumberFromUserPrefs.toString().bold + ']=====');
 
                 express.get('/', function(req, res) {
                     res.sendFile(__dirname + '/grabStations.html');
                 });
                 express.get('/databaseWindow', function(req, res) {
                     res.render('databaseView', {
-                        'port': portNumberFromUserPrefs,
+                        'port': overidePort ? overrideingPortNumber : portNumberFromUserPrefs,
                         'cards': cardManager.getCards(),
                         'stations': stations
                     });
@@ -143,7 +144,7 @@ app.on('ready', function() {
                 });
                 express.get('/views/client', function(req, res) {
                     res.render('client.ejs', {
-                        'port': portNumberFromUserPrefs,
+                        'port': overidePort ? overrideingPortNumber : portNumberFromUserPrefs,
                         'cards': cardManager.getCards(),
                         'stations': stations
                     });
@@ -288,7 +289,7 @@ app.on('ready', function() {
 					minWidth: 1000,
 					minHeight: 550
 				});
-				mainWindow.loadURL('http://localhost:' + portNumberFromUserPrefs +'/views/client');
+				mainWindow.loadURL('http://localhost:' + (overidePort ? overrideingPortNumber : portNumberFromUserPrefs) +'/views/client');
             });
         });
     });
