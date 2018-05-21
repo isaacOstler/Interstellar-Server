@@ -190,6 +190,7 @@ var alertStatus = 5, //the ships alert status
     ],
     materialCount = [],
     effects = [],
+    lockContactsWithMoveAll = false,
     torpedoTextures = [
         new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Weapons/Torpedo.png&screen=" + thisWidgetName),transparent: true } ),
     ],
@@ -257,6 +258,13 @@ initThreeJS();
 //preset observers
 
 //database observers
+Interstellar.onDatabaseValueChange("sensors.lockContactsWithMoveAll",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("sensors.lockContactsWithMoveAll",false);
+        return;
+    }
+    lockContactsWithMoveAll = newData;
+});
 Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
     if(newData == null){
         Interstellar.setDatabaseValue("ship.alertStatus",5);
@@ -462,12 +470,13 @@ function animationCycle(newData){
                     //console.log("Hey!  That's pretty good!");
                 }
                 var scaler = frameRate / networkRefreshRate;
-                //let's also factor in the move all speed
-                CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
-                CompoundContactsArray[i].wantedX += (scaler * moveAllSpeeds.x);
-                //same for the y
-                CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
-                CompoundContactsArray[i].wantedY += (scaler * moveAllSpeeds.y);
+                if(!lockContactsWithMoveAll || CompoundContactsArray[i].type != "contact"){
+                    CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
+                    CompoundContactsArray[i].wantedX += (scaler * moveAllSpeeds.x);
+                    //same for the y
+                    CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
+                    CompoundContactsArray[i].wantedY += (scaler * moveAllSpeeds.y);
+                }
             }else if(CompoundContactsArray[i].type == "phaser" || CompoundContactsArray[i].type == "torpedo"){
                 //we need to know if these weapons hit anyone
                 var GUID_ofImpactedObject = undefined;

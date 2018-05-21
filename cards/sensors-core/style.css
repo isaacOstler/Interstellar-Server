@@ -388,6 +388,13 @@ button:active{
     width: calc(100% - 12px);
     left: 5px;
 }
+.sensors_core_contactControls_moveAllControls_lock{
+	position: absolute;
+	bottom:15px;
+	cursor: pointer;
+	z-index: 20;
+	right: 0px;
+}
 .sensors_core_imagePreview{
 	position: relative;
     height: 58px;
@@ -399,6 +406,15 @@ button:active{
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+}
+#sensors_core_contactControls_moveAllControls_lockIcon{
+	display: none;
+}
+.sensors_core_contactControls_moveAllControls_lock:hover{
+	filter: brightness(1.25);
+}
+.sensors_core_contactControls_moveAllControls_lock:active{
+	filter: brightness(0.65);
 }
 .sensors_core_planetaryPresetButton{
 	position: relative;

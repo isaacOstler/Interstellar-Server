@@ -196,6 +196,7 @@ var alertStatus = 5, //the ships alert status
     ],
     materialCount = [],
     effects = [],
+    lockContactsWithMoveAll = false,
     torpedoTextures = [
         new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Weapons/Torpedo.png&screen=" + thisWidgetName),transparent: true } ),
     ],
@@ -257,6 +258,13 @@ initThreeJS();
 //preset observers
 
 //database observers
+Interstellar.onDatabaseValueChange("sensors.lockContactsWithMoveAll",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("sensors.lockContactsWithMoveAll",false);
+        return;
+    }
+    lockContactsWithMoveAll = newData;
+});
 Interstellar.onDatabaseValueChange("sensors.externalScans.scanAnswer",function(newData){
     //new scan answer, woo
     scanAnswer = newData;
@@ -459,11 +467,14 @@ function animationCycle(newData){
                 }
                 var scaler = frameRate / networkRefreshRate;
                 //let's also factor in the move all speed
-                CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
-                CompoundContactsArray[i].wantedX += (scaler * moveAllSpeeds.x);
-                //same for the y
-                CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
-                CompoundContactsArray[i].wantedY += (scaler * moveAllSpeeds.y);
+                //if the contacts are unlocked with moveall, OR this isn't a contact
+                if(!lockContactsWithMoveAll || CompoundContactsArray[i].type != "contact"){
+                    CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
+                    CompoundContactsArray[i].wantedX += (scaler * moveAllSpeeds.x);
+                    //same for the y
+                    CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
+                    CompoundContactsArray[i].wantedY += (scaler * moveAllSpeeds.y);
+                }
             }else if(CompoundContactsArray[i].type == "phaser" || CompoundContactsArray[i].type == "torpedo"){
                 //we need to know if these weapons hit anyone
                 var GUID_ofImpactedObject = undefined;

@@ -259,6 +259,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         ],
         materialCount = [],
         effects = [],
+        lockContactsWithMoveAll,
         torpedoTextures = [
             new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load("/resource?path=public/Weapons/Torpedo.png&screen=" + thisWidgetName),transparent: true } ),
         ],
@@ -326,6 +327,8 @@ Interstellar.addCoreWidget("Sensors",function(){
         planetControls_rotationSlider = $("#Sensor_Core_PlanetEditorWindow_options_spinRange"),
         planetControls_nameTextbox = $("#Sensor_Core_PlanetEditorWindow_options_nameTextbox"),
         moveAllPowerSlider = $("#sensors_core_moveAllPowerSlider"),
+        lockContactsWithMoveAllIcon = $("#sensors_core_contactControls_moveAllControls_lockIcon"),
+        unlockContactsWithMoveAllIcon = $("#sensors_core_contactControls_moveAllControls_unlockedIcon"),
         askForSpeedCheckbox = $("#sensors_core_contactEditor_askSpeed_checkbox"),
         speedPopup = $("#new_sensors_speedPopup");
     //init calls
@@ -338,6 +341,20 @@ Interstellar.addCoreWidget("Sensors",function(){
     //preset observers
 
     //database observers
+    Interstellar.onDatabaseValueChange("sensors.lockContactsWithMoveAll",function(newData){
+        if(newData == null){
+            Interstellar.setDatabaseValue("sensors.lockContactsWithMoveAll",false);
+            return;
+        }
+        lockContactsWithMoveAll = newData;
+        if(lockContactsWithMoveAll){
+            lockContactsWithMoveAllIcon.css("display","none");
+            unlockContactsWithMoveAllIcon.css("display","block");
+        }else{
+            unlockContactsWithMoveAllIcon.css("display","none");
+            lockContactsWithMoveAllIcon.css("display","block");
+        }
+    });
     Interstellar.onDatabaseValueChange("sensors.moveAllSpeeds",function(newData){
         if(newData == null){
             Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
@@ -507,11 +524,14 @@ Interstellar.addCoreWidget("Sensors",function(){
                     }
                     var scaler = frameRate / networkRefreshRate;
                     //let's also factor in the move all speed
-                    CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
-                    CompoundContactsArray[i].wantedX += (scaler * moveAllSpeeds.x);
-                    //same for the y
-                    CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
-                    CompoundContactsArray[i].wantedY += (scaler * moveAllSpeeds.y);
+                    //if the contacts are unlocked with moveall, OR this isn't a contact
+                    if(!lockContactsWithMoveAll || CompoundContactsArray[i].type != "contact"){
+                        CompoundContactsArray[i].xPos += (scaler * moveAllSpeeds.x);
+                        CompoundContactsArray[i].wantedX += (scaler * moveAllSpeeds.x);
+                        //same for the y
+                        CompoundContactsArray[i].yPos += (scaler * moveAllSpeeds.y);
+                        CompoundContactsArray[i].wantedY += (scaler * moveAllSpeeds.y);
+                    }
                 }else if(CompoundContactsArray[i].type == "phaser" || CompoundContactsArray[i].type == "torpedo"){
                     //we need to know if these weapons hit anyone
                     var GUID_ofImpactedObject = undefined;
@@ -654,12 +674,15 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
         for(i = 0;i < contacts.length;i++){
             //we need to apply the move all speed to these contacts, if applicable
-            if(moveAllSpeeds.x != 0 || moveAllSpeeds.y != 0){
-                differenceDetected = true;
-                contacts[i].xPos += moveAllSpeeds.x;
-                contacts[i].wantedX += moveAllSpeeds.x;
-                contacts[i].yPos += moveAllSpeeds.y;
-                contacts[i].wantedY += moveAllSpeeds.y;
+            if(!lockContactsWithMoveAll){
+                    
+                if(moveAllSpeeds.x != 0 || moveAllSpeeds.y != 0){
+                    differenceDetected = true;
+                    contacts[i].xPos += moveAllSpeeds.x;
+                    contacts[i].wantedX += moveAllSpeeds.x;
+                    contacts[i].yPos += moveAllSpeeds.y;
+                    contacts[i].wantedY += moveAllSpeeds.y;
+                }
             }
             //are they at their target destination?
             if(!(withinRange(contacts[i].xPos,contacts[i].wantedX,.2)) || !(withinRange(contacts[i].yPos,contacts[i].wantedY,.2))){
@@ -2004,6 +2027,13 @@ Interstellar.addCoreWidget("Sensors",function(){
                 }
             });
         }
+    });
+
+    unlockContactsWithMoveAllIcon.click(function(event){
+        Interstellar.setDatabaseValue("sensors.lockContactsWithMoveAll",false);
+    });
+    lockContactsWithMoveAllIcon.click(function(event){
+        Interstellar.setDatabaseValue("sensors.lockContactsWithMoveAll",true);
     });
 
     moveSelect.on("change",function(event){
