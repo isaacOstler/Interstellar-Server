@@ -1460,6 +1460,13 @@ Interstellar.addCoreWidget("Sensors",function(){
                     }
                 }
             }
+            for(var i = 0;i < programToRemove.length;i++){
+                for(var x = 0;x < weapons.length;x++){
+                    if(weapons[x].GUID == programToRemove[i]){
+                        weapons.splice(x,1);
+                    }
+                }
+            }
             updateContactsEarly();
         }
 
