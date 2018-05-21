@@ -156,6 +156,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "y" : 0
         },
         moveAllPower = 0,
+        askForSpeed = true,
         planetImages = [],
         moveAllDirection = degreesToRadians(180),
         moveContactSpeed = 0,
@@ -323,7 +324,9 @@ Interstellar.addCoreWidget("Sensors",function(){
         planetControls_sizeSlider = $("#Sensor_Core_PlanetEditorWindow_options_sizeRange"),
         planetControls_rotationSlider = $("#Sensor_Core_PlanetEditorWindow_options_spinRange"),
         planetControls_nameTextbox = $("#Sensor_Core_PlanetEditorWindow_options_nameTextbox"),
-        moveAllPowerSlider = $("#sensors_core_moveAllPowerSlider");
+        moveAllPowerSlider = $("#sensors_core_moveAllPowerSlider"),
+        askForSpeedCheckbox = $("#sensors_core_contactEditor_askSpeed_checkbox"),
+        speedPopup = $("#new_sensors_speedPopup");
     //init calls
 
     drawSensorsGui();
@@ -1439,6 +1442,16 @@ Interstellar.addCoreWidget("Sensors",function(){
             html += "</option>";
         }
         moveSelect.html(html);
+        html = "";
+        for(var i = 0;i < moveContactSpeeds.length;i++){
+            if(moveContactSpeeds[i].speedName == "instant"){
+                html += "<div index='" + i + "' style='background:linear-gradient(to right, rgba(255,158,0,.9),rgba(255,158,0,.7));'  class='new_sensors_speedPopupOption'>INSTANT</div>";
+            }else{
+                html += "<div index='" + i + "' class='new_sensors_speedPopupOption'>" + moveContactSpeeds[i].speedName + "</div>";
+            }
+        }
+        html += "<div index='-1' style='background:linear-gradient(to right, rgba(255,0,0,.9),rgba(255,0,0,.7));' class=' new_sensors_speedPopupOption'>REMOVE</div>";
+        speedPopup.html(html);
 
         var radius = (moveAllCanvas.width() / 2) * .85;
         var c = document.getElementById(moveAllCanvas.attr("id"));
@@ -1618,6 +1631,9 @@ Interstellar.addCoreWidget("Sensors",function(){
     // Schedule the first frame.
     requestAnimationFrame(animate);
     //event handlers
+    askForSpeedCheckbox.on("click",function(event){
+        askForSpeed = $(event.target).is(":checked");
+    });
     moveAllPowerSlider.on("dblclick",function(event){
         event.target.value = 0;
         moveAllSpeeds =
@@ -1702,33 +1718,65 @@ Interstellar.addCoreWidget("Sensors",function(){
                 draggingContactsMouseOffset.y = 100 - ((event.offsetY / canvas.height() * 100));
             });
             $(document).on('mouseup.sensorsDraggingEnd',function(event){
-                isDraggingContacts = false;
-                //now we need to save these points and push to the database
-                var i,
-                    j;
-                for(i = 0;i < selectedContacts.length;i++){
-                    for(j = 0;j < CompoundContactsArray.length;j++){
-                        if(CompoundContactsArray[j].GUID == selectedContacts[i]){
-                            CompoundContactsArray[j].wantedX = draggingContactsMouseOffset.x + selectedContactOffsets[i].x;
-                            CompoundContactsArray[j].wantedY = draggingContactsMouseOffset.y + selectedContactOffsets[i].y;
-                            CompoundContactsArray[j].xStep = undefined;
-                            CompoundContactsArray[j].yStep = undefined;
-                            CompoundContactsArray[j].animationSpeed = moveContactSpeeds[moveContactSpeed].speed;
+                var calculateMovements = function(speed){
+                    isDraggingContacts = false;
+                    //now we need to save these points and push to the database
+                    var i,
+                        j;
+                    for(i = 0;i < selectedContacts.length;i++){
+                        for(j = 0;j < CompoundContactsArray.length;j++){
+                            if(CompoundContactsArray[j].GUID == selectedContacts[i]){
+                                CompoundContactsArray[j].wantedX = draggingContactsMouseOffset.x + selectedContactOffsets[i].x;
+                                CompoundContactsArray[j].wantedY = draggingContactsMouseOffset.y + selectedContactOffsets[i].y;
+                                CompoundContactsArray[j].xStep = undefined;
+                                CompoundContactsArray[j].yStep = undefined;
+                                CompoundContactsArray[j].animationSpeed = speed;
+                            }
                         }
                     }
-                }
-                selectedContacts = [];
-                $(document).off('mousemove.sensorsDragging');
-                $(document).off('mouseup.sensorsDraggingEnd');
-                var newContactsArray = [],
-                    i;
-                for(i = 0;i < CompoundContactsArray.length;i++){
-                    if(CompoundContactsArray[i].type == "contact"){
-                        newContactsArray.splice(newContactsArray.length,0,CompoundContactsArray[i]);
+                    selectedContacts = [];
+                    $(document).off('mousemove.sensorsDragging');
+                    $(document).off('mouseup.sensorsDraggingEnd');
+                    var newContactsArray = [],
+                        i;
+                    for(i = 0;i < CompoundContactsArray.length;i++){
+                        if(CompoundContactsArray[i].type == "contact"){
+                            newContactsArray.splice(newContactsArray.length,0,CompoundContactsArray[i]);
+                        }
                     }
+                    updateContactsEarly();
+                    //Interstellar.setDatabaseValue("sensors.contacts",newContactsArray);
                 }
-                updateContactsEarly();
-                //Interstellar.setDatabaseValue("sensors.contacts",newContactsArray);
+                if(askForSpeed){
+                    $(document).off('mousemove.sensorsDragging');
+                    $(document).off('mouseup.sensorsDraggingEnd');
+                    speedPopup.css("left",event.pageX + "px");
+                    speedPopup.css("top",event.pageY + "px");
+                    speedPopup.css("display","block");
+                    $("new_sensors_speedPopupOption").off();
+                    $(".new_sensors_speedPopupOption").click(function(popupEvent){
+                        var index = Number($(popupEvent.target).attr("index"));
+                        if(index == -1){
+                            //destroy the contact(s), instead of moving
+                            for(i = 0;i < selectedContacts.length;i++){
+                                for(j = 0;j < CompoundContactsArray.length;j++){
+                                    if(CompoundContactsArray[j].GUID == selectedContacts[i]){
+                                        CompoundContactsArray[j].isActive = false;
+                                    }
+                                }
+                            }
+                            updateContactsEarly();
+                            drawContactList();
+                            selectedContacts = [];
+                            updateContactEditor();
+                        }else{
+                            calculateMovements(moveContactSpeeds[index].speed);
+                        }
+                        speedPopup.css("display","none");
+                    });
+                }else{
+                    calculateMovements(moveContactSpeeds[moveContactSpeed].speed);
+                }
             });
         }else{
             //are we trying to select an inactive contact?
