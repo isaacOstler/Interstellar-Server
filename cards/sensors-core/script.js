@@ -121,6 +121,7 @@ Interstellar.addCoreWidget("Sensors",function(){
 
     //variables
     var alertStatus = 5, //the ships alert status
+        maxNebulaCount = 50,
         defaultContactName = "UNKNOWN CONTACT", //the defualt contact name for new contacts
         defaultContactIcon = "Contacts/Generic.png", //defualt contact icon
         defaultContactImage = "", //default contact image
@@ -1436,8 +1437,8 @@ Interstellar.addCoreWidget("Sensors",function(){
                         didModify = true;
                     }
                 }
-            }else{ //for other types of contacts, we allow them to be a bit off the array
-                if((CompoundContactsArray[i].xPos < -50 || CompoundContactsArray[i].xPos > 150) || (CompoundContactsArray[i].yPos < -50 || CompoundContactsArray[i].yPos > 150)){
+            }else{ //for other types of contacts, we allow them to be a bit off the array, and much farther ahead
+                if((CompoundContactsArray[i].xPos < -50 || CompoundContactsArray[i].xPos > 150) || (CompoundContactsArray[i].yPos < -50 || CompoundContactsArray[i].yPos > 220)){
                     programToRemove.splice(programToRemove.length,0,CompoundContactsArray[i].GUID);
                 }
             }
@@ -2042,27 +2043,42 @@ Interstellar.addCoreWidget("Sensors",function(){
             break;
             case "nebula":
                 if(nebulaProgramInterval != undefined){
+                    $(event.target).css("filter", "brightness(1)");
                     clearInterval(nebulaProgramInterval);
                     nebulaProgramInterval = undefined;
                     return;
                 }
+                $(event.target).css("filter", "brightness(3)");
                 let spawnFunction = function(){
                     var newPrograms = programs;
-                    for(var i = 0;i < Math.floor(Math.random() * 5) + 2;i++){
-                        var newAsteroid = {
-                            "GUID" : guidGenerator(),
-                            "type" : "nebula",
-                            "xPos" : 70 * Math.random() + 15,
-                            "yPos" : 130,
-                            "size" : .5 * Math.random() + .5,
-                            "rotation" : 2 * Math.random(),
-                            "rotationSpeed" : .01 * Math.random() -.0075,
-                            "nebulaIcon" : 0,
-                            "color" : (0.00004 * Math.random()) + (Math.PI * 2)
+                    var nebulaCount = 0;
+                    for(var i = 0;i < CompoundContactsArray.length;i++){
+                        if(CompoundContactsArray[i].type == "nebula"){
+                            nebulaCount++;
                         }
-                        newPrograms.splice(programs.length,0,newAsteroid);
                     }
-                    Interstellar.setDatabaseValue("sensors.programs",newPrograms);
+                    if(nebulaCount < maxNebulaCount){
+                        for(var i = 0;i < Math.floor(Math.random() * 15) + 5;i++){
+                            var size = (0.75 * Math.random()) + .5;
+                            if(Math.random() > .7){
+                                size = size * 3;
+                            }
+                            var newAsteroid = {
+                                "GUID" : guidGenerator(),
+                                "type" : "nebula",
+                                "xPos" : 70 * Math.random() + 15,
+                                "yPos" : 100 + (size * 100),
+                                "size" : size,
+                                "rotation" : 2 * Math.random(),
+                                "rotationSpeed" : .003 * Math.random() - (.003 * Math.random()),
+                                "nebulaIcon" : 0,
+                                "color" : (-0.000005 * Math.random()) + (Math.PI * 2)
+                            }
+                            newPrograms.splice(programs.length,0,newAsteroid);
+                        }
+                        Interstellar.setDatabaseValue("sensors.programs",newPrograms);
+                        updateContactsEarly();
+                    }
                 }  
                 spawnFunction();
                 nebulaProgramInterval = setInterval(function(){
