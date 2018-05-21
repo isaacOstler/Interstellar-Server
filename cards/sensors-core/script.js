@@ -155,7 +155,7 @@ Interstellar.addCoreWidget("Sensors",function(){
             "x" : 0,
             "y" : 0
         },
-        moveAllPower = 1,
+        moveAllPower = 0,
         planetImages = [],
         moveAllDirection = degreesToRadians(180),
         moveContactSpeed = 0,
@@ -1618,6 +1618,15 @@ Interstellar.addCoreWidget("Sensors",function(){
     // Schedule the first frame.
     requestAnimationFrame(animate);
     //event handlers
+    moveAllPowerSlider.on("dblclick",function(event){
+        event.target.value = 0;
+        moveAllSpeeds =
+        {
+            "x" : 0,
+            "y" : 0
+        }
+        Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
+    });
     moveAllPowerSlider.on("input",function(event){
         moveAllPower = event.target.value;
         var polarToCart = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(90),"distance" : moveAllPower});
