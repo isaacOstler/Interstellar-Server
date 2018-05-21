@@ -304,6 +304,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         ],
         sizeOfElementInContactList = 21,
         contactListScrollPosition = 0,
+        presetWindow_selectedPresetIndex = -1,
         nebulaProgramInterval = undefined,
         contactListSelectedContact = undefined,
         //three.js stuff
@@ -336,6 +337,11 @@ Interstellar.addCoreWidget("Sensors",function(){
         editPresetsButton = $("#sensors_core_presetControls_editButton"),
         presetSelect = $("#sensors_core_presetControls_presetSelect"),
         presetLoadWarningPopup = $("#sensors_corePresetLoadingWarningPopup"),
+        presetWindow_presetList = $("#Sensor_Core_PresetEditorWindow_presetsList"),
+        presetWindow_selectedPresetMask = $("#Sensor_Core_PresetEditorWindow_selectedPresetMask"),
+        presetWindow_nameTextbox = $("#Sensor_Core_PresetEditorWindow_presetNameTextbox"),
+        presetWindow_deleteButton = $("#Sensor_Core_PresetEditorWindow_removeButton"),
+        presetWindow_saveButton = $("#Sensor_Core_PresetEditorWindow_saveButton"),
         presetLoadWarningPopup_cancelButton = $("#sensors_corePresetLoadingWarningPopup_popup_cancel"),
         presetLoadWarningPopup_continueButton = $("#sensors_corePresetLoadingWarningPopup_popup_continue"),
         speedPopup = $("#new_sensors_speedPopup");
@@ -353,13 +359,30 @@ Interstellar.addCoreWidget("Sensors",function(){
             return;
         }
         presets = newData;
+        console.log(presets);
         var html = "";
+        html += "<optgroup label='Preset'>";
         for(var i = 0;i < presets.length;i++){
             html += "<option>";
             html += presets[i].presetName;
             html += "</option>";
         }
+        html += "</optgroup>";
         presetSelect.html(html);
+
+        html = "";
+        for(var i = 0;i < presets.length;i++){
+            html += '<div index="' + i + '" class="Sensor_Core_PresetEditorWindow_presetsList_option">';
+            html += presets[i].presetName;
+            html += "</div>";
+        }
+        presetWindow_presetList.html(html);
+        $(".Sensor_Core_PresetEditorWindow_presetsList_option").off();
+        $(".Sensor_Core_PresetEditorWindow_presetsList_option").click(function(event){
+            presetWindow_selectedPresetIndex = Number($(event.target).attr("index"));
+            presetWindow_selectedPresetMask.fadeOut();
+            presetWindow_nameTextbox.val(presets[presetWindow_selectedPresetIndex].presetName);
+        });
     });
     //database observers
     Interstellar.onDatabaseValueChange("sensors.lockContactsWithMoveAll",function(newData){
@@ -1724,20 +1747,20 @@ Interstellar.addCoreWidget("Sensors",function(){
     requestAnimationFrame(animate);
     //event handlers
     appendPresetButton.click(function(event){
-        var newContacts = [];
+        var newContacts = [],
+            nameOfPreset = presetSelect.val();
 
         for(var i = 0;i < presets.length;i++){
-            if(presets.length == presetSelect.val()){
+            if(presets[i].presetName == nameOfPreset){
                 //this is the correct preset
                 newContacts = presets[i].contacts;
             }
         }
         for(var i = 0;i < newContacts.length;i++){
             newContacts[i].isActive = false;
+            newContacts[i].GUID = guidGenerator();
         }
-        contacts = contacts.concat(newContacts);
-        Interstellar.setDatabaseValue("sensors.contacts",contacts);
-        updateContactsEarly();
+        Interstellar.setDatabaseValue("sensors.contacts",contacts.concat(newContacts));
     });
     askForSpeedCheckbox.on("click",function(event){
         askForSpeed = $(event.target).is(":checked");
@@ -2097,6 +2120,34 @@ Interstellar.addCoreWidget("Sensors",function(){
             });
         }
     });
+    editPresetsButton.click(function(event){ 
+        presetWindow_selectedPresetIndex = -1;
+        presetWindow_selectedPresetMask.css("display","block");
+        Interstellar.openCoreWindow("Sensor_Core_PresetEditorWindow",event);
+    });
+    presetWindow_nameTextbox.on("change",function(event){
+        if(presetWindow_selectedPresetIndex != -1){
+            presets[presetWindow_selectedPresetIndex].presetName = event.target.value;
+            Interstellar.setPresetValue("sensors.contactPresets",presets);
+        }
+    });
+    presetWindow_deleteButton.click(function(event){
+        if(presetWindow_selectedPresetIndex != -1){
+            presets.splice(presetWindow_selectedPresetIndex,1);
+            Interstellar.setPresetValue("sensors.contactPresets",presets);
+        }
+    });
+    presetWindow_saveButton.click(function(event){
+        var newPreset = {
+            "presetName" : "Nameless Preset",
+            "contacts" : contacts,
+            "programs" : programs,
+            "weapons" : weapons
+        }
+        presets.splice(presets.length,0,newPreset);
+        presetWindow_selectedPresetIndex = presets.length - 1;
+        Interstellar.setPresetValue("sensors.contactPresets",presets);
+    });
     loadPresetButton.click(function(event){
         presetLoadWarningPopup.fadeIn();
         presetLoadWarningPopup_cancelButton.off();
@@ -2106,8 +2157,8 @@ Interstellar.addCoreWidget("Sensors",function(){
             for(var i = 0;i < presets.length;i++){
                 if(presets[i].presetName == nameOfPreset){
                     Interstellar.setDatabaseValue("sensors.contacts",presets[i].contacts);
-                    Interstellar.setDatabaseValue("sensors.weapons",presets[i].contacts);
-                    Interstellar.setDatabaseValue("sensors.programs",presets[i].contacts);
+                    Interstellar.setDatabaseValue("sensors.weapons",presets[i].weapons);
+                    Interstellar.setDatabaseValue("sensors.programs",presets[i].programs);
                 }
             }
         }

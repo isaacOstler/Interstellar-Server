@@ -8,6 +8,58 @@
     50%  {filter: drop-shadow(0px 0px 30px #ff0000) brightness(2);color:black;}
     100% {filter: drop-shadow(0px 0px 30px #ff0000) brightness(.7);color:white;}
 }
+#Sensor_Core_PresetEditorWindow_presetsLabel{
+	position: absolute;
+	top:22px;
+	left: 2px;
+}
+#Sensor_Core_PresetEditorWindow_nameLabel{
+	position: absolute;
+	bottom: 62px;
+	left: 2px;
+}
+#Sensor_Core_PresetEditorWindow_presetNameTextbox{
+	position: absolute;
+	bottom: 62px;
+	right: 1px;
+	border: 1px solid white;
+	color: white;
+	height: 18px;
+	background-color: black;
+	width: calc(100% - 105px);
+}
+#Sensor_Core_PresetEditorWindow_renameButton{
+	position: absolute;
+	bottom: 62px;
+	right: 1px;
+	width: calc(100% - 2px);
+}
+#Sensor_Core_PresetEditorWindow_removeButton{
+	position: absolute;
+	bottom: 43px;
+	right: 1px;
+	width: calc(100% - 2px);
+	border: 1px solid white;
+	background: linear-gradient(to bottom, #ff1919,#e20000);
+}
+#Sensor_Core_PresetEditorWindow_saveButton{
+	position: absolute;
+	bottom: 21px;
+	height: 21px;
+	right: 1px;
+	/* color: black; */
+	border: 1px solid white;
+	background: linear-gradient(to bottom, #36ff36, #32af32);
+	width: calc(100% - 2px);
+}
+#Sensor_Core_PresetEditorWindow_presetsList{
+	position: absolute;
+	top:44px;
+	left: 2px;
+	width: calc(100% - 5px);
+	border: 1px solid white;
+	height: calc(100% - 131px);
+}
 #sensors_corePresetLoadingWarningPopup_popup_cancel{
 	position: absolute;
 	bottom: 5%;
@@ -357,7 +409,7 @@ button:active{
 	left: 0px;
 	width:100%;
 	height: 100%;
-	z-index: 99;
+	z-index: 5;
 	background-color: rgba(0,0,0,.7);
 }
 #sensors_core_contactEditor_container{
@@ -521,6 +573,15 @@ button:active{
 #sensors_core_contactControls_moveAllControls_lockIcon{
 	display: none;
 }
+#Sensor_Core_PresetEditorWindow_selectedPresetMask{
+	position: absolute;
+	bottom: 43px;
+	height: 42px;
+	z-index: 5;
+	background-color: rgba(0,0,0,.6);
+	right: 0px;
+	width: 100%;
+}
 .sensors_core_contactControls_moveAllControls_lock:hover{
 	filter: brightness(1.25);
 }
@@ -535,4 +596,17 @@ button:active{
 	height: calc(100% - 2px);
 	top:1px;
 	border: 1px solid white;
+}
+.Sensor_Core_PresetEditorWindow_presetsList_option:hover{
+	filter: brightness(1.25);
+}
+.Sensor_Core_PresetEditorWindow_presetsList_option:active{
+	filter: brightness(0.65);
+}
+.Sensor_Core_PresetEditorWindow_presetsList_option{
+	cursor: pointer;
+	position: relative;
+	background-color: rgba(255,255,255,.1);
+	float: left;
+	width: 100%;
 }

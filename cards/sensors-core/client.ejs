@@ -15,6 +15,19 @@
 		<div id="sensors_corePresetLoadingWarningPopup_popup_continue" class="customButton">CONTINUE</div>
 	</div>
 </div>
+<div id="Sensor_Core_PresetEditorWindow" class="coreWindow" windowName="Sensors Preset Editor" style="width: 250px;height: 500px;top:230px;left: 230px">
+	<div id="Sensor_Core_PresetEditorWindow_presetsLabel">
+		Current Presets
+	</div>
+	<div id="Sensor_Core_PresetEditorWindow_presetsList" class="noselect"></div>
+	<div id="Sensor_Core_PresetEditorWindow_nameLabel">
+		Preset Name
+	</div>
+	<div id="Sensor_Core_PresetEditorWindow_selectedPresetMask"></div>
+	<input type="text" id="Sensor_Core_PresetEditorWindow_presetNameTextbox" placeholder="Type Preset Name Here...">
+	<input type="button" class="coreButton noselect" id="Sensor_Core_PresetEditorWindow_removeButton" value="Delete selected">
+	<input type="button" class="coreButton noselect" id="Sensor_Core_PresetEditorWindow_saveButton" value="Save New Preset">
+</div>
 <div id="Sensor_Core_IconEditorWindow" class="coreWindow" windowName="Icon Editor" style="width: 525px;height: 500px;top:230px;left: 230px">
 	<div id="Sensor_Core_IconEditorWindow_title">Select a new icon for "UNKNOWN CONTACT"</div>
 	<div id="Sensor_Core_IconEditorWindow_icons"></div>
@@ -129,12 +142,7 @@
 			<div id="sensors_core_presetControls">
 				<div id="sensors_core_presetControls_presetLabel">Preset</div>
 				<select id="sensors_core_presetControls_presetSelect">
-					<optgroup label="Preset">
-						<option>Intolerance</option>
-						<option>Perikoi</option>
-						<option>Stazi</option>
-						<option>Sleeping Giants</option>
-					</optgroup>
+					<optgroup label="Preset"></optgroup>
 				</select>
 				<input type="button" class="customButton" id="sensors_core_presetControls_loadButton" value="LOAD">
 				<input type="button" class="customButton" id="sensors_core_presetControls_appendButton" value="APPEND">
