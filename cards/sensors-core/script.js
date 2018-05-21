@@ -1426,7 +1426,8 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
 
         //this is also our chance to remove any contacts that are outside of the array
-        var didModify = false;
+        var didModify = false,
+            programToRemove = [];
         for(var i = 0;i < CompoundContactsArray.length;i++){
             if(CompoundContactsArray[i].type == "contact"){
                 if(CompoundContactsArray[i].isActive){
@@ -1435,9 +1436,30 @@ Interstellar.addCoreWidget("Sensors",function(){
                         didModify = true;
                     }
                 }
+            }else{ //for other types of contacts, we allow them to be a bit off the array
+                if((CompoundContactsArray[i].xPos < -50 || CompoundContactsArray[i].xPos > 150) || (CompoundContactsArray[i].yPos < -50 || CompoundContactsArray[i].yPos > 150)){
+                    programToRemove.splice(programToRemove.length,0,CompoundContactsArray[i].GUID);
+                }
             }
         }
         if(didModify){
+            updateContactsEarly();
+        }
+        if(programToRemove.length > 0){
+            for(var i = 0;i < programToRemove.length;i++){
+                for(var x = 0;x < CompoundContactsArray.length;x++){
+                    if(CompoundContactsArray[x].GUID == programToRemove[i]){
+                        CompoundContactsArray.splice(x,1);
+                    }
+                }
+            }
+            for(var i = 0;i < programToRemove.length;i++){
+                for(var x = 0;x < programs.length;x++){
+                    if(programs[x].GUID == programToRemove[i]){
+                        programs.splice(x,1);
+                    }
+                }
+            }
             updateContactsEarly();
         }
 
