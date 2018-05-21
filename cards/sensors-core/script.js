@@ -1424,6 +1424,23 @@ Interstellar.addCoreWidget("Sensors",function(){
                 contactObject.material.color.set("#2fff00");
             }
         }
+
+        //this is also our chance to remove any contacts that are outside of the array
+        var didModify = false;
+        for(var i = 0;i < CompoundContactsArray.length;i++){
+            if(CompoundContactsArray[i].type == "contact"){
+                if(CompoundContactsArray[i].isActive){
+                    if((CompoundContactsArray[i].xPos < 0 || CompoundContactsArray[i].xPos > 100) || (CompoundContactsArray[i].yPos < 0 || CompoundContactsArray[i].yPos > 100)){
+                        CompoundContactsArray[i].isActive = false;
+                        didModify = true;
+                    }
+                }
+            }
+        }
+        if(didModify){
+            updateContactsEarly();
+        }
+
         requestAnimationFrame( animate );
         render();
     }
