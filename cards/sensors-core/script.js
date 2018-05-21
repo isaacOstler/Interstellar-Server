@@ -161,6 +161,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         planetImages = [],
         moveAllDirection = degreesToRadians(180),
         moveContactSpeed = 0,
+        presets = [],
         moveContactSpeeds = 
         [
             {
@@ -330,6 +331,13 @@ Interstellar.addCoreWidget("Sensors",function(){
         lockContactsWithMoveAllIcon = $("#sensors_core_contactControls_moveAllControls_lockIcon"),
         unlockContactsWithMoveAllIcon = $("#sensors_core_contactControls_moveAllControls_unlockedIcon"),
         askForSpeedCheckbox = $("#sensors_core_contactEditor_askSpeed_checkbox"),
+        loadPresetButton = $("#sensors_core_presetControls_loadButton"),
+        appendPresetButton = $("#sensors_core_presetControls_appendButton"),
+        editPresetsButton = $("#sensors_core_presetControls_editButton"),
+        presetSelect = $("#sensors_core_presetControls_presetSelect"),
+        presetLoadWarningPopup = $("#sensors_corePresetLoadingWarningPopup"),
+        presetLoadWarningPopup_cancelButton = $("#sensors_corePresetLoadingWarningPopup_popup_cancel"),
+        presetLoadWarningPopup_continueButton = $("#sensors_corePresetLoadingWarningPopup_popup_continue"),
         speedPopup = $("#new_sensors_speedPopup");
     //init calls
 
@@ -339,7 +347,20 @@ Interstellar.addCoreWidget("Sensors",function(){
     drawGUI();
     
     //preset observers
-
+    Interstellar.onPresetValueChange("sensors.contactPresets",function(newData){
+        if(newData == null){
+            Interstellar.setPresetValue("sensors.contactPresets",presets);
+            return;
+        }
+        presets = newData;
+        var html = "";
+        for(var i = 0;i < presets.length;i++){
+            html += "<option>";
+            html += presets[i].presetName;
+            html += "</option>";
+        }
+        presetSelect.html(html);
+    });
     //database observers
     Interstellar.onDatabaseValueChange("sensors.lockContactsWithMoveAll",function(newData){
         if(newData == null){
@@ -479,7 +500,7 @@ Interstellar.addCoreWidget("Sensors",function(){
         }
         noAnimationCycleInProgress = false;
         animationCycle(newData);
-    })
+    });
 
     function animationCycle(newData){
         contacts = newData;
@@ -1523,7 +1544,8 @@ Interstellar.addCoreWidget("Sensors",function(){
         html += "<div index='-1' style='background:linear-gradient(to right, rgba(255,0,0,.9),rgba(255,0,0,.7));' class=' new_sensors_speedPopupOption'>REMOVE</div>";
         speedPopup.html(html);
 
-        var radius = (moveAllCanvas.width() / 2) * .85;
+        var radius = Math.min((moveAllCanvas.width() / 2) * .85,(moveAllCanvas.height() / 2) * .85);
+
         var c = document.getElementById(moveAllCanvas.attr("id"));
         c.width = moveAllCanvas.width();
         c.height = moveAllCanvas.height();
@@ -1533,13 +1555,13 @@ Interstellar.addCoreWidget("Sensors",function(){
         ctx.strokeStyle="#FFFFFF";
         ctx.lineWidth = 1;
         var polarCords = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(90),"distance" : radius});
-        ctx.arc(radius + 4,radius + 4,radius,0,2*Math.PI);
+        ctx.arc((moveAllCanvas.width() / 2),radius + 4,radius,0,2*Math.PI);
         ctx.stroke();
         ctx.beginPath();
         ctx.strokeStyle="#FF0000";
         ctx.lineWidth = 3;
-        ctx.moveTo(radius + 4,radius + 4);
-        ctx.lineTo(polarCords.x + radius + 4,polarCords.y + radius + 4);
+        ctx.moveTo((moveAllCanvas.width() / 2),radius + 4);
+        ctx.lineTo(polarCords.x + (moveAllCanvas.width() / 2),polarCords.y + radius + 4);
         ctx.stroke();
     }
     function radiansToDegrees(radians){
@@ -1701,6 +1723,22 @@ Interstellar.addCoreWidget("Sensors",function(){
     // Schedule the first frame.
     requestAnimationFrame(animate);
     //event handlers
+    appendPresetButton.click(function(event){
+        var newContacts = [];
+
+        for(var i = 0;i < presets.length;i++){
+            if(presets.length == presetSelect.val()){
+                //this is the correct preset
+                newContacts = presets[i].contacts;
+            }
+        }
+        for(var i = 0;i < newContacts.length;i++){
+            newContacts[i].isActive = false;
+        }
+        contacts = contacts.concat(newContacts);
+        Interstellar.setDatabaseValue("sensors.contacts",contacts);
+        updateContactsEarly();
+    });
     askForSpeedCheckbox.on("click",function(event){
         askForSpeed = $(event.target).is(":checked");
     });
@@ -2059,6 +2097,44 @@ Interstellar.addCoreWidget("Sensors",function(){
             });
         }
     });
+    loadPresetButton.click(function(event){
+        presetLoadWarningPopup.fadeIn();
+        presetLoadWarningPopup_cancelButton.off();
+        presetLoadWarningPopup_continueButton.off();
+        let loadPreset = function(){
+            var nameOfPreset = presetSelect.val();
+            for(var i = 0;i < presets.length;i++){
+                if(presets[i].presetName == nameOfPreset){
+                    Interstellar.setDatabaseValue("sensors.contacts",presets[i].contacts);
+                    Interstellar.setDatabaseValue("sensors.weapons",presets[i].contacts);
+                    Interstellar.setDatabaseValue("sensors.programs",presets[i].contacts);
+                }
+            }
+        }
+        $(document).off("keyup.sensorsConfirmLoadPreset");
+        $(document).on("keyup.sensorsConfirmLoadPreset",function(event){
+           if(event.keyCode == 13){
+                loadPreset();
+                $(document).off("keyup.sensorsConfirmLoadPreset");
+                presetLoadWarningPopup_continueButton.off();
+                presetLoadWarningPopup_cancelButton.off();
+                presetLoadWarningPopup.fadeOut();
+            }
+        });
+        presetLoadWarningPopup_cancelButton.click(function(event){
+            $(document).off("keyup.sensorsConfirmLoadPreset");
+            presetLoadWarningPopup_continueButton.off();
+            presetLoadWarningPopup_cancelButton.off();
+            presetLoadWarningPopup.fadeOut();
+        });
+        presetLoadWarningPopup_continueButton.click(function(event){
+            $(document).off("keyup.sensorsConfirmLoadPreset");
+            presetLoadWarningPopup_continueButton.off();
+            presetLoadWarningPopup_cancelButton.off();
+            presetLoadWarningPopup.fadeOut();
+            loadPreset();
+        });
+    });
     $(".sensors_core_contactControls_programControls_programContainer").click(function(event){
         var programType = $(event.target).attr("programType");
         switch(programType){
@@ -2133,13 +2209,13 @@ Interstellar.addCoreWidget("Sensors",function(){
         let updateInterval = setInterval(function(){
             Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
         },0100);
-        var radius = (moveAllCanvas.width() / 2) * .9;
-        var mousePolarCords = cartesian2Polar(event.offsetX - radius,event.offsetY - radius);
+        var radius = Math.min((moveAllCanvas.width() / 2) * .85,(moveAllCanvas.height() / 2) * .85);
+        var mousePolarCords = cartesian2Polar(event.offsetX - radius - (radius / 2) + 4,event.offsetY - radius);
         moveAllDirection = mousePolarCords.radians + degreesToRadians(90);
         drawGUI();
         moveAllCanvas.on("mousemove.moveAllCanvasMouseMove",function(event){
-            var radius = (moveAllCanvas.width() / 2) * .9;
-            var mousePolarCords = cartesian2Polar(event.offsetX - radius,event.offsetY - radius);
+            var radius = Math.min((moveAllCanvas.width() / 2) * .85,(moveAllCanvas.height() / 2) * .85);
+            var mousePolarCords = cartesian2Polar(event.offsetX - radius - (radius / 2) + 4,event.offsetY - radius);
             moveAllDirection = mousePolarCords.radians + degreesToRadians(90);
             drawGUI();
             var polarToCart = polarToCartesian({"radians" : moveAllDirection - degreesToRadians(90),"distance" : moveAllPower});

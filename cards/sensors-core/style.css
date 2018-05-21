@@ -8,6 +8,117 @@
     50%  {filter: drop-shadow(0px 0px 30px #ff0000) brightness(2);color:black;}
     100% {filter: drop-shadow(0px 0px 30px #ff0000) brightness(.7);color:white;}
 }
+#sensors_corePresetLoadingWarningPopup_popup_cancel{
+	position: absolute;
+	bottom: 5%;
+	left: 25%;
+	background: linear-gradient(to bottom, #a7a7a7, #616161);
+	width: 26%;
+	border: 1px solid white;
+	height: 20%;
+}
+#sensors_corePresetLoadingWarningPopup_popup_continue{
+	position: absolute;
+	bottom: 5%;
+	background: linear-gradient(to bottom, #8badc5, #168a8a);
+	width: 43%;
+	border: 1px solid white;
+	right: 5%;
+	height: 20%;
+}
+#sensors_corePresetLoadingWarningPopup_popup_header{
+	position: absolute;
+	left: 26%;
+	top: 5%;
+	font-size: 60px;
+	font-family: 'Impact';
+}
+#sensors_corePresetLoadingWarningPopup_popup_subtitle{
+	position: absolute;
+	top: 43%;
+	font-size: 14px;
+	width: 70%;
+	left: calc(24% + 5px);
+}
+#sensors_corePresetLoadingWarningPopup_popup_icon{
+	position: absolute;
+	top:20%;
+	left: 5%;
+}
+#sensors_corePresetLoadingWarningPopup{
+	position: absolute;
+	display: none;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.75);
+	z-index: 10000000;
+}
+#sensors_corePresetLoadingWarningPopup_popup{
+	position: absolute;
+	top:40%;
+	left: 30%;
+	width: 40%;
+	height: 20%;
+	border: 1px solid white;
+	background: linear-gradient(to right, rgba(202, 84, 0, 0.65), rgba(128, 19, 19, 0.65));
+	/* box-shadow: inset 0px 0px 50px 20px red; */
+	box-shadow: 0px 0px 50px 20px rgba(255, 0, 0, 0.2);
+}
+#sensors_core_presetControls_presetLabel{
+	position: absolute;
+	top:2px;
+	left: 2px;
+}
+#sensors_core_presetControls_presetSelect{
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	height: 18px;
+	width: calc(100% - 53px);
+}
+#sensors_core_presetControls_loadButton{
+	position: absolute;
+	bottom: 1px;
+	cursor: pointer;
+	left: 1px;
+	background: linear-gradient(to bottom, #71bdda, #6891dc);
+	height: 25px;
+	color: black;
+	border: 1px solid white;
+	width: calc(33% - 1px);
+}
+#sensors_core_presetControls_appendButton{
+	position: absolute;
+	bottom: 1px;
+	cursor: pointer;
+	left: calc(33% + 1px);
+	width: calc(33% + 1px);
+	background: linear-gradient(to bottom, #d4da71, #caae48);
+	height: 25px;
+	color: black;
+	border: 1px solid white;
+}
+#sensors_core_presetControls_editButton{
+	position: absolute;
+	bottom: 1px;
+	right: 1px;
+	cursor: pointer;
+	width: calc(33% - 1px);
+	background: linear-gradient(to bottom, #efefef, #a7a7a7);
+	height: 25px;
+	color: black;
+	border: 1px solid white;
+}
+#sensors_core_presetControls{
+	position: absolute;
+	top: 40%;
+	right: 2px;
+	width: calc(50% - 7px);
+	border: 1px solid white;
+	height: calc(10% - 4px);
+}
 
 #sensors_core_contactEditor_askSpeed{
 	position: absolute;
@@ -114,7 +225,7 @@ button:active{
 	right: 2px;
 	width: calc(50% - 7px);
 	border: 1px solid white;
-	height: calc(50% - 6px);
+	height: calc(40% - 6px);
 }
 #sensors_core_contactEditor_removeContactButton{
 	position: absolute;

@@ -1,6 +1,20 @@
 <script src="/threejs"></script>
 <script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css&screen=sensors-core">
+<div id="sensors_corePresetLoadingWarningPopup" class="noselect">
+	<div id="sensors_corePresetLoadingWarningPopup_popup">
+		<div id="sensors_corePresetLoadingWarningPopup_popup_icon">
+			<svg fill="rgb(255,205,0)" height="96" viewBox="0 0 24 24" width="96" xmlns="http://www.w3.org/2000/svg">
+				<path d="M0 0h24v24H0z" fill="none"/>
+				<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+			</svg>
+		</div>
+		<div id="sensors_corePresetLoadingWarningPopup_popup_header">WARNING</div>
+		<div id="sensors_corePresetLoadingWarningPopup_popup_subtitle">THIS ACTION WILL OVERWRITE ALL CURRENT SENSOR CONTACTS, PROGRAMS, AND WEAPONS FOR THIS MISSION.  ARE YOU SURE YOU WISH TO CONTINUE?</div>
+		<div id="sensors_corePresetLoadingWarningPopup_popup_cancel" class="customButton">CANCEL</div>
+		<div id="sensors_corePresetLoadingWarningPopup_popup_continue" class="customButton">CONTINUE</div>
+	</div>
+</div>
 <div id="Sensor_Core_IconEditorWindow" class="coreWindow" windowName="Icon Editor" style="width: 525px;height: 500px;top:230px;left: 230px">
 	<div id="Sensor_Core_IconEditorWindow_title">Select a new icon for "UNKNOWN CONTACT"</div>
 	<div id="Sensor_Core_IconEditorWindow_icons"></div>
@@ -111,6 +125,20 @@
 				<button id="sensors_core_contactEditor_addNewContactButton">ADD NEW CONTACT</button>
 				<button id="sensors_core_contactEditor_duplicateContactButton">DUPLICATE CONTACT</button>
 				<button id="sensors_core_contactEditor_removeContactButton">REMOVE CONTACT</button>
+			</div>
+			<div id="sensors_core_presetControls">
+				<div id="sensors_core_presetControls_presetLabel">Preset</div>
+				<select id="sensors_core_presetControls_presetSelect">
+					<optgroup label="Preset">
+						<option>Intolerance</option>
+						<option>Perikoi</option>
+						<option>Stazi</option>
+						<option>Sleeping Giants</option>
+					</optgroup>
+				</select>
+				<input type="button" class="customButton" id="sensors_core_presetControls_loadButton" value="LOAD">
+				<input type="button" class="customButton" id="sensors_core_presetControls_appendButton" value="APPEND">
+				<input type="button" class="customButton" id="sensors_core_presetControls_editButton" value="EDIT">
 			</div>
 			<div id="sensors_core_contactEditor_container">
 				<div id="sensors_core_contactEditor_container_mask"></div>
