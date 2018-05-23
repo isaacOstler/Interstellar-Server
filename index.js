@@ -157,12 +157,13 @@ app.on('ready', function() {
                 io.on('connect', function(socket) {
                     let socketID = socket.id;
                     databaseManager.setClientCount(Object.keys(io.sockets.sockets));
-                    console.log("[+] STATION CONNECTED (" + socketID + ")");
+                    console.log("[+] STATION CONNECTED (" + socketID + ", " + socket.handshake.address + ")");
                     console.log("sending " + stations + " for client");
                     socket.emit('stationsSent', stations);
                     socket.on('disconnect', function(socket) {
                         databaseManager.setClientCount(Object.keys(io.sockets.sockets));
                         console.log("[!] STATION DISCONNECTED");
+                        socket = null;
                     });
                     socket.on('getCardFiles', function(data) {
                         cardManager.serveCard(data, function(bufferStream) {
@@ -192,6 +193,7 @@ app.on('ready', function() {
                                 "dataValue": databaseValueFromMongo
                             }
                             socket.emit("databaseValueForKey", databaseValue);
+                            databaseValue = null;
                         });
                     });
                     socket.on('getDatabaseValueForServerFunction', function(data) {
@@ -207,6 +209,8 @@ app.on('ready', function() {
                     socket.on('setDatabaseValue', function(data) {
                         databaseManager.setDatabaseValue(data.key, data.dataValue);
                         io.emit("databaseValueDidChange", data);
+                        //deallocate
+                        data = null;
                         //socket.broadcast.emit("databaseValueDidChange",data);
                         //socket.emit("databaseValueDidChange",data);
                     });
@@ -289,7 +293,8 @@ app.on('ready', function() {
 					minWidth: 1000,
 					minHeight: 550
 				});
-				mainWindow.loadURL('http://localhost:' + (overidePort ? overrideingPortNumber : portNumberFromUserPrefs) +'/views/client');
+				mainWindow.loadURL('http://localhost:' + (overidePort ? overrideingPortNumber : portNumberFromUserPrefs) +'/views/client');	
+				express.use(require("express-status-monitor")());
             });
         });
     });
