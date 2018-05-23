@@ -1,0 +1,58 @@
+Style Guide Of Interstellar
+
+NAMING
+	general naming rules
+		Rule 1a) Names will follow camelCaseLettering
+		Rule 2a) Names are descriptive, even if this makes them long
+		Rule 3a) Variables are never increments of other variables (example, name1, name2, name3, etc)
+
+	variables
+		Naming:
+			Rule 1) Names will begin with a lower case letter
+
+		Good Examples:
+			torpedoCount
+			alertStatus
+			secondsUntilDamagedSystemIsRepaired
+
+		Bad Examples:
+			TorpedoCount (violation of rule #1)
+			alertstatus (violation of rule #1a)
+			amountRemaining (violation of rule #2a, amount of WHAT remaining?)
+			phaserBank1Heat, phaserBank2Heat (violation of rule #3a)
+
+	functions
+		Naming:
+			Rule 1) Names will begin with a lower case letter
+
+		Good Examples:
+			fireTorpedo()
+			setAlertStatus()
+			createNewLongRangeMessage()
+
+		Bad Examples:
+			FireTorpedo() (violation of rule #1)
+			setalertstatus() (violation of rule #1a)
+			fire() (violation of rule #2a, fire WHAT?)
+			firePhaserBank1(), firePhaserBank2() (violation of rule #3a)
+
+			
+	Classes
+		Naming:
+			Rule 1) Names will begin with a UPPER case letter
+
+		Note:
+			Since classes have many instances, sometimes their naming is a bit more vague
+
+		Good Examples:
+			Torpedo
+			SecurityOfficer
+			System
+
+		Bad Examples:
+			torpedo (violation of rule #1)
+			securityofficer (violation of rule #1a)
+			security (violation of rule #2a, is this a security officer, station, WHAT?)
+			system1, system2 (violation of rule #3a)
+
+

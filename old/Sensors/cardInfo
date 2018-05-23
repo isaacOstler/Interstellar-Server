@@ -1,8 +1,0 @@
-{
-	"cardName":"Sensors",
-	"cardType":"card",
-	"author":"Isaac Ostler",
-	"copyright":"Isaac Ostler",
-	"version":"1.0.0",
-	"description":"Allows the crew to see outside of the ship, and to scan for properties/contacts"
-}
