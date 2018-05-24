@@ -47,6 +47,7 @@ var stations,
     overidePort = false,
     overrideingPortNumber = 3000,
     httpAlreadyInit = false,
+    databaseListeners = [],
     portNumberFromUserPrefs = overrideingPortNumber,
     saveDatabase = false;
 
@@ -160,9 +161,18 @@ app.on('ready', function() {
                     console.log("[+] STATION CONNECTED (" + socketID + ", " + socket.handshake.address + ")");
                     console.log("sending " + stations + " for client");
                     socket.emit('stationsSent', stations);
-                    socket.on('disconnect', function(socket) {
+                    socket.on('disconnect', function(disconnectedSocket) {
                         databaseManager.setClientCount(Object.keys(io.sockets.sockets));
                         console.log("[!] STATION DISCONNECTED");
+                        var databaseListenerToRemove = -1;
+                        for(var i = 0;i < databaseListeners.length;i++){
+                            if(databaseListeners[i].socket.id == socket.id){
+                                databaseListenerToRemove = i;
+                            }
+                        }
+                        if(databaseListenerToRemove != -1){
+                            databaseListeners.splice(databaseListenerToRemove,1);
+                        }
                         socket = null;
                     });
                     socket.on('getCardFiles', function(data) {
@@ -206,9 +216,37 @@ app.on('ready', function() {
                         });
                     });
 
+                    socket.on('setDatabaseListeners',function(data){
+                        for(var i = 0;i < databaseListeners.length;i++){
+                            if(databaseListeners[i].socket == socket){
+                                databaseListeners[i].values = data;
+                                return;
+                            }
+                        }
+                        //if we get here, this socket has not been added to database listeners yet
+                        databaseListeners.splice(databaseListeners.length,0,{"socket" : socket,"values" : data})
+                    });
+
                     socket.on('setDatabaseValue', function(data) {
                         databaseManager.setDatabaseValue(data.key, data.dataValue);
-                        io.emit("databaseValueDidChange", data);
+                        var clientsUpdated = [];
+                        for(var i = 0;i < databaseListeners.length;i++){
+                            for(var j = 0;j < databaseListeners[i].values.length;j++){
+                                if(databaseListeners[i].values[j] == data.key){
+                                    var detected = false;
+                                    for(var x = 0;x < clientsUpdated.length;x++){
+                                        if(clientsUpdated[x] == i){
+                                            detected = true;
+                                        }
+                                    }
+                                    if(!detected){
+                                        clientsUpdated.splice(clientsUpdated.length,0,i);
+                                        databaseListeners[i].socket.emit("databaseValueDidChange",data);
+                                    }
+                                }
+                            }
+                        }
+                        //io.emit("databaseValueDidChange", data);
                         //deallocate
                         data = null;
                         //socket.broadcast.emit("databaseValueDidChange",data);
@@ -293,7 +331,7 @@ app.on('ready', function() {
 					minWidth: 1000,
 					minHeight: 550
 				});
-				mainWindow.loadURL('http://localhost:' + (overidePort ? overrideingPortNumber : portNumberFromUserPrefs) +'/views/client');	
+				mainWindow.loadURL('http://localhost:' + (overidePort ? overrideingPortNumber : portNumberFromUserPrefs) + '/views/client');	
 				express.use(require("express-status-monitor")());
             });
         });
