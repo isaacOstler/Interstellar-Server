@@ -30,7 +30,7 @@ log.info('App starting...');
 var cardManager = require(__dirname + '/cardManager');
 var databaseManager = require(__dirname + '/databaseManager.js');
 express.set("view engine", "ejs");
-
+    
 const electron = require('electron'),
     { ipcMain } = require('electron'),
     { app, BrowserWindow, webContents } = electron;
@@ -254,15 +254,16 @@ app.on('ready', function() {
                     });
 
                     socket.on('clearDatabase', function(data) {
-                        databaseManager.clearDatabase()
+                        databaseManager.clearDatabase();
                         io.emit("databaseValueDidChange", "all");
-                    })
+                    });
 
                     socket.on('getViewscreenCard', function(data) {
+                        let connectedSocket = socket;
                         console.log("Sending viewscreen card...");
                         cardManager.serveCard("viewscreen", function(bufferStream) {
                             if (bufferStream) {
-                                socket.emit('recieveViewscreenCard', {
+                                connectedSocket.emit('recieveViewscreenCard', {
                                     "cardName": "viewscreen",
                                     "bufferStream": bufferStream
                                 });

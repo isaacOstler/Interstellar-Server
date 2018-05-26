@@ -32,6 +32,9 @@ Interstellar.addCoreWidget("Card Controller",function(){
 			}
 		]
 
+	//DOM References
+	var stationDropdown = $("#card-controller-core_commandSelect_station");
+
 	//widget functions
 	thisWidget.onResize = function(){
 		drawGUI();
@@ -73,9 +76,23 @@ Interstellar.addCoreWidget("Card Controller",function(){
 			return;
 		}
 		stations = newData;
+		var html = "",
+			i;
+
+		html += "<option>ALL STATIONS</option>";
+		html += "<option>RANDOM</option>";
+		for(i = 0;i < stations.length;i++){
+			html += "<option>";
+			html += stations[i].station;
+			html += "</option>";
+		}
+		stationDropdown.html(html);
 	});
 
 	//event handlers
+	stationDropdown.click(function(event){
+		currentStation = $(event.target).val();
+	});
 	$("#card-controller-core_commandSelect_command").change(function(event){
 		currentCommand = $(event.target).val();
 		generateButtonText();
@@ -94,7 +111,7 @@ Interstellar.addCoreWidget("Card Controller",function(){
 			return;
 		}
 		var station = currentStation;
-		if(currentStation == "random"){
+		if(currentStation == "RANDOM"){
 			station = stations[Math.floor(Math.random() * stations.length)].station;
 		}
 		if(currentCommand.toLowerCase() == "flash" || currentCommand.toLowerCase() == "spark" ){

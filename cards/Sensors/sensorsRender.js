@@ -103,9 +103,10 @@ var alertStatus = 5, //the ships alert status
     thisWidgetName = "Sensors", //the name of this widget (since for a while, it was called new-sensors-core)
     animationInterval = undefined, //the variable pointing to the animation interval
     networkRefreshTimeout = undefined, //the variable pointing to the network update timeout
-    frameRate = 60, //the frame rate for the sensors array (how many frames per second)
+    frameRate = 40, //the frame rate for the sensors array (how many frames per second)
     networkRefreshRate = 150, //how many milliseconds until the network is updated on the contacts positions
     contacts = [], //sensor contacts
+    jumpTolerance = .1,
     infraredActive = false,
     noAnimationCycleInProgress = false, //this variable helps us know if we need to restart the animation cycle (if it's been sleeping)
     selectionDragPoints = //these points are used to draw the drag selection box
@@ -376,39 +377,6 @@ Interstellar.onDatabaseValueChange("sensors.effects",function(newData){
     noAnimationCycleInProgress = false;
 });
 
-Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
-    //this entire function is plotted out in a diagram at the top of the document.
-
-    //if there is no new data (the value hasn't been set on the database yet)
-    if(newData == null){
-        //for debugging purposes, I've generated a test value
-        
-        var presetContacts =[];/*
-        for(var k = 0;k < 500;k++){
-            var newContact = {
-                    "GUID" : guidGenerator(),
-                    "xPos" : Math.random() * 100,
-                    "yPos" : Math.random() * 100,
-                    "wantedX" : Math.random() * 100,
-                    "wantedY" : Math.random() * 100,
-                    "animationSpeed" : Math.random() * 3000,
-                    "xStep" : undefined,
-                    "yStep" : undefined,
-                    "attributes" :
-                    {
-                        "isActive" : true
-                    }
-                }
-            presetContacts.splice(presetContacts.length,0,newContact);
-        }*/
-        //set the default value
-        Interstellar.setDatabaseValue("sensors.contacts",presetContacts);
-        //terminate execution of this function
-        return;
-    }
-    noAnimationCycleInProgress = false;
-    animationCycle(newData);
-});
 function flashElement(element,numberOfFlashes){
     let flashCount = 0,
         flashState = false,
@@ -428,6 +396,43 @@ function flashElement(element,numberOfFlashes){
     },0100);
 }
 
+
+function checkFrameRate(newPositions,oldPositions){
+    var jumpDetected = false,
+        jumpAverage = 0;
+    for(var i = 0;i < newPositions.length;i++){
+        for(var j = 0;j < oldPositions.length;j++){
+            if(newPositions[i].GUID == oldPositions[j].GUID){
+                if(!withinRange(newPositions[i].x, oldPositions[j].x, jumpTolerance) || !withinRange(newPositions[i].y,oldPositions[j].y, jumpTolerance)){
+                    jumpDetected = true;
+                    jumpAverage += newPositions[i].x - oldPositions[j].x;
+                    jumpAverage += newPositions[i].x - oldPositions[j].x;
+                }
+            }
+        }
+    }
+    jumpAverage = jumpAverage / newPositions.length;
+    if(jumpDetected){
+        frameRate -= 3;
+    }else{
+        frameRate++;
+    }
+    frameRate = Math.abs(frameRate); //we can never have a negative framerate
+    console.log(frameRate);
+    if(frameRate < 15){
+        frameRate = 15; //15 is our low
+    }else if(frameRate > 80){
+        frameRate = 80; //80 is our high
+    }
+
+    //leaving this note for myself.
+    //The current problem is when you find yourself in an extreme
+    //for example, we lower our frame rate SUUUPPPER LOW, like, 5
+    //of COURSE everything is going to be jumpy then, so we get locked
+    //forever at 5.  Need some way to detect when the jump is caused by framerate.
+    //perhaps we run an animation cycle before we calculate all of this? ... nooo, that wouldn't work
+}
+
 function animationCycle(newData){
     contacts = newData;
     //compile all the arrays into one compoundArray
@@ -435,10 +440,10 @@ function animationCycle(newData){
     //if there is already an animation interval
     if(animationInterval != undefined){
         //clear it
-        clearInterval(animationInterval);
+        clearTimeout(animationInterval);
     }
     //define a new animation interval
-    animationInterval = setInterval(function(){
+    var animationFunction = function(){
         var i;
         //cycle through every object
         for(i = 0;i < CompoundContactsArray.length;i++){
@@ -600,7 +605,11 @@ function animationCycle(newData){
         }
         //now we update the array!
         updateContactsOnArray(finalContactsToRender);
-    },1000 / frameRate); //this calculates the frame rate (remember, this is in milliseconds)
+        animationInterval = setTimeout(function(){
+            animationFunction();
+        },1000 / frameRate);//this calculates the frame rate (remember, this is in milliseconds)
+    }
+    animationFunction();
 }
 //functions
 

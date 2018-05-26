@@ -312,6 +312,15 @@ Interstellar.onDatabaseValueChange("sensors.contacts",function(newData){
         //terminate execution of this function
         return;
     }
+    var positions = [],
+        oldPositions = [];
+    for(var i = 0;i < newData.length;i++){
+        positions.splice(positions.length,0,{"x" : newData[i].xPos,"y" : newData[i].yPos, "GUID" : newData[i].GUID});
+    }
+    for(var i = 0;i < contacts.length;i++){
+        oldPositions.splice(positions.length,0,{"x" : contacts[i].xPos,"y" : contacts[i].yPos, "GUID" : contacts[i].GUID});
+    }
+    //checkFrameRate(positions,oldPositions);
     noAnimationCycleInProgress = false;
     animationCycle(newData);
 });
@@ -491,6 +500,7 @@ canvas_mouseCatcher.on("mousemove.contactInfoCordUpdate",function(event){
         }
     }
 });
+
 
 function withinRange(number,range,difference){
     if(number < range + difference && number > range - difference){
