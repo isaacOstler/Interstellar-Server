@@ -115,11 +115,11 @@ Interstellar.addCoreWidget("Card Controller",function(){
 			station = stations[Math.floor(Math.random() * stations.length)].station;
 		}
 		if(currentCommand.toLowerCase() == "flash" || currentCommand.toLowerCase() == "spark" ){
-			Interstellar.setDatabaseValue("cardController." + currentCommand.toLowerCase(),station.toLowerCase());
+			Interstellar.setDatabaseValue("cardController." + currentCommand.toLowerCase(),station);
 			return;
 		}
 		for(var i = 0;i < stations.length;i++){
-			if(stations[i].station.toLowerCase() == station.toLowerCase() || station.toLowerCase() == "all stations"){
+			if(stations[i].station == station || station == "all stations"){
 				stations[i].state = currentCommand.toLowerCase();
 				Interstellar.setDatabaseValue("cardController.state",stations);
 			}
