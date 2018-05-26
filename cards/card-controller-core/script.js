@@ -3,7 +3,7 @@ Interstellar.addCoreWidget("Card Controller",function(){
 	//variables
 	var thisWidget = this,
 		currentCommand = "Flash",
-		currentStation = "All Stations",
+		currentStation = "ALL STATIONS",
 		stations = [],
 		presetButtons = [
 			{
