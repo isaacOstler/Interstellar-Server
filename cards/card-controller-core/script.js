@@ -119,7 +119,7 @@ Interstellar.addCoreWidget("Card Controller",function(){
 			return;
 		}
 		for(var i = 0;i < stations.length;i++){
-			if(stations[i].station == station.toLowerCase() || station.toLowerCase() == "all stations"){
+			if(stations[i].station.toLowerCase() == station.toLowerCase() || station.toLowerCase() == "all stations"){
 				stations[i].state = currentCommand.toLowerCase();
 				Interstellar.setDatabaseValue("cardController.state",stations);
 			}
