@@ -10,6 +10,9 @@ var canvas = $("#canvas"),
 	officersList = $("#officersList"),
 	dispatchTasksButton = $("#dispatchTasks"),
 	newDispachButton = $("#dispatchButton"),
+	reasignWarningPopup = $("#reasignWarning"),
+	reasignWarningPopup_continueButton = $("#reasignWarning_continueButton"),
+	reasignWarningPopup_cancelButton = $("#reasignWarning_cancelButton"),
 	dispatchWindow = $("#dispatchScreen"),
 	dispatchWindow_mask = $("#dispatchBlackoutArea"),
 	dispatchWindow_ordersTextarea = $("#dispatchScreen_controls_orders"),
@@ -89,11 +92,11 @@ Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
 	dispatchWindow_deckSelect.html(html);
 	setDispatchWindowRoomSelectToDeck(0);
 });
-Interstellar.onDatabaseValueChange("securityTeams.officers",function(newData){
+Interstellar.onDatabaseValueChange("securityDispatch.officers",function(newData){
 	if(newData == null){
 		$.getJSON( "/resource?path=public/officers.json", function( data ) {
 			console.log(data);
-		  	Interstellar.setDatabaseValue("securityTeams.officers",data.officers);
+		  	Interstellar.setDatabaseValue("securityDispatch.officers",data.officers);
 		  	return;
 		});
 		return;
@@ -107,6 +110,9 @@ Interstellar.onDatabaseValueChange("securityTeams.officers",function(newData){
 		officers = newData;
 		listOfficers();
 	}
+	var ctx = document.getElementById(canvas.attr("id")).getContext("2d");
+	ctx.clearRect(0,0,canvas.width(),canvas.height());
+	drawShip(ctx,-1,getShipImagePostingDensity());
 });
 
 //functions
@@ -140,6 +146,21 @@ function updateOfficers(){
 		$("[officerIndex=" + i + "]").css("background-color",color);
 	}
 }
+
+function getShipImagePostingDensity(){
+	var denisty = [];
+	var i;
+	for(i = 0;i < rooms.length;i++){
+		denisty.splice(denisty.length,0,[]);
+	}
+	for(i = 0;i < officers.length;i++){
+		if(officers[i].postedDeck != -1){
+			denisty[officers[i].postedDeck]++;
+		}
+	}
+	return denisty;
+}
+
 function listOfficers(){
 	var html = "";
 	for(var i = 0;i < officers.length;i++){
@@ -148,8 +169,6 @@ function listOfficers(){
 		html += ", ";
 		html += officers[i].name.first.toUpperCase();
 		html += "</div>";
-		officers[i].postedDeck = Math.floor(Math.random() * rooms.length);
-		officers[i].currentAction = Math.floor(Math.random() * 6);
 	}
 	officersList.html(html);
 	$(".officerItem").off();
@@ -157,7 +176,7 @@ function listOfficers(){
 		var index = Number($(event.target).attr("officerIndex"));
     	var ctx = document.getElementById(canvas.attr("id")).getContext("2d");
     	ctx.clearRect(0,0,canvas.width(),canvas.height());
-		drawShip(ctx,officers[index].postedDeck);
+		drawShip(ctx,officers[index].postedDeck,getShipImagePostingDensity());
 	});
 	$(".officerItem").on("click",function(event){
 		if(dispatchModeActive){
@@ -203,6 +222,12 @@ function toTwoDigitNumber(number){
 function initCanvas(){
 	//we have to allow the image to load before we set this event listener
 	shipImage.onload = function(){
+		var ctx = document.getElementById(canvas.attr("id")).getContext("2d");
+		canvas.attr("width",canvas.width());
+		canvas.attr("height",canvas.height());
+		drawShip(ctx,-1,getShipImagePostingDensity());
+
+
 		//now that the image has loaded, create the event listner
 		canvas.on("mousemove",function(event){
     		var ctx = document.getElementById(canvas.attr("id")).getContext("2d");
@@ -229,7 +254,7 @@ function initCanvas(){
 				currentDeckSelected = -1;
 			}
 
-			drawShip(ctx,currentDeckSelected);
+			drawShip(ctx,currentDeckSelected,getShipImagePostingDensity());
 			//drawLineToPoint(ctx,0,0,event.offsetX,event.offsetY);
 			updateOfficers();
 			for(var i = 0;i < officers.length;i++){
@@ -238,19 +263,37 @@ function initCanvas(){
 				}
 			}
 		});
-	};
+	}
 	//load the image at this address
 	shipImage.src = '/ship?file=starboard.png';
 }
 
-function drawShip(ctx,highlightedDeck){
+function drawShip(ctx,highlightedDeck,density){
 	//we must maintain the aspect ratio
     var aspectRatio = shipImage.width / shipImage.height;
     var imageHeight = Math.round(canvas.width() / aspectRatio);
     var imageStartY = (canvas.height() / 2) - (imageHeight / 2);
     ctx.drawImage(shipImage,0,imageStartY, Math.round(canvas.width()), imageHeight);
+    var deckHeight = imageHeight / rooms.length;
+    
+    if(density != null){
+    	//mask to the image
+		ctx.globalCompositeOperation = "source-atop";
+	    for(var i = 0;i < density.length;i++){
+	    	if(i != highlightedDeck){
+	    		for(var j = 0;j < density[i];j++){
+
+			        ctx.fillStyle = "rgba(0,120,255,.45)";
+			        ctx.fillRect(0,imageStartY + (i * deckHeight),canvas.width(),deckHeight);
+
+	    		}
+	    	}
+	    }
+		// change the composite mode to destination-atop
+		// any new drawing will not overwrite any existing pixels
+		ctx.globalCompositeOperation = "destination-atop";
+    }
     if(highlightedDeck != -1){
-    	var deckHeight = imageHeight / rooms.length;
 
     	//mask to the image
         ctx.globalCompositeOperation = "source-atop";
@@ -261,8 +304,6 @@ function drawShip(ctx,highlightedDeck){
         // change the composite mode to destination-atop
         // any new drawing will not overwrite any existing pixels
         ctx.globalCompositeOperation = "destination-atop";
-        // restore the context to it's original state
-        ctx.restore();
     }
 }
 function drawLineToPoint(ctx,startX,startY,x,y){
@@ -333,14 +374,16 @@ newDispachButton.click(function(event){
 	setDispatchMode(true);
 });
 dispatchWindow_dispatchButton.click(function(event){
-	var orders = dispatchWindow_ordersTextarea.val();
-	var deck = Number(dispatchWindow_deckSelect.val());
-	var deckText = Number(deck + 1);
-	var room = Number(dispatchWindow_roomSelect.val());
-	var code = codes[Number(dispatchWindow_codeSelect.val().split(",")[0])].category;
-	var specificCode = Number(dispatchWindow_codeSelect.val().split(",")[1]);
-	var priority = "";
-	var officersSelected = [];
+	let orders = dispatchWindow_ordersTextarea.val();
+	let deck = Number(dispatchWindow_deckSelect.val());
+	let deckText = Number(deck + 1);
+	let room = Number(dispatchWindow_roomSelect.val());
+	let code = codes[Number(dispatchWindow_codeSelect.val().split(",")[0])].category;
+	let specificCode = Number(dispatchWindow_codeSelect.val().split(",")[1]);
+	let priority = "";
+	let officersSelected = [];
+	let officerNames = [];
+	let officerAlreadyOnDuty = false;
 
 	switch(Number(dispatchWindow_prioritySelect.val())){
 		case 1:
@@ -368,23 +411,55 @@ dispatchWindow_dispatchButton.click(function(event){
 	    	officersSelected.splice(officersSelected.length,0,Number($(obj).attr("officerindex")));
 	    }
 	});
-	var officerNames = [];
 	for(var i = 0;i < officersSelected.length;i++){
 		officerNames.splice(officerNames.length,0,officers[officersSelected[i]].name.last);
+		if(officers[officersSelected[i]].currentRequestedAction != 0){
+			officerAlreadyOnDuty = true;
+		}
 	}
-	var speak = "";
-	for(var i = 0;i < officerNames.length;i++){
-		speak += "SECURITY OFFICER " + officerNames[i] + ", ";
+
+
+	var dispatchFunction = function(){
+		var speak = "";
+		for(var i = 0;i < officerNames.length;i++){
+			speak += "SECURITY OFFICER " + officerNames[i] + ", ";
+		}
+		speak += ", " + code + ", ";
+		speak += " RESPOND TO DECK ";
+		speak += deckText;
+		speak += ".  " + rooms[Number(deck)][Number(room)].name;
+		speak += ".  " + speak;
+		speak += ".  CODE.  " + Number(dispatchWindow_codeSelect.val().split(",")[0]) + ", " + priority + ", " + specificCode;
+		Interstellar.say(speak);
+		Interstellar.setDatabaseValue("securityDispatch.dispatchRadioSpeech",speak);
+		setDispatchMode(false);
+		dispatchFunction = null;
+
+		for(var i = 0;i < officersSelected.length;i++){
+			officers[officersSelected[i]].currentRequestedAction = 2;
+			officers[officersSelected[i]].orders = orders;
+			officers[officersSelected[i]].postedDeck = Number(deck);
+			officers[officersSelected[i]].postedRoom = Number(room);
+		}
+		Interstellar.setDatabaseValue("securityDispatch.officers",officers);
 	}
-	speak += ", " + code + ", ";
-	speak += " RESPOND TO DECK ";
-	speak += deckText;
-	speak += ".  " + rooms[Number(deck)][Number(room)].name;
-	speak += ".  " + speak;
-	speak += ".  CODE.  " + Number(dispatchWindow_codeSelect.val().split(",")[0]) + ", " + priority + ", " + specificCode;
-	Interstellar.say(speak);
-	Interstellar.setDatabaseValue("securityDispatch.dispatchRadioSpeech",speak);
-	setDispatchMode(false);
+
+	if(officerAlreadyOnDuty){
+		reasignWarningPopup.fadeIn();
+		reasignWarningPopup_cancelButton.off();
+		reasignWarningPopup_continueButton.off();
+		reasignWarningPopup_cancelButton.click(function(event){
+			reasignWarningPopup.fadeOut();
+			reasignWarningPopup_cancelButton.off();
+		});
+		reasignWarningPopup_continueButton.click(function(event){
+			reasignWarningPopup.fadeOut();
+			reasignWarningPopup_continueButton.off();
+			dispatchFunction();
+		});
+	}else{
+		dispatchFunction();
+	}
 });
 dispatchWindow_cancelButton.click(function(event){
 	setDispatchMode(false);

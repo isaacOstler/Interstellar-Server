@@ -2,6 +2,22 @@
 <link rel="stylesheet" type="text/css" href="/resource?path=style.css">
 <div id="dispatchBlackoutArea"></div>
 <div id="dispatchBlackoutArea_dispatchItemSpecific"></div>
+
+<div id="reasignWarning" class='popupMask'>
+	<div class='popupMask_messageBox Container0'>
+		<div class='popupMask_messageBox_messageTitle'>WARNING</div>
+		<div class='popupMask_messageBox_messageSubTitle'>ONE OR MORE OF THE OFFICERS YOU HAVE SELECTED ARE ALREADY ON ANOTHER CALL, OR ARE OFF DUTY.  THIS ACTION WILL REASIGN THEM TO THIS CALL, AND / OR PUT THE OFFICER ON-DUTY.  ARE YOU SURE YOU WISH TO CONTINUE?</div>
+		<div class='popupMask_messageBox_messageIcon'>
+			<svg fill="rgb(255,205,0)" height="128" viewBox="0 0 24 24" width="128" xmlns="http://www.w3.org/2000/svg">
+				<path d="M0 0h24v24H0z" fill="none"/>
+				<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+			</svg>
+		</div>
+		<div class="popupMask_messageBox_symbolTextDevideBar"></div>
+		<div class='popupMask_messageBox_closeMessageButton noselect beepOnClick' id='reasignWarning_cancelButton'>CANCEL</div>
+		<div class='popupMask_messageBox_closeMessageButton noselect beepOnClick' id='reasignWarning_continueButton'>CONTINUE</div>
+	</div>
+</div>
 <div id="contentArea" class="noselect">
 	<div class="container6" id="securityOfficerInformation">
 		<div id="securityOfficerInformation_label">OSTLER, ISAAC    -    PROFILE</div>
@@ -139,7 +155,7 @@
     		<path fill="white" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
 		</svg>
 	</div>
-	<canvas id="canvas">
+	<canvas id="canvas" class="Container0">
 		
 	</canvas>
 </div>

@@ -1,3 +1,19 @@
+
+/* Standard syntax */
+@keyframes pulseYellow {
+    0%   {filter: drop-shadow(0px 0px 30px rgba(255,180,0,.4))}
+    50%  {filter: drop-shadow(0px 0px 30px rgba(255,180,0,.98))}
+    100% {filter: drop-shadow(0px 0px 30px rgba(255,180,0,.4))}
+}
+
+#reasignWarning_continueButton{
+	background: linear-gradient(to bottom, rgba(0, 170, 179, 0.84) 0%,rgba(0, 123, 171, 0.82) 100%);
+}
+#reasignWarning_cancelButton{
+	right: 25px;
+	width: calc(30% - 20px);
+	background: linear-gradient(to right, rgba(255,5,5,0.84) 0%,rgba(224,55,4,0.82) 44%,rgba(186,34,0,0.79) 100%);
+}
 #dispatchScreen_controls_selectOfficersLabel{
 	position: absolute;
 	bottom: 62px;
@@ -346,8 +362,9 @@
 	position: absolute;
 	right: 0px;
 	top: 60px;
-	width: 66.66%;
-	height: calc(80% - 61px);
+	width: 65%;
+	border-image-width: .4em;
+	height: calc(30% - 61px);
 }
 #dispatchTasksInfo{
 	display: none;
@@ -507,4 +524,87 @@
 	justify-content: center; /* align horizontal */
 	align-items: center; /* align vertical */
 	/* background: linear-gradient(to bottom, rgba(255,255,255,.6), green); */
+}
+
+
+
+.popupMask_messageBox_closeMessageButton:hover{
+	filter: brightness(1.35);
+}
+.popupMask_messageBox_closeMessageButton:active{
+	filter: brightness(0.65);
+}
+.popupMask_messageBox_closeMessageButton{
+	position: absolute;
+	bottom: 20px;
+	right: 31%;
+	width: 43%;
+	height: 30px;
+	cursor: pointer;
+	border: 1px solid white;
+	text-align: center;
+}
+.popupMask_messageBox_messageIcon{
+  	position: absolute;
+  	top: 33px;
+  	height: calc(100% - 80px);
+  	left: 11px;
+  	animation-name: pulseYellow;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+.popupMask_messageBox_messageTitle{
+	color: #ffda23;
+	position: absolute;
+	top: -1px;
+	right: 0px;
+	/* width: calc(100% - 90px); */
+	/* text-align: center; */
+	font-size: 78px;
+	text-align: center;
+	width: calc(100% - 146px);
+	height: 62px;
+  	animation-name: pulseYellow;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+	/* border-bottom: 1px solid white; */
+	/* border: 1px solid; */
+}
+.popupMask_messageBox_messageSubTitle{
+	position: absolute;
+	top: 80px;
+	right: 20px;
+	text-align: center;
+	width: calc(100% - 181px);
+	font-family: 'Arial';
+	font-size: 12px;
+}
+.popupMask_messageBox{
+	z-index: 999;
+	position: absolute;
+	top: calc(50% - 200px);
+	height: 200px;
+	left: calc(50% - 300px);
+	width: 600px;
+  	animation-name: pulseYellow;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+.popupMask_messageBox_symbolTextDevideBar{
+	position: absolute;
+	top:0px;
+	left: 24%;
+	height: 100%;
+	border-left: 1px solid white;
+	width: 1px;
+}
+.popupMask{
+	display: none;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.7);
+	z-index: 99;
 }
