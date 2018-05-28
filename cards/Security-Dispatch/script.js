@@ -7,7 +7,8 @@ var shipImage = new Image,
 
 //DOM Refrences
 var canvas = $("#canvas"),
-	officersList = $("#officersList"),
+	officersList = $("#officersList_list"),
+	officersListContainer = $("#officersList"),
 	dispatchTasksButton = $("#dispatchTasks"),
 	newDispachButton = $("#dispatchButton"),
 	reasignWarningPopup = $("#reasignWarning"),
@@ -316,15 +317,18 @@ function setDispatchMode(state){
 	dispatchWindow_ordersTextarea.val("");
 	$(".officerItem").removeClass("dispatchWindow_unselectedOfficer");
 	officersSelected = [];
+	dispatchWindow_mask.stop();
+	officersListContainer.stop();
+	dispatchWindow.stop();
 	if(state){
 		$(".officerItem").addClass("dispatchWindow_unselectedOfficer");
 		dispatchWindow_mask.fadeIn();
-		officersList.animate({"left" : $("#contentArea").width() * .12},1000,function(){
+		officersListContainer.animate({"left" : $("#contentArea").width() * .12},1000,function(){
 			dispatchWindow.fadeIn();
 		});
 	}else{
 		dispatchWindow.fadeOut();
-		officersList.animate({"left" : $("#contentArea").width() * .0},1000,function(){
+		officersListContainer.animate({"left" : $("#contentArea").width() * .0},1000,function(){
 			dispatchWindow_mask.fadeOut();
 		});
 	}

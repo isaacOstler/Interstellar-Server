@@ -5,6 +5,97 @@
     50%  {filter: drop-shadow(0px 0px 30px rgba(255,180,0,.98))}
     100% {filter: drop-shadow(0px 0px 30px rgba(255,180,0,.4))}
 }
+#currentCalls_callsContainer_header{
+	position: absolute;
+	top:0px;
+	left: 1px;
+	height: 22px;
+	font-size: 20px;
+	width: calc(100% - 2px);
+	border-bottom: 1px solid white;
+	background-color: rgba(0,0,0,.8);
+}
+#currentCalls_callsContainer_header_incidentLabel{
+	position: absolute;
+	top:0px;
+	left: 2%;
+}
+#currentCalls_callsContainer_header_locationLabel{
+	position: absolute;
+	top: 0px;
+	left: 36%;
+}
+#currentCalls_callsContainer_header_officersLabel{
+	position: absolute;
+	top: 0px;
+	left: 60%;
+}
+#currentCalls_callsContainer_header_timeLabel{
+	position: absolute;
+	top: 0px;
+	right: 5%;
+}
+#currentCalls_callsContainer_header_priorityLabel{
+	position: absolute;
+	top:0px;
+	left: 20%;
+}
+#currentCalls_callsContainer{
+	position: absolute;
+	top: 32px;
+	left: 0px;
+	width: 100%;
+	height: calc(100% - 42px);
+	background: linear-gradient(to bottom, rgba(181, 181, 181, 0.59), rgba(45, 45, 45, 0.69));
+	border-bottom: 1px solid white;
+}
+#currentCalls_header{
+	position: absolute;
+	top: 2px;
+	/* font-size: 22px; */
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	border-bottom: 1px solid white;
+}
+#currentCalls_noCallsContainer_header{
+	position: absolute;
+	top: calc(50% - 50px);
+	width: 100%;
+	left: 0px;
+	text-align: center;
+	font-size: 56px;
+}
+#currentCalls_noCallsContainer_subtitle{
+	position: absolute;
+	top: calc(50% + 2px);
+	font-size: 13px;
+	color: #b5b5b5;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	font-family: 'Arial';
+}
+#currentCalls_noCallsContainer{
+	display: none;
+	position: absolute;
+	top: 31px;
+	left: 0px;
+	width: 100%;
+	border-bottom: 1px solid white;
+	height: calc(100% - 41px);
+	border: 1px solid white;
+	background: linear-gradient(to bottom, rgba(128, 128, 128, 0.22), rgba(169, 169, 169, 0.37));
+}
+
+#currentCalls{
+	position: absolute;
+	top: calc(30% + 2px);
+	height: calc(70% - 82px);
+	width: 65%;
+	right: 0px;
+	border-image-width: .4em;
+}
 
 #reasignWarning_continueButton{
 	background: linear-gradient(to bottom, rgba(0, 170, 179, 0.84) 0%,rgba(0, 123, 171, 0.82) 100%);
@@ -262,10 +353,10 @@
 #dispatchButton{
 	position: absolute;
 	bottom: 5%;
-	right: 10%;
-	width: 45%;
+	right: .4em;
+	width: calc(64% - 0.4em);
 	/* border: 1px solid white; */
-	height: 50px;
+	height: 37px;
 	text-align: center;
 	/* background: linear-gradient(to bottom, #6ebfbf, #007e8b); */
 }
@@ -310,28 +401,36 @@
 	background-color: rgba(0,0,0,.6);
 	z-index: 21;
 }
-#officersLabel{
+#officersList_header{
 	position: absolute;
-	top: 34px;
+	top:0px;
 	left: 0px;
-	width: 33%;
+	width: 100%;
 	text-align: center;
-	font-size: 28px;
+}
+#officersList_list{
+	position: absolute;
+	top: 26px;
+	left: 0px;
+	width: 100%;
+	height: calc(100% - 36px);
+	border-top: 1px solid white;
+	overflow: auto;
 }
 #officersList{
 	position: absolute;
 	top: 60px;
-	height: calc(80% - 101px);
+	height: calc(80% - 102px);
 	z-index: 10;
-	border: 1px solid white;
-	background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,48,79,0.91) 100%);
-	width: 33.33%;
+	width: calc(35% - 4px);
+	border-image-width: .4em;
 }
 #officerKey{
 	position: absolute;
 	bottom: 80px;
 	height: 15%;
-	width: 33.33%;
+	left: 10px;
+	width: calc(35% - 24px);
 	border: 1px solid white;
 	background-color: rgba(0,0,0,.6);
 }
@@ -344,10 +443,10 @@
 #dispatchTasks{
 	position: absolute;
 	bottom: 5%;
-	left: 0px;
+	left: 10px;
 	font-size: 24px;
 	height: 39px;
-	width: 33.33%;
+	width: calc(35% - 24px);
 	background: linear-gradient(to bottom, #909090, #5f5f5f);
 	border: 1px solid white;
 	text-align: center;
@@ -474,8 +573,10 @@
 	width: 100%;
 	border-bottom: 1px solid white;
 	background-color: rgba(0,0,0,.4);
-	height: 30px;
-	font-size: 26px;
+	height: calc(100% / 15);
+	font-size: 28px;
+	padding-left: 3px;
+	padding-top: 1px;
 }
 .dispatchWindow_unselectedOfficer{
 	filter: grayscale(.6) brightness(.6);

@@ -79,8 +79,10 @@
 			<div class="customButton beepOnClick" id="dispatchScreen_controls_cancelButton">CANCEL</div>
 		</div>
 	</div>
-	<div id="officersLabel">SECURITY OFFICERS</div>
-	<div id="officersList"></div>
+	<div id="officersList" class="Container0">
+		<div id="officersList_header">SECURITY OFFICERS</div>
+		<div id="officersList_list"></div>
+	</div>
 	<div id="officerKey">
 		<div class="officerKeyItem" style="background-color: rgba(255,255,255,.3);">
 			<span style="color:white;">WHITE</span><span class="officerKeyItem_info">OFFICER UNASSIGNED</span>
@@ -101,7 +103,7 @@
 			<span style="color:red;">RED</span><span class="officerKeyItem_info">OFFICER STATUS UNKNOWN</span>
 		</div>
 	</div>
-	<div class="beepOnClick Button2" id="dispatchButton">
+	<div class="beepOnClick customButton" id="dispatchButton">
 		NEW DISPATCH
 	</div>
 	<div id="dispatchTasksInfo">
@@ -155,9 +157,33 @@
     		<path fill="white" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
 		</svg>
 	</div>
-	<canvas id="canvas" class="Container0">
-		
-	</canvas>
+	<div class="Container0" id="currentCalls">
+		<div id="currentCalls_header">CURRENT INCIDENTS</div>
+		<div id="currentCalls_noCallsContainer">
+			<div id="currentCalls_noCallsContainer_header">NO CURRENT CALLS OR POSTINGS</div>
+			<div id="currentCalls_noCallsContainer_subtitle">CLICK THE "NEW DISPATCH" BUTTON TO CREATE A NEW CALL</div>
+		</div>
+		<div id="currentCalls_callsContainer">
+			<div id="currentCalls_callsContainer_header">
+				<div id="currentCalls_callsContainer_header_incidentLabel">
+					INCIDENT
+				</div>
+				<div id="currentCalls_callsContainer_header_priorityLabel">
+					PRIORITY
+				</div>
+				<div id="currentCalls_callsContainer_header_locationLabel">
+					LOCATION
+				</div>
+				<div id="currentCalls_callsContainer_header_officersLabel">
+					OFFICERS
+				</div>
+				<div id="currentCalls_callsContainer_header_timeLabel">
+					TIME
+				</div>
+			</div>
+		</div>
+	</div>
+	<canvas id="canvas" class="Container0"></canvas>
 </div>
 <script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
 <script src="/resource?path=script.js" type="text/javascript"></script>
