@@ -44,7 +44,9 @@ var canvas = $("#canvas"),
 	officerInformationBox_currentRoom = $("#securityInformation_currentRoom"),
 	officerInformationBox_orders = $("#securityInformation_currentOrders"),
 	officerInformationBox_recallButton = $("#securityInformation_recallButton"),
-	officerInformationBox_postOffDutyButton = $("#securityInformation_postOffDutyButton");
+	officerInformationBox_closeButton = $("#officerInformationBox_closeButton"),
+	officerInformationBox_postOffDutyButton = $("#securityInformation_postOffDutyButton"),
+	officerInformationBox_closeButton = $("#securityInformation_closeButton");
 
 //init
 
@@ -215,7 +217,7 @@ function updateCurrentIncidentsGUI(){
 		var officerNames = "";
 		for(var j = 0;j < teams[i].officers.length;j++){
 			officerNames += teams[i].officers[j].name.last;
-			if(j != teams[i].officers.length){
+			if(j + 1 < teams[i].officers.length){
 				officerNames += ", ";
 			}
 		}
@@ -297,7 +299,7 @@ function listOfficers(){
 				dispatchWindow_dispatchButton.removeClass("customButton");
 			}
 		}else{
-			var index = Number($(event.target).attr("officerIndex"));
+			let index = Number($(event.target).attr("officerIndex"));
 			officerInformationBox_title.html(officers[index].name.last.toUpperCase() + ", " + officers[index].name.first.toUpperCase() + " - PROFILE");
 			officerInformationBox_firstName.html(officers[index].name.first.toUpperCase());
 			officerInformationBox_lastName.html(officers[index].name.last.toUpperCase());
@@ -306,10 +308,26 @@ function listOfficers(){
 			officerInformationBox_species.html(officers[index].race.toUpperCase());
 			officerInformationBox_rank.html(officers[index].rank.toUpperCase());
 			officerInformationBox_specialty.html(officers[index].specialty.toUpperCase());
-			officerInformationBox_currentRoom.html(officers[index].postedRoom);
-			officerInformationBox_currentDeck.html("Deck " + (officers[index].postedDeck + 1));
+			officerInformationBox_currentRoom.html(officers[index].postedRoom != -1 ? officers[index].postedRoom : "NO POST");
+			officerInformationBox_currentDeck.html(officers[index].postedDeck != -1 ? ("Deck " + officers[index].postedDeck + 1) : "NO POST");
 			officerInformationBox_orders.html(officers[index].orders.toUpperCase());
 			officerInformationBox.slideDown();
+			officerInformationBox_postOffDutyButton.off();
+			officerInformationBox_postOffDutyButton.click(function(event){
+				officers[index].currentAction = 1;
+				Interstellar.setDatabaseValue("securityDispatch.officers",officers);
+				officerInformationBox.fadeOut();
+			});
+			officerInformationBox_recallButton.off();
+			officerInformationBox_recallButton.click(function(event){
+				officers[index].currentRequestedAction = 4;
+				Interstellar.setDatabaseValue("securityDispatch.officers",officers);
+				officerInformationBox.fadeOut();
+			});
+			officerInformationBox_closeButton.off();
+			officerInformationBox_closeButton.click(function(event){
+				officerInformationBox.fadeOut();
+			})
 		}
 	});
 	updateOfficers();
@@ -417,6 +435,7 @@ function setDispatchMode(state){
 	dispatchModeActive = state;
 	dispatchWindow_ordersTextarea.val("");
 	$(".officerItem").removeClass("dispatchWindow_unselectedOfficer");
+	$(".officerItem").css("filter","");
 	officersSelected = [];
 	dispatchWindow_mask.stop();
 	officersListContainer.stop();
@@ -483,7 +502,7 @@ dispatchWindow_dispatchButton.click(function(event){
 	let deck = Number(dispatchWindow_deckSelect.val());
 	let deckText = Number(deck + 1);
 	let room = Number(dispatchWindow_roomSelect.val());
-	let code = codes[Number(dispatchWindow_codeSelect.val().split(",")[0])].category;
+	let code = (Number(dispatchWindow_codeSelect.val().split(",")[0]) != -1) ? codes[Number(dispatchWindow_codeSelect.val().split(",")[0])].category : "NO CODE";
 	let specificCode = Number(dispatchWindow_codeSelect.val().split(",")[1]);
 	let priority = "";
 	let officersSelected = [];
@@ -525,21 +544,24 @@ dispatchWindow_dispatchButton.click(function(event){
 
 
 	var dispatchFunction = function(){
-		var speak = "";
-		for(var i = 0;i < officerNames.length;i++){
-			speak += "SECURITY OFFICER " + officerNames[i] + ", ";
+		if(officersSelected.length == 0){
+			Interstellar.playErrorNoise();
+			return;
 		}
-		speak += ", " + code + ", ";
-		speak += " RESPOND TO DECK ";
-		speak += deckText;
-		speak += ".  " + rooms[Number(deck)][Number(room)].name;
-		speak += ".  " + speak;
-		speak += ".  CODE.  " + Number(dispatchWindow_codeSelect.val().split(",")[0]) + ", " + priority + ", " + specificCode;
-		Interstellar.say(speak);
-		Interstellar.setDatabaseValue("securityDispatch.dispatchRadioSpeech",speak);
-		setDispatchMode(false);
-		dispatchFunction = null;
-
+		if(Number(dispatchWindow_codeSelect.val().split(",")[0]) != -1){
+			var speak = "";
+			for(var i = 0;i < officerNames.length;i++){
+				speak += "SECURITY OFFICER " + officerNames[i] + ", ";
+			}
+			speak += ", " + code + ", ";
+			speak += " RESPOND TO DECK ";
+			speak += deckText;
+			speak += ".  " + rooms[Number(deck)][Number(room)].name;
+			speak += ".  " + speak;
+			speak += ".  CODE.  " + Number(dispatchWindow_codeSelect.val().split(",")[0]) + ", " + priority + ", " + specificCode;
+			Interstellar.say(speak);
+			Interstellar.setDatabaseValue("securityDispatch.dispatchRadioSpeech",speak);
+		}
 		for(var i = 0;i < officersSelected.length;i++){
 			officers[officersSelected[i]].currentRequestedAction = 2;
 			officers[officersSelected[i]].orders = orders;
@@ -558,7 +580,7 @@ dispatchWindow_dispatchButton.click(function(event){
 			"deck" : Number(deck),
 			"orders" : orders,
 			"priority" : priority,
-			"incident" : codes[Number(dispatchWindow_codeSelect.val().split(",")[0])].codes[specificCode].name
+			"incident" : (Number(dispatchWindow_codeSelect.val().split(",")[0]) != -1) ? codes[Number(dispatchWindow_codeSelect.val().split(",")[0])].codes[specificCode].name : "NO CODE"
 		}
 		var teamsCopy = [];
 		for(var i = 0;i < teams.length;i++){
@@ -566,6 +588,8 @@ dispatchWindow_dispatchButton.click(function(event){
 		}
 		teamsCopy.splice(teamsCopy.length,0,team);
 		Interstellar.setDatabaseValue("securityDispatch.teams",teamsCopy);
+		setDispatchMode(false);
+		dispatchFunction = null;
 	}
 
 	if(officerAlreadyOnDuty){

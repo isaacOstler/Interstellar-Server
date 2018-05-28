@@ -232,13 +232,20 @@
 	width: 90%;
 	z-index: 10;
 }
-#securityInformation_recallButton{
+#securityInformation_closeButton{
 	position: absolute;
 	bottom: 3px;
 	height: 33px;
 	right: 6px;
+	width: calc(25% - 49px);
+}
+#securityInformation_recallButton{
+	position: absolute;
+	bottom: 3px;
+	height: 33px;
+	right: 16%;
 	background: linear-gradient(to bottom, red, darkred);
-	width: calc(66% - 49px);
+	width: calc(52% - 53px);
 }
 #securityInformation_postOffDutyButton{
 	position: absolute;
