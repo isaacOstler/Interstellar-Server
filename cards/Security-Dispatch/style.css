@@ -50,7 +50,6 @@
 	left: 26%;
 }
 #currentCalls_callsContainer{
-	display: none;
 	position: absolute;
 	top: 32px;
 	left: 0px;
@@ -88,6 +87,7 @@
 }
 #currentCalls_noCallsContainer{
 	position: absolute;
+	display: none;
 	top: 31px;
 	left: 0px;
 	width: 100%;
@@ -730,7 +730,7 @@
 	font-family: 'Arial';
 }
 .currentCalls_callsContainer_list_property{padding: 2px;}
-.currentCalls_callsContainer_list_incident{width: 26%;float: left;}
+.currentCalls_callsContainer_list_incident{width: 26%;padding-right:4px;float: left;}
 .currentCalls_callsContainer_list_priority{width: 12%;float: left;}
 .currentCalls_callsContainer_list_location{width: 22%;float: left;}
 .currentCalls_callsContainer_list_officers{width: 30%;float: left;}

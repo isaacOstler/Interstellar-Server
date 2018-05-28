@@ -16,7 +16,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -34,7 +33,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human" 
 		},
 		{
@@ -52,7 +50,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -70,7 +67,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -88,7 +84,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -106,7 +101,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -124,7 +118,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -142,7 +135,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -160,7 +152,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -178,7 +169,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -196,7 +186,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -214,7 +203,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -232,7 +220,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Klingon"
 		},
 		{
@@ -250,7 +237,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		},
 		{
@@ -268,7 +254,6 @@
 			"postedDeck" : -1,
 			"postedRoom" : -1,
 			"orders" : "NO ORDERS",
-			"timeOnCall" : null,
 			"race" : "Human"
 		}
 	]

@@ -2,7 +2,8 @@
 var shipImage = new Image,
 	dispatchModeActive = false,
 	codes = [],
-	rooms = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+	teams = [],
+	rooms = [],
 	officers = [];
 
 //DOM Refrences
@@ -82,6 +83,57 @@ Interstellar.onDatabaseValueChange("securityDispatch.dispatchCodes",function(new
 	}
 	dispatchWindow_codeSelect.html(html);
 });
+Interstellar.onDatabaseValueChange("securityDispatch.teams",function(newData){
+	if(newData == null){
+		Interstellar.setDatabaseValue("securityDispatch.teams",teams);
+		return;
+	}
+	var updateRequired = false;
+	var teamsToRemove = [];
+	teams = newData;
+	for(var i = 0;i < teams.length;i++){
+		var officersToRemove = [];
+		for(var j = 0;j < teams[i].officers.length;j++){
+			//we are cycling through the officers in this team
+			//if the officer in this team is no longer posted to this team
+			for(var x = 0;x < officers.length;x++){
+				if(officers[x].name.last == teams[i].officers[j].name.last && officers[x].name.first == teams[i].officers[j].name.first && officers[x].name.middle == teams[i].officers[j].name.middle && officers[x].age == teams[i].officers[j].age){
+					//this is them
+					if(officers[x].postedRoom != teams[i].room || officers[x].postedDeck != teams[i].deck){
+						updateRequired = true;
+						//we need to remember to remove this officer;
+						officersToRemove.splice(officersToRemove.length,0,teams[i].officers[j]);
+					}
+				}
+			}
+		}
+		//remove any officers from this list
+		for(var j = 0;j < officersToRemove.length;j++){
+			for(var x = 0;x < teams[i].officers.length;x++){
+				if(officersToRemove[j] == teams[i].officers[x]){
+					teams[i].officers.splice(x,1);
+				}
+			}
+		}
+
+		if(teams[i].officers.length == 0){
+			teamsToRemove.splice(teamsToRemove,0,teams[i]);
+			updateRequired = true;
+		}
+	}
+	for(var i = 0;i < teamsToRemove.length;i++){
+		for(var j = 0;j < teams.length;j++){
+			if(teamsToRemove[i] == teams[j]){
+				teams.splice(j,1);
+			}
+		}
+	}
+	if(updateRequired){
+		Interstellar.setDatabaseValue("securityDispatch.teams",teams);
+		return;
+	}
+	updateCurrentIncidentsGUI();
+});
 Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
 	if(newData == null){
 		return; //DO NOT SET THIS VALUE HERE!  THIS MUST BE SET ON CORE
@@ -149,6 +201,52 @@ function updateOfficers(){
 		$("[officerIndex=" + i + "]").css("color","");
 		$("[officerIndex=" + i + "]").css("background-color",color);
 	}
+}
+
+function updateCurrentIncidentsGUI(){
+	if(rooms.length == 0){
+		setTimeout(function(){
+			updateCurrentIncidentsGUI();
+		},0500);
+		return;
+	}
+	var html = "";
+	for(var i = 0;i < teams.length;i++){
+		var officerNames = "";
+		for(var j = 0;j < teams[i].officers.length;j++){
+			officerNames += teams[i].officers[j].name.last;
+			if(j != teams[i].officers.length){
+				officerNames += ", ";
+			}
+		}
+		html += '<div class="currentCalls_callsContainer_list_item noselect">';
+		html += '<div class="currentCalls_callsContainer_list_property currentCalls_callsContainer_list_incident">';
+		html += teams[i].incident.toUpperCase();
+		html += '</div>';
+		html += '<div class="currentCalls_callsContainer_list_property currentCalls_callsContainer_list_priority">';
+		html += teams[i].priority;
+		html += '</div>';
+		html += '<div class="currentCalls_callsContainer_list_property currentCalls_callsContainer_list_location">';
+		html += 'DECK ' + Number(teams[i].deck + 1) + ', ' + rooms[Number(teams[i].deck)][Number(teams[i].room)].name.toUpperCase();
+		html += '</div>';
+		html += '<div class="currentCalls_callsContainer_list_property currentCalls_callsContainer_list_officers">';
+		html += officerNames.toUpperCase();
+		html += '</div>';
+		html += '<div class="currentCalls_callsContainer_list_property currentCalls_callsContainer_list_time">';
+		html += getFormatedTimeDifference(new Date(teams[i].timeDispatched),new Date());
+		html += '</div>';
+		html += '</div>'
+	}
+	callsList.html(html);
+}
+
+function getFormatedTimeDifference(startDate,endDate){
+	var seconds = Math.floor((endDate.getTime() - startDate.getTime()) / 1000);
+	var minutes = Math.floor(seconds / 60);
+	var hours = Math.floor(minutes / 60);
+	seconds = seconds - (minutes * 60);
+	minutes = minutes - (hours * 60);
+	return (toTwoDigitNumber(hours) + ":" + toTwoDigitNumber(minutes) + ":" + toTwoDigitNumber(seconds));
 }
 
 function getShipImagePostingDensity(){
@@ -447,9 +545,27 @@ dispatchWindow_dispatchButton.click(function(event){
 			officers[officersSelected[i]].orders = orders;
 			officers[officersSelected[i]].postedDeck = Number(deck);
 			officers[officersSelected[i]].postedRoom = Number(room);
-			officers[officersSelected[i]].timeOnCall = new Date();
+		}
+		var actaulOfficerObjects = [];
+		for(var i = 0;i < officersSelected.length;i++){
+			actaulOfficerObjects.splice(actaulOfficerObjects.length,0,officers[officersSelected[i]]);
 		}
 		Interstellar.setDatabaseValue("securityDispatch.officers",officers);
+		var team = {
+			"officers" : actaulOfficerObjects,
+			"timeDispatched" : new Date(),
+			"room" : Number(room),
+			"deck" : Number(deck),
+			"orders" : orders,
+			"priority" : priority,
+			"incident" : codes[Number(dispatchWindow_codeSelect.val().split(",")[0])].codes[specificCode].name
+		}
+		var teamsCopy = [];
+		for(var i = 0;i < teams.length;i++){
+			teamsCopy.splice(teamsCopy.length,0,teams[i]);
+		}
+		teamsCopy.splice(teamsCopy.length,0,team);
+		Interstellar.setDatabaseValue("securityDispatch.teams",teamsCopy);
 	}
 
 	if(officerAlreadyOnDuty){
@@ -481,3 +597,6 @@ dispatchTasksWindow_closeButton.click(function(event){
 	dispatchTasksWindow_screenMask.fadeOut(1000);
 });
 //intervals
+setInterval(function(){
+	updateCurrentIncidentsGUI();
+},1000);
