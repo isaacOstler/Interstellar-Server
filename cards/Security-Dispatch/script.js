@@ -45,7 +45,7 @@ initCanvas();
 //preset obeservers
 
 //database observers
-Interstellar.onDatabaseValueChange("security.dispatchCodes",function(newData){
+Interstellar.onDatabaseValueChange("securityDispatch.dispatchCodes",function(newData){
 	if(newData == null){
 		//i'm setting this value here for development purposes ONLY
 		//ideally this will be handled by core
@@ -55,7 +55,7 @@ Interstellar.onDatabaseValueChange("security.dispatchCodes",function(newData){
 			    var textB = b.category.toUpperCase();
 			    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 			});
-		  	Interstellar.setDatabaseValue("security.dispatchCodes",data.codes);
+		  	Interstellar.setDatabaseValue("securityDispatch.dispatchCodes",data.codes);
 		  	return;
 		});
 		return;
@@ -87,6 +87,7 @@ Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
 		html += "</option>";
 	}
 	dispatchWindow_deckSelect.html(html);
+	setDispatchWindowRoomSelectToDeck(0);
 });
 Interstellar.onDatabaseValueChange("securityTeams.officers",function(newData){
 	if(newData == null){
@@ -273,6 +274,7 @@ function setDispatchMode(state){
 	dispatchModeActive = state;
 	dispatchWindow_ordersTextarea.val("");
 	$(".officerItem").removeClass("dispatchWindow_unselectedOfficer");
+	officersSelected = [];
 	if(state){
 		$(".officerItem").addClass("dispatchWindow_unselectedOfficer");
 		dispatchWindow_mask.fadeIn();
@@ -332,34 +334,33 @@ newDispachButton.click(function(event){
 });
 dispatchWindow_dispatchButton.click(function(event){
 	var orders = dispatchWindow_ordersTextarea.val();
-	var deck = dispatchWindow_deckSelect.val();
-	var room = dispatchWindow_roomSelect.val();
+	var deck = Number(dispatchWindow_deckSelect.val());
+	var deckText = Number(deck + 1);
+	var room = Number(dispatchWindow_roomSelect.val());
 	var code = codes[Number(dispatchWindow_codeSelect.val().split(",")[0])].category;
 	var specificCode = Number(dispatchWindow_codeSelect.val().split(",")[1]);
-	var priority = dispatchWindow_prioritySelect.val();
+	var priority = "";
 	var officersSelected = [];
 
-	if(priority != null){
-		switch(priority){
-			case 1:
-				priority = "ALPHA";
-			break;
-			case 2:
-				priority = "BRAVO";
-			break;
-			case 3:
-				priority = "CHARLIE";
-			break;
-			case 4:
-				priority = "DELTA";
-			break;
-			case 5:
-				priority = "ECHO";
-			break;
-			case 0:
-				priority = "OMEGA";
-			break;
-		}
+	switch(Number(dispatchWindow_prioritySelect.val())){
+		case 1:
+			priority = "ALPHA";
+		break;
+		case 2:
+			priority = "BRAVO";
+		break;
+		case 3:
+			priority = "CHARLIE";
+		break;
+		case 4:
+			priority = "DELTA";
+		break;
+		case 5:
+			priority = "ECHO";
+		break;
+		case 0:
+			priority = "OMEGA";
+		break;
 	}
 
 	$(".officerItem").each(function(i, obj) {
@@ -371,18 +372,18 @@ dispatchWindow_dispatchButton.click(function(event){
 	for(var i = 0;i < officersSelected.length;i++){
 		officerNames.splice(officerNames.length,0,officers[officersSelected[i]].name.last);
 	}
-	console.log(orders,deck,room,code,priority,officerNames);
 	var speak = "";
 	for(var i = 0;i < officerNames.length;i++){
 		speak += "SECURITY OFFICER " + officerNames[i] + ", ";
 	}
-	speak += " RESPOND TO ";
-	speak += (deck + 1);
-	speak += ".  " + room;
-	speak += ".  FOR A " + code;
-	speak += speak;
-	speak += "CODE.  " + Number(dispatchWindow_codeSelect.val().split(",")[0]) + ". " + priority + ". " + specificCode;
+	speak += ", " + code + ", ";
+	speak += " RESPOND TO DECK ";
+	speak += deckText;
+	speak += ".  " + rooms[Number(deck)][Number(room)].name;
+	speak += ".  " + speak;
+	speak += ".  CODE.  " + Number(dispatchWindow_codeSelect.val().split(",")[0]) + ", " + priority + ", " + specificCode;
 	Interstellar.say(speak);
+	Interstellar.setDatabaseValue("securityDispatch.dispatchRadioSpeech",speak);
 	setDispatchMode(false);
 });
 dispatchWindow_cancelButton.click(function(event){
