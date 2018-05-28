@@ -28,15 +28,62 @@
 		<div id="securityInformation_recallButton" class="customButton">RECALL OFFICER</div>
 		<div id="securityInformation_postOffDutyButton" class="customButton">POST OFF-DUTY</div>
 	</div>
-	<div id="officersLabel">SECURITY OFFICERS</div>
-	<div id="officersList">
-		<div class="officerItem">
-			OSTLER, ISAAC
-		</div>
-		<div class="officerItem">
-			WILLIAMSON, VICTOR
+	<div id="dispatchScreen" class="Container0">
+		<div id="dispatchScreen_controls">
+			<div id="dispatchScreen_controls_header">DISPATCH INFORMATION</div>
+			<div id="dispatchScreen_controls_ordersLabel">TEAM ORDERS</div>
+			<textarea id="dispatchScreen_controls_orders" placeholder="TYPE TEAM ORDERS HERE"></textarea>
+			<div id="dispatchScreen_controls_deckLabel">SEND TEAM TO DECK</div>
+			<select id="dispatchScreen_controls_deckSelect">
+				<option>DECK 1</option>
+				<option>DECK 2</option>
+				<option>DECK 3</option>
+				<option>DECK 4</option>
+				<option>DECK 5</option>
+				<option>DECK 6</option>
+				<option>DECK 7</option>
+				<option>DECK 8</option>
+				<option>DECK 9</option>
+				<option>DECK 10</option>
+			</select>
+			<div id="dispatchScreen_controls_roomLabel">SEND TEAM TO ROOM</div>
+			<select id="dispatchScreen_controls_roomSelect">
+				<option>BRIDGE</option>
+				<option>BRIEFING ROOM</option>
+				<option>TRANSPORTER ROOM ALPHA</option>
+			</select>
+			<div id="dispatchScreen_controls_codeLabel">
+				<span style="font-size: 12px">(OPTIONAL)</span> DISPATCH CODE
+			</div>
+			<select id="dispatchScreen_controls_codeSelect">
+				<optgroup label="0 - NO CODE">
+					<option>0 - 01 - NO CODE SPECIFIED</option>
+				</optgroup>
+			</select>
+			<div id="dispatchScreen_controls_dispatchPriorityLabel">
+				<span style="font-size: 12px">(OPTIONAL)</span> PRIORITY
+			</div>
+			<select id="dispatchScreen_controls_prioritySelect">
+				<optgroup>
+					<option value="1">ALPHA - NON-EMERGENCY</option>
+					<option value="2">BRAVO - PRIORITIZED NON-EMERGENCY</option>
+					<option value="3">CHARLIE - EMERGENCY</option>
+					<option value="4">DELTA - LIFE-THREATENING EMERGENCY</option>
+					<option value="5">ECHO - SHIP-THREATENING EMERGENCY</option>
+				</optgroup>
+				<optgroup>
+					<option value="0">OMEGA - CREW ASSIST</option>	
+				</optgroup>
+			</select>
+			<div id="dispatchScreen_controls_selectOfficersLabel">
+				YOU MUST SELECT AT LEAST ONE OFFICER FROM THE LIST ON THE LEFT BEFORE YOU CAN DISPATCH A TEAM.
+			</div>
+			<div class="disabledButton" id="dispatchScreen_controls_dispatchButton">DISPATCH TEAM</div>
+			<div class="customButton beepOnClick" id="dispatchScreen_controls_cancelButton">CANCEL</div>
 		</div>
 	</div>
+	<div id="officersLabel">SECURITY OFFICERS</div>
+	<div id="officersList"></div>
 	<div id="officerKey">
 		<div class="officerKeyItem" style="background-color: rgba(255,255,255,.3);">
 			<span style="color:white;">WHITE</span><span class="officerKeyItem_info">OFFICER UNASSIGNED</span>

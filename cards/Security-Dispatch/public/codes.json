@@ -1,0 +1,441 @@
+{
+	"codes" :
+	[
+		{
+			"category" : "ALARM INVESTIGATION",
+			"codes" :
+			[
+				{
+					"name" : "ALARM INVESTIGATION (NO FURTHER INFORMATION)",
+					"code" : "CHARLIE" 
+				},
+				{
+					"name" : "ALARM INVESTIGATION (INTRUDER)",
+					"code" : "ECHO" 
+				},
+				{
+					"name" : "ALARM INVESTIGATION (MEDICAL)",
+					"code" : "DELTA" 
+				},
+				{
+					"name" : "ALARM INVESTIGATION (FIRE)",
+					"code" : "ECHO" 
+				},
+				{
+					"name" : "ALARM INVESTIGATION (HULL BREACH)",
+					"code" : "CHARLIE" 
+				},
+				{
+					"name" : "ALARM INVESTIGATION (OXYGEN LEAK)",
+					"code" : "CHARLIE" 
+				},
+				{
+					"name" : "ALARM INVESTIGATION, (UNKNOWN PROBLEM)",
+					"code" : "DELTA" 
+				}
+			]
+		},
+		{
+			"category" : "ASSAULT",
+			"codes" :
+			[
+				{
+					"name" : "ASSAULT (NO FURTHER INFORMATION)",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "ASSAULT WITH PHASER OR PROJECTILE WEAPON",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "ASSAULT WITH KNIFE, DAGGER, OR SHARP WEAPON",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "ASSAULT WITH UNKNOWN WEAPON",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "ASSAULT WITH BODILY HARM",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "ASSAULT WITH TOXIN OR POISON",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "ASSAULT, (UNKNOWN PROBLEM)",
+					"code" : "DELTA"
+				}
+			]
+		},
+		{
+			"category" : "disturbance",
+			"codes" :
+			[
+				{
+					"name" : "disturbance (no further information)",
+					"code" : "Charlie"
+				},
+				{
+					"name" : "excessive noise",
+					"code" : "alpha"
+				},
+				{
+					"name" : "disorderly conduct",
+					"code" : "bravo"
+				},
+				{
+					"name" : "harassment (nonphysical)",
+					"code" : "bravo"
+				},
+				{
+					"name" : "disturbance, (unknown problem)",
+					"code" : "bravo"
+				}
+			]
+		},
+		{
+			"category" : "intruder",
+			"codes" :
+			[
+				{
+					"name" : "intruder (no further information)",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "possible intruder (not confirmed)",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "confirmed intruder",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "armed intruder engaged with crew",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "unauthorized transport",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "intruder, (unknown problem)",
+					"code" : "DELTA"
+				}
+			]
+		},
+		{
+			"category" : "unknown problem",
+			"codes" :
+			[
+				{
+					"name" : "unknown problem (no further information)",
+					"code" : "DELTA"
+				},
+				{
+					"name" : "suspicious individual",
+					"code" : "charlie"
+				},
+				{
+					"name" : "suspicious device",
+					"code" : "charlie"
+				},
+				{
+					"name" : "suspicious smell or fume",
+					"code" : "charlie"
+				},
+				{
+					"name" : "man down, unknown cause",
+					"code" : "delta"
+				},
+				{
+					"name" : "shouting",
+					"code" : "bravo"
+				},
+				{
+					"name" : "smoke investigation",
+					"code" : "echo"
+				},
+				{
+					"name" : "water investigation",
+					"code" : "bravo"
+				},
+				{
+					"name" : "general investigation",
+					"code" : "bravo"
+				},
+				{
+					"name" : "crew assist, (unknown problem)",
+					"code" : "omega"
+				}
+			]
+		},
+		{
+			"category" : "explosive",
+			"codes" :
+			[
+				{
+					"name" : "explosive (no further information)",
+					"code" : "echo"
+				},
+				{
+					"name" : "confirmed explosive, armed",
+					"code" : "echo"
+				},
+				{
+					"name" : "confirmed explosive, unarmed",
+					"code" : "echo"
+				},
+				{
+					"name" : "unconfirmed explosive, armed",
+					"code" : "echo"
+				},
+				{
+					"name" : "unconfirmed explosive, unarmed",
+					"code" : "echo"
+				},
+				{
+					"name" : "explosion by weaponry or explosive device",
+					"code" : "echo"
+				},
+				{
+					"name" : "explosion by plasma",
+					"code" : "delta"
+				},
+				{
+					"name" : "explosion by gas",
+					"code" : "delta"
+				},
+				{
+					"name" : "explosion by unknown cause",
+					"code" : "delta"
+				},
+				{
+					"name" : "explosive materials or device missing",
+					"code" : "echo"
+				},
+				{
+					"name" : "explosive, (unknown problem)",
+					"code" : "echo"
+				}
+			]
+		},
+		{
+			"category" : "medical emergency",
+			"codes" :
+			[
+				{
+					"name" : "medical emergency (no further information)",
+					"code" : "delta"
+				},
+				{
+					"name" : "unconscious person",
+					"code" : "delta"
+				},
+				{
+					"name" : "person not breathing",
+					"code" : "delta"
+				},
+				{
+					"name" : "cardiac arrest",
+					"code" : "delta"
+				},
+				{
+					"name" : "life threatening bleeding",
+					"code" : "delta"
+				},
+				{
+					"name" : "hanging / suffocation",
+					"code" : "delta"
+				},
+				{
+					"name" : "allergic reaction",
+					"code" : "delta"
+				},
+				{
+					"name" : "choking",
+					"code" : "delta"
+				},
+				{
+					"name" : "electrocution",
+					"code" : "delta"
+				},
+				{
+					"name" : "chest pain",
+					"code" : "delta"
+				},
+				{
+					"name" : "minor bleeding",
+					"code" : "bravo"
+				},
+				{
+					"name" : "amputation",
+					"code" : "delta"
+				},
+				{
+					"name" : "phaser or gunshot wound",
+					"code" : "delta"
+				},
+				{
+					"name" : "sick person",
+					"code" : "charlie"
+				},
+				{
+					"name" : "obvious death",
+					"code" : "bravo"
+				},
+				{
+					"name" : "not ambulatory (no other serious medical emergency)",
+					"code" : "omega"
+				},
+				{
+					"name" : "abdominal pain (unspecified)",
+					"code" : "delta"
+				},
+				{
+					"name" : "abdominal pain (sharp / tearing)",
+					"code" : "delta"
+				},
+				{
+					"name" : "abdominal pain (dull)",
+					"code" : "charlie"
+				},
+				{
+					"name" : "burn (life threatening)",
+					"code" : "delta"
+				},
+				{
+					"name" : "burn (minor)",
+					"code" : "charlie"
+				},
+				{
+					"name" : "syncopal episode (dizziness or lightheaded)",
+					"code" : "charlie"
+				},
+				{
+					"name" : "behavioral / psychological evaluation (peaceful)",
+					"code" : "alpha"
+				},
+				{
+					"name" : "poisoning / overdose",
+					"code" : "delta"
+				},
+				{
+					"name" : "traumatic injury",
+					"code" : "delta"
+				},
+				{
+					"name" : "injury (unspecified)",
+					"code" : "charlie"
+				},
+				{
+					"name" : "seizure / convulsion (active)",
+					"code" : "delta"
+				},
+				{
+					"name" : "seizure / convulsion (postictal)",
+					"code" : "charlie"
+				},
+				{
+					"name" : "medical emergency, (unknown problem)",
+					"code" : "delta"
+				}
+			]
+		},
+		{
+			"category" : "posting",
+			"codes" :
+			[
+				{
+					"name" : "posting (no further information)",
+					"code" : "alpha"
+				},
+				{
+					"name" : "patrol this location",
+					"code" : "alpha"
+				},
+				{
+					"name" : "crowd control",
+					"code" : "bravo"
+				},
+				{
+					"name" : "stage and wait for further information",
+					"code" : "bravo"
+				},
+				{
+					"name" : "lock-down this location",
+					"code" : "bravo"
+				},
+				{
+					"name" : "assist crew / passengers at this location",
+					"code" : "omega"
+				}
+			]
+		},
+		{
+			"category" : "unspecified",
+			"codes" :
+			[
+				{
+					"name" : "unspecified (no further information)",
+					"code" : "alpha"
+				},
+				{
+					"name" : "mutiny",
+					"code" : "echo"
+				},
+				{
+					"name" : "arrest",
+					"code" : "delta"
+				},
+				{
+					"name" : "interrogation",
+					"code" : "alpha"
+				},
+				{
+					"name" : "prisoner transfer",
+					"code" : "bravo"
+				},
+				{
+					"name" : "equipment / phaser delivery",
+					"code" : "alpha"
+				},
+				{
+					"name" : "officer replacement",
+					"code" : "alpha"
+				},
+				{
+					"name" : "investigation",
+					"code" : "alpha"
+				}
+			]
+		},
+		{
+			"category" : "animal problem",
+			"codes" :
+			[
+				{
+					"name" : "animal problem (no further information)",
+					"code" : "bravo"
+				},
+				{
+					"name" : "animal problem (small animal)",
+					"code" : "alpha"
+				},
+				{
+					"name" : "animal problem (dangerous animal)",
+					"code" : "delta"
+				},
+				{
+					"name" : "animal problem (missing animal)",
+					"code" : "bravo"
+				},
+				{
+					"name" : "animal problem (unknown problem)",
+					"code" : "bravo"
+				}
+			]
+		}
+	]
+}

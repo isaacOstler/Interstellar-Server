@@ -14,7 +14,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -30,7 +30,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human" 
 		},
 		{
@@ -46,7 +46,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -62,7 +62,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -78,7 +78,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -94,7 +94,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -110,7 +110,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -126,7 +126,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -142,7 +142,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -158,7 +158,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -174,7 +174,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -190,7 +190,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -206,7 +206,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Klingon"
 		},
 		{
@@ -222,7 +222,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		},
 		{
@@ -238,7 +238,7 @@
 			"currentAction" : 0,
 			"postedDeck" : -1,
 			"postedRoom" : -1,
-			"orders" : 0,
+			"orders" : "NO ORDERS",
 			"race" : "Human"
 		}
 	]

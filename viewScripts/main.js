@@ -369,7 +369,7 @@ setDefaultLayoutButton.click(function(event){
 	for(var i = 0;i < stationLayouts.length;i++){
 		stationLayouts[i].isDefault = false;
 	}
-	stationLayouts[selectedStation].isDefault = true;
+	stationLayouts[selectedStationLayout].isDefault = true;
 	setStationLayouts(stationLayouts);
 });
 cardSizeRangeSlider.on("input",function(event){
@@ -408,7 +408,7 @@ confirmSaveNewLayoutButton.click(function(event){
 	var newLayoutName = layoutNameTextbox.val() != "" ? layoutNameTextbox.val() : "MY LAYOUT";
 
 	var newLayout = {
-		"isDefault":false,
+		"isDefault":true,
 		"name":newLayoutName,
 		"stations" : stations
 	}

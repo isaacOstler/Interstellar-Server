@@ -1,3 +1,121 @@
+#dispatchScreen_controls_selectOfficersLabel{
+	position: absolute;
+	bottom: 62px;
+	right: 5px;
+	width: calc(100% - 10px);
+	font-size: 15px;
+	color:red;
+}
+#dispatchScreen_controls_header{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	font-size: 48px;
+}
+#dispatchScreen_controls_dispatchPriorityLabel{
+	position: absolute;
+	top: calc(50% + 113px);
+	left: 0px;
+}
+#dispatchScreen_controls_ordersLabel{
+	position: absolute;
+	top: 55px;
+	left: 0px;
+}
+#dispatchScreen_controls_deckLabel{
+	position: absolute;
+	top: calc(50% + 9px);
+	left: 0px;
+}
+#dispatchScreen_controls_codeLabel{
+	position: absolute;
+	top: calc(50% + 78px);
+	left: 0px;
+}
+#dispatchScreen_controls_prioritySelect{
+	position: absolute;
+	top: calc(50% + 110px);
+	right: 0px;
+	border: 1px solid white;
+	border-radius: 0px;
+	background-color: rgba(255,255,255,.2);
+	width: calc(100% - 147px);
+}
+#dispatchScreen_controls_codeSelect{
+	position: absolute;
+	top: calc(50% + 75px);
+	right: 0px;
+	border: 1px solid white;
+	border-radius: 0px;
+	background-color: rgba(255,255,255,.2);
+	width: calc(100% - 147px);
+}
+#dispatchScreen_controls_deckSelect{
+	position: absolute;
+	top: calc(50% + 5px);
+	right: 0px;
+	border: 1px solid white;
+	border-radius: 0px;
+	background-color: rgba(255,255,255,.2);
+	width: calc(100% - 147px);
+}
+#dispatchScreen_controls{
+	position: absolute;
+	top: 5%;
+	height: 90%;
+	right: 5%;
+	width: 51%;
+}
+#dispatchScreen_controls_roomLabel{
+	position: absolute;
+	top: calc(50% + 44px);
+	left: 0px;
+}
+#dispatchScreen_controls_cancelButton{
+	position: absolute;
+	bottom: 20px;
+	width: calc(25% - 1px);
+	background: linear-gradient(to bottom, red, darkred);
+	right: 0px;
+	height: 40px;
+}
+#dispatchScreen_controls_dispatchButton{
+	position: absolute;
+	background: linear-gradient(to bottom, #9a9a9a, #545454);
+	bottom: 20px;
+	width: 75%;
+	height: 40px;
+}
+#dispatchScreen_controls_roomSelect{
+	position: absolute;
+	top: calc(50% + 40px);
+	right: 0px;
+	border-radius: 0px;
+	border: 1px solid white;
+	background-color: rgba(255,255,255,.2);
+	width: calc(100% - 147px);
+}
+#dispatchScreen_controls_orders{
+	position: absolute;
+	top: 82px;
+	height: calc(50% - 82px);
+	width: 100%;
+	border: 1px solid white;
+	background-color: rgba(0,0,0,.7);
+	color:white;
+}
+#dispatchScreen{
+	display: none;
+	position: absolute;
+	top: 2%;
+	height: 79%;
+	border-image-width: 0.7em;
+	left: 10%;
+	width: 90%;
+	z-index: 10;
+}
 #securityInformation_recallButton{
 	position: absolute;
 	bottom: 3px;
@@ -115,12 +233,15 @@
 }
 #securityOfficerInformation{
 	z-index: 2;
+	display: none;
 	position: absolute;
 	top: 7.35%;
+	overflow: hidden;
 	height: 60%;
 	left: 35%;
 	/* opacity: .9; */
-	width: 48%;
+	width: 50%;
+	/* opacity: .875; */
 }
 #dispatchButton{
 	position: absolute;
@@ -154,13 +275,13 @@
 	background:linear-gradient(to bottom, red, darkred);
 }
 #dispatchBlackoutArea{
-	display: none;
 	position: absolute;
+	display: none;
 	top:0px;
 	left: 0px;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0,0,0,.6);
+	background-color: rgba(0,0,0,.7);
 	z-index: 9;
 }
 #dispatchBlackoutArea_dispatchItemSpecific{
@@ -322,7 +443,15 @@
 	float:right;
 	margin-right: 2px;
 }
+.officerItem:hover{
+	color: white;
+}
+.officerItem:active{
+	color: rgba(255,255,255,.4);
+}
 .officerItem{
+	cursor: pointer;
+	color:rgba(255,255,255,.7);
 	position: relative;
 	float: left;
 	width: 100%;
@@ -330,6 +459,9 @@
 	background-color: rgba(0,0,0,.4);
 	height: 30px;
 	font-size: 26px;
+}
+.dispatchWindow_unselectedOfficer{
+	filter: grayscale(.6) brightness(.6);
 }
 .informationField{
 	border: 1px solid white;
@@ -339,6 +471,25 @@
 	font-family: 'Arial';
 	right: 28px;
 	width: calc(100% - 167px);
+}
+.disabledButton:hover{
+	filter: brightness(0.5);
+}
+.disabledButton:active{
+	filter: brightness(0.5);
+}
+.disabledButton{
+	cursor: not-allowed;
+	filter: brightness(0.5);
+	font-size: 24px;
+	background: linear-gradient(to bottom, #909090, #5f5f5f);
+	border: 1px solid white;
+	text-align: center;
+	cursor: pointer;
+	display: flex;
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	/* background: linear-gradient(to bottom, rgba(255,255,255,.6), green); */
 }
 .customButton:hover{
 	filter: brightness(1.25);
