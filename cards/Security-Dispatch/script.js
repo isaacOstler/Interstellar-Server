@@ -7,6 +7,9 @@ var shipImage = new Image,
 
 //DOM Refrences
 var canvas = $("#canvas"),
+	callsList_noCalls = $("#currentCalls_noCallsContainer"),
+	callsList_calls = $("#currentCalls_callsContainer"),
+	callsList = $("#currentCalls_callsContainer_list"),
 	officersList = $("#officersList_list"),
 	officersListContainer = $("#officersList"),
 	dispatchTasksButton = $("#dispatchTasks"),
@@ -444,6 +447,7 @@ dispatchWindow_dispatchButton.click(function(event){
 			officers[officersSelected[i]].orders = orders;
 			officers[officersSelected[i]].postedDeck = Number(deck);
 			officers[officersSelected[i]].postedRoom = Number(room);
+			officers[officersSelected[i]].timeOnCall = new Date();
 		}
 		Interstellar.setDatabaseValue("securityDispatch.officers",officers);
 	}
