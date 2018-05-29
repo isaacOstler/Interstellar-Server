@@ -51,6 +51,7 @@
 .securityDispatchCoreCodeEditor_list_category_header{
 	height: 40px;
 	width: 80%;
+	float: left;
 	margin: 10px;
 	font-size: 36px;
 	border-radius: 9px;
@@ -104,9 +105,36 @@
 	margin-left: 10px;
 	font-size: 20px;
 }
+.securityDispatchCoreCodeEditor_list_category_delete{
+	position: relative;
+	float:left;
+	font-size: 40px;
+	margin-left: 0px;
+}
 .securityDispatchCoreCodeEditor_list_codes_item_delete{
 	position: relative;
 	float:left;
 	font-size: 20px;
 	margin-left: 10px;
+}
+.securityDispatchCoreCodeEditor_list_codes_addItem{
+	position: relative;
+	float: left;
+	width: 20%;
+	/* text-align: left; */
+	/* font-size: 17px; */
+	border-radius: 5px;
+	border: 1px solid white;
+	background-color: rgba(0,255,120,.4);
+}
+.securityDispatchCoreCodeEditor_list_categoryAddButton{
+	position: relative;
+	float: left;
+	width: 20%;
+	margin: 10px;
+	/* text-align: left; */
+	/* font-size: 17px; */
+	border-radius: 5px;
+	border: 1px solid white;
+	background-color: rgba(0,255,120,.4);
 }
