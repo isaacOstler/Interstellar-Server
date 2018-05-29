@@ -7,6 +7,7 @@
 }
 
 #securityDispatchCore_shipView{
+	display: none;
 	position: absolute;
 	bottom: 2px;
 	right: 2px;
@@ -51,6 +52,7 @@
 	text-align: center;
 }
 #securityDispatchCore_teams_header{position: absolute;border: 1px solid white;top: 24px;left: 1px;width: calc(100% - 4px);height: 12px;font-size: 10px;}
+
 #securityDispatchCore_teams_list{
 	overflow: auto;
 	position: absolute;
@@ -58,6 +60,7 @@
 	left: 1px;
 	border: 1px solid white;
 	width: calc(100% - 4px);
+	display: none;
 	height: calc(100% - 42px);
 }
 #securityDispatchCore_coverage_label{
@@ -304,6 +307,7 @@
 	top:2px;
 	right: 1px;
 	width: calc(100% - 100px);
+	overflow: hidden;
 	border: 1px solid white;
 	background-color: rgba(0,0,0,.6);
 	font-size: 12px;
@@ -348,4 +352,13 @@
 	width: 100%;
 	height: 10px;
 	border-bottom: 1px solid white;
+}
+.securityDispatchCore_list_items_itemEventHandler:hover{
+	filter: brightness(1.25);
+}
+.securityDispatchCore_list_items_itemEventHandler:active{
+	filter: brightness(0.65);
+}
+.securityDispatchCore_list_items_itemEventHandler{
+	cursor: pointer;
 }

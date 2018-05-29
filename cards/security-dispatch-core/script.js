@@ -5,7 +5,9 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 	var officers = [],
 		rooms = [],
 		teams = [],
-		codes = [];
+		codes = [],
+		isShowingShipView = false,
+		shipImage = new Image;
 
 	//DOM References
 	var offDutyList = $("#securityDispatchCore_offDutyList_items"),
@@ -13,14 +15,26 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 		enRouteList = $("#securityDispatchCore_enRouteList_items"),
 		onSceneList = $("#securityDispatchCore_onSceneList_items"),
 		returningList = $("#securityDispatchCore_returningList_items"),
-		teamsList = $("#securityDispatchCore_teams_list");
-
+		teamsList = $("#securityDispatchCore_teams_list"),
+		teamsContainer = $("#securityDispatchCore_teams"),
+		toggleShipViewButton = $("#securityDispatchCore_settings_toggleShipViewButton"),
+		coverageLabel = $("#securityDispatchCore_coverage_percentageLabel"),
+		coverageFill = $("#securityDispatchCore_coverage_percentageFill"),
+		canvas = $("#securityDispatchCore_shipView"),
+		officerInfo_name = $("#securityDispatchCore_officerControls_name"),
+		officerInfo_rank = $("#securityDispatchCore_officerControls_rank"),
+		officerInfo_race = $("#securityDispatchCore_officerControls_race"),
+		officerInfo_specialty = $("#securityDispatchCore_officerControls_specialty"),
+		officerInfo_location = $("#securityDispatchCore_officerControls_location"),
+		officerInfo_orders = $("#securityDispatchCore_officerControls_orders");
 
 	//init calls
+	initCanvas();
 	
 	//interstellar calls
 	thisWidget.onResize = function(){
 		drawGUI();
+		drawShip();
 	}
 
 	//preset observers
@@ -68,13 +82,142 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 		listOfficers();
 		updateTeams();
 		updateCurrentIncidentsGUI();
+		var ctx = document.getElementById(canvas.attr("id")).getContext("2d");
+		canvas.attr("width",canvas.width());
+		canvas.attr("height",canvas.height());
+		drawShip(ctx,-1,getShipImagePostingDensity());
 	});
 
 	//functions
 	function drawGUI(){
-
+		var ctx = document.getElementById(canvas.attr("id")).getContext("2d");
+		canvas.attr("width",canvas.width());
+		canvas.attr("height",canvas.height());
+		drawShip(ctx,-1,getShipImagePostingDensity());
 	}
 
+	function initCanvas(){
+		//we have to allow the image to load before we set this event listener
+		shipImage.onload = function(){
+			var ctx = document.getElementById(canvas.attr("id")).getContext("2d");
+			canvas.attr("width",canvas.width());
+			canvas.attr("height",canvas.height());
+			drawShip(ctx,-1,getShipImagePostingDensity());
+
+
+			//now that the image has loaded, create the event listner
+			canvas.on("mousemove",function(event){
+	    		var ctx = document.getElementById(canvas.attr("id")).getContext("2d");
+	   			var aspectRatio = shipImage.width / shipImage.height;
+			    var imageHeight = Math.round(canvas.width() / aspectRatio);
+				if(imageHeight > canvas.height()){
+					imageHeight = canvas.height();
+				}
+	    		var x = 0;
+			    var shipWidth = Math.round(canvas.width());
+			    if(shipWidth > shipImage.width){
+			    	x = (shipWidth - shipImage.width) / 2;
+			    	shipWidth = shipImage.width;
+			    }
+			    
+	    		var imageStartY = (canvas.height() / 2) - (imageHeight / 2);
+	    		var currentDeckSelected = -1;
+
+				canvas.attr("width",canvas.width());
+				canvas.attr("height",canvas.height());
+
+				ctx.strokeStyle = "white";
+			    ctx.strokeWidth = 2;
+
+				if(imageStartY < event.offsetY && event.offsetY < imageHeight + imageStartY){
+					//we are within the image
+					var offsetOfCursorOverImage = event.offsetY - imageStartY;
+					currentDeckSelected = Math.floor((offsetOfCursorOverImage / imageHeight) * rooms.length);
+					ctx.fillStyle = "white";
+					ctx.font = "14px Arial";
+					ctx.fillText("DECK " + (currentDeckSelected + 1),canvas.width() - 100,imageStartY + (imageHeight * .75)); 
+				}else{
+					//we are not within the image
+					currentDeckSelected = -1;
+				}
+
+				drawShip(ctx,currentDeckSelected,getShipImagePostingDensity());
+			});
+		}
+		//load the image at this address
+		shipImage.src = '/ship?file=starboard.png';
+	}
+
+	function getShipImagePostingDensity(){
+		var numberOfDecksCovered = 0;
+		var denisty = [];
+		var i;
+		for(i = 0;i < rooms.length;i++){
+			denisty.splice(denisty.length,0,[]);
+		}
+		for(i = 0;i < officers.length;i++){
+			if(officers[i].postedDeck != -1){
+				denisty[officers[i].postedDeck]++;
+			}
+		}
+		for(var i = 0;i < denisty.length;i++){
+			if(denisty[i] > 0){
+				numberOfDecksCovered++;
+			}
+		}
+		var percentage = Math.round(100 * (numberOfDecksCovered / rooms.length));
+		coverageLabel.html(percentage + "%");
+		coverageFill.css("width",percentage + "%");
+		return denisty;
+	}
+
+	function drawShip(ctx,highlightedDeck,density){
+		//we must maintain the aspect ratio
+	    var aspectRatio = shipImage.width / shipImage.height;
+	    var imageHeight = Math.round(canvas.width() / aspectRatio);
+		if(imageHeight > canvas.height()){
+			imageHeight = canvas.height();
+		}
+	    var imageStartY = (canvas.height() / 2) - (imageHeight / 2);
+	    var x = 0;
+	    var shipWidth = Math.round(canvas.width());
+	    if(shipWidth > shipImage.width){
+	    	x = (shipWidth - shipImage.width) / 2;
+	    	shipWidth = shipImage.width;
+	    }
+	    ctx.drawImage(shipImage,x,imageStartY, shipWidth, imageHeight);
+	    var deckHeight = imageHeight / rooms.length;
+	    
+	    if(density != null){
+	    	//mask to the image
+			ctx.globalCompositeOperation = "source-atop";
+		    for(var i = 0;i < density.length;i++){
+		    	if(i != highlightedDeck){
+		    		for(var j = 0;j < density[i];j++){
+
+				        ctx.fillStyle = "rgba(0,120,255,.45)";
+				        ctx.fillRect(0,imageStartY + (i * deckHeight),canvas.width(),deckHeight);
+
+		    		}
+		    	}
+		    }
+			// change the composite mode to destination-atop
+			// any new drawing will not overwrite any existing pixels
+			ctx.globalCompositeOperation = "destination-atop";
+	    }
+	    if(highlightedDeck != -1){
+
+	    	//mask to the image
+	        ctx.globalCompositeOperation = "source-atop";
+
+	        ctx.fillStyle = "rgba(255,0,0,.6)";
+	        ctx.fillRect(0,imageStartY + (highlightedDeck * deckHeight),canvas.width(),deckHeight);
+
+	        // change the composite mode to destination-atop
+	        // any new drawing will not overwrite any existing pixels
+	        ctx.globalCompositeOperation = "destination-atop";
+	    }
+	}
 
 	function updateCurrentIncidentsGUI(){
 		if(rooms.length == 0){
@@ -130,14 +273,14 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 					var html = "";
 					if(officers[j].currentAction != officers[j].currentRequestedAction){
 						if(officers[j].estimatedTimeFromLastAction != null && getTimeDifferenceInSeconds(new Date(officers[j].timeSinceLastRequestedAction),new Date()) > officers[j].estimatedTimeFromLastAction){
-							html += '<div class="securityDispatchCore_list_items_item_actionRequired">';
+							html += '<div index="' + j + '" class="securityDispatchCore_list_items_item_actionRequired securityDispatchCore_list_items_itemEventHandler">';
 						}else{
-							html += '<div class="securityDispatchCore_list_items_item_actionPending">';
+							html += '<div index="' + j + '" class="securityDispatchCore_list_items_item_actionPending securityDispatchCore_list_items_itemEventHandler">';
 						}
 					}else{
-						html += '<div class="securityDispatchCore_list_items_item">';
+						html += '<div index="' + j + '" class="securityDispatchCore_list_items_item securityDispatchCore_list_items_itemEventHandler">';
 					}
-					html += '<div class="securityDispatchCore_list_items_item_name">';
+					html += '<div index="' + j + '" class="securityDispatchCore_list_items_item_name">';
 					html += officers[j].name.last.toUpperCase();
 					html += '</div>';
 					if(officers[j].currentAction != officers[j].currentRequestedAction){
@@ -156,7 +299,7 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 			}
 			var html = "";
 			if(waitingActionHTML != ""){
-				html = waitingActionHTML + "<div class='securityDispatchCore_list_items_itemBreak'></div>" + normalStatusHTML;
+				html = waitingActionHTML + (normalStatusHTML != "" ? "<div class='securityDispatchCore_list_items_itemBreak'></div>" : "") + normalStatusHTML;
 			}else{
 				html = normalStatusHTML;
 			}
@@ -215,6 +358,11 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 				break;
 			}
 			Interstellar.setDatabaseValue("securityDispatch.officers",officers);
+		});
+		$(".securityDispatchCore_list_items_itemEventHandler").off();
+		$(".securityDispatchCore_list_items_itemEventHandler").click(function(event){
+			var index = Number($(event.target).attr("index"));
+			displaySecurityOfficerInformation(index);
 		});
 	}
 
@@ -287,6 +435,15 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 		}
 	}
 
+	function displaySecurityOfficerInformation(index){
+		officerInfo_name.html(officers[index].name.last.toUpperCase() + ", " + officers[index].name.first.toUpperCase() + ", " + officers[index].name.middle.toUpperCase());
+		officerInfo_rank.html(officers[index].rank.toUpperCase());
+		officerInfo_race.html(officers[index].race.toUpperCase());
+		officerInfo_specialty.html(officers[index].specialty.toUpperCase());
+		officerInfo_location.html(officers[index].postedDeck != -1 ? "DECK " + (Number(officers[index].postedDeck) + 1) + ", " + rooms[Number(officers[index].postedDeck)][Number(officers[index].postedRoom)].name.toUpperCase() : "NO POSTED LOCATION");
+		officerInfo_orders.html(officers[index].orders != "" ? "ORDERS: " + officers[index].orders : "ORDERS: NO ORDERS");
+	}
+
 	function toTwoDigitNumber(number){
 		if(number < 10){
 			return "0" + number;
@@ -296,7 +453,22 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 	}
 
 	//event handlers
-	
+	toggleShipViewButton.click(function(event){
+		isShowingShipView = !isShowingShipView;
+		canvas.stop();
+		teamsContainer.stop();
+		if(isShowingShipView){
+			var ctx = document.getElementById(canvas.attr("id")).getContext("2d");
+			canvas.attr("width",canvas.width());
+			canvas.attr("height",canvas.height());
+			drawShip(ctx,-1,getShipImagePostingDensity());
+			canvas.fadeIn();
+			teamsContainer.fadeOut();
+		}else{
+			canvas.fadeOut();
+			teamsContainer.fadeIn();
+		}
+	});
 
 	//intervals
 	setInterval(function(){

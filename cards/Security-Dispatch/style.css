@@ -11,9 +11,7 @@
 	width: 100%;
 	left: 0px;
 	overflow: auto;
-	/* border: 1px solid white; */
 	height: calc(100% - 25px);
-	/* background-color: rgba(0,0,0,.6); */
 }
 #currentCalls_callsContainer_header{
 	position: absolute;
