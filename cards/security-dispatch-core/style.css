@@ -1,0 +1,296 @@
+#securityDispatchCore_teams_header_incident{
+	float: left;
+	width: 20%;
+}
+#securityDispatchCore_teams_header_priority{
+	float: left;
+	width: 15%;
+}
+#securityDispatchCore_teams_header_location{
+	float: left;
+	width: 25%;
+}
+#securityDispatchCore_teams_header_officers{
+	float: left;
+	width: 25%;
+}
+#securityDispatchCore_teams_header_time{
+	float: left;
+	/* width: 20%; */
+}
+#securityDispatchCore_teams_title{
+	position: absolute;
+	top: 2px;
+	width: 100%;
+	height: 20px;
+	border-bottom: 1px solid white;
+	text-align: center;
+}
+#securityDispatchCore_teams_header{position: absolute;border: 1px solid white;top: 24px;left: 1px;width: calc(100% - 4px);height: 12px;font-size: 10px;}
+#securityDispatchCore_teams_list{
+	overflow: auto;
+	position: absolute;
+	top: 39px;
+	left: 1px;
+	border: 1px solid white;
+	width: calc(100% - 4px);
+	height: calc(100% - 42px);
+}
+#securityDispatchCore_coverage_label{
+	position: absolute;
+	top:2px;
+	left: 2px;
+	width: 103px;
+	font-size: 10px;
+}
+#securityDispatchCore_coverage_percentage{
+	position: absolute;
+	top: 1px;
+	height: calc(100% - 4px);
+	left: 108px;
+	border: 1px solid white;
+	width: calc(100% - 111px);
+}
+#securityDispatchCore_coverage_percentageLabel{
+	position: absolute;
+	top:2px;
+	left: 2px;
+	z-index: 2;
+}
+#securityDispatchCore_coverage_percentageFill{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	height: 100%;
+	border-right: 1px solid white;
+	width: 75%;
+	background: linear-gradient(to left,#00b8ff, #00317b);
+}
+#securityDispatchCore_coverage{
+	position: absolute;
+	right: 2px;
+	bottom: 168px;
+	height: 25px;
+	border: 1px solid white;
+	width: calc(100% - 295px);
+}
+#securityDispatchCore_officerControls_nameLabel{
+	top: 2px;
+}
+#securityDispatchCore_officerControls_name{
+	top:2px;
+}
+#securityDispatchCore_officerControls_rankLabel{
+	top: 18px;
+}
+#securityDispatchCore_officerControls_rank{
+	top: 19px;
+}
+#securityDispatchCore_officerControls_raceLabel{
+	top: 35px;
+}
+#securityDispatchCore_officerControls_race{
+	top: 36px;
+}
+#securityDispatchCore_officerControls_specialtyLabel{
+	top: 53px;
+}
+#securityDispatchCore_officerControls_specialty{
+	top: 53px;
+}
+#securityDispatchCore_officerControls_locationLabel{
+	top: 72px;
+}
+#securityDispatchCore_officerControls_location{
+	top: 70px;
+}
+#securityDispatchCore_officerControls_ordersLabel{
+	top: 89px;
+}
+#securityDispatchCore_officerControls_orders{
+	top: 87px;
+	height: calc(100% - 90px);
+	overflow: auto;
+	font-size: 10px;
+	/* border: 1px; */
+}
+#securityDispatchCore_settings_toggleShipViewButton{
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	/* text-align: right; */
+	border: 1px solid white;
+	width: calc(100% - 2px);
+	background: linear-gradient(to bottom, #6fdeff, #08a4c7);
+}
+#securityDispatchCore_settings_tasksButton{
+	position: absolute;
+	bottom: 39px;
+	left: 1px;
+	font-size: 9px;
+	height: 18px;
+	width: calc(100% - 2px);
+}
+#securityDispatchCore_settings_coverage{
+	position: absolute;
+	top:2px;
+	left: 0px;
+	font-size: 11px;
+	width: 100%;
+	text-align: center;
+}
+#securityDispatchCore_settings_officersButton{
+	position: absolute;
+	bottom: 20px;
+	left: 1px;
+	width: calc(100% - 2px);
+}
+#securityDispatchCore_settings_codesButton{
+	position: absolute;
+	bottom: 1px;
+	left: 1px;
+	width: calc(100% - 2px);
+}
+#securityDispatchCore_teams{
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	width: calc(100% - 399px);
+	border: 1px solid white;
+	height: 163px;
+}
+#securityDispatchCore_settings{
+	position: absolute;
+	bottom: 2px;
+	border: 1px solid white;
+	height: 163px;
+	left: 291px;
+	width: 101px;
+}
+#securityDispatchCore_officerControls{
+	position: absolute;
+	bottom: 2px;
+	left: 2px;
+	width: 286px;
+	border: 1px solid white;
+	height: 191px;
+}
+#securityDispatchCore_offDutyList{
+	left: 2px;
+	width: calc(calc(100% / 5) - 6px);
+}
+#securityDispatchCore_noAssignmentList{
+	left: calc(calc(100% / 5) * 1);
+}
+#securityDispatchCore_enRouteList{
+	left: calc(calc(100% / 5) * 2);
+}
+#securityDispatchCore_onSceneList{
+	left: calc(calc(100% / 5) * 3);
+}
+#securityDispatchCore_returningList{
+	left: calc(calc(100% / 5) * 4);
+}
+
+.securityDispatchCore_list{
+	position: absolute;
+	top:2px;
+	height: calc(100% - 200px);
+	border: 1px solid white;
+	width: calc(calc(100% / 5) - 4px);
+	overflow: auto;
+}
+.securityDispatchCore_list_header{
+	overflow: hidden;
+	position: absolute;
+	top:0px;
+	text-align: center;
+	left: 0px;
+	width: 100%;
+	height: 20px;
+	border-bottom: 1px solid white;
+}
+.securityDispatchCore_list_items{
+	position: absolute;
+	top: 23px;
+	left: 2px;
+	background: linear-gradient(to bottom,rgba(255, 255, 255, 0.11), rgba(0, 0, 0, 0));
+	height: calc(100% - 27px);
+	width: calc(100% - 6px);
+	overflow: auto;
+	border: 1px solid white;
+}
+.securityDispatchCore_list_items_item{
+	position: relative;
+	float:left;
+	width: 100%;
+	border-bottom: 1px solid white;
+	height: 34px;
+	overflow: hidden;
+	font-size: 14px;
+}
+.securityDispatchCore_list_items_item_time{
+	position: absolute;
+	bottom: 2px;
+	left: 2px;
+}
+.securityDispatchCore_list_items_item_name{
+	position: absolute;
+	top:2px;
+	left: 2px;
+}
+.securityDispatchCore_list_items_item_button{
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	height: calc(100% - 4px);
+}
+.securityDispatchCore_label{
+	position: absolute;
+	top: 4px;
+	left: 2px;
+	font-size: 12px;
+}
+.securityDispatchCore_falseField{
+	position: absolute;
+	top:2px;
+	right: 1px;
+	width: calc(100% - 100px);
+	border: 1px solid white;
+	background-color: rgba(0,0,0,.6);
+	font-size: 12px;
+}
+.securityDispatchCore_teams_list_item{
+	float: left;
+	/* overflow: hidden; */
+	background-color: rgb(55,55,55);
+	width: 100%;
+	/* height: 16px; */
+	border-bottom: 1px solid white;
+	font-size: 12px;
+}
+.securityDispatchCore_teams_list_item_incident{
+	position: relative;
+	float:left;
+	width: 20%;
+}
+.securityDispatchCore_teams_list_item_priority{
+	position: relative;
+	float:left;
+	width: 15%;
+}
+.securityDispatchCore_teams_list_item_location{
+	position: relative;
+	float:left;
+	width: 25%;
+}
+.securityDispatchCore_teams_list_item_officers{
+	position: relative;
+	float:left;
+	width: 25%;
+}
+.securityDispatchCore_teams_list_item_time{
+	position: relative;
+	float:left;
+	/* width: 9%; */
+}

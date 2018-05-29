@@ -1,0 +1,8 @@
+{
+	"cardName":"security-dispatch-core",
+	"cardType":"coreWidget",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the flight director to see which security officers have been dispatched"
+}
