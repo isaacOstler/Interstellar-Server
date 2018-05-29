@@ -1,0 +1,14 @@
+#thrustersCore_thrustersCanvas{
+	position: absolute;
+	top:5px;
+	left: 5px;
+	width: 80%;
+	height: calc(100% - 10px);
+}
+#thrustersCore_verticalThrustersCanvas{
+	position: absolute;
+	top:5px;
+	right: 5px;
+	width: calc(20% - 5px);
+	height: calc(100% - 10px);
+}

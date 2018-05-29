@@ -27,27 +27,36 @@ thrusterDisplay.on("drag",function(event){
     thrusterDirection = thrusterDisplay.getDirection();
 });
 
+thrusterDisplay.on("dragFinish",function(event){
+    thrusterPower = thrusterDisplay.getPower();
+    thrusterDirection = thrusterDisplay.getDirection();
+});
+
 verticalDisplay.on("drag",function(event){
+    verticalThrusterPower = verticalDisplay.getPower();
+});
+
+verticalDisplay.on("dragFinish",function(event){
     verticalThrusterPower = verticalDisplay.getPower();
 });
 
 //intervals
 setInterval(function(){
     var updateRequired = false;
-    if(lastUpdated_thrusterPower != thrusterPower){
+    if(Number(lastUpdated_thrusterPower) != thrusterPower){
         updateRequired = true;
     }
-    if(lastUpdated_thrusterDirection != thrusterDirection){
+    if(Number(lastUpdated_thrusterDirection) != thrusterDirection){
         updateRequired = true;
     }
-    if(lastUpdated_verticalThrusterPower != verticalThrusterPower){
+    if(Number(lastUpdated_verticalThrusterPower) != verticalThrusterPower){
         updateRequired = true;
     }
     if(updateRequired){
         console.log({"thrusterPower" : thrusterPower,"thrusterDirection" : thrusterDirection,"verticalThrusterPower" : verticalThrusterPower});
         Interstellar.setDatabaseValue("thrusters.info",{"thrusterPower" : thrusterPower,"thrusterDirection" : thrusterDirection,"verticalThrusterPower" : verticalThrusterPower});
-        lastUpdated_thrusterPower = thrusterPower;
-        lastUpdated_thrusterPower = thrusterDirection;
-        lastUpdated_thrusterPower = verticalThrusterPower;
+        lastUpdated_thrusterPower = Number(thrusterPower);
+        lastUpdated_thrusterDirection = Number(thrusterDirection);
+        lastUpdated_verticalThrusterPower = Number(verticalThrusterPower);
     }
 },0100);
