@@ -50,8 +50,16 @@
 		<div class="securityDispatchCore_falseField" id="securityDispatchCore_officerControls_specialty">HEAVY RESCUE SPECALIST</div>
 		<div class="securityDispatchCore_label" id="securityDispatchCore_officerControls_locationLabel">POSTED DECK</div>
 		<div class="securityDispatchCore_falseField" id="securityDispatchCore_officerControls_location">DECK 1, BRIDGE</div>
-		<div class="securityDispatchCore_label" id="securityDispatchCore_officerControls_ordersLabel">ORDERS</div>
-		<div  class="securityDispatchCore_falseField" id="securityDispatchCore_officerControls_orders">NO ORDERS</div>
+		<div  class="securityDispatchCore_falseField" id="securityDispatchCore_officerControls_orders">ORDERS: NO ORDERS</div>
+
+			<!-- These ID's are INCORRECT, because the use to be in a different place.  Please disregard -->
+		<div id="securityDispatchCore_settings">
+			<input type="button" class="coreButton" id="securityDispatchCore_settings_toggleShipViewButton" value="Toggle Ship View">
+			<input type="button" class="coreButton" id="securityDispatchCore_settings_hidePostingButton" value="Hide Postings">
+			<input type="button" class="coreButton" id="securityDispatchCore_settings_tasksButton" value="Edit Dispatch Tasks">
+			<input type="button" class="coreButton" id="securityDispatchCore_settings_officersButton" value="Edit Officers">
+			<input type="button" class="coreButton" id="securityDispatchCore_settings_codesButton" value="Edit Codes">
+		</div>
 	</div>
 	<div id="securityDispatchCore_coverage">
 		<div id="securityDispatchCore_coverage_label">SHIPWIDE SECURITY COVERAGE</div>
@@ -60,12 +68,7 @@
 			<div id="securityDispatchCore_coverage_percentageFill"></div>
 		</div>
 	</div>
-	<div id="securityDispatchCore_settings">
-		<input type="button" class="coreButton" id="securityDispatchCore_settings_toggleShipViewButton" value="Toggle Ship View">
-		<input type="button" class="coreButton" id="securityDispatchCore_settings_tasksButton" value="Edit Dispatch Tasks">
-		<input type="button" class="coreButton" id="securityDispatchCore_settings_officersButton" value="Edit Officers">
-		<input type="button" class="coreButton" id="securityDispatchCore_settings_codesButton" value="Edit Codes">
-	</div>
+	<canvas id="securityDispatchCore_shipView"></canvas>
 	<div id="securityDispatchCore_teams">
 		<div id="securityDispatchCore_teams_title">CURRENT INCIDENTS</div>
 		<div id="securityDispatchCore_teams_header">

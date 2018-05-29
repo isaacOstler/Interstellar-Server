@@ -1,3 +1,19 @@
+#securityDispatchCore_shipView{
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	width: calc(100% - 295px);
+	border: 1px solid white;
+	height: 163px;
+}
+#securityDispatchCore_settings_hidePostingButton{
+	position: absolute;
+	top: 22px;
+	left: 1px;
+	background: linear-gradient(to bottom, #fbff00, #caaf2c);
+	width: calc(100% - 2px);
+	border: 1px solid white;
+}
 #securityDispatchCore_teams_header_incident{
 	float: left;
 	width: 20%;
@@ -108,7 +124,10 @@
 	top: 89px;
 }
 #securityDispatchCore_officerControls_orders{
+	position: absolute;
 	top: 87px;
+	left: 1px;
+	width: calc(100% - 116px);
 	height: calc(100% - 90px);
 	overflow: auto;
 	font-size: 10px;
@@ -128,7 +147,7 @@
 	bottom: 39px;
 	left: 1px;
 	font-size: 9px;
-	height: 18px;
+	height: 19px;
 	width: calc(100% - 2px);
 }
 #securityDispatchCore_settings_coverage{
@@ -152,20 +171,21 @@
 	width: calc(100% - 2px);
 }
 #securityDispatchCore_teams{
+	display: none;
 	position: absolute;
 	bottom: 2px;
 	right: 2px;
-	width: calc(100% - 399px);
+	width: calc(100% - 295px);
 	border: 1px solid white;
 	height: 163px;
 }
 #securityDispatchCore_settings{
 	position: absolute;
-	bottom: 2px;
+	bottom: 1px;
 	border: 1px solid white;
-	height: 163px;
-	left: 291px;
-	width: 101px;
+	height: 101px;
+	right: 1px;
+	width: 109px;
 }
 #securityDispatchCore_officerControls{
 	position: absolute;
