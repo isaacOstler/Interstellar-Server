@@ -186,13 +186,13 @@ var VerticalThrustersClass = function(passedCanvas){
 			}
 			updateFunction(event);
 			if(onDragStartCallback != null){
-				onDragStartCallback();
+				onDragStartCallback(event);
 			}
 			$(document).off('mousemove.verticalThrustersClass');
 			$(document).on('mousemove.verticalThrustersClass',function(event){
 				updateFunction(event);
 				if(onDragCallback != null){
-					onDragCallback();
+					onDragCallback(event);
 				}
 			});
 			$(document).off('mouseup.verticalThrustersClass');
@@ -204,7 +204,7 @@ var VerticalThrustersClass = function(passedCanvas){
 				}
 				drawGUI();
 				if(onDragCallback != null){
-					onDragCallback();
+					onDragCallback(event);
 				}
 				$(document).off('mousemove.verticalThrustersClass');
 				$(document).off('mouseup.verticalThrustersClass');

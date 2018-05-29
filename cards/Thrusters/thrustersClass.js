@@ -216,13 +216,13 @@ var ThrustersDisplayClass = function(passedCanvas){
 				}
 				updateThrustPosition(event);
 				if(onDragStartCallback != null){
-					onDragStartCallback();
+					onDragStartCallback(event);
 				}
 				$(document).off('mousemove.thrustersClass');
 				$(document).on('mousemove.thrustersClass',function(event){
 					updateThrustPosition(event);
 					if(onDragCallback != null){
-						onDragCallback();
+						onDragCallback(event);
 					}
 				});
 				$(document).off('mouseup.thrustersClass');
@@ -235,7 +235,7 @@ var ThrustersDisplayClass = function(passedCanvas){
 						updateThrustPosition(event);
 					}
 					if(onDragFinishCallback != null){
-						onDragFinishCallback();
+						onDragFinishCallback(event);
 					}
 					$(document).off('mousemove.thrustersClass');
 					$(document).off('mouseup.thrustersClass');
