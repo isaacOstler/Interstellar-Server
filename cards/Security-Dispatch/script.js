@@ -538,9 +538,11 @@ dispatchWindow_dispatchButton.click(function(event){
 			actaulOfficerObjects.splice(actaulOfficerObjects.length,0,officers[officersSelected[i]]);
 		}
 		Interstellar.setDatabaseValue("securityDispatch.officers",officers);
+		var isPosting = code.toLowerCase() == "posting";
 		var team = {
 			"officers" : actaulOfficerObjects,
 			"timeDispatched" : new Date(),
+			"isPosting" : isPosting,
 			"room" : Number(room),
 			"deck" : Number(deck),
 			"orders" : orders,

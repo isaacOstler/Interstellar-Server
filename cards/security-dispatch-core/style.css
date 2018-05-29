@@ -60,7 +60,6 @@
 	left: 1px;
 	border: 1px solid white;
 	width: calc(100% - 4px);
-	display: none;
 	height: calc(100% - 42px);
 }
 #securityDispatchCore_coverage_label{
@@ -308,6 +307,7 @@
 	right: 1px;
 	width: calc(100% - 100px);
 	overflow: hidden;
+	height: 14px;
 	border: 1px solid white;
 	background-color: rgba(0,0,0,.6);
 	font-size: 12px;

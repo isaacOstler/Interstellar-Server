@@ -7,6 +7,7 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 		teams = [],
 		codes = [],
 		isShowingShipView = false,
+		hidePostings = false,
 		shipImage = new Image;
 
 	//DOM References
@@ -21,6 +22,8 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 		coverageLabel = $("#securityDispatchCore_coverage_percentageLabel"),
 		coverageFill = $("#securityDispatchCore_coverage_percentageFill"),
 		canvas = $("#securityDispatchCore_shipView"),
+		hidePostingsButton = $("#securityDispatchCore_settings_hidePostingButton"),
+		editCodesButton = $("#securityDispatchCore_settings_codesButton"),
 		officerInfo_name = $("#securityDispatchCore_officerControls_name"),
 		officerInfo_rank = $("#securityDispatchCore_officerControls_rank"),
 		officerInfo_race = $("#securityDispatchCore_officerControls_race"),
@@ -69,6 +72,7 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 		}
 		teams = newData;
 		updateTeams();
+		updateCurrentIncidentsGUI();
 	});
 	Interstellar.onDatabaseValueChange("securityDispatch.officers",function(newData){
 		if(newData == null){
@@ -228,31 +232,33 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 		}
 		var html = "";
 		for(var i = 0;i < teams.length;i++){
-			var officerNames = "";
-			for(var j = 0;j < teams[i].officers.length;j++){
-				officerNames += teams[i].officers[j].name.last;
-				if(j + 1 < teams[i].officers.length){
-					officerNames += ", ";
+			if(!(hidePostings && teams[i].isPosting)){
+				var officerNames = "";
+				for(var j = 0;j < teams[i].officers.length;j++){
+					officerNames += teams[i].officers[j].name.last;
+					if(j + 1 < teams[i].officers.length){
+						officerNames += ", ";
+					}
 				}
-			}
 
-			html += '<div class="securityDispatchCore_teams_list_item">';
-				html += '<div class="securityDispatchCore_teams_list_item_incident">';
-					html += teams[i].incident.toUpperCase();
+				html += '<div class="securityDispatchCore_teams_list_item">';
+					html += '<div class="securityDispatchCore_teams_list_item_incident">';
+						html += teams[i].incident.toUpperCase();
+					html += '</div>';
+					html += '<div class="securityDispatchCore_teams_list_item_priority">';
+						html += teams[i].priority;
+					html += '</div>';
+					html += '<div class="securityDispatchCore_teams_list_item_location">';
+						html += "Deck " + (teams[i].deck + 1) + ", " + rooms[teams[i].deck][teams[i].room].name;
+					html += '</div>';
+					html += '<div class="securityDispatchCore_teams_list_item_officers">';
+						html += officerNames;
+					html += '</div>';
+					html += '<div class="securityDispatchCore_teams_list_item_time">';
+						html += getTimeDifferenceInFormatedString(new Date(teams[i].timeDispatched),new Date());
+					html += '</div>';
 				html += '</div>';
-				html += '<div class="securityDispatchCore_teams_list_item_priority">';
-					html += teams[i].priority;
-				html += '</div>';
-				html += '<div class="securityDispatchCore_teams_list_item_location">';
-					html += "Deck " + (teams[i].deck + 1) + ", " + rooms[teams[i].deck][teams[i].room].name;
-				html += '</div>';
-				html += '<div class="securityDispatchCore_teams_list_item_officers">';
-					html += officerNames;
-				html += '</div>';
-				html += '<div class="securityDispatchCore_teams_list_item_time">';
-					html += getTimeDifferenceInFormatedString(new Date(teams[i].timeDispatched),new Date());
-				html += '</div>';
-			html += '</div>';
+			}
 		}
 		teamsList.html(html);
 	}
@@ -468,6 +474,20 @@ Interstellar.addCoreWidget("Security Dispatch",function(){
 			canvas.fadeOut();
 			teamsContainer.fadeIn();
 		}
+	});
+
+	hidePostingsButton.click(function(event){
+		hidePostings = !hidePostings;
+		updateCurrentIncidentsGUI();
+		if(hidePostings){
+			hidePostingsButton.attr("value","Show Postings");
+		}else{
+			hidePostingsButton.attr("value","Hide Postings");
+		}
+	});
+
+	editCodesButton.click(function(event){
+		Interstellar.openCoreWindow("securityDispatchCoreCodeEditor",event);
 	});
 
 	//intervals
