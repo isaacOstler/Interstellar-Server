@@ -4,7 +4,7 @@
 //DOES NOT connect by default to a database.  You must set your own event listeners
 //using the public functions (see definitions below).
 
-//*** This widget requires JQuery!
+//*** This widget requires JQuery!  IMPORTANT!  IMPORATANT!   IMPORATANT!    IMPORATANT!  
 
 // CLASS NAME: ThrustersDisplayClass
 // PURPOSE: to create a thrusters user interface
@@ -17,12 +17,6 @@
 
 var ThrustersDisplayClass = function(passedCanvas){
 	//public functions
-
-	this.setVerticalMode = function(newVerticalMode){
-		verticalMode = newVerticalMode;
-		drawGUI();
-		setEventListeners();
-	}
 
 	this.setThrust = function(newDirection,newPower){
 		direction = newDirection;
@@ -71,7 +65,6 @@ var ThrustersDisplayClass = function(passedCanvas){
 		lock = false,
 		onDragStartCallback = null,
 		onDragCallback = null,
-		verticalMode = false,
 		onDragFinishCallback = null;
 
 	//init calls
@@ -129,8 +122,8 @@ var ThrustersDisplayClass = function(passedCanvas){
 	    // light grey
 	    grd.addColorStop(0, '#606060');
 	    // dark grey
-	    grd.addColorStop(.9, '#909090');
-	    grd.addColorStop(1, '#FFFFFF');
+	    grd.addColorStop(.9, '#303030');
+	    grd.addColorStop(.92, '#FFFFFF');
 		ctx.arc(cartCords.x,cartCords.y,radius,0,2*Math.PI);
 		ctx.stroke();
 	    ctx.fillStyle = grd;
