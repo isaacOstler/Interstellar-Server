@@ -3,35 +3,34 @@
 	width: 750px;
     height: 500px;
     top: 0px;
-    left: 0px;
-">
+    left: 0px;">
 	<div id="securityDispatchCore_offDutyList" class="securityDispatchCore_list">
 		<div class="securityDispatchCore_list_header">OFF DUTY</div>
-		<div class="securityDispatchCore_list_items">
+		<div id='securityDispatchCore_offDutyList_items' class="securityDispatchCore_list_items">
 			
 		</div>
 	</div>
 	<div id="securityDispatchCore_noAssignmentList" class="securityDispatchCore_list">
 		<div class="securityDispatchCore_list_header">NO ASSIGNMENT</div>
-		<div class="securityDispatchCore_list_items">
+		<div id='securityDispatchCore_noAssignmentList_items' class="securityDispatchCore_list_items">
 			
 		</div>
 	</div>
 	<div id="securityDispatchCore_enRouteList" class="securityDispatchCore_list">
 		<div class="securityDispatchCore_list_header">EN ROUTE</div>
-		<div class="securityDispatchCore_list_items">
+		<div id='securityDispatchCore_enRouteList_items' class="securityDispatchCore_list_items">
 			
 		</div>
 	</div>
 	<div id="securityDispatchCore_onSceneList" class="securityDispatchCore_list">
 		<div class="securityDispatchCore_list_header">ON SCENE</div>
-		<div class="securityDispatchCore_list_items">
+		<div id='securityDispatchCore_onSceneList_items' class="securityDispatchCore_list_items">
 			
 		</div>
 	</div>
 	<div id="securityDispatchCore_returningList" class="securityDispatchCore_list">
 		<div class="securityDispatchCore_list_header">RETURNING</div>
-		<div class="securityDispatchCore_list_items">
+		<div id='securityDispatchCore_returningList_items' class="securityDispatchCore_list_items">
 			<div class="securityDispatchCore_list_items_item">
 				<div class="securityDispatchCore_list_items_item_name">WILLIAMSON</div>
 				<div class="securityDispatchCore_list_items_item_time">00:00:00</div>
@@ -52,7 +51,7 @@
 		<div class="securityDispatchCore_falseField" id="securityDispatchCore_officerControls_location">DECK 1, BRIDGE</div>
 		<div  class="securityDispatchCore_falseField" id="securityDispatchCore_officerControls_orders">ORDERS: NO ORDERS</div>
 
-			<!-- These ID's are INCORRECT, because the use to be in a different place.  Please disregard -->
+			<!-- These ID's are INCORRECT, because the used to be in a different place.  Please disregard -->
 		<div id="securityDispatchCore_settings">
 			<input type="button" class="coreButton" id="securityDispatchCore_settings_toggleShipViewButton" value="Toggle Ship View">
 			<input type="button" class="coreButton" id="securityDispatchCore_settings_hidePostingButton" value="Hide Postings">
@@ -78,43 +77,7 @@
 			<div id="securityDispatchCore_teams_header_officers">Officers</div>
 			<div id="securityDispatchCore_teams_header_time">Time</div>
 		</div>
-		<div id="securityDispatchCore_teams_list">
-			<div class="securityDispatchCore_teams_list_item">
-				<div class="securityDispatchCore_teams_list_item_incident">POSTING</div>
-				<div class="securityDispatchCore_teams_list_item_priority">ALPHA</div>
-				<div class="securityDispatchCore_teams_list_item_location">DECK 1, BRIDGE</div>
-				<div class="securityDispatchCore_teams_list_item_officers">OSTLER, RHODES</div>
-				<div class="securityDispatchCore_teams_list_item_time">00:00:00</div>
-			</div>
-			<div class="securityDispatchCore_teams_list_item">
-				<div class="securityDispatchCore_teams_list_item_incident">POSTING</div>
-				<div class="securityDispatchCore_teams_list_item_priority">ALPHA</div>
-				<div class="securityDispatchCore_teams_list_item_location">DECK 1, BRIDGE</div>
-				<div class="securityDispatchCore_teams_list_item_officers">OSTLER, RHODES</div>
-				<div class="securityDispatchCore_teams_list_item_time">00:00:00</div>
-			</div>
-			<div class="securityDispatchCore_teams_list_item">
-				<div class="securityDispatchCore_teams_list_item_incident">POSTING</div>
-				<div class="securityDispatchCore_teams_list_item_priority">ALPHA</div>
-				<div class="securityDispatchCore_teams_list_item_location">DECK 1, BRIDGE</div>
-				<div class="securityDispatchCore_teams_list_item_officers">OSTLER, RHODES</div>
-				<div class="securityDispatchCore_teams_list_item_time">00:00:00</div>
-			</div>
-			<div class="securityDispatchCore_teams_list_item">
-				<div class="securityDispatchCore_teams_list_item_incident">POSTING</div>
-				<div class="securityDispatchCore_teams_list_item_priority">ALPHA</div>
-				<div class="securityDispatchCore_teams_list_item_location">DECK 1, BRIDGE</div>
-				<div class="securityDispatchCore_teams_list_item_officers">OSTLER, RHODES</div>
-				<div class="securityDispatchCore_teams_list_item_time">00:00:00</div>
-			</div>
-			<div class="securityDispatchCore_teams_list_item">
-				<div class="securityDispatchCore_teams_list_item_incident">POSTING</div>
-				<div class="securityDispatchCore_teams_list_item_priority">ALPHA</div>
-				<div class="securityDispatchCore_teams_list_item_location">DECK 1, BRIDGE</div>
-				<div class="securityDispatchCore_teams_list_item_officers">OSTLER, RHODES</div>
-				<div class="securityDispatchCore_teams_list_item_time">00:00:00</div>
-			</div>
-		</div>
+		<div id="securityDispatchCore_teams_list"></div>
 	</div>
 </div>
 <script src="/jquery" type="text/javascript"></script>

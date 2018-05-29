@@ -4,6 +4,7 @@ var shipImage = new Image,
 	codes = [],
 	teams = [],
 	rooms = [],
+	averageEnRouteTime = 30,
 	officers = [];
 
 //DOM Refrences
@@ -57,8 +58,7 @@ initCanvas();
 //database observers
 Interstellar.onDatabaseValueChange("securityDispatch.dispatchCodes",function(newData){
 	if(newData == null){
-		//i'm setting this value here for development purposes ONLY
-		//ideally this will be handled by core
+		/* let core set these values
 		$.getJSON( "/resource?path=public/codes.json", function( data ) {
 			data.codes.sort(function(a, b) {
 			    var textA = a.category.toUpperCase();
@@ -67,7 +67,7 @@ Interstellar.onDatabaseValueChange("securityDispatch.dispatchCodes",function(new
 			});
 		  	Interstellar.setDatabaseValue("securityDispatch.dispatchCodes",data.codes);
 		  	return;
-		});
+		});*/
 		return;
 	}
 	codes = newData;
@@ -90,50 +90,7 @@ Interstellar.onDatabaseValueChange("securityDispatch.teams",function(newData){
 		Interstellar.setDatabaseValue("securityDispatch.teams",teams);
 		return;
 	}
-	var updateRequired = false;
-	var teamsToRemove = [];
 	teams = newData;
-	for(var i = 0;i < teams.length;i++){
-		var officersToRemove = [];
-		for(var j = 0;j < teams[i].officers.length;j++){
-			//we are cycling through the officers in this team
-			//if the officer in this team is no longer posted to this team
-			for(var x = 0;x < officers.length;x++){
-				if(officers[x].name.last == teams[i].officers[j].name.last && officers[x].name.first == teams[i].officers[j].name.first && officers[x].name.middle == teams[i].officers[j].name.middle && officers[x].age == teams[i].officers[j].age){
-					//this is them
-					if(officers[x].postedRoom != teams[i].room || officers[x].postedDeck != teams[i].deck){
-						updateRequired = true;
-						//we need to remember to remove this officer;
-						officersToRemove.splice(officersToRemove.length,0,teams[i].officers[j]);
-					}
-				}
-			}
-		}
-		//remove any officers from this list
-		for(var j = 0;j < officersToRemove.length;j++){
-			for(var x = 0;x < teams[i].officers.length;x++){
-				if(officersToRemove[j] == teams[i].officers[x]){
-					teams[i].officers.splice(x,1);
-				}
-			}
-		}
-
-		if(teams[i].officers.length == 0){
-			teamsToRemove.splice(teamsToRemove,0,teams[i]);
-			updateRequired = true;
-		}
-	}
-	for(var i = 0;i < teamsToRemove.length;i++){
-		for(var j = 0;j < teams.length;j++){
-			if(teamsToRemove[i] == teams[j]){
-				teams.splice(j,1);
-			}
-		}
-	}
-	if(updateRequired){
-		Interstellar.setDatabaseValue("securityDispatch.teams",teams);
-		return;
-	}
 	updateCurrentIncidentsGUI();
 });
 Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
@@ -152,11 +109,12 @@ Interstellar.onDatabaseValueChange("ship.rooms",function(newData){
 });
 Interstellar.onDatabaseValueChange("securityDispatch.officers",function(newData){
 	if(newData == null){
+		/* let core set these values
 		$.getJSON( "/resource?path=public/officers.json", function( data ) {
 			console.log(data);
 		  	Interstellar.setDatabaseValue("securityDispatch.officers",data.officers);
 		  	return;
-		});
+		});*/
 		return;
 	}
 	if(officers.length == newData.length){
@@ -315,6 +273,10 @@ function listOfficers(){
 			officerInformationBox_postOffDutyButton.off();
 			officerInformationBox_postOffDutyButton.click(function(event){
 				officers[index].currentAction = 1;
+				officers[index].currentRequestedAction = 1;
+				officers[index].postedDeck = -1;
+				officers[index].postedRoom = -1;
+				officers[index].estimatedTimeFromLastAction = null;
 				Interstellar.setDatabaseValue("securityDispatch.officers",officers);
 				officerInformationBox.fadeOut();
 			});
@@ -563,10 +525,13 @@ dispatchWindow_dispatchButton.click(function(event){
 			Interstellar.setDatabaseValue("securityDispatch.dispatchRadioSpeech",speak);
 		}
 		for(var i = 0;i < officersSelected.length;i++){
+			officers[officersSelected[i]].currentAction = 0;
 			officers[officersSelected[i]].currentRequestedAction = 2;
 			officers[officersSelected[i]].orders = orders;
 			officers[officersSelected[i]].postedDeck = Number(deck);
 			officers[officersSelected[i]].postedRoom = Number(room);
+			officers[officersSelected[i]].timeSinceLastRequestedAction = new Date();
+			officers[officersSelected[i]].estimatedTimeFromLastAction = Math.floor(Math.random() * averageEnRouteTime); //officers should go en route within x seconds
 		}
 		var actaulOfficerObjects = [];
 		for(var i = 0;i < officersSelected.length;i++){
