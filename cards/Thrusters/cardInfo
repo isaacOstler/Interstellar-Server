@@ -1,0 +1,8 @@
+{
+	"cardName":"Thrusters",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the user to move the ship in small amounts using thrusters"
+}

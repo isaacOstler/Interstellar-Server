@@ -1,0 +1,40 @@
+{
+	"alertStatusTypes" :
+	[
+		{
+			"value" : 5,
+			"name" : "ALERT STATUS 5",
+			"color1" : "rgba(0,128,255,.8)",
+			"color2" : "rgba(0,20,70,.45)",
+			"text" : "this alert condition is used when the ship is in no danger.  normal crew duty shifts are active (an on-duty, off-duty, and resting shift).  Civilians are allowed freely around the ship."
+		},
+		{
+			"value" : 4,
+			"name" : "ALERT STATUS 4",
+			"color1" : "rgba(0,208,255,.8)",
+			"color2" : "rgba(0,193,197,.45)",
+			"text" : "this alert condition is used when the ship is in a situation were a problem could arise in the future.  Off duty personal are put on standby and civilians ordered to return to quarters."
+		},
+		{
+			"value" : 3,
+			"name" : "alert status 3",
+			"color1" : "rgba(255,219,0,.8)",
+			"color2" : "rgba(255,150,0,.45)",
+			"text" : "this alert condition is used when the ship has entered a potentially dangerous condition.  On duty personal are ordered to battle stations, off duty personal are put on duty, and resting shifts are put on standby."
+		},
+		{
+			"value" : 2,
+			"name" : "alert status 2",
+			"color1" : "rgba(255,158,0,.8)",
+			"color2" : "rgba(255,70,0,.45)",
+			"text" : "this alert condition is used to prepare the ship for alert status 1.  Medical, Armory, Security, and Damage Control officers are ordered to prepare for an impending crisis.  All hands are put on duty."
+		},
+		{
+			"value" : 1,
+			"name" : "alert status 1",
+			"color1" : "rgba(255,0,0,.8)",
+			"color2" : "rgba(255,20,0,.45)",
+			"text" : "this alert condition is used when the ship is in a dangerous condition, such as a battle.  All hands are ordered to battle stations."
+		}
+	]
+}
