@@ -861,14 +861,29 @@ function drawSensorsGui(){
         }
         ctx.arc(center,center,weaponsStartRadius,(degreesToRadians(weaponStatus[i].direction + .4)) - degreesToRadians(90),(degreesToRadians(weaponStatus[i].direction) + degreesToRadians(weaponStatus[i].angleOfFire - .4)) - degreesToRadians(90));
         ctx.stroke();
+        if((weaponStatus[i].type == "phaser" && (!phasersOnline || !phasersHaveNoPower)) || (weaponStatus[i].type == "torpedo" && (!torpedosOnline || !torpedosHaveNoPower))){
+            ctx.beginPath();
+            ctx.strokeStyle = "rgba(0,0,0,.9)";  
+            ctx.arc(center,center,weaponsStartRadius,(degreesToRadians(weaponStatus[i].direction + .4)) - degreesToRadians(90),(degreesToRadians(weaponStatus[i].direction) + degreesToRadians(weaponStatus[i].angleOfFire - .4)) - degreesToRadians(90));
+            ctx.stroke();
+        }
     }
     ctx.setLineDash([]);
 
     for(var i = 0;i < weaponStatus.length;i++){  
         ctx.beginPath();
         ctx.fillStyle = "white";
-        ctx.font = Math.min(18,(weaponStatus[i].angleOfFire / (weaponStatus[i].weaponName.length * .3))) +  "px Arial";
-        var totalDegreesUsedForText = (3 - (10 / weaponStatus[i].weaponName.length)) * weaponStatus[i].weaponName.length;
+        var weaponName = weaponStatus[i].weaponName;
+        if((weaponStatus[i].type == "phaser" && !phasersOnline) || (weaponStatus[i].type == "torpedo" && !torpedosOnline)){
+            ctx.fillStyle = "red";
+            weaponName = "WEAPON OFFLINE"
+        }
+        if((weaponStatus[i].type == "phaser" && !phasersHaveNoPower) || (weaponStatus[i].type == "torpedo" && !torpedosHaveNoPower)){
+            ctx.fillStyle = "red";
+            weaponName = "NO POWER TO SYSTEM"
+        }
+        ctx.font = Math.min(18,(weaponStatus[i].angleOfFire / (weaponName.length * .3))) +  "px Arial";
+        var totalDegreesUsedForText = (3 - (10 / weaponName.length)) * weaponName.length;
         var textRadius = radius * 1.06;
         var textBuffer = (weaponStatus[i].angleOfFire - totalDegreesUsedForText) / 2;//weaponStatus[i].angleOfFire / 8;
         if(weaponStatus[i].type != "phaser"){
@@ -886,9 +901,9 @@ function drawSensorsGui(){
             if(weaponStatus[i].type != "phaser"){
                 textBuffer = -textBuffer * .75;
             }
-            textCircle(ctx,weaponStatus[i].weaponName,center,center,textRadius,Math.PI/2.5,degreesToRadians(weaponStatus[i].direction + .4) + degreesToRadians(220) + degreesToRadians(textBuffer),0);
+            textCircle(ctx,weaponName,center,center,textRadius,Math.PI/2.5,degreesToRadians(weaponStatus[i].direction + .4) + degreesToRadians(220) + degreesToRadians(textBuffer),0);
         }else{
-            textCircle(ctx,weaponStatus[i].weaponName,center,center,textRadius,Math.PI/2.5,degreesToRadians(weaponStatus[i].direction + .4) + degreesToRadians(18) + degreesToRadians(textBuffer),1);
+            textCircle(ctx,weaponName,center,center,textRadius,Math.PI/2.5,degreesToRadians(weaponStatus[i].direction + .4) + degreesToRadians(18) + degreesToRadians(textBuffer),1);
         }
         ctx.stroke();
     }

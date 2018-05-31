@@ -1,6 +1,10 @@
 //copyright Isaac Ostler, July 6th 2017, all rights reserved ©
 
 var alertStatus = 5,
+phasersOnline = false,
+torpedosOnline = true,
+phasersHaveNoPower = false,
+torpedosHaveNoPower = true,
 isDraggingTarget = false,
 weaponErrorDisplay_interval = undefined;
 
@@ -8,6 +12,23 @@ weaponErrorDisplay_interval = undefined;
 var canvas = $("#sensorsArrayCanvas"),
     weaponErrorDisplay = $("#weaponErrorDisplay"),
     weaponErrorDisplay_textArea = $("#weaponErrorDisplay_textArea");
+
+Interstellar.onDatabaseValueChange("ship.systems",function(newData){
+    if(newData == null){
+        return; //do NOT set this value here!
+    }
+    for(var i = 0;i < newData.length;i++){
+        if(newData[i].systemName.toLowerCase() == "torpedoes"){
+            torpedosOnline = !newData[i].isDamaged;
+            torpedosHaveNoPower = newData[i].requiredPower[0] <= newData[i].systemPower;
+        }
+        if(newData[i].systemName.toLowerCase() == "phasers"){
+            phasersOnline = !newData[i].isDamaged;
+            phasersHaveNoPower = newData[i].requiredPower[0] <= newData[i].systemPower;
+        }
+    }
+    drawSensorsGui();
+});
 
 Interstellar.onDatabaseValueChange("weaponStatus.targetPosition",function(newData){
     if(newData == null){
@@ -167,6 +188,18 @@ canvas.mousedown(function(event){
             }
             if(degree > startPosition && degree < endPosition){
                 if(distance > minDistance && distance < maxDistance){
+                    //clicked a broken weapon!
+                    if((weaponStatus[i].type == "phaser" && !phasersOnline) || (weaponStatus[i].type == "torpedo" && !torpedosOnline)){
+                        Interstellar.playErrorNoise();
+                        showErrorDisplay("CANNOT FIRE - WEAPON HAS BEEN DAMAGED");
+                        return;
+                    }
+                    //clicked a weapon with no power!
+                    if((weaponStatus[i].type == "phaser" && !phasersHaveNoPower) || (weaponStatus[i].type == "torpedo" && !torpedosHaveNoPower)){
+                        Interstellar.playErrorNoise();
+                        showErrorDisplay("CANNOT FIRE - WEAPON DOES NOT HAVE POWER");
+                        return;
+                    }
                     //clicked a valid weapon!
                     if(!targetIsInFiringRange){
                         Interstellar.playErrorNoise();
