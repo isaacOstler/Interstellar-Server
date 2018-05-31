@@ -97,13 +97,20 @@ function polarToCartesian(polarCord){
 
 //event listeners
 
-canvas.on("mousemove",function(event){
+canvas.on("click",function(event){
+    var actualRadius = ((canvas.width() * .2) * sensorsArraySizeMultipler);// + (canvas.width() * .2);
     var parentOffset = $(this).parent().offset(); 
     //or $(this).offset(); if you really just want the current element's offset
     var relX = event.pageX - parentOffset.left;
     var relY = event.pageY - parentOffset.top;
-    tractorBeam.x = relX;
-    tractorBeam.y = relY;
+    var offset = ((canvas.width() * sensorsArraySizeMultipler) - canvas.width()) / 2;
+    var xPercentage = (relX + offset) / (canvas.width() + (offset * 2));
+    var yPercentage = (relY + offset) / (canvas.height() + (offset * 2));
+    for(var i = 0;i < CompoundContactsArray.length;i++){
+        if(withinRange(CompoundContactsArray[i].xPos, xPercentage * 100,CompoundContactsArray[i].width * 2) && withinRange(100 - CompoundContactsArray[i].yPos, yPercentage * 100,CompoundContactsArray[i].height * 2)){
+            tractorBeam.selectedContactGUID = CompoundContactsArray[i].GUID;
+        }
+    }
 });
 
 //intervals

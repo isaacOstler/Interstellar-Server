@@ -99,7 +99,7 @@
 
 //variables
 var alertStatus = 5, //the ships alert status
-    tractorBeam = {"selectedContactGUID" : "","activated" : false},
+    tractorBeam = {"selectedContactGUID" : "","activated" : true},
     phaserSpeed = .15, //how fast phasers fire
     thisWidgetName = "Tractor-Beam",
     animationInterval = undefined, //the variable pointing to the animation interval
@@ -816,9 +816,14 @@ function drawSensorsGui(){
         var beamVariance = 1;
         for(var i = 0;i < CompoundContactsArray.length;i++){
             if(CompoundContactsArray[i].GUID == tractorBeam.selectedContactGUID){
-                var actualRadius = (circleRadius / sensorsArraySizeMultipler) + (canvas.width() * .1);
-                tractorBeamCords.x = (CompoundContactsArray[i].xPos / 100) * (actualRadius * 2);
-                tractorBeamCords.y = ((100 - CompoundContactsArray[i].yPos) / 100) * (actualRadius * 2);
+                var offsetX = (((canvas.width() * sensorsArraySizeMultipler) - canvas.width()) / 2) / canvas.width();
+                var offsetY = (((canvas.height() * sensorsArraySizeMultipler) - canvas.height()) / 2) / canvas.height();
+                var scaledPercentageX = (CompoundContactsArray[i].xPos * sensorsArraySizeMultipler);
+                var scaledPercentageY = ((100 -CompoundContactsArray[i].yPos) * sensorsArraySizeMultipler);
+                var correctPercentageX = ((scaledPercentageX - (100 * offsetX)) / 100);
+                var correctPercentageY = ((scaledPercentageY - (100 * offsetY)) / 100);
+                tractorBeamCords.x = correctPercentageX * canvas.width();
+                tractorBeamCords.y = correctPercentageY * canvas.height();
             }
         }
         ctx.beginPath();
