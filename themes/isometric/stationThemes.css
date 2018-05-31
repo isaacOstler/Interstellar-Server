@@ -5,11 +5,10 @@
 }
     
 body{
-  background-color:black;
-  color:white;
-  overflow: hidden;
-  font-family: "Swiss911 UCm BT";
-  src: url(./public/font.TTF);
+    color:white;
+    overflow: hidden;
+    font-family: "Swiss911 UCm BT";
+    src: url(./public/font.TTF);
 }
 
 ::-webkit-scrollbar {
@@ -46,11 +45,11 @@ body{
   background: transparent;
 }
 #contentArea {
-    position: absolute;
-    top: 11%;
-    left: 11%;
-    width: 63%;
-    height: 89%;
+  position: absolute;
+  top: 11%;
+  left: 11%;
+  width: calc(89% - 330px);
+  height: 89%;
 }
 
 .container6{

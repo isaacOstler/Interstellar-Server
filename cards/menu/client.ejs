@@ -1,4 +1,3 @@
-<script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
 <style type="text/css">
 	body{
 		font-size: 26px;
@@ -7,6 +6,10 @@
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		margin: 0;
+	  	background: linear-gradient(to bottom, #00233c, black);
+	    color: white;
+	    background-repeat: no-repeat;
+	    background-attachment: fixed;
 	}
 	
 	a{
@@ -22,24 +25,43 @@
 	}
 	#menu{
 		position: absolute;
-		padding-top: 20px;
-		top: 14%;
-		width: 22%;
-		height: 81%;
-		border-image-source: url('/container4');
-		border-image-slice: fill 49 49 49 49;
-		z-index: 20;
-		border-image-width: 2em;
-		right:2%;
+    	padding-top: 20px;
+    	top: 0px;
+    	width: 310px;
+    	height: 100%;
+    	border-image-source: url(/resource?path=public/menu_alertStatus5.png&screen=menu);
+    	border-image-slice: fill 177 176 8 252;
+    	border-image-width: 10em;
+    	/* border-image-repeat: stretch; */
+    	z-index: 20;
+    	right: 0px;
+	}
+	.menuFrame{
+		z-index: -1;
+		background: linear-gradient(to bottom, #3a3a3a 0%, rgba(81, 84, 86, 0.5) 8px, rgba(84, 84, 84, 0.53) 97%, #424242 100%);
+		left: 6px;
+		border: 3px solid #b9bbbc;
+		width: calc(100% - 6px);
+		/* height: calc(100% - 132px); */
+		border-left: 0px;
+		border-right: 0px;
+	}
+	#realMenu{
+    	position: absolute;
+    	top: 135px;
+    	left: 6px;
+    	width: calc(100% - 6px);
 	}
 	.menuItem{
-		width: 80%;
-		padding-top: 10px;
-		padding-bottom: 10px;
-		text-align: center;
-		border-image-source: url('/container1');
-		border-image-slice: fill 49 49 49 49;
-		border-image-width: 2em;
+    	width: calc(100% - 2px);
+    	/* margin-left: 6px; */
+    	padding-top: 10px;
+    	padding-bottom: 10px;
+    	text-align: center;
+    	border-image-source: url(/container1);
+    	border-image-slice: fill 49 49 49 49;
+    	border-image-width: 2em;
+    	filter: grayscale(1);
 	}
 	#bodyFrame{
 		position: absolute;
@@ -81,63 +103,79 @@
 		left:181px;
 		font-size: 48px;
 	}
+	#menu_background{
+		position: absolute;
+	    z-index: -1;
+	    top: 135px;
+	    border-top: 3px solid #b3b6b7;
+	    /* left: 0px; */
+	    width: 100%;
+	    height: calc(100% - 135px);
+	    background: linear-gradient(to bottom, rgba(39, 55, 60, 0.87), rgba(49, 57, 60, 0.5));
+	    border-bottom: none;
+	}
+	#menu_notificationFeed{
+		position: absolute;
+		bottom: 100px;
+		left: 6px;
+		width: calc(100% - 6px);
+	}
+	#menu_alertStatus{
+	    position: absolute;
+	    bottom: 10px;
+	    height: 49px;
+	}
+	#menu_alertStatus_element{
+		position: absolute;
+		top:0px;
+		left: 0px;
+		height: 100%;
+		width: 100%;
+    	background: linear-gradient(to right, rgba(0, 121, 208, 0.6), rgba(0, 161, 187, 0.53));
+		text-align: center;
+		font-size: 40px;
+	}
+	#menu_notificationFeed_window{
+	    position: absolute;
+	    top: 30px;
+	    left: 4px;
+	    width: calc(100% - 8px);
+	    height: calc(100% - 34px);
+	    border: 1px solid white;
+	    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.85));
+	}
+	#menu_notificationFeed_header{
+	    position: absolute;
+	    top: 2px;
+	    left: 0px;
+	    width: 100%;
+	}
 </style>
-<div id="menu"><center>
-	<% for(var i=0; i<screens.length; i++) {%>
-	<a href="/card?card=<%= screens[i] %>"><div class="menuItem beepOnClick"><%= screens[i].toUpperCase() %></div></a>
-	<% } %></center>
+<div id="menu">
+	<div class='menuFrame' id="menu_background"></div>
+	<div id="realMenu" class='menuFrame'>
+		<center>
+			<% for(var i=0; i<screens.length; i++) {%>
+			<a href="/card?card=<%= screens[i] %>"><div class="menuItem beepOnClick"><%= screens[i].toUpperCase() %></div></a>
+			<% } %></center>
+	</div>
+	<!-- One day.... I'll add this.  One day.
+	<div id="menu_notificationFeed" class="menuFrame">
+		<div id="menu_notificationFeed_header">NOTIFICATION FEED</div>
+		<div id="menu_notificationFeed_window">
+
+		</div>
+	</div>
+	-->
+	<div id="menu_alertStatus" class="menuFrame">
+		<div id="menu_alertStatus_element">
+			ALERT STATUS 5
+		</div>
+	</div>
 </div>
 <div id="stationName">USS VOYAGER</div>
 <div id="hexagonBackground"></div>
 <div id="bodyFrame"></div>
 <div id="icon"></div>
-<script type="text/javascript">
-	document.getElementById("stationName").innerHTML = Interstellar.getStation().toUpperCase();
-	Interstellar.onDatabaseValueChange("ship.alertStatus",function(newData){
-		if(newData == null){
-			Interstellar.setDatabaseValue("ship.alertStatus",5);
-			return;
-		}
-		var alertStatusURL = "/resource?path=public/alertStatus" + newData + ".png&screen=menu";
-
-		$("#bodyFrame").css("border-image-source","url(" + alertStatusURL + ")");
-	});
-	var MENU_IS_LOGGED_IN_BOOL = true;
-	Interstellar.onDatabaseValueChange("ship.loginNames",function(newData){
-		if(newData == null){
-			Interstellar.setDatabaseValue("ship.loginNames",[]);
-			return;
-		}
-		var loginNames = newData;
-		var station = Interstellar.getStation();
-		for(var i = 0;i < loginNames.length;i++){
-			if(loginNames[i].station == station){
-				if(!MENU_IS_LOGGED_IN_BOOL){
-					//just logged in!
-					MENU_IS_LOGGED_IN_BOOL = true;
-					$("#contentArea").animate({width : "63%"});
-					$("#menu").slideDown();
-					$("#mc_card_controller_container").fadeIn();
-				}
-				return;
-			}
-		}
-		if(MENU_IS_LOGGED_IN_BOOL){
-			//just logged out!
-			if(true){
-				console.warn("Menu set screen when login not found has been disabled!");
-				return;
-			}
-			MENU_IS_LOGGED_IN_BOOL = false;
-			var currentScreen = Interstellar.getCurrentScreen();
-			$("#menu").slideUp(function(){
-				$("#contentArea").animate({width : "78%"});
-			});
-			$("#mc_card_controller_container").fadeOut();
-			if(currentScreen != "Login"){
-				Interstellar.setCurrentScreen("Login");
-			}
-		}
-	});
-
-</script>
+<script src="/jquery" type="text/javascript" onload="window.$ = window.jQuery = module.exports;"></script>
+<script type="text/javascript" src="/resource?path=script.js&screen=menu"></script>
