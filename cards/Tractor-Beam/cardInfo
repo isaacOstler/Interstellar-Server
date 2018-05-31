@@ -1,0 +1,8 @@
+{
+	"cardName":"Tractor-Beam",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the user to tow an object on the sensors array using the ship's tractor beam"
+}

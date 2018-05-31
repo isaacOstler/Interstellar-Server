@@ -109,7 +109,7 @@ var alertStatus = 5, //the ships alert status
     thisWidgetName = "Weapons-Control", //the name of this widget (since for a while, it was called new-sensors-core)
     animationInterval = undefined, //the variable pointing to the animation interval
     networkRefreshTimeout = undefined, //the variable pointing to the network update timeout
-    frameRate = 60, //the frame rate for the sensors array (how many frames per second)
+    frameRate = 40, //the frame rate for the sensors array (how many frames per second)
     networkRefreshRate = 150, //how many milliseconds until the network is updated on the contacts positions
     contacts = [], //sensor contacts
     infraredActive = false,
@@ -1009,7 +1009,7 @@ function updateContactsOnArray(renderedContacts){
                 //first we make the geometry (just a plane)
                 var geometry = new THREE.PlaneGeometry( 100, 100 );
                 //then we load the texture
-                var texture = new THREE.TextureLoader().load(renderedContacts[i].icon);
+                var texture = new THREE.TextureLoader().load("/resource?path=public/" + renderedContacts[i].icon + '&screen=' + thisWidgetName);
                 //now we need to make a material with that texture
                 var material = new THREE.MeshBasicMaterial( { map: texture,transparent: true } );
                 //now make the actual mesh

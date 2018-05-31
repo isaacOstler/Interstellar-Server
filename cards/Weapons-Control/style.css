@@ -37,7 +37,6 @@
 	left: 2.5%;
 	width: 100%;
     height: 100%;
-  	background-image: radial-gradient(16px at 60px 50% , #000000 0%, #000000 14px, rgba(0, 0, 0, 0.3) 18px, rgba(0, 0, 0, 0) 19px);
 }
 #sensorsArrayTHREE_CANVAS{
     -webkit-clip-path: url(#myClip);
