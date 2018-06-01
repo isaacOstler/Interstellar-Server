@@ -63,6 +63,7 @@
     left: 1px;
     width: 35%;
     border: 1px solid white;
+    overflow: auto;
     height: calc(100% - 62px);
 }
 .damage-control-core_pingList_item{

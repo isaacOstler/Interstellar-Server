@@ -5,7 +5,26 @@ tractorBeamOffline = false,
 tractorBeamHasNoPower = false;
 
 //DOM References
-var canvas = $("#sensorsArrayCanvas");
+var canvas = $("#sensorsArrayCanvas"),
+    activateButton = $("#activateTractorBeamButton");
+
+Interstellar.onDatabaseValueChange("tractorBeam.settings",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("tractorBeam.settings",tractorBeam);
+        return;
+    }
+    tractorBeam = newData;
+    if(tractorBeam.selectedContactGUID == ""){
+        activateButton.fadeOut();
+    }else{
+        if(tractorBeam.activated){
+            activateButton.html("DEACTIVATE TRACTOR BEAM");
+        }else{
+            activateButton.html("ACTIVATE TRACTOR BEAM");
+        }
+        activateButton.fadeIn();
+    }
+});
 
 Interstellar.onDatabaseValueChange("ship.systems",function(newData){
     if(newData == null){
@@ -107,10 +126,20 @@ canvas.on("click",function(event){
     var xPercentage = (relX + offset) / (canvas.width() + (offset * 2));
     var yPercentage = (relY + offset) / (canvas.height() + (offset * 2));
     for(var i = 0;i < CompoundContactsArray.length;i++){
-        if(withinRange(CompoundContactsArray[i].xPos, xPercentage * 100,CompoundContactsArray[i].width * 2) && withinRange(100 - CompoundContactsArray[i].yPos, yPercentage * 100,CompoundContactsArray[i].height * 2)){
-            tractorBeam.selectedContactGUID = CompoundContactsArray[i].GUID;
+        if(CompoundContactsArray[i].isActive){
+            if(withinRange(CompoundContactsArray[i].xPos, xPercentage * 100,CompoundContactsArray[i].width / 2) && withinRange(100 - CompoundContactsArray[i].yPos, yPercentage * 100,CompoundContactsArray[i].height / 2)){
+                var newTractorBeamObject = tractorBeam;
+                newTractorBeamObject.selectedContactGUID = CompoundContactsArray[i].GUID;
+                Interstellar.setDatabaseValue("tractorBeam.settings",newTractorBeamObject);
+            }
         }
     }
+});
+
+activateButton.click(function(event){
+    var newTractorBeamObject = tractorBeam;
+    newTractorBeamObject.activated = !newTractorBeamObject.activated;
+    Interstellar.setDatabaseValue("tractorBeam.settings",newTractorBeamObject);
 });
 
 //intervals

@@ -122,6 +122,8 @@ Interstellar.addCoreWidget("Sensors",function(){
     //variables
     var alertStatus = 5, //the ships alert status
         maxNebulaCount = 50,
+        tractorBeam = {"selectedContactGUID" : "","activated" : false},
+        sensorsArraySizeMultipler = 1,
         defaultContactName = "UNKNOWN CONTACT", //the defualt contact name for new contacts
         defaultContactIcon = "Contacts/Generic.png", //defualt contact icon
         defaultContactImage = "", //default contact image
@@ -385,6 +387,14 @@ Interstellar.addCoreWidget("Sensors",function(){
         });
     });
     //database observers
+    Interstellar.onDatabaseValueChange("tractorBeam.settings",function(newData){
+        if(newData == null){
+            Interstellar.setDatabaseValue("tractorBeam.settings",tractorBeam);
+            return;
+        }
+        tractorBeam = newData;
+    });
+
     Interstellar.onDatabaseValueChange("sensors.lockContactsWithMoveAll",function(newData){
         if(newData == null){
             Interstellar.setDatabaseValue("sensors.lockContactsWithMoveAll",false);
@@ -955,6 +965,43 @@ Interstellar.addCoreWidget("Sensors",function(){
         ctx.stroke();
         //restore the stroke style back to white
         ctx.strokeStyle="white";
+
+        if(tractorBeam.activated){
+            ctx.setLineDash([]);
+            //now we draw the tractor beam
+            var tractorBeamCords = {
+                "x" : 0,
+                "y" : 0
+            }
+            var beamVariance = 1;
+            for(var i = 0;i < CompoundContactsArray.length;i++){
+                if(CompoundContactsArray[i].GUID == tractorBeam.selectedContactGUID){
+                    var offsetX = (((canvas.width() * sensorsArraySizeMultipler) - canvas.width()) / 2) / canvas.width();
+                    var offsetY = (((canvas.height() * sensorsArraySizeMultipler) - canvas.height()) / 2) / canvas.height();
+                    var scaledPercentageX = (CompoundContactsArray[i].xPos * sensorsArraySizeMultipler);
+                    var scaledPercentageY = ((100 -CompoundContactsArray[i].yPos) * sensorsArraySizeMultipler);
+                    var correctPercentageX = ((scaledPercentageX - (100 * offsetX)) / 100);
+                    var correctPercentageY = ((scaledPercentageY - (100 * offsetY)) / 100);
+                    tractorBeamCords.x = correctPercentageX * canvas.width();
+                    tractorBeamCords.y = correctPercentageY * canvas.height();
+                }
+            }
+            ctx.beginPath();
+            for(var i = 0;i < 100;i++){
+                ctx.beginPath();
+                var color = "rgba(0," + (100 + Math.round(Math.random() * 100)) + ",255," + (Math.random() * .2) + ")";
+                ctx.strokeStyle = color;
+                ctx.lineWidth = Math.round(Math.random() * 4);
+                ctx.moveTo(center,center);
+                var polar = cartesian2Polar(tractorBeamCords.x,tractorBeamCords.y);
+                polar.radians += degreesToRadians((Math.random() * (beamVariance * 2)) - beamVariance);
+                polar.distance += (Math.random() * 10) - 10;
+                var cords = polarToCartesian(polar);
+                ctx.lineTo(cords.x,cords.y);
+                ctx.stroke();
+            }
+            ctx.strokeStyle = "white";
+        }
     }
 
     function updateContactsOnArray(renderedContacts){
@@ -2289,4 +2336,8 @@ Interstellar.addCoreWidget("Sensors",function(){
             clearInterval(updateInterval);
         });
     });
+
+    setInterval(function(){ 
+        drawSensorsGui();
+    },1000 / frameRate);
 });

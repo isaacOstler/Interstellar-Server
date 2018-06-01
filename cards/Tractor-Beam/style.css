@@ -1,3 +1,29 @@
+.customButton:hover{
+    filter: brightness(1.25);
+}
+.customButton:active{
+    filter: brightness(0.65);
+}
+.customButton{
+    cursor: pointer;
+}
+#activateTractorBeamButton{
+    display: none;
+
+    position: absolute;
+    bottom: 7%;
+    left: 2%;
+    width: 35%;
+    height: 6%;
+    font-size: 27px;
+    background: linear-gradient(to bottom, rgb(71, 93, 101), #424242);
+    border: 1px solid white;
+    
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+}
 #weaponErrorDisplay{
     display: none;
     z-index: 5;

@@ -139,6 +139,14 @@ Interstellar.onDatabaseValueChange("sensors.scanTimeBoost",function(newData){
     timeBoost = newData;
 });
 
+Interstellar.onDatabaseValueChange("tractorBeam.settings",function(newData){
+    if(newData == null){
+        Interstellar.setDatabaseValue("tractorBeam.settings",tractorBeam);
+        return;
+    }
+    tractorBeam = newData;
+});
+
 Interstellar.onDatabaseValueChange("sensors.processedData.flashFullScreen",function(newData){
     if(newData == null){
         Interstellar.setDatabaseValue("sensors.processedData.flashFullScreen",true);

@@ -99,7 +99,7 @@
 
 //variables
 var alertStatus = 5, //the ships alert status
-    tractorBeam = {"selectedContactGUID" : "","activated" : true},
+    tractorBeam = {"selectedContactGUID" : "","activated" : false},
     phaserSpeed = .15, //how fast phasers fire
     thisWidgetName = "Tractor-Beam",
     animationInterval = undefined, //the variable pointing to the animation interval
@@ -807,29 +807,56 @@ function drawSensorsGui(){
         ctx.strokeStyle = "white";
     }
 
-    if(tractorBeam.activated){
-        //now we draw the tractor beam
-        var tractorBeamCords = {
-            "x" : 0,
-            "y" : 0
-        }
-        var beamVariance = 1;
-        for(var i = 0;i < CompoundContactsArray.length;i++){
-            if(CompoundContactsArray[i].GUID == tractorBeam.selectedContactGUID){
-                var offsetX = (((canvas.width() * sensorsArraySizeMultipler) - canvas.width()) / 2) / canvas.width();
-                var offsetY = (((canvas.height() * sensorsArraySizeMultipler) - canvas.height()) / 2) / canvas.height();
-                var scaledPercentageX = (CompoundContactsArray[i].xPos * sensorsArraySizeMultipler);
-                var scaledPercentageY = ((100 -CompoundContactsArray[i].yPos) * sensorsArraySizeMultipler);
-                var correctPercentageX = ((scaledPercentageX - (100 * offsetX)) / 100);
-                var correctPercentageY = ((scaledPercentageY - (100 * offsetY)) / 100);
-                tractorBeamCords.x = correctPercentageX * canvas.width();
-                tractorBeamCords.y = correctPercentageY * canvas.height();
+    //now we draw the tractor beam
+    var tractorBeamCords = {
+        "x" : 0,
+        "y" : 0
+    }
+    var beamVariance = 1;
+    var tractorBeamSize = {"height" : 0,"width" : 0};
+    var contactIsActive = false;
+    for(var i = 0;i < CompoundContactsArray.length;i++){
+        if(CompoundContactsArray[i].GUID == tractorBeam.selectedContactGUID){
+            if(!CompoundContactsArray[i].isActive){
+                tractorBeam.activated = false;
+                Interstellar.setDatabaseValue("tractorBeam.settings",tractorBeam);
+                return;
             }
+            tractorBeamSize.width = CompoundContactsArray[i].width;
+            tractorBeamSize.height = CompoundContactsArray[i].height;
+            contactIsActive = true;
+            var offsetX = (((canvas.width() * sensorsArraySizeMultipler) - canvas.width()) / 2) / canvas.width();
+            var offsetY = (((canvas.height() * sensorsArraySizeMultipler) - canvas.height()) / 2) / canvas.height();
+            var scaledPercentageX = (CompoundContactsArray[i].xPos * sensorsArraySizeMultipler);
+            var scaledPercentageY = ((100 -CompoundContactsArray[i].yPos) * sensorsArraySizeMultipler);
+            var correctPercentageX = ((scaledPercentageX - (100 * offsetX)) / 100);
+            var correctPercentageY = ((scaledPercentageY - (100 * offsetY)) / 100);
+            tractorBeamCords.x = correctPercentageX * canvas.width();
+            tractorBeamCords.y = correctPercentageY * canvas.height();
         }
+    }
+    ctx.beginPath();
+    ctx.strokeStyle = "lime";
+    var width = tractorBeamSize.width / 100 * canvas.width();
+    var height = tractorBeamSize.height / 100 * canvas.width();
+    ctx.moveTo(tractorBeamCords.x - width,tractorBeamCords.y - (height * .5));
+    ctx.lineTo(tractorBeamCords.x - width,tractorBeamCords.y - height);
+    ctx.lineTo(tractorBeamCords.x - (width * .5),tractorBeamCords.y - height);
+    ctx.moveTo(tractorBeamCords.x + (width * .5),tractorBeamCords.y - height);
+    ctx.lineTo(tractorBeamCords.x + width,tractorBeamCords.y - height);
+    ctx.lineTo(tractorBeamCords.x + width,tractorBeamCords.y - (height * .5));
+    ctx.moveTo(tractorBeamCords.x + width,tractorBeamCords.y + (height * .5));
+    ctx.lineTo(tractorBeamCords.x + width,tractorBeamCords.y + height);
+    ctx.lineTo(tractorBeamCords.x + (width * .5),tractorBeamCords.y + height);
+    ctx.moveTo(tractorBeamCords.x - (width * .5),tractorBeamCords.y + height);
+    ctx.lineTo(tractorBeamCords.x - width,tractorBeamCords.y + height);
+    ctx.lineTo(tractorBeamCords.x - width,tractorBeamCords.y + (height * .5));
+    ctx.stroke();
+    if(tractorBeam.activated){
         ctx.beginPath();
         for(var i = 0;i < 100;i++){
             ctx.beginPath();
-            var color = "rgba(0," + (100 + Math.round(Math.random() * 100)) + ",255," + (Math.random() * .5) + ")";
+            var color = "rgba(0," + (100 + Math.round(Math.random() * 100)) + ",255," + (Math.random() * .25) + ")";
             ctx.strokeStyle = color;
             ctx.lineWidth = Math.round(Math.random() * 4);
             ctx.moveTo(center,center);
