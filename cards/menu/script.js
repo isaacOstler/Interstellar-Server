@@ -66,7 +66,7 @@ Interstellar.onDatabaseValueChange("ship.loginNames",function(newData){
 	}
 	if(MENU_IS_LOGGED_IN_BOOL){
 		//just logged out!
-		if(true){
+		if(false){
 			console.warn("Menu set screen when login not found has been disabled!");
 			return;
 		}
