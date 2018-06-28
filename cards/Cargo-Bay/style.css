@@ -1,0 +1,230 @@
+#cargoControls_sendButtons_clear{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	width: 100%;
+	height: 40px;
+}
+#cargoControls_sendButtons_send{
+	position: absolute;
+	top:42px;
+	left: 0px;
+	width: 100%;
+	height: 40px;
+}
+#cargoControls_sendButtons{
+	position: absolute;
+	bottom: 16px;
+	height: 40px;
+	right: 0px;
+	width: 100%;
+}
+#cargoControls_transferTo{
+	position: absolute;
+	bottom: 57px;
+	height: 60px;
+	/* border: 1px solid white; */
+	left: 4px;
+	border: 1px solid white;
+	width: calc(100% - 8px);
+}
+#cargoControls_transferToLabel{
+	position: absolute;
+	bottom: 20px;
+	left: calc(60% + 8px);
+}
+#cargoControls_transferLabel{
+	position: absolute;
+	top: 14px;
+	left: 5px;
+	font-size: 28px;
+}
+#cargoControls_transferList{
+	position: absolute;
+	top: 41px;
+	height: calc(100% - 160px);
+	left: 4px;
+	width: calc(100% - 8px);
+	border: 1px solid white;
+	background-color: rgba(0,0,0,.5);
+}
+#cargoList_cargobaySelect{
+	position: absolute;
+	bottom: 20px;
+	height: 23px;
+	width: calc(100% - 2px);
+	border-bottom: 1px solid white;
+}
+#cargoInfo_containerBody{
+	position: absolute;
+	top: 25px;
+	width: calc(100% - 2px);
+	left: 1px;
+	height: calc(100% - 48px);
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	background: linear-gradient(to bottom, #151515, #1d1d1d);
+}
+#cargoInfo_containerBody_info_descriptionLabel{
+	position: absolute;
+	left: 2px;
+	top: 30px;
+}
+#cargoInfo_containerBody_info_description{
+	position: absolute;
+	padding: 2px;
+	bottom: 2px;
+	right: 2px;
+	width: calc(100% - 5px);
+	height: calc(100% - 57px);
+	font-size: 12px;
+	border: 1px solid white;
+	background: linear-gradient(to bottom, #2b2b2b, #040404);
+	font-family: 'Arial';
+}
+#cargoInfo_containerBody_info_quantity{
+	position: absolute;
+	width: 65px;
+	top:30px;
+	right: 2px;
+}
+#cargoInfo_containerBody_info_quantityLabel{
+	position: absolute;
+	top: 27px;
+	right: 78px;
+}
+#cargoInfo_containerBody_info_name{
+	position: absolute;
+	top: 5px;
+	right: 2px;
+}
+#cargoInfo_containerBody_info_nameLabel{
+	position: absolute;
+	top: 2px;
+	left: 2px;
+}
+#cargoInfo_containerBody_info{
+	position: absolute;
+	top: calc(50% + 4px);
+	left: 4px;
+	width: calc(100% - 8px);
+	height: calc(50% - 9px);
+	/* border: 1px solid white; */
+}
+#cargoList_list{
+	position: absolute;
+	overflow: auto;
+	top: 25px;
+	left: 1px;
+	width: calc(100% - 2px);
+	border-top: 1px solid white;
+	height: calc(100% - 68px);
+	border-bottom: 1px solid white;
+	background: linear-gradient(to bottom, #3e3e3e, #0a0a0a);
+}
+#cargoList_header{
+	position: absolute;
+	top:0px;
+	height: 20px;
+	width: 100%;
+	text-align: center;
+}
+#cargoInfo_containerBody_display{
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	width: calc(100% - 8px);
+	height: 50%;
+	overflow: hidden;
+	border: 1px solid white;
+	/* border-radius: 15px; */
+	background: linear-gradient(to bottom, #404a50, #0a0a0a);
+}
+#cargoList{
+	position: absolute;
+	top:5%;
+	left: 0%;
+	height: calc(95% - 10px);
+	border-image-width: 0.7em;
+	width: calc(50% - 4px);
+}
+#cargoInfo{
+	position: absolute;
+	top:5%;
+	right: 0%;
+	width: 50%;
+	height: 55%;
+	border-image-width: 0.7em;
+}
+#cargoControls{
+	position: absolute;
+	bottom: 10px;
+	width: 50%;
+	right: 0px;
+	border-image-width: 0.7em;
+	height: calc(42% - 30px);
+}
+.falseField{
+	border: 1px solid white;
+	width: calc(100% - 89px);
+	height: 22px;
+	padding-left: 2px;
+	padding-right: 2px;
+	overflow: hidden;
+	font-size: 18px;
+	background:linear-gradient(to right, rgba(0,0,0,.5),rgba(0,0,0,.1));
+}
+.cargoList_list_item{
+	width: 100%;
+	float:left;
+	height: 22px;
+	font-size: 18px;
+	overflow: hidden;
+	border-bottom: 1px solid white;
+	background:linear-gradient(to right, rgba(0,0,0,.75),rgba(0,0,0,.3));
+	font-size: 20px;
+	padding-left: 2px;
+}
+.cargoList_list_item_itemName{
+	float:left;
+	width: calc(80% - 40px);
+	overflow: hidden;
+}
+.cargoList_list_item_itemQuantity{
+	float:left;
+	width: 20px; 
+	margin-right: 20px;
+}
+.cargoList_list_item_addItemButton{
+	float:left;
+	text-align: center;
+	width: 10%;
+	border: 1px solid white;
+	height: calc(100% - 2px);
+	margin-top: 1px;
+	font-size: 17px;
+	background: linear-gradient(to bottom, #268faf, #003b6d);
+}
+.cargoList_list_item_viewItemButton{
+	float:left;
+	text-align: center;
+	width: calc(10% - 3px);
+	margin-left: 1px;
+	border: 1px solid white;
+	height: calc(100% - 2px);
+	margin-top: 1px;
+	font-size: 17px;
+	background: linear-gradient(to bottom, #848484, #4f5152);
+}
+.cargoList_cargobaySelect_item{
+	width: calc(50% - 2px);
+	float:left;
+	height: calc(100% - 2px);
+	margin: 1px;
+	border: 1px solid white;
+	font-size: 18px;
+	background: linear-gradient(to right,#313131 0%, #635d5d 50%, #1b1b1b 100%);
+}
+.cargoList_cargobaySelect_selectedItem{
+	background: linear-gradient(to right,#cccccc 0%, #8e8e8e 50%, #cccccc 100%);
+}

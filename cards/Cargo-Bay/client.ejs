@@ -1,0 +1,129 @@
+<link rel="stylesheet" type="text/css" href="/stationThemes">
+<link rel="stylesheet" type="text/css" href="/resource?path=style.css">
+<div id="contentArea" class="noselect">
+	<div id="cargoList" class="Container0">
+		<div id="cargoList_header">CARGO BAY ALPHA</div>
+		<div id="cargoList_list">
+			<div class="cargoList_list_item">
+				<div class="cargoList_list_item_itemName">PHASER COIL</div>
+				<div class="cargoList_list_item_itemQuantity">13</div>
+				<div class="cargoList_list_item_addItemButton customButton">ADD</div>
+				<div class="cargoList_list_item_viewItemButton customButton">VIEW</div>
+			</div>
+			<div class="cargoList_list_item">
+				<div class="cargoList_list_item_itemName">FOODSTUFFS</div>
+				<div class="cargoList_list_item_itemQuantity">10000</div>
+				<div class="cargoList_list_item_addItemButton customButton">ADD</div>
+				<div class="cargoList_list_item_viewItemButton customButton">VIEW</div>
+			</div>
+			<div class="cargoList_list_item">
+				<div class="cargoList_list_item_itemName">EXPLOSIVES</div>
+				<div class="cargoList_list_item_itemQuantity">500</div>
+				<div class="cargoList_list_item_addItemButton customButton">ADD</div>
+				<div class="cargoList_list_item_viewItemButton customButton">VIEW</div>
+			</div>
+			<div class="cargoList_list_item">
+				<div class="cargoList_list_item_itemName">TRANSPORTER BUFFERS</div>
+				<div class="cargoList_list_item_itemQuantity">4</div>
+				<div class="cargoList_list_item_addItemButton customButton">ADD</div>
+				<div class="cargoList_list_item_viewItemButton customButton">VIEW</div>
+			</div>
+			<div class="cargoList_list_item">
+				<div class="cargoList_list_item_itemName">NETWORK NODE</div>
+				<div class="cargoList_list_item_itemQuantity">250</div>
+				<div class="cargoList_list_item_addItemButton customButton">ADD</div>
+				<div class="cargoList_list_item_viewItemButton customButton">VIEW</div>
+			</div>
+			<div class="cargoList_list_item">
+				<div class="cargoList_list_item_itemName">ISOLINEAR CHIP</div>
+				<div class="cargoList_list_item_itemQuantity">5000</div>
+				<div class="cargoList_list_item_addItemButton customButton">ADD</div>
+				<div class="cargoList_list_item_viewItemButton customButton">VIEW</div>
+			</div>
+			<div class="cargoList_list_item">
+				<div class="cargoList_list_item_itemName">ISOLINEAR ROD</div>
+				<div class="cargoList_list_item_itemQuantity">8300</div>
+				<div class="cargoList_list_item_addItemButton customButton">ADD</div>
+				<div class="cargoList_list_item_viewItemButton customButton">VIEW</div>
+			</div>
+		</div>
+		<div id="cargoList_cargobaySelect">
+			<div class="cargoList_cargobaySelect_item customButton">
+				CARGOBAY ALPHA
+			</div>
+			<div class="cargoList_cargobaySelect_item cargoList_cargobaySelect_selectedItem customButton">
+				CARGOBAY BRAVO
+			</div>
+		</div>
+	</div>
+	<div id="cargoInfo" class="Container0">
+		<div id="cargoInfo_containerHeader"></div>
+		<div id="cargoInfo_containerBody">
+			<div id="cargoInfo_containerBody_display"></div>
+			<div id="cargoInfo_containerBody_info">
+				<div id="cargoInfo_containerBody_info_nameLabel">
+					ITEM NAME
+				</div>
+				<div id="cargoInfo_containerBody_info_name" class="falseField">
+					PHASER COIL
+				</div>
+				<div id="cargoInfo_containerBody_info_quantityLabel">
+					QUANTITY
+				</div>
+				<div id="cargoInfo_containerBody_info_quantity" class="falseField">
+					13
+				</div>
+				<div id="cargoInfo_containerBody_info_descriptionLabel">
+					DESCRIPTION
+				</div>
+				<div id="cargoInfo_containerBody_info_description">
+					USED TO GENERATE PLASMA FROM ELECTROMAGNETIC CURRENT, THESE COILS ALLOW OUR PHASER SYSTEMS TO DO EVERYTHING FROM POWERING OUR EPS POWER GRID TO FIRING POWERFUL PLASMA BURSTS AT ENEMY SHIPS.
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="cargoControls" class="Container0">
+		<div id="cargoControls_transferLabel">CARGO TRANSFER</div>
+		<div id="cargoControls_transferList">
+			
+		</div>
+		<div id="cargoControls_transferToLabel">TRANSFER TO</div>
+		<div id="cargoControls_transferTo">
+			<div id="cargoControls_transferTo_deckLabel">
+				DECK
+			</div>
+			<select id="cargoControls_transferTo_deckSelect">
+				<option>DECK 1</option>
+				<option>DECK 2</option>
+				<option>DECK 3</option>
+				<option>DECK 4</option>
+				<option>DECK 5</option>
+			</select>
+			<div id="cargoControls_transferTo_roomLabel">
+				ROOM
+			</div>
+			<select id="cargoControls_transferTo_roomSelect">
+				<option>BRIDGE</option>
+				<option>TRANSPORTER ROOM ALPHA</option>
+				<option>BRIEFING ROOM</option>
+			</select>
+		</div>
+		<div id="cargoControls_sendButtons">
+			<div id="cargoControls_sendButtons_clear" class="customButton">
+				CLEAR
+			</div>
+			<div id="cargoControls_sendButtons_send" class="customButton">
+				SEND
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="/threejs"></script>
+<script src="/threejs?file=js/loaders/OBJLoader.js"></script>
+<script src="/threejs?file=js/controls/OrbitControls.js"></script>
+
+<script src="/jquery" type="text/javascript"></script>
+
+<script src="/resource?path=ThreeDisplay.js"></script>
+<script src="/resource?path=script.js" type="text/javascript"></script>

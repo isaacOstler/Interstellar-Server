@@ -1,0 +1,8 @@
+{
+	"cardName":"Cargo-Bay",
+	"cardType":"card",
+	"author":"Isaac Ostler",
+	"copyright":"Isaac Ostler",
+	"version":"1.0.0",
+	"description":"Allows the user to move cargo between locations in the ship"
+}

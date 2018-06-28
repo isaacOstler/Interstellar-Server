@@ -47,17 +47,19 @@
 	color: black;
 	border-radius: 0px 10px 0px 0px;
 	text-align: center;
+	border: 1px solid white;
 	font-size: 22px;
 }
 .drainButton{
 	position: absolute;
-	bottom:24.5%;
+	bottom: calc(25% + 2px);
 	right: 0%;
-	height: 25%;
+	height: calc(25% - 3px);
 	width: 19.5%;
 	background-color: #f93e3e;
 	color: black;
 	border-radius: 0px 0px 10px 0px;
 	text-align: center;
+	border: 1px solid white;
 	font-size: 22px;
 }

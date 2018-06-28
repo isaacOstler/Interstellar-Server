@@ -72,7 +72,7 @@ function init(){
 	}
 
 	var grid = new THREE.GridHelper(40, 20);
-	scene.add(grid);
+	//scene.add(grid);
 
 	innerShield = new THREE.Mesh( geometry, new THREE.MultiMaterial(innerShieldMaterials) );
 	outerShield = new THREE.Mesh( geometry, new THREE.MultiMaterial(outerShieldMaterials) );
@@ -106,6 +106,7 @@ function init(){
 	var ambientLight = new THREE.AmbientLight( 0xffffff, 0.2 );
 	scene.add(ambientLight);
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
+    controls.autoRotate = true;
 }
 
 function updateShieldStrength(){
@@ -145,6 +146,7 @@ function updateShieldStrength(){
 var render = function () {
     updateShieldStrength();
   requestAnimationFrame( render );
+  controls.update();
   renderer.render( scene, camera );
 };
 
