@@ -134,8 +134,8 @@ Interstellar.addCoreWidget("Sensors",function(){
         thisWidgetName = "sensors-core", //the name of this widget (since for a while, it was called new-sensors-core)
         animationInterval = undefined, //the variable pointing to the animation interval
         networkRefreshTimeout = undefined, //the variable pointing to the network update timeout
-        frameRate = 30, //the frame rate for the sensors array (how many frames per second)
-        networkRefreshRate = 150, //how many milliseconds until the network is updated on the contacts positions
+        frameRate = 45, //the frame rate for the sensors array (how many frames per second)
+        networkRefreshRate = 100, //how many milliseconds until the network is updated on the contacts positions
         contacts = [], //sensor contacts
         noAnimationCycleInProgress = false, //this variable helps us know if we need to restart the animation cycle (if it's been sleeping)
         selectionDragPoints = //these points are used to draw the drag selection box
