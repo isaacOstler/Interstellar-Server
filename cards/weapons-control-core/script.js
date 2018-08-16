@@ -119,6 +119,8 @@ Interstellar.addCoreWidget("Weapons Control",function(){
 	//event handlers
 
 	//intervals
+
+	/*
 	setInterval(function(){
 		var willUpdate = false;
 		for(var i = 0;i < weapons.length;i++){
@@ -135,5 +137,5 @@ Interstellar.addCoreWidget("Weapons Control",function(){
 		if(willUpdate){
 			Interstellar.setDatabaseValue("weapons.weaponStatus",weapons);
 		}
-	},0500);
+	},0500);*/
 });
