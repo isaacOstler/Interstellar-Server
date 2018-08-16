@@ -18,6 +18,13 @@ Interstellar.addCoreWidget("Weapons Control",function(){
 	//preset observers
 
 	//database observers
+	Interstellar.onDatabaseValueChange("weaponStatus.weaponNotification",function(newData){
+		if(newData == null){
+			return;
+		}
+		Interstellar.say(newData);
+	});
+
 	Interstellar.onDatabaseValueChange("weapons.weaponStatus",function(newData){
 		if(newData == null){
 			$.getJSON("/resource?path=public/weapons.json&screen=weapons-control-core", function(loadedJSON){
