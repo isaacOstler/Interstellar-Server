@@ -227,7 +227,7 @@ canvas.mousedown(function(event){
                             let indexOfWeapon = i;
                             let chargeInterval = setInterval(function(){
                                 weaponStatus[indexOfWeapon].weaponStatus.phaserCharge -= 0.02;
-                                weaponStatus[indexOfWeapon].weaponStatus.phaserHeat += .07 + (Math.random() * 0.02);
+                                //weaponStatus[indexOfWeapon].weaponStatus.phaserHeat += .07 + (Math.random() * 0.02);
                                 if(weaponStatus[indexOfWeapon].weaponStatus.phaserCharge < 0){
                                     weaponStatus[indexOfWeapon].weaponStatus.phaserCharge = 0;
                                     clearInterval(chargeInterval);
@@ -247,7 +247,7 @@ canvas.mousedown(function(event){
                             $(document).on("mouseup.phaserRelease",function(event){
                                 clearInterval(chargeInterval);
                                 for(var m = 0;m < weapons.length;m++){
-                                    if(weapons[m].GUID == weaponID){
+                                    if(weapons[m].phaserLength == null){
                                         weapons[m].phaserLength = weapons[m].distance;
                                     }
                                 }
