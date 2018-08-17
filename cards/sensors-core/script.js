@@ -645,7 +645,7 @@ Interstellar.addCoreWidget("Sensors",function(){
                         for(var l = 0;l < weapons.length;l++){
                             //BOOOM!!! AAHAHAH (remove the contact and create an explosion)
                             if(weapons[l].GUID == CompoundContactsArray[i].GUID){
-                                Interstellar.say(CompoundContactsArray[i].name + ' Hit!');
+                                Interstellar.say(CompoundContactsArray[impactedObject_index].name + ' Hit!');
                                 //console.log(GUID_ofImpactedObject + " WAS HIT BY A " + CompoundContactsArray[i].type + "!");
                                 createExplosionAtPoint(CompoundContactsArray[impactedObject_index].xPos,CompoundContactsArray[impactedObject_index].yPos,Math.random() * .04 + .01);
                                 //remove this weapon
