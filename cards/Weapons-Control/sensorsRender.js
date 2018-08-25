@@ -265,17 +265,6 @@ Interstellar.onDatabaseValueChange("sensors.lockContactsWithMoveAll",function(ne
     }
     lockContactsWithMoveAll = newData;
 });
-Interstellar.onDatabaseValueChange("sensors.externalScans.scanAnswer",function(newData){
-    //new scan answer, woo
-    scanAnswer = newData;
-    //if we are making a scan, and it's past 100%, answer
-    if(scanAnswer != null && scanningObject.timePassed / scanningObject.timeRequired > 1){
-        flashElement(scanAnswerTextArea,10);
-        scanAnswerTextArea.html(scanAnswer);
-        //and remove the old scan
-        Interstellar.setDatabaseValue("sensors.externalScans.scanObject",null);
-    }
-});
 Interstellar.onDatabaseValueChange("sensors.moveAllSpeeds",function(newData){
     if(newData == null){
         Interstellar.setDatabaseValue("sensors.moveAllSpeeds",moveAllSpeeds);
