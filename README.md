@@ -1,3 +1,6 @@
+# Please Note
+This project is depreciated.  See Interstellar-2.0 instead.
+
 # Interstellar Server
 Multiplatform, agile, stable, and flexible simulation framework.
 
