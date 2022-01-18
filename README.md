@@ -1,6 +1,9 @@
 # Please Note
 This project is depreciated.  See Interstellar-2.0 instead.
 
+WARNING:
+This project contains several <b>SERIOUS SECURITY VULNERABILITIES,<b/> and is not being maintained.  There is no intention to patch or fix these vulnerabilities!  <b>USE AT YOUR OWN RISK!<b/>
+
 # Interstellar Server
 Multiplatform, agile, stable, and flexible simulation framework.
 
