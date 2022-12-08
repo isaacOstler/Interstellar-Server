@@ -37,7 +37,7 @@
     "ejs": "^2.6.1",
     "electron-log": "^2.2.14",
     "electron-updater": "^2.21.11",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "express-status-monitor": "^1.0.1",
     "http": "0.0.0",
     "jquery": "^3.3.1",
